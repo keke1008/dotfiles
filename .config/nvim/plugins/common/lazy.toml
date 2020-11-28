@@ -1,12 +1,4 @@
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
-on_event = 'InsertEnter'
-hook_source = '''
-  let g:deoplete#enable_at_startup = 1
-  call deoplete#custom#option('auto_complete_delay', 0)
-'''
-
-[[plugins]]
 repo = 'Shougo/neosnippet.vim'
 on_event = 'InsertEnter'
 depends = ['neosnippet-snippets']
