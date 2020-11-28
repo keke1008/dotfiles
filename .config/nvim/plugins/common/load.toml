@@ -4,8 +4,7 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 merged = '0'
-build = './install.sh nightly'
-hook_add = '''
+hook_post_source = '''
   execute 'source' . g:plugin_dir . 'common/coc-config.vim'
 '''
 
