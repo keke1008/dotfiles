@@ -2,13 +2,6 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repo = 'neoclide/coc.nvim'
-merged = '0'
-hook_post_source = '''
-  execute 'source' . g:plugin_dir . 'common/coc-config.vim'
-'''
-
-[[plugins]]
 repo = 'osyo-manga/vim-precious'
 depends = ['context_filetype.vim']
 hook_add = '''

@@ -13,15 +13,6 @@ repo = 'Shougo/neosnippet-snippets'
 on_event = 'InsertEnter'
 
 [[plugins]]
-repo = 'w0rp/ale'
-on_event = 'Vimenter'
-hook_add = '''
-  let g:ale_sign_column_always = 1
-  nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-  nmap <silent> <C-j> <Plug>(ale_next_wrap)
-'''
-
-[[plugins]]
 repo = 'jiangmiao/auto-pairs'
 on_event = 'InsertEnter'
 
@@ -41,3 +32,12 @@ on_event = "VimEnter"
 hook_add = '''
   let g:lightline = {'colorscheme': 'landscape'}
 '''
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merged = '0'
+on_event = 'VimEnter'
+hook_post_source = '''
+  execute 'source' . g:plugin_dir . 'common/coc-config.vim'
+'''
+
