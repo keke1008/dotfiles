@@ -1,18 +1,4 @@
 [[plugins]]
-repo = 'Shougo/neosnippet.vim'
-on_event = 'InsertEnter'
-depends = ['neosnippet-snippets']
-hook_source = '''
-  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k>     <Plug>(neosnippet_expand_target)
-'''
-
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
-on_event = 'InsertEnter'
-
-[[plugins]]
 repo = 'jiangmiao/auto-pairs'
 on_event = 'InsertEnter'
 
