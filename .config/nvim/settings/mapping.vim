@@ -1,2 +1,3 @@
-nnoremap <Esc><Esc> :noh<CR>
-nnoremap <C-a> gg<S-v><S-g>
+nnoremap <silent> <Esc><Esc> :noh<CR>
+nnoremap <silent> <C-a> gg<S-v><S-g>
+inoremap <silent> <Esc> <Esc>:w<CR>
