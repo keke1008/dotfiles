@@ -39,5 +39,9 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'jiangmiao/auto-pairs'
+on_event = 'InsertEnter'
+
+[[plugins]]
 repo = 'scrooloose/nerdtree'
 
