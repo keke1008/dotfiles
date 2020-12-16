@@ -9,17 +9,19 @@ hook_post_source = '''
 '''
 
 [[plugins]]
-repo = 'itchyny/lightline.vim'
-on_event = "VimEnter"
-hook_add = '''
-  let g:lightline = {'colorscheme': 'landscape'}
-'''
-
-[[plugins]]
 repo = 'neoclide/coc.nvim'
 merged = '0'
 on_event = 'VimEnter'
 hook_post_source = '''
   execute 'source' . g:plugin_dir . 'common/coc-config.vim'
 '''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+on_event = "VimEnter"
+hook_post_source = '''
+  let g:lightline = {'colorscheme': 'landscape'}
+  call lightline#enable()
+'''
+
 
