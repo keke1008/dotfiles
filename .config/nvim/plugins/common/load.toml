@@ -20,6 +20,13 @@ repo = 'Shougo/context_filetype.vim'
 [[plugins]]
 repo = 'tpope/vim-surround'
 
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'sgur/vim-textobj-parameter'
+
 [[plugins]]
 repo = 'tpope/vim-commentary'
 
