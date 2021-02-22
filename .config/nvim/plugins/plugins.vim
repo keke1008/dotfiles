@@ -26,8 +26,8 @@ if dein#load_state(s:dein_dir)
 
   " Add or remove your plugins here like this:
 
-  execute 'source ' . g:plugin_dir . 'lazy.vim'
-  execute 'source ' . g:plugin_dir . 'load.vim'
+  call dein#load_toml(g:plugin_dir . 'load.toml', {'lazy': 0})
+  call dein#load_toml(g:plugin_dir . 'lazy.toml', {'lazy': 1})
 
   " Required:
   call dein#end()

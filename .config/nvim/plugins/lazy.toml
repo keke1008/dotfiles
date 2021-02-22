@@ -13,7 +13,7 @@ repo = 'neoclide/coc.nvim'
 merged = '0'
 on_event = 'VimEnter'
 hook_post_source = '''
-  execute 'source' . g:plugin_dir . 'common/coc-config.vim'
+  execute 'source' . g:plugin_dir . 'coc-config.vim'
 '''
 
 [[plugins]]

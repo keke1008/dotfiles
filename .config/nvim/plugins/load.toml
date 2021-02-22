@@ -51,3 +51,8 @@ repo = 'jiangmiao/auto-pairs'
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 
+# ----- toml -----
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
