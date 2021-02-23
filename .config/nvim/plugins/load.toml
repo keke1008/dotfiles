@@ -9,3 +9,7 @@ repo = 'tpope/vim-commentary'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 'justinmk/vim-sneak'
+hook_add = 'let g:sneak#label = 1'
