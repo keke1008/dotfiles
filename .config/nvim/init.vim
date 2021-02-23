@@ -12,7 +12,8 @@ set cmdheight=2
 set laststatus=2
 set showcmd
 
-set clipboard=unnamedplus
+" It makes vim slow.
+" set clipboard=unnamed,unnamedplus
 
 set fenc=utf-8
 set nobackup
