@@ -2,57 +2,10 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repo = 'osyo-manga/vim-precious'
-depends = ['context_filetype.vim']
-hook_add = '''
-  let g:precious_enable_switch_CursorMoved = {"*": 0}
-  let g:precious_enable_switch_CursorMoved_i = {"*": 0 }
-	augroup test
-		autocmd!
-	 	autocmd InsertEnter * :PreciousSwitch
-	 	autocmd InsertLeave * :PreciousReset
-	augroup END
-'''
-
-[[plugins]]
-repo = 'Shougo/context_filetype.vim'
-
-[[plugins]]
 repo = 'tpope/vim-surround'
-
-
-[[plugins]]
-repo = 'kana/vim-textobj-user'
-
-[[plugins]]
-repo = 'sgur/vim-textobj-parameter'
 
 [[plugins]]
 repo = 'tpope/vim-commentary'
 
 [[plugins]]
 repo = 'tpope/vim-repeat'
-
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-
-[[plugins]]
-repo = 'machakann/vim-highlightedyank'
-hook_add = '''
-  let g:highlightedyank_highlight_duration = 200
-'''
-
-[[plugins]]
-repo = 'jiangmiao/auto-pairs'
-
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
-# ----- toml -----
-
-[[plugins]]
-repo = 'cespare/vim-toml'
-on_ft = 'toml'

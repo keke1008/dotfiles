@@ -1,27 +1,3 @@
 [[plugins]]
-repo = 'tomasr/molokai'
-
-[[plugins]]
-repo = 'itchyny/landscape.vim'
-on_event = 'Vimenter'
-hook_post_source = '''
-  colorscheme landscape
-'''
-
-[[plugins]]
-repo = 'neoclide/coc.nvim'
-merged = '0'
-on_event = 'VimEnter'
-hook_post_source = '''
-  execute 'source' . g:plugin_dir . 'coc-config.vim'
-'''
-
-[[plugins]]
-repo = 'itchyny/lightline.vim'
-on_event = "VimEnter"
-hook_post_source = '''
-  let g:lightline = {'colorscheme': 'landscape'}
-  call lightline#enable()
-'''
-
-
+repo = 'tpope/vim-fugitive'
+on_event = 'CmdlineEnter'

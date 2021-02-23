@@ -1,0 +1,20 @@
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repo = 'itchyny/landscape.vim'
+hook_post_source = '''
+  colorscheme landscape
+'''
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_post_source = '''
+  let g:lightline = {'colorscheme': 'landscape'}
+'''
+
+# ----- toml -----
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
