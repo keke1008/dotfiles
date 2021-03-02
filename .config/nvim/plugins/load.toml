@@ -12,4 +12,16 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'justinmk/vim-sneak'
-hook_add = 'let g:sneak#label = 1'
+hook_post_source='''
+  function s:RemapVimSneak()
+    unmap s
+    unmap S
+    unmap ,
+    unmap ;
+    nmap <silent> ; <Plug>Sneak_s
+    nmap <silent> + <Plug>Sneak_S
+  endfunction
+  autocmd VimEnter * ++once call s:RemapVimSneak()
+  let g:sneak#prompt = 'sneak =>>'
+  let g:sneak#s_next = 1
+'''

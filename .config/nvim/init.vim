@@ -28,8 +28,6 @@ set ignorecase
 set smartcase
 set incsearch
 
-let mapleader = "\<Space>"
-
 nnoremap j gj
 nnoremap k gk
 
