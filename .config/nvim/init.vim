@@ -1,3 +1,8 @@
+if exists('g:vscode')
+  let $VIMRUNTIME="/usr/share/nvim/runtime"
+  set runtimepath+=/usr/share/nvim/runtime
+endif
+
 runtime! plugins/plugins.vim
 
 set number
@@ -28,8 +33,9 @@ nnoremap j gj
 nnoremap k gk
 
 " Press escape to save file
-nnoremap <silent> <expr> <esc> len(@%) ? "<Esc>:w<CR>" : "<Esc>"
-nnoremap <silent> <space><space> :noh<CR>
+if !exists('g:vscode')
+  nnoremap <silent> <expr> <esc> len(@%) ? "<Esc>:w<CR>" : "<Esc>"
+endif
 
 " Run ':termdebug' to debug
 augroup loadDebug

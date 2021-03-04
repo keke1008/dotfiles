@@ -12,10 +12,10 @@ repo = 'tpope/vim-repeat'
 
 [[plugins]]
 repo = 'justinmk/vim-sneak'
-hook_post_source='''
+hook_post_source = '''
   function s:RemapVimSneak()
     unmap s
-    unmap S
+    nunmap S
     unmap ,
     unmap ;
     nmap <silent> ; <Plug>Sneak_s
