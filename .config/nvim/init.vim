@@ -32,6 +32,8 @@ set incsearch
 nnoremap j gj
 nnoremap k gk
 
+nnoremap <silent> <space><space> :noh<CR>
+
 " Press escape to save file
 if !exists('g:vscode')
   nnoremap <silent> <expr> <esc> len(@%) ? "<Esc>:w<CR>" : "<Esc>"
