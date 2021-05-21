@@ -4,7 +4,6 @@ repo = 'airblade/vim-gitgutter'
 [[plugins]]
 repo = 'itchyny/landscape.vim'
 hook_add = '''
-  autocmd colorscheme * hi NormalFloat ctermfg=0 ctermbg=245
 '''
 hook_post_source = '''
   colorscheme landscape
