@@ -1,4 +1,4 @@
-if exists('g:vscode')
+if exists("g:vscode")
   let $VIMRUNTIME="/usr/share/nvim/runtime"
   set runtimepath+=/usr/share/nvim/runtime
 endif
@@ -32,11 +32,7 @@ nnoremap j gj
 nnoremap k gk
 
 nnoremap <silent> <space><space> :noh<CR>
-
-" Press escape to save file
-if !exists('g:vscode')
-  nnoremap <silent> <expr> <esc> len(@%) ? "<Esc>:w<CR>" : "<Esc>"
-endif
+runtime! keymap.vim
 
 " Run ':termdebug' to debug
 augroup loadDebug
