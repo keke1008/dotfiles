@@ -16,20 +16,19 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# used only in wsl
 alias exp=explorer.exe
 
-if type trash-put &> /dev/null ; then
-  alias rm=trash-put
-fi
+# trash-cli
+type trash-put > /dev/null 2>&1 && alias rm=trash-put
+type trash-list > /dev/null 2>&1 && alias rmls=trash-list
+type trash-empty > /dev/null 2>&1 && alias rmempty=trash-empty
+type trash-restore > /dev/null 2>&1 && alias rmres=trash-restore
 
-if type trash-list &> /dev/null ; then
-  alias rmls=trash-list
-fi
-
-if type trash-empty &> /dev/null ; then
-  alias rmempty=trash-empty
-fi
+# add cargo path
+test -e "$HOME/.cargo/env" && . "$HOME/.cargo/env"
 
 export PS1='\n\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;36m\]$(__git_ps1 " (%s) ")\[\033[01;32m\]\$\[\033[00m\]'
 
-. "$HOME/.cargo/env"
+# run tmux if not inside a tmux session and tmux has been installed
+type tmux > /dev/null 2>&1 && test -z "$TMUX" && tmux
