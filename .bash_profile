@@ -16,8 +16,10 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# used only in wsl
-alias exp=explorer.exe
+# can be used only within wsl
+function exp() {
+  [ -z $1 ] && echo "Usage: exp path" || wslpath -w $1 | sed -e 's/\\/\\\\/g' | xargs -r explorer.exe
+}
 
 # trash-cli
 type trash-put > /dev/null 2>&1 && alias rm=trash-put
