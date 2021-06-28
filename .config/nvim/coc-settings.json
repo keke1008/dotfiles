@@ -1,4 +1,5 @@
 {
-  "json.format.enable": true,
-  "coc.preferences.formatOnSaveFiletypes": ["rust", "typescript"]
+  "coc.preferences.formatOnSaveFiletypes": ["rust", "typescript", "json"],
+  "cSpell.enabledLanguageIds": ["text", "gitcommit"],
+  "coc.source.word.filetypes": ["text", "gitcommit"]
 }

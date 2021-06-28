@@ -2,17 +2,32 @@
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
-repo = 'itchyny/landscape.vim'
-hook_add = '''
-'''
+repo = 'rafamadriz/neon'
 hook_post_source = '''
-  colorscheme landscape
+    let g:neon_style = 'dark'
+    colorscheme neon
+    highlight CursorColumn     guibg=#222222
+    highlight CursorLine       guibg=#222222
+    highlight CocHighlightText guibg=#0033aa
+    highlight NormalFloat      guibg=#333333
+    highlight CursorLineNr     guifg=#4dffbf
 '''
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_post_source = '''
   let g:lightline = {'colorscheme': 'landscape'}
+'''
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter'
+merged = '0'
+hook_post_source = '''
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  \ highlight = { enable = true }
+  \ }
+EOF
 '''
 
 # ----- toml -----
