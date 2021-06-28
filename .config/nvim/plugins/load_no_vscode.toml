@@ -25,8 +25,39 @@ merged = '0'
 hook_post_source = '''
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  \ highlight = { enable = true }
-  \ }
+  highlight = { enable = true }
+  }
+EOF
+'''
+
+[[plugins]]
+repo = 'nvim-treesitter/nvim-treesitter-textobjects'
+hook_post_source = '''
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        ["ip"] = "@call.inner",
+        ["ap"] = "@call.outer",
+        ["if"] = "@function.inner",
+        ["af"] = "@function.outer",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["sp"] = "@parameter.inner",
+        ["sf"] = "@function.outer",
+      },
+      swap_previous = {
+        ["sP"] = "@parameter.inner",
+        ["sF"] = "@function.outer",
+      }
+    }
+  },
+}
 EOF
 '''
 
