@@ -2,21 +2,33 @@
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
-repo = 'rafamadriz/neon'
+repo = 'tomasiser/vim-code-dark'
 hook_post_source = '''
-    let g:neon_style = 'dark'
-    colorscheme neon
-    highlight CursorColumn     guibg=#222222
-    highlight CursorLine       guibg=#222222
-    highlight CocHighlightText guibg=#0033aa
-    highlight NormalFloat      guibg=#333333
-    highlight CursorLineNr     guifg=#4dffbf
+    colorscheme  codedark
+    highlight NormalFloat       ctermbg=236 guibg=#333333
+    highlight Normal            ctermbg=232 guibg=#111111
+    highlight EndOfBuffer       ctermbg=232 guibg=#111111
+    highlight SignColumn        ctermbg=232 guibg=#111111
+    highlight LineNr            ctermbg=232 guibg=#111111
+    highlight CocErrorHighlight gui=underline
 '''
+
+[[plugins]]
+repo = 'josa42/vim-lightline-coc'
 
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_post_source = '''
-  let g:lightline = {'colorscheme': 'landscape'}
+
+  let g:lightline = {
+    \ 'colorscheme': 'landscape',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'readonly', 'filename', 'modified' ],
+    \             [ 'coc_errors', 'coc_warnings', 'coc_hints', 'coc_info' ] ]
+    \ },
+    \ }
+  call lightline#coc#register()
 '''
 
 [[plugins]]

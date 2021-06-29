@@ -1,5 +1,11 @@
 {
   "coc.preferences.formatOnSaveFiletypes": ["rust", "typescript", "json"],
   "cSpell.enabledLanguageIds": ["text", "gitcommit"],
-  "coc.source.word.filetypes": ["text", "gitcommit"]
+  "coc.source.word.filetypes": [
+    "text",
+    "gitcommit"
+  ],
+  "cSpell.userWords": [
+    "textobject"
+  ]
 }
