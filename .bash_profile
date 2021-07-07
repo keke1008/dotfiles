@@ -16,11 +16,6 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# can be used only within wsl
-function exp() {
-  [ -z $1 ] && echo "Usage: exp path" || wslpath -w $1 | sed -e 's/\\/\\\\/g' | xargs -r explorer.exe
-}
-
 # trash-cli
 type trash-put > /dev/null 2>&1 && alias rm=trash-put
 type trash-list > /dev/null 2>&1 && alias rmls=trash-list
@@ -34,3 +29,10 @@ export PS1='\n\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[
 
 # run tmux if not inside a tmux session and tmux has been installed
 type tmux > /dev/null 2>&1 && test -z "$TMUX" && tmux
+
+# Enable when using WSL.
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+  alias exp=~/dotfiles/bin/open_explorer.sh
+  alias firefox=~/dotfiles/bin/open_firefox.sh
+  export BROWSER=~/dotfiles/bin/open_firefox.sh
+fi
