@@ -32,7 +32,8 @@ type tmux > /dev/null 2>&1 && test -z "$TMUX" && tmux
 
 # Enable when using WSL.
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
-  alias exp=~/dotfiles/bin/open_explorer.sh
-  alias firefox=~/dotfiles/bin/open_firefox.sh
+  alias      exp=~/dotfiles/bin/open_explorer.sh
+  alias  firefox=~/dotfiles/bin/open_firefox.sh
   export BROWSER=~/dotfiles/bin/open_firefox.sh
+  export DISPLAY=`hostname`.mshome.net:0.0
 fi
