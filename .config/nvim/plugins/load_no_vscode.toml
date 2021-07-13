@@ -71,17 +71,6 @@ require'nvim-treesitter.configs'.setup {
         ["af"] = "@function.outer",
       },
     },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["sp"] = "@parameter.inner",
-        ["sf"] = "@function.outer",
-      },
-      swap_previous = {
-        ["sP"] = "@parameter.inner",
-        ["sF"] = "@function.outer",
-      }
-    }
   },
 }
 EOF
