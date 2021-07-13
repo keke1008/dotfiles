@@ -2,6 +2,20 @@
 repo = 'airblade/vim-gitgutter'
 
 [[plugins]]
+repo = 'junegunn/fzf'
+build = './install --all'
+merged = 0
+
+[[plugins]]
+repo = 'junegunn/fzf.vim'
+depends = 'fzf'
+hook_add = '''
+  nnoremap <silent> <space>f <C-u>:Files<CR>
+  nnoremap <silent> <space>w <C-u>:Windows<CR>
+  nnoremap <silent> <space>l <C-u>:Lines<CR>
+'''
+
+[[plugins]]
 repo = 'tomasiser/vim-code-dark'
 hook_post_source = '''
     colorscheme  codedark
