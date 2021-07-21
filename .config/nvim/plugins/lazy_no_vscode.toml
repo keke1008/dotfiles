@@ -25,11 +25,6 @@ hook_post_source = '''
 '''
 
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-on_event = 'CmdlineEnter'
-
-
-[[plugins]]
 repo = 'neoclide/coc.nvim'
 merged = '0'
 on_event = 'CursorMoved'

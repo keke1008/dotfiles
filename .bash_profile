@@ -1,3 +1,5 @@
+type tmux > /dev/null 2>&1 && test -z "$TMUX" && tmux
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -26,9 +28,7 @@ type trash-restore > /dev/null 2>&1 && alias rmres=trash-restore
 test -e "$HOME/.cargo/env" && . "$HOME/.cargo/env"
 
 export PS1='\n\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;36m\]$(__git_ps1 " (%s) ")\[\033[01;32m\]\$\[\033[00m\]'
-
-# run tmux if not inside a tmux session and tmux has been installed
-type tmux > /dev/null 2>&1 && test -z "$TMUX" && tmux
+export VIMRUNTIME="/usr/share/nvim/runtime"
 
 # Enable when using WSL.
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
