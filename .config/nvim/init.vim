@@ -13,7 +13,8 @@ set cmdheight=2
 set laststatus=2
 set showcmd
 
-" set clipboard=unnamed,unnamedplus
+set clipboard&
+set clipboard^=unnamedplus
 
 set fenc=utf-8
 set nobackup
