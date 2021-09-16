@@ -35,6 +35,7 @@ alias grep='grep --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+type trash-put > /dev/null 2>&1 && alias rm=trash-put
 
 # if running in WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then

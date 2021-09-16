@@ -1,4 +1,12 @@
-#!/bin/sh
-SCRIPT_DIR="$(cd $(dirname $0); pwd)"
+#!/bin/bash
 
-ls -A1 ${SCRIPT_DIR} | grep -vE "^([^.]|\.git)" | xargs -I FILENAME ln -snfv ${SCRIPT_DIR}/FILENAME ${HOME}/FILENAME
+DOTPATH=$(cd $(dirname $0); pwd)
+
+create_link() {
+  from_dir=$1
+  to_dir=$2
+  ls -A1 $from_dir | xargs -I {} ln -snfv $from_dir/{} $to_dir
+}
+
+create_link $DOTPATH/home $HOME
+create_link $DOTPATH/xdg_condfig_home ${XDG_CONFIG_HOME:-$HOME/.config}
