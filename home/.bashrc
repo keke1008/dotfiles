@@ -37,6 +37,12 @@ alias la='ls -A'
 alias l='ls -CF'
 type trash-put > /dev/null 2>&1 && alias rm=trash-put
 
+# run $DOTPATH/lib/autoload/*
+for file in $(find $DOTPATH/lib/autoload -type f); do
+  . $file
+done
+
+
 # if running in WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
   export PATH=$DOTPATH/bin/wsl:$PATH
