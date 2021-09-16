@@ -9,4 +9,4 @@ create_link() {
 }
 
 create_link $DOTPATH/home $HOME
-create_link $DOTPATH/xdg_condfig_home ${XDG_CONFIG_HOME:-$HOME/.config}
+create_link $DOTPATH/xdg_config_home ${XDG_CONFIG_HOME:-$HOME/.config}

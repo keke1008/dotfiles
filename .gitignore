@@ -1,2 +1,4 @@
-
-
+/xdg_config_home/nvim/**
+!/xdg_config_home/nvim/init.vim
+!/xdg_config_home/nvim/keymap.vim
+!/xdg_config_home/nvim/plugins/**
