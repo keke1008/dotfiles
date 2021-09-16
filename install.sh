@@ -9,4 +9,11 @@ create_link() {
 }
 
 create_link $DOTPATH/home $HOME
-create_link $DOTPATH/xdg_config_home ${XDG_CONFIG_HOME:-$HOME/.config}
+
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+if [ ! -d $XDG_CONFIG_HOME ]; then
+  mkdir $XDG_CONFIG_HOME
+fi
+create_link $DOTPATH/xdg_config_home $XDG_CONFIG_HOME
+
+echo "export DOTPATH=$DOTPATH" > $HOME/.dotpath
