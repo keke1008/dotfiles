@@ -58,6 +58,7 @@ require'packer'.startup(function(use)
 
     -- Highlight
     use { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter' }
+    use { 'machakann/vim-highlightedyank', config = function() vim.g.highlightedyank_highlight_duration = 300 end }
 
     -- LSP
     use {

@@ -9,7 +9,8 @@ local utils = require'utils'
 vim.o.number = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = true
-vim.o.signcolumn = 'number'
+vim.o.splitright = true
+vim.o.splitbelow = true
 
 vim.o.cmdheight = 2
 vim.o.laststatus = 2
