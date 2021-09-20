@@ -9,18 +9,6 @@ return function()
   vimp.nmap('gi', '<Plug>(coc-implementation)')
   vimp.nmap('gr', '<Plug>(coc-references)')
 
-  show_documentation = function()
-    if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
-      vim.cmd('h ' .. vim.fn.expand('<cword>'))
-    elseif vim.fn['coc#rpc#ready']() == 1 then
-      vim.cmd 'call CocActionAsync("doHover")'
-    else 
-      vim.cmd('!' .. vim.o.keywordprg .. ' ' .. expand('<cword>'))
-    end
-  end
-  vimp.nnoremap('K', show_documentation)
-
-
   vimp.nmap('<leader>rn', '<Plug>(coc-rename)')
   vimp.nmap('<leader>ac', '<Plug>(coc-codeaction)')
   vimp.nmap('<leader>qf',  '<Plug>(coc-fix-current)')
@@ -33,20 +21,49 @@ return function()
   vimp.omap('ac', '<Plug>(coc-classobj-a)')
   vimp.xmap('ac', '<Plug>(coc-classobj-a)')
 
-  local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):find('%s') ~= nil
-  end
-    
-  local handle_tab = function() 
-    if vim.fn.pumvisible() == 1 then
+  vimp.nnoremap('K', function()
+    if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
+      vim.cmd('h ' .. vim.fn.expand('<cword>'))
+    elseif vim.fn['coc#rpc#ready']() == 1 then
+      vim.cmd 'call CocActionAsync("doHover")'
+    else
+      vim.cmd('!' .. vim.o.keywordprg .. ' ' .. vim.fn.expand('<cword>'))
+    end
+  end)
+
+  vimp.inoremap({ 'expr' }, '<Tab>', function()
+    if utils.pumvisible() then
       return utils.esc'<C-n>'
-    elseif check_back_space() then
+    elseif utils.get_cursor_char(-1):find('%s') then
       return utils.esc'<Tab>'
     else
       return vim.fn['coc#refresh']()
     end
-  end
+  end)
 
-  vimp.inoremap({ 'expr' }, '<Tab>', handle_tab)
+  vimp.inoremap({ 'expr' }, '<S-Tab>', function()
+    return utils.esc(utils.pumvisible() and '<C-p>' or '<C-h>')
+  end)
+
+  vimp.inoremap({ 'expr', 'silent' }, '<CR>', function ()
+    if utils.pumvisible() then
+      if vim.fn.complete_info().selected == -1 then
+        return utils.esc'<CR>'
+      else
+        return vim.fn['coc#_select_confirm']()
+      end
+    else
+      return utils.esc'<C-g>u<CR><C-r>=coc#on_enter()<CR>'
+    end
+  end)
+
+  vimp.imap('<C-h>', '<BS>')
+  vimp.inoremap({ 'expr' }, '<BS>', function()
+    if utils.get_cursor_char(-2):find('%w') then
+      return utils.esc'<C-h><C-r>=coc#refresh()<CR>'
+    else
+      return utils.esc'<C-h>'
+    end
+  end)
+
 end

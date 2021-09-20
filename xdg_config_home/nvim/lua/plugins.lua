@@ -1,12 +1,12 @@
 -- Install packer
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
   vim.cmd 'packadd packer.nvim'
 end
 
-require'packer'.startup(function()
+require'packer'.startup(function(use)
 
   -- Packer
   use 'wbthomason/packer.nvim'
@@ -30,17 +30,16 @@ require'packer'.startup(function()
   use { 'junegunn/vim-easy-align', config = require'config.easy-align' }
 
   -- Call lua function in keymap
-  -- use 'tjdevries/astronauta.nvim'
   use { 'svermeulen/vimpeccable', config = function() require'vimp'.always_override = true end }
 
   -- If not running in VSCode
-  if vim.fn.exists('g:vscode') == 0 then 
+  if vim.fn.exists('g:vscode') == 0 then
 
     -- Shows a git diff in the sign column.
     use 'airblade/vim-gitgutter'
 
-    -- Insert/Delete brackets,
-    use 'jiangmiao/auto-pairs'
+    -- -- Insert/Delete brackets,
+    -- use 'jiangmiao/auto-pairs'
 
     -- Change filetype
     use {
@@ -61,6 +60,11 @@ require'packer'.startup(function()
     use { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter' }
 
     -- LSP
-    use { 'neoclide/coc.nvim', branch = 'release', config = require'config.coc' }
+    use {
+      'neoclide/coc.nvim',
+      branch = 'release',
+      config = require'config.coc',
+      run = ':CocInstall coc-pairs'
+    }
   end
 end)

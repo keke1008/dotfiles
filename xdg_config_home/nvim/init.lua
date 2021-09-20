@@ -35,7 +35,6 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.incsearch = true
 
-
 vimp.nnoremap('j', 'gj')
 vimp.nnoremap('k', 'gk')
 vimp.nmap({ 'silent' }, '  ', '<CMD>noh<CR>')
