@@ -42,6 +42,8 @@ vimp.nnoremap('k', 'gk')
 vimp.nmap({ 'silent' }, '  ', '<CMD>noh<CR>')
 vimp.nmap({ 'expr' }, '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"')
 
+vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
+
 if os.getenv('TMUX') then
   local change_active_pain = function(key_direction, tmux_option)
     return function()

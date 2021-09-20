@@ -12,4 +12,3 @@ return function()
     highlight LspDiagnosticsDefaultInformation ctermfg=6 guifg=lightblue
   ]]
 end
-
