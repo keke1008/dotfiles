@@ -61,17 +61,17 @@ return function()
         return vim.fn['coc#_select_confirm']()
       end
     else
-      return utils.esc'<C-g>u<CR><C-r>=coc#on_enter()<CR>'
+      return utils.esc'<CR><C-r>=AutoPairsReturn()<CR>'
     end
   end)
 
   vimp.imap('<C-h>', '<BS>')
   vimp.inoremap({ 'expr' }, '<BS>', function()
+    local command = utils.esc'<C-r>=AutoPairsDelete()<CR>'
     if utils.get_cursor_char(-2):find('%w') then
-      return utils.esc'<C-h><C-r>=coc#refresh()<CR>'
-    else
-      return utils.esc'<C-h>'
+      command = command .. utils.esc'<C-r>=coc#refresh()<CR>'
     end
+    return command
   end)
 
 end

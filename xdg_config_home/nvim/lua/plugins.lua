@@ -14,6 +14,9 @@ require'packer'.startup(function(use)
   -- Surrounding
   use 'tpope/vim-surround'
 
+  -- AutoPairs
+  use { 'jiangmiao/auto-pairs', config = require'config.auto-pairs' }
+
   -- Commenting
   use 'tpope/vim-commentary'
 
@@ -61,11 +64,6 @@ require'packer'.startup(function(use)
     use { 'machakann/vim-highlightedyank', config = function() vim.g.highlightedyank_highlight_duration = 300 end }
 
     -- LSP
-    use {
-      'neoclide/coc.nvim',
-      branch = 'release',
-      config = require'config.coc',
-      run = ':CocInstall coc-pairs'
-    }
+    use { 'neoclide/coc.nvim', branch = 'release', config = require'config.coc' }
   end
 end)
