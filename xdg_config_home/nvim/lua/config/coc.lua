@@ -42,10 +42,13 @@ return function()
   vimp.inoremap({ 'expr' }, '<Tab>', function()
     if utils.pumvisible() then
       return utils.esc'<C-n>'
-    elseif utils.get_cursor_char(-1):find('%s') then
-      return utils.esc'<Tab>'
     else
-      return vim.fn['coc#refresh']()
+      local char_before_cursor = utils.get_cursor_char(-1)
+      if char_before_cursor:find('%s') or char_before_cursor == '' then
+        return utils.esc'<Tab>'
+      else
+        return vim.fn['coc#refresh']()
+      end
     end
   end)
 

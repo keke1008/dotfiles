@@ -57,7 +57,7 @@ require'packer'.startup(function(use)
     use { 'tomasiser/vim-code-dark', config = require'config.code-dark' }
 
     -- Statusline
-    use { 'itchyny/lightline.vim', config = function() vim.g.lightline = { colorscheme = 'landscape' } end }
+    use { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
 
     -- Highlight
     use { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter' }
