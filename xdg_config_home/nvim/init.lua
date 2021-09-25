@@ -39,8 +39,9 @@ vim.o.incsearch = true
 
 vimp.nnoremap('j', 'gj')
 vimp.nnoremap('k', 'gk')
-vimp.nmap({ 'silent' }, '  ', '<CMD>noh<CR>')
+vimp.nmap({ 'silent' }, '<leader><Space>', '<CMD>noh<CR>')
 vimp.nmap({ 'expr' }, '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"')
+vimp.nmap('<Space>', '<leader>')
 
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
 
