@@ -20,8 +20,8 @@ return function()
   vimp.nmap('<leader>rn', '<Plug>(coc-rename)')
   vimp.nmap('<leader>ac', '<Plug>(coc-codeaction)')
   vimp.nmap('<leader>qf',  '<Plug>(coc-fix-current)')
-  vimp.omap('if', '<Plug>(coc-funcobj-a)')
-  vimp.xmap('if', '<Plug>(coc-funcobj-a)')
+  vimp.omap('if', '<Plug>(coc-funcobj-i)')
+  vimp.xmap('if', '<Plug>(coc-funcobj-i)')
   vimp.omap('af', '<Plug>(coc-funcobj-a)')
   vimp.xmap('af', '<Plug>(coc-funcobj-a)')
   vimp.omap('ic', '<Plug>(coc-classobj-i)')
@@ -77,4 +77,35 @@ return function()
     return command
   end)
 
+  vimp.inoremap({ 'expr', 'silent' }, '<C-f>', function()
+    if vim.fn['coc#float#has_scroll']() == 1 then
+      return '<CMD>' .. utils.esc'call coc#float#scroll(1)<CR>'
+    else
+      return '<CMD>normal ' .. utils.esc'<C-d><CR>'
+    end
+  end)
+
+  vimp.nnoremap({ 'expr', 'silent' }, '<C-f>', function()
+    if vim.fn["coc#float#has_scroll"]() == 1 then
+      return vim.fn['coc#float#scroll'](1)
+    else
+      return utils.esc'<C-f>'
+    end
+  end)
+
+  vimp.inoremap({ 'expr', 'silent' }, '<C-b>', function()
+    if vim.fn['coc#float#has_scroll']() == 1 then
+      return '<CMD>' ..  utils.esc'call coc#float#scroll(0)<CR>'
+    else
+      return '<CMD>normal ' .. utils.esc'<C-u><CR>'
+    end
+  end)
+
+  vimp.nnoremap({ 'expr', 'silent' }, '<C-b>', function()
+    if vim.fn["coc#float#has_scroll"]() == 1 then
+      return vim.fn['coc#float#scroll'](0)
+    else
+      return utils.esc'<C-b>'
+    end
+  end)
 end
