@@ -6,6 +6,7 @@ end
 local vimp = require'vimp'
 local utils = require'utils'
 
+
 vim.o.number = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = true
@@ -37,11 +38,13 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.incsearch = true
 
+vim.g.mapleader = require'utils'.esc'<Space>'
+
 vimp.nnoremap('j', 'gj')
 vimp.nnoremap('k', 'gk')
+vimp.nnoremap('+', ',')
 vimp.nmap({ 'silent' }, '<leader><Space>', '<CMD>noh<CR>')
 vimp.nmap({ 'expr' }, '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"')
-vimp.nmap('<Space>', '<leader>')
 
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
 

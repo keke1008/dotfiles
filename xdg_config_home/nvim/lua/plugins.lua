@@ -6,10 +6,11 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd 'packadd packer.nvim'
 end
 
+
 require'packer'.startup(function(use)
 
   -- Packer
-  use 'wbthomason/packer.nvim'
+  use { 'wbthomason/packer.nvim', opt = true}
 
   -- Surrounding
   use 'tpope/vim-surround'
@@ -27,13 +28,16 @@ require'packer'.startup(function(use)
   use 'tpope/vim-fugitive'
 
   -- Textobj
-  use { 'sgur/vim-textobj-parameter', requires = {{ 'kana/vim-textobj-user' }} }
+  use { 'sgur/vim-textobj-parameter', requires = { 'kana/vim-textobj-user' } }
 
   -- Format
   use { 'junegunn/vim-easy-align', config = require'config.easy-align' }
 
   -- Call lua function in keymap
   use { 'svermeulen/vimpeccable', config = function() require'vimp'.always_override = true end }
+
+  -- Motion
+  use { 'phaazon/hop.nvim', config = require'config.hop' }
 
   -- If not running in VSCode
   if vim.fn.exists('g:vscode') == 0 then
@@ -60,7 +64,7 @@ require'packer'.startup(function(use)
     use { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
 
     -- Highlight
-    use { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter' }
+    use { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter', disable = true }
 
     -- LSP
     use { 'neoclide/coc.nvim', branch = 'release', config = require'config.coc' }
