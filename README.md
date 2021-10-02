@@ -5,7 +5,7 @@
 
 ## directories
 
-# lib
+### lib
 
-`install.sh` will save the files in this directory.
-The files in `lib/autoload` will be automatically executed by `.bashrc`.
+`install.sh` will save files in this directory.
+Files in `lib/autoload` will be automatically executed by `.bashrc`.
