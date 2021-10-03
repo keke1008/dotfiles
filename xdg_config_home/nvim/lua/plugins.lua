@@ -15,9 +15,6 @@ require'packer'.startup(function(use)
   -- Surrounding
   use 'tpope/vim-surround'
 
-  -- AutoPairs
-  use { 'jiangmiao/auto-pairs', config = require'config.auto-pairs' }
-
   -- Commenting
   use 'tpope/vim-commentary'
 
@@ -45,8 +42,8 @@ require'packer'.startup(function(use)
     -- Shows a git diff in the sign column.
     use 'airblade/vim-gitgutter'
 
-    -- -- Insert/Delete brackets,
-    -- use 'jiangmiao/auto-pairs'
+    -- AutoPairs
+    use { 'jiangmiao/auto-pairs', config = require'config.auto-pairs' }
 
     -- Change filetype
     use {
