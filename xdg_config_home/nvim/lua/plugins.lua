@@ -10,7 +10,7 @@ end
 require'packer'.startup(function(use)
 
   -- Packer
-  use { 'wbthomason/packer.nvim', opt = true}
+  use { 'wbthomason/packer.nvim' }
 
   -- Surrounding
   use 'tpope/vim-surround'
@@ -34,7 +34,7 @@ require'packer'.startup(function(use)
   use { 'junegunn/vim-easy-align', config = require'config.easy-align' }
 
   -- Call lua function in keymap
-  use { 'svermeulen/vimpeccable', config = function() require'vimp'.always_override = true end }
+  use { 'svermeulen/vimpeccable', config = require'config.vimp' }
 
   -- Motion
   use { 'phaazon/hop.nvim', config = require'config.hop' }
