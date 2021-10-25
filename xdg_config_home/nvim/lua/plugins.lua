@@ -6,7 +6,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd 'packadd packer.nvim'
 end
 
-
 require'packer'.startup(function(use)
 
   -- Packer
@@ -36,37 +35,44 @@ require'packer'.startup(function(use)
   -- Motion
   use { 'phaazon/hop.nvim', config = require'config.hop' }
 
-  -- If not running in VSCode
-  if vim.fn.exists('g:vscode') == 0 then
-
-    -- Shows a git diff in the sign column.
-    use 'airblade/vim-gitgutter'
-
-    -- AutoPairs
-    use { 'jiangmiao/auto-pairs', config = require'config.auto-pairs' }
-
-    -- Change filetype
-    use {
-      'osyo-manga/vim-precious',
-      opt = true,
-      ft = { 'html', 'markdown' },
-      requires = 'Shougo/context_filetype.vim',
-      config = require'config.precious',
-    }
-
-    -- Colorscheme
-    use { 'tomasiser/vim-code-dark', config = require'config.code-dark' }
-
-    -- Statusline
-    use { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
-
-    -- Highlight
-    use { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter', disable = true }
-
-    -- LSP
-    use { 'neoclide/coc.nvim', branch = 'release', config = require'config.coc' }
-
-    -- Filer
-    use { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons', config = require'config.nvim-tree' }
+  --*-*-*- If not running in VSCode -*-*-*--
+  local use_no_vscode = function(conf)
+    if type(conf) == 'string' then
+      conf = { conf }
+    end
+    conf.cond = function()
+      return vim.fn.exists'g:vscode' == 0
+    end
+    use(conf)
   end
+
+  -- Shows a git diff in the sign column.
+  use_no_vscode 'airblade/vim-gitgutter'
+
+  -- AutoPairs
+  use_no_vscode { 'jiangmiao/auto-pairs', config = require'config.auto-pairs' }
+
+  -- Change filetype
+  use_no_vscode {
+    'osyo-manga/vim-precious',
+    opt = true,
+    ft = { 'html', 'markdown' },
+    requires = 'Shougo/context_filetype.vim',
+    config = require'config.precious',
+  }
+
+  -- Colorscheme
+  use_no_vscode { 'tomasiser/vim-code-dark', config = require'config.code-dark' }
+
+  -- Statusline
+  use_no_vscode { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
+
+  -- Highlight
+  use_no_vscode { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter', disable = true }
+
+  -- LSP
+  use_no_vscode { 'neoclide/coc.nvim', branch = 'release', config = require'config.coc' }
+
+  -- Filer
+  use_no_vscode { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons', config = require'config.nvim-tree' }
 end)
