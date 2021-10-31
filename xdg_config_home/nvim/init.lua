@@ -38,4 +38,7 @@ vim.g.mapleader = require'utils'.esc'<Space>'
 
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
 
+-- used when accessing from vimscript.
+_G.dotfiles = {}
+
 require'plugins'

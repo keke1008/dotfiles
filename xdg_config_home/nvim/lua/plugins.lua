@@ -33,7 +33,7 @@ require'packer'.startup(function(use)
   use { 'svermeulen/vimpeccable', config = require'config.vimp' }
 
   -- Motion
-  use { 'phaazon/hop.nvim', config = require'config.hop' }
+  use { 'justinmk/vim-sneak', config = require'config.sneak' }
 
   --*-*-*- If not running in VSCode -*-*-*--
   local use_no_vscode = function(conf)
