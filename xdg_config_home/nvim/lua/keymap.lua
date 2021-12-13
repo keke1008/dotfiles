@@ -2,11 +2,15 @@ local vimp = require'vimp'
 local utils = require'utils'
 vimp.always_override = true
 
-vimp.nnoremap('j', 'gj')
-vimp.nnoremap('k', 'gk')
-vimp.nnoremap('+', ',')
-vimp.nmap({ 'silent' }, '<leader><Space>', '<CMD>noh<CR>')
-vimp.nmap({ 'expr' }, '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"')
+local nnoremap = vimp.nnoremap
+local nmap = vimp.nmap;
+local del_map = vim.api.nvim_del_keymap
+
+nnoremap('j', 'gj')
+nnoremap('k', 'gk')
+nnoremap('+', ',')
+nmap({ 'silent' }, '<leader><Space>', '<CMD>noh<CR>')
+nmap({ 'expr' }, '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"')
 
 if os.getenv('TMUX') then
   local change_active_pain = function(key_direction, tmux_option)
@@ -18,14 +22,13 @@ if os.getenv('TMUX') then
       end
     end
   end
-  vimp.nnoremap('<C-w>h', change_active_pain("h", "-L"))
-  vimp.nnoremap('<C-w>j', change_active_pain("j", "-D"))
-  vimp.nnoremap('<C-w>k', change_active_pain("k", "-U"))
-  vimp.nnoremap('<C-w>l', change_active_pain("l", "-R"))
+  nnoremap('<C-w>h', change_active_pain("h", "-L"))
+  nnoremap('<C-w>j', change_active_pain("j", "-D"))
+  nnoremap('<C-w>k', change_active_pain("k", "-U"))
+  nnoremap('<C-w>l', change_active_pain("l", "-R"))
 end
 
-local delete_keymap = vim.api.nvim_del_keymap
-delete_keymap('n', 's')
-delete_keymap('n', 'S')
-vimp.nmap({ 'silent' }, ';', '<Plug>Sneak_s')
-vimp.nmap({ 'silent' }, '+', '<Plug>Sneak_S')
+del_map('n', 's')
+del_map('n', 'S')
+nmap({ 'silent' }, ';', '<Plug>Sneak_s')
+nmap({ 'silent' }, '+', '<Plug>Sneak_S')
