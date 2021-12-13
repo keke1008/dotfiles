@@ -27,7 +27,7 @@ require'packer'.startup(function(use)
   use { 'sgur/vim-textobj-parameter', requires = { 'kana/vim-textobj-user' } }
 
   -- Format
-  use { 'junegunn/vim-easy-align', config = require'config.easy-align' }
+  use { 'junegunn/vim-easy-align' }
 
   -- Call lua function in keymap
   use { 'svermeulen/vimpeccable' }
