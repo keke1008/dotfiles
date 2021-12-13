@@ -30,10 +30,10 @@ require'packer'.startup(function(use)
   use { 'junegunn/vim-easy-align', config = require'config.easy-align' }
 
   -- Call lua function in keymap
-  use { 'svermeulen/vimpeccable', config = require'config.vimp' }
+  use { 'svermeulen/vimpeccable' }
 
   -- Motion
-  use { 'justinmk/vim-sneak', config = require'config.sneak' }
+  use { 'justinmk/vim-sneak', setup = function () vim.g['sneak#s_next'] = 1 end }
 
   --*-*-*- If not running in VSCode -*-*-*--
   local use_no_vscode = function(conf)
