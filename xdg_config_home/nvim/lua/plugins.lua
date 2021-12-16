@@ -103,4 +103,7 @@ require'packer'.startup(function(use)
     requires = 'kyazdani42/nvim-web-devicons',
     config = require'config.nvim-tree'
   }
+
+  -- Resize Window
+  use 'simeji/winresizer'
 end)
