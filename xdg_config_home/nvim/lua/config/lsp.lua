@@ -61,7 +61,6 @@ return function()
   local lsp_installer = require'nvim-lsp-installer'
   local cmp_nvim_lsp = require'cmp_nvim_lsp'
 
-
   lsp_installer.on_server_ready(function(server)
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 

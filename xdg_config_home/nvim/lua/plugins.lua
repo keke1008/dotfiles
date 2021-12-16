@@ -90,6 +90,17 @@ require'packer'.startup(function(use)
     }
   }
 
+  -- Diagnostics
+  use_no_vscode {
+    'folke/trouble.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = require'config.trouble-conf',
+  }
+
   -- Filer
-  use_no_vscode { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons', config = require'config.nvim-tree' }
+  use_no_vscode {
+    'kyazdani42/nvim-tree.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = require'config.nvim-tree'
+  }
 end)
