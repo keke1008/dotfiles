@@ -70,8 +70,25 @@ require'packer'.startup(function(use)
   -- Highlight
   use_no_vscode { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter', disable = true }
 
+  -- Utils
+  use {
+    'echasnovski/mini.nvim',
+  }
+
   -- LSP
-  use_no_vscode { 'neoclide/coc.nvim', branch = 'release', config = require'config.coc' }
+  use_no_vscode {
+    {
+      'williamboman/nvim-lsp-installer',
+      requires = 'neovim/nvim-lspconfig',
+      config = require'config.lsp',
+    }, {
+      'hrsh7th/nvim-cmp',
+      requires = {
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/vim-vsnip',
+      }
+    }
+  }
 
   -- Filer
   use_no_vscode { 'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons', config = require'config.nvim-tree' }
