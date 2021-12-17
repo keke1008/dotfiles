@@ -1,5 +1,5 @@
 if vim.fn.exists("g:vscode") == 1 then
-  os.execute'export VIMRUNTIME=/usr/share/nvim/runtime'
+os.execute'export VIMRUNTIME=/usr/share/nvim/runtime'
   vim.o.runtimepath = vim.o.runtimepath .. ',/usr/share/nvim/runtime'
 end
 

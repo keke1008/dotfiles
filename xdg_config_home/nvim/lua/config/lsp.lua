@@ -61,6 +61,8 @@ return function()
   nnoremap({ 'silent' }, '<leader>ac', vim.lsp.buf.code_action)
   nnoremap({ 'silent' }, '<leader>qf', function() vim.lsp.buf.code_action({ only = 'quickfix' }) end)
 
+  vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting()'
+
   local lsp_installer = require'nvim-lsp-installer'
   local cmp_nvim_lsp = require'cmp_nvim_lsp'
 
@@ -70,6 +72,14 @@ return function()
     local opt = {
       capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
     }
-    server:setup(opt)
+
+    if server.name == 'rust_analyzer' then
+      require'rust-tools'.setup {
+        server = vim.tbl_deep_extend('force', server:get_default_options(), opt)
+      }
+      server:attach_buffers()
+    else
+      server:setup(opt)
+    end
   end)
 end

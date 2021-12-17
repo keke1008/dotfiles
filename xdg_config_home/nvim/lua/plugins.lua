@@ -71,8 +71,11 @@ require'packer'.startup(function(use)
   use_no_vscode {
     {
       'williamboman/nvim-lsp-installer',
-      requires = 'neovim/nvim-lspconfig',
       config = require'config.lsp',
+      requires = {
+        'neovim/nvim-lspconfig',
+        { 'simrat39/rust-tools.nvim', config = require'config.rust-tools-conf' }
+      },
     }, {
       'hrsh7th/nvim-cmp',
       requires = {
