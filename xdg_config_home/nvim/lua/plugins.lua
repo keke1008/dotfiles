@@ -59,7 +59,8 @@ require'packer'.startup(function(use)
   }
 
   -- Colorscheme
-  use_no_vscode { 'tomasiser/vim-code-dark', config = require'config.code-dark' }
+  -- use_no_vscode { 'tomasiser/vim-code-dark', config = require'config.code-dark', opt = true }
+  use_no_vscode { 'tomasiser/vim-code-dark', opt = true }
 
   -- Statusline
   use_no_vscode { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
@@ -90,6 +91,7 @@ require'packer'.startup(function(use)
     'folke/trouble.nvim',
     requires = 'kyazdani42/nvim-web-devicons',
     config = require'config.trouble-conf',
+    event = 'User LspProgressUpdate'
   }
 
   -- Filer
@@ -100,5 +102,5 @@ require'packer'.startup(function(use)
   }
 
   -- Resize Window
-  use 'simeji/winresizer'
+  use_no_vscode 'simeji/winresizer'
 end)
