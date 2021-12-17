@@ -32,14 +32,12 @@ return function()
         end
       end, { 'i', 's' }),
       ['<C-j>'] = cmp.mapping(function(fallback)
-        if     cmp.visible()                    then cmp.select_next_item()
-        elseif vim.fn['vsnip#jumpable'](1) == 1 then feedkey('<Plug>(vsnip-jump-next)')
+        if vim.fn['vsnip#jumpable'](1) == 1 then feedkey('<Plug>(vsnip-jump-next)')
         else   fallback()
         end
       end, { 'i', 's' }),
       ['<C-k>'] = cmp.mapping(function(fallback)
-        if     cmp.visible()                     then cmp.select_prev_item()
-        elseif vim.fn['vsnip#jumpable'](-1) == 1 then feedkey('<Plug>(vsnip-jump-prev)')
+        if vim.fn['vsnip#jumpable'](-1) == 1 then feedkey('<Plug>(vsnip-jump-prev)')
         else   fallback()
         end
       end, { 'i', 's' }),
@@ -54,6 +52,7 @@ return function()
   nnoremap({ 'silent' }, 'gD', vim.lsp.buf.declaration)
   nnoremap({ 'silent' }, 'gd', vim.lsp.buf.definition)
   nnoremap({ 'silent' }, 'gi', vim.lsp.buf.implementation)
+  nnoremap({ 'silent' }, 'gr', vim.lsp.buf.references)
   nnoremap({ 'silent' }, 'K', vim.lsp.buf.hover)
   nnoremap({ 'silent' }, '<C-K>', vim.lsp.sigunature_help)
   nnoremap({ 'silent' }, '[g', vim.lsp.diagnostic.goto_prev)

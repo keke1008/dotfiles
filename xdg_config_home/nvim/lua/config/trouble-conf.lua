@@ -8,8 +8,5 @@ return function()
 
   local nnoremap = require'vimp'.nnoremap
 
-  nnoremap({ 'silent' }, '<leader>t', '<CMD>Trouble<CR>')
-
-  vim.cmd[[ autocmd User LspProgressUpdate ++once Trouble ]]
-  vim.cmd[[ autocmd User LspProgressUpdate ++once execute "0 wincmd w" ]]
+  nnoremap({ 'silent' }, '<leader>tr', '<CMD>Trouble<CR>')
 end
