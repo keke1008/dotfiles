@@ -59,8 +59,7 @@ require'packer'.startup(function(use)
   }
 
   -- Colorscheme
-  -- use_no_vscode { 'tomasiser/vim-code-dark', config = require'config.code-dark', opt = true }
-  use_no_vscode { 'tomasiser/vim-code-dark', opt = true }
+  use_no_vscode { 'EdenEast/nightfox.nvim', opt = true }
 
   -- Statusline
   use_no_vscode { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
