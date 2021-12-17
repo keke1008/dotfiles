@@ -49,10 +49,19 @@ return function()
   local vimp = require'vimp'
   local nnoremap = vimp.nnoremap
 
+  local telescope_open = function(cmd, layout_config)
+    return function()
+      require'telescope.builtin'[cmd]({
+        layout_strategy = 'cursor',
+        layout_config = layout_config }
+      )
+    end
+  end
+
   nnoremap({ 'silent' }, 'gD', vim.lsp.buf.declaration)
-  nnoremap({ 'silent' }, 'gd', vim.lsp.buf.definition)
-  nnoremap({ 'silent' }, 'gi', vim.lsp.buf.implementation)
-  nnoremap({ 'silent' }, 'gr', vim.lsp.buf.references)
+  nnoremap({ 'silent' }, 'gd', telescope_open('lsp_definitions', { width = 0.5, height = 0.5 }))
+  nnoremap({ 'silent' }, 'gi', telescope_open('implementations', { width = 0.5, height = 0.5 }))
+  nnoremap({ 'silent' }, 'gr', telescope_open('lsp_references', { width = 0.5, height = 0.5 }))
   nnoremap({ 'silent' }, 'K', function()
     if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
       vim.cmd("help " .. vim.fn.expand('<cword>'))
@@ -64,7 +73,7 @@ return function()
   nnoremap({ 'silent' }, '[g', vim.lsp.diagnostic.goto_prev)
   nnoremap({ 'silent' }, ']g', vim.lsp.diagnostic.goto_next)
   nnoremap({ 'silent' }, '<leader>rn', vim.lsp.buf.rename)
-  nnoremap({ 'silent' }, '<leader>ac', vim.lsp.buf.code_action)
+  nnoremap({ 'silent' }, '<leader>ac', telescope_open('lsp_code_actions', { width = 0.4, height = 0.2 }))
   nnoremap({ 'silent' }, '<leader>qf', function() vim.lsp.buf.code_action({ only = 'quickfix' }) end)
 
   vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting()'

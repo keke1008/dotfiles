@@ -61,6 +61,9 @@ require'packer'.startup(function(use)
   -- Colorscheme
   use_no_vscode { 'EdenEast/nightfox.nvim', opt = true }
 
+  --Fuzzy finder
+  use_no_vscode { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
+
   -- Statusline
   use_no_vscode {
     'nvim-lualine/lualine.nvim',
@@ -77,8 +80,9 @@ require'packer'.startup(function(use)
       'williamboman/nvim-lsp-installer',
       config = require'config.lsp',
       requires = {
+        'nvim-telescope/telescope.nvim',
         'neovim/nvim-lspconfig',
-        { 'simrat39/rust-tools.nvim', config = require'config.rust-tools-conf' }
+        { 'simrat39/rust-tools.nvim', config = require'config.rust-tools-conf' },
       },
     }, {
       'hrsh7th/nvim-cmp',
