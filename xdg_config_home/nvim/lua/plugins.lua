@@ -65,7 +65,7 @@ require'packer'.startup(function(use)
   use_no_vscode { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
 
   -- Highlight
-  use_no_vscode { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter', disable = true }
+  use_no_vscode { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter' }
 
   -- LSP
   use_no_vscode {
