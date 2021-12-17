@@ -14,9 +14,6 @@ require'packer'.startup(function(use)
   -- Surrounding
   use 'tpope/vim-surround'
 
-  -- Commenting
-  use 'tpope/vim-commentary'
-
   -- Repeat
   use 'tpope/vim-repeat'
 
@@ -35,6 +32,9 @@ require'packer'.startup(function(use)
   -- Motion
   use { 'justinmk/vim-sneak', setup = function () vim.g['sneak#s_next'] = 1 end }
 
+  -- Comment and AutoPairs
+  use { 'echasnovski/mini.nvim', config = require'config.mini' }
+
   --*-*-*- If not running in VSCode -*-*-*--
   local use_no_vscode = function(conf)
     if type(conf) == 'string' then
@@ -48,9 +48,6 @@ require'packer'.startup(function(use)
 
   -- Shows a git diff in the sign column.
   use_no_vscode 'airblade/vim-gitgutter'
-
-  -- AutoPairs
-  use_no_vscode { 'jiangmiao/auto-pairs', config = require'config.auto-pairs' }
 
   -- Change filetype
   use_no_vscode {
@@ -69,11 +66,6 @@ require'packer'.startup(function(use)
 
   -- Highlight
   use_no_vscode { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter', disable = true }
-
-  -- Utils
-  use {
-    'echasnovski/mini.nvim',
-  }
 
   -- LSP
   use_no_vscode {

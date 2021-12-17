@@ -31,6 +31,7 @@ end
 
 del_map('n', 's')
 del_map('n', 'S')
+del_map('v', 's')
 nmap({ 'silent' }, ';', '<Plug>Sneak_s')
 nmap({ 'silent' }, '+', '<Plug>Sneak_S')
 
