@@ -53,7 +53,13 @@ return function()
   nnoremap({ 'silent' }, 'gd', vim.lsp.buf.definition)
   nnoremap({ 'silent' }, 'gi', vim.lsp.buf.implementation)
   nnoremap({ 'silent' }, 'gr', vim.lsp.buf.references)
-  nnoremap({ 'silent' }, 'K', vim.lsp.buf.hover)
+  nnoremap({ 'silent' }, 'K', function()
+    if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
+      vim.cmd("help " .. vim.fn.expand('<cword>'))
+    else
+      vim.lsp.buf.hover()
+    end
+  end)
   nnoremap({ 'silent' }, '<C-K>', vim.lsp.sigunature_help)
   nnoremap({ 'silent' }, '[g', vim.lsp.diagnostic.goto_prev)
   nnoremap({ 'silent' }, ']g', vim.lsp.diagnostic.goto_next)
