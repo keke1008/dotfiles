@@ -62,7 +62,11 @@ require'packer'.startup(function(use)
   use_no_vscode { 'EdenEast/nightfox.nvim', opt = true }
 
   -- Statusline
-  use_no_vscode { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
+  use_no_vscode {
+    'nvim-lualine/lualine.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = require'config.lualine-conf',
+  }
 
   -- Highlight
   use_no_vscode { 'nvim-treesitter/nvim-treesitter', event = 'BufRead', config = require'config.treesitter' }

@@ -57,4 +57,4 @@ vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200
 require'plugins'
 require'commands'
 vim.cmd"autocmd VimEnter * lua require'keymap'"
-vim.cmd'autocmd VimEnter * colorscheme nightfox'
+vim.cmd'autocmd VimEnter * lua require"colorscheme"'
