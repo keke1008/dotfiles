@@ -9,7 +9,7 @@ end
 require'packer'.startup(function(use)
 
   -- Packer
-  use { 'wbthomason/packer.nvim' }
+  use 'wbthomason/packer.nvim'
 
   -- Surrounding
   use 'tpope/vim-surround'
@@ -21,13 +21,13 @@ require'packer'.startup(function(use)
   use 'tpope/vim-fugitive'
 
   -- Textobj
-  use { 'sgur/vim-textobj-parameter', requires = { 'kana/vim-textobj-user' } }
+  use { 'sgur/vim-textobj-parameter', requires = 'kana/vim-textobj-user' }
 
   -- Format
-  use { 'junegunn/vim-easy-align' }
+  use 'junegunn/vim-easy-align'
 
   -- Call lua function in keymap
-  use { 'svermeulen/vimpeccable' }
+  use 'svermeulen/vimpeccable'
 
   -- Motion
   use { 'justinmk/vim-sneak', setup = function () vim.g['sneak#s_next'] = 1 end }
@@ -65,7 +65,7 @@ require'packer'.startup(function(use)
   use_no_vscode { 'itchyny/lightline.vim', requires = 'josa42/vim-lightline-coc', config = require'config.lightline' }
 
   -- Highlight
-  use_no_vscode { 'nvim-treesitter/nvim-treesitter', config = require'config.treesitter' }
+  use_no_vscode { 'nvim-treesitter/nvim-treesitter', event = 'BufRead', config = require'config.treesitter' }
 
   -- LSP
   use_no_vscode {
