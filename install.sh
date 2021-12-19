@@ -2,7 +2,7 @@
 
 # save the absolute path to this repository
 DOTPATH=$(cd $(dirname $0); pwd)
-echo "export DOTPATH=$DOTPATH" > $HOME/.dotpath
+echo "$DOTPATH" > $HOME/.dotpath
 
 
 # link files
