@@ -14,15 +14,3 @@ create_link() {
 create_link $DOTPATH/home $HOME
 mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
 create_link $DOTPATH/xdg_config_home $XDG_CONFIG_HOME
-
-
-# download in lib
-mkdir -p $DOTPATH/lib/autoload
-
-# download git-prompt.sh (__git_ps1)
-GIT_PROMPT_URL="https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh"
-curl -o $DOTPATH/lib/autoload/git-prompt.sh $GIT_PROMPT_URL
-
-# download git-completion.bash
-GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
-curl -o $DOTPATH/lib/autoload/git-completion.bash $GIT_COMPLETION_URL
