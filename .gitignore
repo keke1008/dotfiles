@@ -1,8 +1,7 @@
 # ignore
-/xdg_config_home/nvim/*
-/lib/**
+/configs/nvim/nvim
 
 # no ignore
-!/xdg_config_home/nvim/init.lua
-!/xdg_config_home/nvim/lua
-!/xdg_config_home/nvim/coc.setting.json
+!/configs/nvim/nvim/init.lua
+!/configs/nvim/nvim/lua
+!/configs/nvim/nvim/coc.setting.json
