@@ -50,10 +50,13 @@ function light_prompt
                 else if test $current_fg_color != $next_fg_color
                     set separator $separator_char(set_color $next_fg_color -b $next_bg_color)
                 else
-                    set separator ''
+                    set separator $text_separator
                 end
 
-                set prompt_text $prompt_text$separator' '$argv[1]' '
+                set text $argv[1]
+                test -n $text && set text ' '$text' '
+
+                set prompt_text $prompt_text$separator$text
                 set current_fg_color $next_fg_color
                 set current_bg_color $next_bg_color
                 set argv $argv[2..-1]
