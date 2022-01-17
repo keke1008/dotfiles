@@ -76,8 +76,6 @@ return function()
   nnoremap({ 'silent' }, '<leader>ac', telescope_open('lsp_code_actions', { width = 0.4, height = 0.2 }))
   nnoremap({ 'silent' }, '<leader>qf', function() vim.lsp.buf.code_action({ only = 'quickfix' }) end)
 
-  vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting()'
-
   local lsp_installer = require'nvim-lsp-installer'
   local cmp_nvim_lsp = require'cmp_nvim_lsp'
 
@@ -89,6 +87,8 @@ return function()
     }
 
     if server.name == 'rust_analyzer' then
+      vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()'
+
       require'rust-tools'.setup {
         server = vim.tbl_deep_extend('force', server:get_default_options(), opt)
       }

@@ -24,8 +24,8 @@ vim.o.hidden = true
 
 vim.o.smartindent = true
 vim.o.expandtab = true
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
 vim.o.completeopt = 'menuone,noinsert'
 vim.o.shortmess = vim.o.shortmess .. 'c'
 vim.o.updatetime = 300
@@ -55,6 +55,5 @@ end
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
 
 require'plugins'
-require'commands'
 vim.cmd"autocmd VimEnter * lua require'keymap'"
 vim.cmd'autocmd VimEnter * lua require"colorscheme"'

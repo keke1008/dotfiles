@@ -4,5 +4,3 @@ return function()
     indent = { enable = true }
   }
 end
-
-

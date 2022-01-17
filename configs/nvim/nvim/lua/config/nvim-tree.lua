@@ -4,7 +4,7 @@ return function ()
 
   require'nvim-tree'.setup {
     view = {
-      width = 35
+      width = 30
     },
     open_on_tab = true,
     open_on_setup = true
