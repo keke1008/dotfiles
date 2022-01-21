@@ -59,7 +59,7 @@ require'packer'.startup(function(use)
     }
 
     -- Colorscheme
-    use_no_vscode { 'EdenEast/nightfox.nvim', opt = true }
+    use_no_vscode { 'EdenEast/nightfox.nvim', config = [[require('config.nightfox-conf')]] }
 
     --Fuzzy finder
     use_no_vscode { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
@@ -74,22 +74,38 @@ require'packer'.startup(function(use)
     -- Highlight
     use_no_vscode { 'nvim-treesitter/nvim-treesitter', event = 'BufRead', config = require'config.treesitter' }
 
+    -- lua
+    use_no_vscode {
+        'folke/lua-dev.nvim',
+        requires = 'neovim/nvim-lspconfig',
+    }
+
+    -- rust
+    use_no_vscode {
+        'simrat39/rust-tools.nvim',
+        ft = 'rust',
+        config = require'config.rust-tools-conf',
+    }
+
+    -- Completion
+    use_no_vscode {
+        'hrsh7th/nvim-cmp',
+        requires = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/vim-vsnip',
+        },
+        config = [[require'config.cmp-conf']]
+    }
+
     -- LSP
     use_no_vscode {
-        {
-            'williamboman/nvim-lsp-installer',
-            config = require'config.lsp',
-            requires = {
-                'nvim-telescope/telescope.nvim',
-                'neovim/nvim-lspconfig',
-                { 'simrat39/rust-tools.nvim', config = require'config.rust-tools-conf' },
-            },
-        }, {
-            'hrsh7th/nvim-cmp',
-            requires = {
-                'hrsh7th/cmp-nvim-lsp',
-                'hrsh7th/vim-vsnip',
-            }
+        'williamboman/nvim-lsp-installer',
+        config = [[require'config.lsp']],
+        requires = {
+            'nvim-telescope/telescope.nvim',
+            'neovim/nvim-lspconfig',
+            'hrsh7th/cmp-nvim-lsp',
+            'ray-x/lsp_signature.nvim',
         }
     }
 

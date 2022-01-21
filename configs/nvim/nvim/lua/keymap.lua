@@ -29,7 +29,7 @@ if os.getenv('TMUX') then
     nnoremap('<C-w>l', change_active_pain("l", "-R"))
 end
 
-del_map('n', 's')
+-- del_map('n', 's')
 del_map('n', 'S')
 del_map('v', 's')
 nmap({ 'silent' }, ';', '<Plug>Sneak_s')

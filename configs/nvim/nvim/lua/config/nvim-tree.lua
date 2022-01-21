@@ -4,7 +4,11 @@ return function()
 
     require'nvim-tree'.setup {
         view = {
-            width = 30
+            auto_resize = true,
+            signcolumn = "yes",
+        },
+        git = {
+            ignore = false,
         },
         open_on_tab = true,
         open_on_setup = true
