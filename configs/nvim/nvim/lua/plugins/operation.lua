@@ -1,3 +1,5 @@
+local require_conf = require'utils'.require_conf
+
 return function(use)
     -- Surrounding
     use 'tpope/vim-surround'
@@ -21,5 +23,5 @@ return function(use)
     use { 'justinmk/vim-sneak', setup = function () vim.g['sneak#s_next'] = 1 end }
 
     -- Comment and AutoPairs
-    use { 'echasnovski/mini.nvim', config = [[require'plugins.config.mini']] }
+    use { 'echasnovski/mini.nvim', config = require_conf'mini' }
 end

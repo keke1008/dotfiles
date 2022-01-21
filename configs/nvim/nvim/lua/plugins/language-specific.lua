@@ -1,3 +1,5 @@
+local require_conf = require'utils'.require_conf
+
 return function(use)
     -- lua
     use {
@@ -9,6 +11,6 @@ return function(use)
     use {
         'simrat39/rust-tools.nvim',
         ft = 'rust',
-        config = [[require'plugins.config.rust-tools-conf']],
+        config = require_conf'rust-tools-conf',
     }
 end

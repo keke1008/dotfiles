@@ -1,3 +1,5 @@
+local require_conf = require'utils'.require_conf
+
 return function(use)
     -- Change filetype
     use {
@@ -5,7 +7,7 @@ return function(use)
         opt = true,
         ft = { 'html', 'markdown' },
         requires = 'Shougo/context_filetype.vim',
-        config = [[require'plugins.config.precious']],
+        config = require_conf'precious',
     }
 
     -- Shows a git diff in the sign column.
@@ -15,7 +17,7 @@ return function(use)
     use {
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = [[require'plugins.config.nvim-tree']],
+        config = require_conf'nvim-tree',
     }
 
     -- Resize Window
@@ -28,20 +30,20 @@ return function(use)
     use {
         'nvim-lualine/lualine.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = [[require'plugins.config.lualine-conf']],
+        config = require_conf'lualine-conf',
     }
 
     -- Highlight
     use {
         'nvim-treesitter/nvim-treesitter',
         event = 'BufRead',
-        config = [[require'plugins.config.treesitter']],
+        config = require_conf'treesitter',
     }
 
     -- Colorscheme
     use {
         'EdenEast/nightfox.nvim',
         requires = 'kyazdani42/nvim-tree.lua',
-        config = [[require'plugins.config.nightfox-conf']],
+        config = require_conf'nightfox-conf',
     }
 end
