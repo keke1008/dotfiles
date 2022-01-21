@@ -9,6 +9,6 @@ return function(use)
     use {
         'simrat39/rust-tools.nvim',
         ft = 'rust',
-        config = require'config.rust-tools-conf',
+        config = [[require'config.rust-tools-conf']],
     }
 end

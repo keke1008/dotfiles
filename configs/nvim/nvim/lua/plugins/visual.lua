@@ -5,7 +5,7 @@ return function(use)
         opt = true,
         ft = { 'html', 'markdown' },
         requires = 'Shougo/context_filetype.vim',
-        config = require'config.precious',
+        config = [[require'config.precious']],
     }
 
     -- Shows a git diff in the sign column.
@@ -15,7 +15,7 @@ return function(use)
     use {
         'kyazdani42/nvim-tree.lua',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = require'config.nvim-tree'
+        config = [[require'config.nvim-tree']],
     }
 
     -- Resize Window
@@ -28,14 +28,14 @@ return function(use)
     use {
         'nvim-lualine/lualine.nvim',
         requires = 'kyazdani42/nvim-web-devicons',
-        config = require'config.lualine-conf',
+        config = [[require'config.lualine-conf']],
     }
 
     -- Highlight
     use {
         'nvim-treesitter/nvim-treesitter',
         event = 'BufRead',
-        config = require'config.treesitter'
+        config = [[require'config.treesitter']],
     }
 
     -- Colorscheme
