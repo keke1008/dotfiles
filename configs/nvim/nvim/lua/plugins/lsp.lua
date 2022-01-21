@@ -2,7 +2,7 @@ return function(use)
     -- Completion
     use {
         'hrsh7th/nvim-cmp',
-        config = [[require'config.cmp-conf']],
+        config = [[require'plugins.config.cmp-conf']],
         requires = {
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/vim-vsnip',
@@ -12,7 +12,7 @@ return function(use)
     -- LSP
     use {
         'williamboman/nvim-lsp-installer',
-        config = [[require'config.lsp']],
+        config = [[require'plugins.config.lsp']],
         requires = {
             'nvim-telescope/telescope.nvim',
             'neovim/nvim-lspconfig',
