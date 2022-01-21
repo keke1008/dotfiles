@@ -53,6 +53,33 @@ if vim.fn.executable('win32yank.exe') == 1 then
 end
 
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
-
-require'plugins'
 vim.cmd"autocmd VimEnter * lua require'keymap'"
+
+-- require'plugins'
+-- Install packer
+local fn = vim.fn
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd 'packadd packer.nvim'
+end
+
+require'packer'.startup(function(use)
+    local use_no_vscode = function(conf)
+        if type(conf) == 'string' then
+            conf = { conf }
+        end
+        conf.cond = function()
+            return vim.fn.exists'g:vscode' == 0
+        end
+        use(conf)
+    end
+
+    -- Packer
+    use 'wbthomason/packer.nvim'
+
+    require'plugins.operation'(use)
+    require'plugins.visual'(use_no_vscode)
+    require'plugins.language-specific'(use_no_vscode)
+    require'plugins.lsp'(use_no_vscode)
+end)
