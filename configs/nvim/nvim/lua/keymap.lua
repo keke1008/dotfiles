@@ -1,15 +1,16 @@
-local vimp = require'vimp'
+if not _G.packer_plugins.vimpeccable.loaded then
+    return
+end
+
 local utils = require'utils'
+local vimp = require'vimp'
 vimp.always_override = true
 
 local nnoremap = vimp.nnoremap
 local nmap = vimp.nmap;
-local xmap = vimp.xmap;
-local del_map = vim.api.nvim_del_keymap
 
 nnoremap('j', 'gj')
 nnoremap('k', 'gk')
-nnoremap('+', ',')
 nmap({ 'silent' }, '<leader><Space>', '<CMD>noh<CR>')
 nmap({ 'expr' }, '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"')
 
@@ -28,12 +29,3 @@ if os.getenv('TMUX') then
     nnoremap('<C-w>k', change_active_pain("k", "-U"))
     nnoremap('<C-w>l', change_active_pain("l", "-R"))
 end
-
--- del_map('n', 's')
-del_map('n', 'S')
-del_map('v', 's')
-nmap({ 'silent' }, ';', '<Plug>Sneak_s')
-nmap({ 'silent' }, '+', '<Plug>Sneak_S')
-
-nmap('ga', '<Plug>(EasyAlign)')
-xmap('ga', '<Plug>(EasyAlign)')

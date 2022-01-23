@@ -21,6 +21,7 @@ vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
 vim.o.hidden = true
+vim.o.list = true
 
 vim.o.smartindent = true
 vim.o.expandtab = true
@@ -55,7 +56,6 @@ end
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
 vim.cmd"autocmd VimEnter * lua require'keymap'"
 
--- require'plugins'
 -- Install packer
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
