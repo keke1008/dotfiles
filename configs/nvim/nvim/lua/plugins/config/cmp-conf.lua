@@ -1,9 +1,5 @@
 local cmp = require'cmp'
-
-local feedkey = function(key, mode)
-    mode = mode or ''
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
+local luasnip = require'luasnip'
 
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -13,11 +9,12 @@ end
 cmp.setup({
     snippet = {
         expand = function(args)
-            vim.fn['vsnip#anonymous'](args.body)
-        end
+            luasnip.lsp_expand(args.body)
+        end,
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
+        { name = 'luasnip' },
     }),
     mapping = {
         ['<CR>'] = cmp.mapping(function(fallback)
@@ -31,12 +28,12 @@ cmp.setup({
             end
         end, { 'i', 's' }),
         ['<C-j>'] = cmp.mapping(function(fallback)
-            if   vim.fn['vsnip#jumpable'](1) == 1 then feedkey('<Plug>(vsnip-jump-next)')
+            if   luasnip.jumpable(-1) then luasnip.jump(-1)
             else fallback()
             end
         end, { 'i', 's' }),
         ['<C-k>'] = cmp.mapping(function(fallback)
-            if   vim.fn['vsnip#jumpable'](-1) == 1 then feedkey('<Plug>(vsnip-jump-prev)')
+            if   luasnip.jumpable(1) then luasnip.jump(1)
             else fallback()
             end
         end, { 'i', 's' }),

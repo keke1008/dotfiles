@@ -79,7 +79,7 @@ require'packer'.startup(function(use)
     use 'wbthomason/packer.nvim'
 
     require'plugins.operation'(use)
-    require'plugins.visual'(use_no_vscode)
     require'plugins.language-specific'(use_no_vscode)
     require'plugins.lsp'(use_no_vscode)
+    require'plugins.visual'(use_no_vscode)
 end)

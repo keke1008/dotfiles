@@ -2,10 +2,7 @@ local require_conf = require'utils'.require_conf
 
 return function(use)
     -- lua
-    use {
-        'folke/lua-dev.nvim',
-        requires = 'neovim/nvim-lspconfig',
-    }
+    use 'folke/lua-dev.nvim'
 
     -- rust
     use {
