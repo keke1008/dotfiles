@@ -4,7 +4,6 @@ return function(use)
     -- lua
     use 'folke/lua-dev.nvim'
 
-    -- rust
     use {
         'simrat39/rust-tools.nvim',
         ft = 'rust',

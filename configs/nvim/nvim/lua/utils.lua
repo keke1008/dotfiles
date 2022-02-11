@@ -8,9 +8,7 @@ M.require_conf = function(name)
     return [[require'plugins.config.]] .. name .. "'"
 end
 
-local put_inner
-
-function put_inner(key, value, depth)
+local function put_inner(key, value, depth)
     local tab = string.rep(' ', depth * 4)
     local prefix = tab .. (key and key .. ' = ' or '')
 
