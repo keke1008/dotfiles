@@ -23,7 +23,8 @@ return function(use)
             'nvim-telescope/telescope.nvim',
             'neovim/nvim-lspconfig',
             'ray-x/lsp_signature.nvim',
-        }
+            'cmp-nvim-lsp',
+        },
     }
 
     -- Formatter
