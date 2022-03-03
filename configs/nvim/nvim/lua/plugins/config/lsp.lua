@@ -1,37 +1,8 @@
 local lsp_installer = require'nvim-lsp-installer'
 local nnoremap = require'vimp'.nnoremap
-local api = vim.api;
 
-
-
--- Open telescope result in another tab
-vim.cmd[[autocmd TabNew,VimEnter * lua vim.api.nvim_tabpage_set_var(0, 'lsp_jump_window_handle', nil)]]
 local telescope_open = function(cmd, layout_config)
-    local function current_tab_contains_window(window)
-        if type(window) ~= "number" then
-            return false
-        end
-        local win_list_in_current_tab = api.nvim_tabpage_list_wins(0)
-        for _, winid in pairs(win_list_in_current_tab) do
-            if window == winid then
-                return true
-            end
-        end
-        return false
-    end
-
     return function()
-        local jump_window_handle = api.nvim_tabpage_get_var(0, 'lsp_jump_window_handle')
-        if not current_tab_contains_window(jump_window_handle) then
-            vim.cmd('vsplit')
-            local current_window_handle = api.nvim_get_current_win()
-            api.nvim_tabpage_set_var(0, 'lsp_jump_window_handle', current_window_handle)
-            jump_window_handle = current_window_handle
-        end
-        local buffer_handle = vim.api.nvim_get_current_buf()
-        api.nvim_set_current_win(jump_window_handle)
-        api.nvim_set_current_buf(buffer_handle)
-
         require'telescope.builtin'[cmd]({
             layout_strategy = 'cursor',
             layout_config = layout_config }
@@ -62,31 +33,25 @@ vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()'
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 lsp_installer.on_server_ready(function(server)
-    require'lsp_signature'.on_attach()
-
     local opts = {
-        capabilities = capabilities
+        capabilities = capabilities,
+        on_attach = function()
+            require'lsp_signature'.on_attach()
+        end,
     }
 
-    if server.name == 'rust-_analyzer' then
-        return
-    end
-
     if server.name == 'denols' then
-        opts = {
-            settings = {
-                deno = {
-                    enable = true,
-                    lint = true,
-                    config = './deno.json',
-                    importMap = './import_map.json',
-                },
+        opts.settings = {
+            deno = {
+                enable = true,
+                lint = true,
+                config = './deno.json',
+                importMap = './import_map.json',
             },
         }
-    end
-
-    if server.name == 'sumneko_lua' then
+    elseif server.name == 'sumneko_lua' then
         opts = require'lua-dev'.setup({})
+        opts.capabilities = capabilities
     end
 
     server:setup(opts)

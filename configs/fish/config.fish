@@ -1,3 +1,10 @@
+# run tmux if it is not running
+if type tmux > /dev/null 2>&1
+  if [ -z "$TMUX" ]
+    tmux
+  end
+end
+
 # user's private bin
 if [ -d "$HOME/.local/bin" ]
     set -x PATH "$HOME/.local/bin" $PATH
@@ -17,9 +24,6 @@ if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
   set -x DISPLAY (hostname)".mshome.net:0.0"
 end
 
-# run tmux if it is not running
-if type tmux > /dev/null 2>&1
-  if [ -z "$TMUX" ]
-    tmux
-  end
-end
+set -x RUST_BACKTRACE 1
+
+alias v nvim

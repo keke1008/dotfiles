@@ -66,14 +66,27 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 require'packer'.startup(function(use)
-    local use_no_vscode = function(conf)
+    local cond = require'utils'.no_vscode
+
+    local function inner(conf)
         if type(conf) == 'string' then
             conf = { conf }
         end
-        conf.cond = function()
-            return vim.fn.exists'g:vscode' == 0
+
+        if type(conf.requires) == 'string' then
+            conf.requires = inner(conf.requires)
+        elseif conf.requires ~= nil then
+            for i, req in ipairs(conf.requires) do
+                conf.requires[i] = inner(req)
+            end
         end
-        use(conf)
+
+        conf.cond = cond
+        return conf
+    end
+
+    local use_no_vscode = function(conf)
+        use(inner(conf))
     end
 
     -- Packer

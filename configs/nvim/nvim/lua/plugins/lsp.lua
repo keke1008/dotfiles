@@ -29,4 +29,11 @@ return function(use)
             'ray-x/lsp_signature.nvim',
         }
     }
+
+    -- Formatter
+    use {
+        "jose-elias-alvarez/null-ls.nvim",
+        config = require_conf'null-ls-conf',
+        requires = "nvim-lua/plenary.nvim",
+    }
 end

@@ -29,3 +29,18 @@ if os.getenv('TMUX') then
     nnoremap('<C-w>k', change_active_pain("k", "-U"))
     nnoremap('<C-w>l', change_active_pain("l", "-R"))
 end
+
+if not require'utils'.no_vscode() then
+    vim.cmd[[
+        nnoremap <Esc> <CMD>call VSCodeNotify('workbench.action.files.save')<CR>
+        nnoremap <Space>ep <Cmd>call VSCodeNotify('workbench.view.explorer')<CR>
+        nnoremap <Space>ac <Cmd>call VSCodeNotify('editor.action.quickFix')<CR>
+        nnoremap <Space>rn <Cmd>call VSCodeNotify('editor.action.rename')<CR>
+        nnoremap <Space>ks <Cmd>call VSCodeNotify('workbench.action.openGlobalKeybindings')<CR>
+        nnoremap gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
+        nnoremap gr <Cmd>call VSCodeNotify('editor.action.goToReferences')<CR>
+        nnoremap [g <Cmd>call VSCodeNotify('editor.action.marker.prevInFiles')<CR>
+        nnoremap ]g <Cmd>call VSCodeNotify('editor.action.marker.nextInFiles')<CR>
+        nnoremap / <Cmd>call VSCodeNotify('actions.find')<CR>
+    ]]
+end
