@@ -55,14 +55,14 @@ if vim.fn.executable('win32yank.exe') == 1 then
 end
 
 vim.cmd'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
-vim.cmd"autocmd VimEnter * lua require'keymap'"
 
 -- Install packer
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    _G.packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     vim.cmd 'packadd packer.nvim'
+    require'packer'.sync()
 end
 
 require'packer'.startup(function(use)

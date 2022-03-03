@@ -13,12 +13,11 @@ return function(use)
     use {
         'hrsh7th/nvim-cmp',
         config = require_conf'cmp-conf',
-        requires = {
-            'hrsh7th/cmp-nvim-lsp',
-            'saadparwaiz1/cmp_luasnip',
-        },
+        requires = 'hrsh7th/cmp-nvim-lsp',
         after = 'LuaSnip',
     }
+
+    use 'saadparwaiz1/cmp_luasnip'
 
     -- LSP
     use {

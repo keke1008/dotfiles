@@ -20,7 +20,10 @@ return function(use)
     }
 
     -- Call lua function in keymap
-    use 'svermeulen/vimpeccable'
+    use {
+        'svermeulen/vimpeccable',
+        config = [[require'keymap']]
+    }
 
     -- Motion
     use {
