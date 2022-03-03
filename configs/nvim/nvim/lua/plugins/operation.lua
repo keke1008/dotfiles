@@ -11,7 +11,11 @@ return function(use)
     use 'tpope/vim-fugitive'
 
     -- Textobj
-    use { 'sgur/vim-textobj-parameter', requires = 'kana/vim-textobj-user' }
+    use {
+        'sgur/vim-textobj-parameter',
+        requires = 'kana/vim-textobj-user',
+        after = 'vim-textobj-user'
+    }
 
     -- Format
     use {

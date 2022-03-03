@@ -16,4 +16,16 @@ M.no_vscode = function()
     return vim.fn.exists'g:vscode' == 0
 end
 
+M.requires = function(requires, f)
+    local args = {}
+    for i, name in ipairs(requires) do
+        result, module = pcall(require, name)
+        if not result then
+            return
+        end
+        args[i] = module
+    end
+    return f(unpack(args))
+end
+
 return M

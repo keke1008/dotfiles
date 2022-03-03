@@ -2,19 +2,15 @@ local require_conf = require'utils'.require_conf
 
 return function(use)
     -- Snippet
-    use {
-        -- 2022/01/24
-        --If this plugin is loaded after Treesitter, an error will occur.
-        'L3MON4D3/LuaSnip',
-        config = require_conf'luasnip-conf'
-    }
+    -- 2022/01/24
+    --If this plugin is loaded after Treesitter, an error will occur.
+    use 'L3MON4D3/LuaSnip'
 
     -- Completion
     use {
-        'hrsh7th/nvim-cmp',
+        'hrsh7th/cmp-nvim-lsp',
         config = require_conf'cmp-conf',
-        requires = 'hrsh7th/cmp-nvim-lsp',
-        after = 'LuaSnip',
+        requires = 'hrsh7th/nvim-cmp',
     }
 
     use 'saadparwaiz1/cmp_luasnip'
