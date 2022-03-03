@@ -18,16 +18,11 @@ return function(use)
     }
 
     -- Format
-    use {
-        'junegunn/vim-easy-align',
-        config = require_conf'vim-easy-align',
-    }
+    use 'junegunn/vim-easy-align'
 
     -- Call lua function in keymap
-    use {
-        'svermeulen/vimpeccable',
-        config = [[require'keymap']]
-    }
+    use 'svermeulen/vimpeccable'
+
 
     -- Motion
     use {

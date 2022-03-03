@@ -64,6 +64,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd 'packadd packer.nvim'
 end
 
+require'keymap'
+
 require'packer'.startup(function(use)
     local cond = require'utils'.no_vscode
 
