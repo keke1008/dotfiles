@@ -1,4 +1,8 @@
-if not _G.packer_plugins.vimpeccable.loaded then
+if not (
+    _G.packer_plugins 
+    and _G.packer_plugins.vimpeccable
+    and _G.packer_plugins.vimpeccable.loaded
+) then
     return
 end
 

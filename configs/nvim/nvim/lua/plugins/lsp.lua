@@ -17,6 +17,7 @@ return function(use)
             'hrsh7th/cmp-nvim-lsp',
             'saadparwaiz1/cmp_luasnip',
         },
+        after = 'LuaSnip',
     }
 
     -- LSP
