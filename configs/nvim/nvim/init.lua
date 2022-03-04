@@ -87,7 +87,10 @@ require'packer'.startup(function(use)
     end
 
     local use_no_vscode = function(conf)
-        use(inner(conf))
+        -- 2022-03-04
+        -- Remove compatibility with VSCode
+        -- use(inner(conf))
+        use(conf)
     end
 
     -- Packer

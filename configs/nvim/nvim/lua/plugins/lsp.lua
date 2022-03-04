@@ -1,19 +1,16 @@
 local require_conf = require'utils'.require_conf
 
 return function(use)
-    -- Snippet
-    -- 2022/01/24
-    --If this plugin is loaded after Treesitter, an error will occur.
-    use 'L3MON4D3/LuaSnip'
-
     -- Completion
     use {
-        'hrsh7th/cmp-nvim-lsp',
+        'saadparwaiz1/cmp_luasnip',
         config = require_conf'cmp-conf',
-        requires = 'hrsh7th/nvim-cmp',
-    }
+        requires = {
+            'hrsh7th/nvim-cmp',
+            'L3MON4D3/LuaSnip'
 
-    use 'saadparwaiz1/cmp_luasnip'
+        }
+    }
 
     -- LSP
     use {
@@ -23,7 +20,7 @@ return function(use)
             'nvim-telescope/telescope.nvim',
             'neovim/nvim-lspconfig',
             'ray-x/lsp_signature.nvim',
-            'cmp-nvim-lsp',
+             'hrsh7th/cmp-nvim-lsp',
         },
     }
 
