@@ -29,7 +29,7 @@ nnoremap({ 'silent' }, '<leader>rn', vim.lsp.buf.rename)
 nnoremap({ 'silent' }, '<leader>ac', telescope_open('lsp_code_actions', { width = 0.4, height = 0.2 }))
 nnoremap({ 'silent' }, '<leader>qf', function() vim.lsp.buf.code_action({ only = 'quickfix' }) end)
 
-vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()'
+vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting()'
 
 require'utils'.requires({'cmp_nvim_lsp'}, function(cmp_nvim_lsp)
     _G.cmp_lsp_loaded = true
