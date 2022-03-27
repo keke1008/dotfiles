@@ -1,6 +1,7 @@
 require'cmp_nvim_lsp'
 local lsp_installer = require'nvim-lsp-installer'
 local nnoremap = require'vimp'.nnoremap
+local utils = require'utils'
 
 local telescope_open = function(cmd, layout_config)
     return function()
@@ -31,8 +32,7 @@ nnoremap({ 'silent' }, '<leader>qf', function() vim.lsp.buf.code_action({ only =
 
 vim.cmd'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()'
 
-require'utils'.requires({'cmp_nvim_lsp'}, function(cmp_nvim_lsp)
-    _G.cmp_lsp_loaded = true
+utils.require_some('cmp_nvim_lsp')(function (cmp_nvim_lsp)
     local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
     lsp_installer.on_server_ready(function(server)

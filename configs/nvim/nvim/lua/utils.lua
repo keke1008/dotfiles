@@ -16,16 +16,21 @@ M.no_vscode = function()
     return vim.fn.exists'g:vscode' == 0
 end
 
-M.requires = function(requires, f)
+M.require_some = function(...)
     local args = {}
-    for i, name in ipairs(requires) do
-        result, module = pcall(require, name)
+    for i, name in ipairs({...}) do
+        local result, module = pcall(require, name)
         if not result then
-            return
+            vim.notify('[Warning] Cannot load module "' .. name ..  '".', 3)
+            print(debug.traceback())
+            return function(_) end
         end
         args[i] = module
     end
-    return f(unpack(args))
+
+    return function(f)
+        f(unpack(args))
+    end
 end
 
 return M
