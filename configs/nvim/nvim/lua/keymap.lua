@@ -33,7 +33,7 @@ require_all('vimp')(function(vimp)
     end
 end)
 
-if not require'utils'.no_vscode() then
+if not utils.no_vscode() then
     vim.cmd[[
         nnoremap <Esc> <CMD>call VSCodeNotify('workbench.action.files.save')<CR>
         nnoremap <Space>ep <Cmd>call VSCodeNotify('workbench.view.explorer')<CR>

@@ -1,7 +1,9 @@
 local vimp = require'vimp'
+local nvim_tree = require'nvim-tree'
+
 vimp.nnoremap('<leader>ep', '<CMD>NvimTreeFindFile<CR>')
 
-require'nvim-tree'.setup {
+nvim_tree.setup {
     view = {
         auto_resize = true,
         signcolumn = "yes",
