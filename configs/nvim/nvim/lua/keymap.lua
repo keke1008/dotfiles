@@ -1,6 +1,8 @@
 local utils = require'utils'
+local require_all = utils.require_all
 
-utils.require_some('vimp')(function(vimp)
+
+require_all('vimp')(function(vimp)
     vimp.always_override = true
 
     local nnoremap = vimp.nnoremap
