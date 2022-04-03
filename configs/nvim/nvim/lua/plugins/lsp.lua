@@ -30,4 +30,12 @@ return function(use)
         config = require_conf'null-ls-conf',
         requires = "nvim-lua/plenary.nvim",
     }
+
+    --debugger
+    use {
+        'rcarriga/nvim-dap-ui',
+        requires = 'mfussenegger/nvim-dap',
+        cond = function() return vim.fn.executable('lldb') == 1 end,
+        config = require_conf'dap-conf'
+    }
 end

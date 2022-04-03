@@ -20,17 +20,20 @@ return function(use)
     -- Format
     use 'junegunn/vim-easy-align'
 
-    -- Call lua function in keymap
-    use 'svermeulen/vimpeccable'
+    -- Keymap
+    use 'LionC/nest.nvim'
 
+    -- Cursor motion
+    use 'skanehira/jumpcursor.vim'
 
-    -- Motion
-    use {
-        'justinmk/vim-sneak',
-        setup = function () vim.g['sneak#s_next'] = 1 end ,
-        config = require_conf'vim-sneak'
-    }
-
-    -- Comment and AutoPairs
+    -- Comment
     use { 'echasnovski/mini.nvim', config = require_conf'mini' }
+
+    -- AutoPairs
+    use {
+        'windwp/nvim-autopairs',
+        config = function ()
+            require'nvim-autopairs'.setup({map_cr = false})
+        end
+    }
 end
