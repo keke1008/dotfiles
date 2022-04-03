@@ -89,11 +89,14 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
     }
 
     local M = {}
-    M.debug = function ()
-        if vim.b.debug_keymap then
+    M.buffer = function ()
+        if vim.bo.filetype == "NvimTree" then
+            vim.b.debug_keymap_loaded = true
+        end
+        if vim.b.debug_keymap_loaded then
             return
         end
-        vim.b.debug_keymap = true
+        vim.b.debug_keymap_loaded = true
         nest.applyKeymaps { options = { nowait = true }, buffer = true,
             { 'c', dap_map('c', dap.continue) },
             { 'd', dap_map('d', dap.toggle_breakpoint) },
@@ -107,7 +110,7 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
     vim.cmd[[
         augroup debug_keymap
             autocmd!
-            autocmd BufEnter * lua require'keymap'.debug()
+            autocmd BufEnter * lua require'keymap'.buffer()
         augroup END
     ]]
     return M
