@@ -1,6 +1,37 @@
 local require_all = require'utils'.require_all
 local api = vim.api
 
+local TemporaryKeymapMetatable = {
+    __index = {
+        buf_enter = function(self)
+            local loaded = vim.b[self.name]
+            local cond = self.cond()
+            if cond and not loaded then
+                self.install()
+                vim.b[self.name] = true
+            elseif not cond and loaded then
+                self.uninstall()
+                vim.b[self.name] = false
+            end
+        end
+    }
+}
+
+local TemporaryKeymap = {
+    new = function(name, functions)
+        vim.validate({
+            name = { name, 'string' },
+            cond = { functions.cond, 'function' },
+            install = { functions.install, 'function' },
+            uninstall = { functions.uninstall, 'function' },
+        })
+        return setmetatable(
+            { name = name, cond = functions.cond, install = functions.install, uninstall = functions.uninstall },
+            TemporaryKeymapMetatable
+        )
+    end
+}
+
 return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip, dap)
     local telescope_open = function(cmd, layout_config)
         return function()
@@ -13,14 +44,14 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
     end
     local feedkeys = function(keys)
         keys = api.nvim_replace_termcodes(keys, true, true, true)
-        api.nvim_feedkeys(keys, 'n', false)
+        api.nvim_feedkeys(keys, 'int', false)
     end
-    local dap_enable = function()
+    local dap_active = function()
         return dap.status() ~= ''
     end
     local dap_map = function(lhs, fn)
         return function()
-            if dap_enable() then
+            if dap_active() then
                 fn()
             else
                 feedkeys(lhs)
@@ -43,7 +74,7 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
         { 'K', function()
             if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
                 vim.cmd("help " .. vim.fn.expand('<cword>'))
-            elseif dap_enable() then require'dapui'.eval()
+            elseif dap_active() then require'dapui'.eval()
             else vim.lsp.buf.hover()
             end
         end},
@@ -88,29 +119,34 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
         }
     }
 
+    local debug_keymap = TemporaryKeymap.new('debug_keymap', {
+        cond = dap_active,
+        install = function()
+            nest.applyKeymaps { options = { nowait = true }, buffer = true, {
+                { 'c', dap_map('c', dap.continue) },
+                { 'd', dap_map('d', dap.toggle_breakpoint) },
+                { 'i', dap_map('i', dap.step_into) },
+                { 'o', dap_map('o', dap.step_over) },
+                { 'p', dap_map('p', dap.step_out) },
+                { 'r', dap_map('r', dap.run_last) },
+                { '<C-q>', dap_map('<C-q>', dap.terminate) }}
+            }
+        end,
+        uninstall = function()
+            local lhses = { 'c', 'd', 'i', 'o', 'p', 'r', '<C-q>' }
+            for _, lhs in pairs(lhses) do
+                pcall(api.nvim_buf_del_keymap, 0, 'n', lhs)
+            end
+        end
+    })
+
     local M = {}
-    M.buffer = function ()
-        if vim.bo.filetype == "NvimTree" then
-            vim.b.debug_keymap_loaded = true
-        end
-        if vim.b.debug_keymap_loaded then
-            return
-        end
-        vim.b.debug_keymap_loaded = true
-        nest.applyKeymaps { options = { nowait = true }, buffer = true,
-            { 'c', dap_map('c', dap.continue) },
-            { 'd', dap_map('d', dap.toggle_breakpoint) },
-            { 'i', dap_map('i', dap.step_into) },
-            { 'o', dap_map('o', dap.step_over) },
-            { 'p', dap_map('p', dap.step_out) },
-            { 'r', dap_map('r', dap.run_last) },
-            { '<C-q>', dap_map('<C-q>', dap.terminate) },
-        }
-    end
+    M.debug_keymap = debug_keymap
+
     vim.cmd[[
         augroup debug_keymap
             autocmd!
-            autocmd BufEnter * lua require'keymap'.buffer()
+            autocmd BufEnter * lua require'keymap'.debug_keymap:buf_enter()
         augroup END
     ]]
     return M

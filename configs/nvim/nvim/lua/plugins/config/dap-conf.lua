@@ -1,11 +1,17 @@
 local require_all = require'utils'.require_all
+local keymap = require'keymap'
 local fn = vim.fn
 
 require_all('dap', 'dapui')(function (dap, dapui)
     dapui.setup({})
 
-    dap.listeners.before['event_initialized']['open-ui'] = function(_, _)
+    dap.listeners.before['event_initialized']['prepare'] = function(_, _)
         dapui.open()
+        keymap.debug_keymap:install()
+    end
+
+    dap.listeners.before['event_terminated']['cleanup'] = function(_, _)
+        keymap.debug_keymap:uninstall()
     end
 
     vim.cmd[[
