@@ -23,7 +23,7 @@ M.startup = function()
         use 'tpope/vim-repeat'
 
         -- Git commands
-        use 'tpope/vim-fugitive'
+        use { 'tpope/vim-fugitive', cmd = { 'G', 'Git' }}
 
         -- Textobj
         use {
@@ -44,10 +44,14 @@ M.startup = function()
         -- AutoPairs
         use {
             'windwp/nvim-autopairs',
+            event = 'InsertEnter',
             config = function ()
                 require'nvim-autopairs'.setup({map_cr = false})
             end
         }
+
+        -- Show register content
+        use 'tversteeg/registers.nvim'
 
 
         --------------------------------------------------
@@ -95,8 +99,9 @@ M.startup = function()
         -- Formatter
         use {
             "jose-elias-alvarez/null-ls.nvim",
-            config = require_conf'null-ls-conf',
             requires = "nvim-lua/plenary.nvim",
+            ft = 'python',
+            config = require_conf'null-ls-conf',
         }
 
         -- Debugger
@@ -104,7 +109,8 @@ M.startup = function()
             'rcarriga/nvim-dap-ui',
             requires = 'mfussenegger/nvim-dap',
             cond = function() return vim.fn.executable('lldb') == 1 end,
-            config = require_conf'dap-conf'
+            ft = 'rust',
+            config = require_conf'dap-conf',
         }
 
         -- Change filetype
@@ -146,7 +152,8 @@ M.startup = function()
 
         -- Highlight
         use {
-            'nvim-treesitter/nvim-treesitter',
+            'nvim-treesitter/nvim-treesitter-textobjects',
+            requires = 'nvim-treesitter/nvim-treesitter',
             event = 'BufRead',
             config = require_conf'treesitter',
         }
@@ -160,15 +167,16 @@ M.startup = function()
     end)
 end
 
-M.reload = function()
+M.reload = function(profile)
     package.loaded['plugins'] = nil
     require'plugins'.startup()
     packer.install()
-    packer.compile()
+    packer.compile(profile and "profile=true" or nil)
 end
 
 vim.cmd[[
-    command! Reload lua require'plugins'.reload()
+    command! Reload        lua require'plugins'.reload()
+    command! ReloadProfile lua require'plugins'.reload(true)
 ]]
 
 return M
