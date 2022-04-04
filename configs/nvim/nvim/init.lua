@@ -59,40 +59,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd 'packadd packer.nvim'
 end
 
+require'plugins'.startup()
+
 require'keymap'
-
-require'packer'.startup(function(use)
-    local cond = require'utils'.no_vscode
-
-    local function inner(conf)
-        if type(conf) == 'string' then
-            conf = { conf }
-        end
-
-        if type(conf.requires) == 'string' then
-            conf.requires = inner(conf.requires)
-        elseif conf.requires ~= nil then
-            for i, req in ipairs(conf.requires) do
-                conf.requires[i] = inner(req)
-            end
-        end
-
-        conf.cond = cond
-        return conf
-    end
-
-    local use_no_vscode = function(conf)
-        -- 2022-03-04
-        -- Remove compatibility with VSCode
-        -- use(inner(conf))
-        use(conf)
-    end
-
-    -- Packer
-    use 'wbthomason/packer.nvim'
-
-    require'plugins.operation'(use)
-    require'plugins.language-specific'(use_no_vscode)
-    require'plugins.lsp'(use_no_vscode)
-    require'plugins.visual'(use_no_vscode)
-end)
