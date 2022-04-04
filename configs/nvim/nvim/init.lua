@@ -31,21 +31,21 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.incsearch = true
 
-vim.g.mapleader = require'utils'.esc'<Space>'
+vim.g.mapleader = ' '
 
 -- https://github.com/neovim/neovim/issues/9570#issuecomment-626275405
 if vim.fn.executable('win32yank.exe') == 1 then
     vim.g.clipboard = {
-        name= 'win32yank',
-        copy= {
-            ['+']= 'win32yank.exe -i --crlf',
-            ['*']= 'win32yank.exe -i --crlf',
+        name = 'win32yank',
+        copy = {
+            ['+'] = 'win32yank.exe -i --crlf',
+            ['*'] = 'win32yank.exe -i --crlf',
         },
-        paste= {
-            ['+']= 'win32yank.exe -o --lf',
-            ['*']= 'win32yank.exe -o --lf',
+        paste = {
+            ['+'] = 'win32yank.exe -o --lf',
+            ['*'] = 'win32yank.exe -o --lf',
         },
-        cache_enabled= 0,
+        cache_enabled = 0,
     }
 end
 
@@ -58,6 +58,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
     _G.packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
     vim.cmd 'packadd packer.nvim'
 end
+
+vim.g.debug = false
 
 require'plugins'.startup()
 
