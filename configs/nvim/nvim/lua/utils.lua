@@ -5,7 +5,7 @@ M.esc = function(cmd)
 end
 
 M.require_conf = function(name)
-    return [[require'plugins.config.]] .. name .. "'"
+    return [[require'plugins.]] .. name .. "'"
 end
 
 _G.put = function(value)
