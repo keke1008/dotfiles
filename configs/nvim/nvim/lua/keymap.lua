@@ -88,6 +88,7 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
             { 'ac', telescope_open('lsp_code_actions', { width = 0.4, height = 0.2 })},
             { 'qf', function() vim.lsp.buf.code_action({ only = 'quickfix'}) end},
             { 'db', function() dap.toggle_breakpoint() end },
+            { 'dc', function() dap.continue() end },
         }},
         { '<C-K>', function() vim.diagnostic.open_float({ scope = 'cursor' }) end},
 

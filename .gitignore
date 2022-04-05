@@ -4,3 +4,4 @@
 # no ignore
 !/configs/nvim/nvim/init.lua
 !/configs/nvim/nvim/lua
+!/configs/nvim/nvim/ftplugin

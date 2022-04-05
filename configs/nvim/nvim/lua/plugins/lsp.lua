@@ -27,6 +27,8 @@ require_all('cmp_nvim_lsp')(function (cmp_nvim_lsp)
         elseif server.name == 'sumneko_lua' then
             opts = require'lua-dev'.setup({})
             opts.capabilities = capabilities
+        elseif server.name == 'jdtls' then
+            return
         end
 
         server:setup(opts)

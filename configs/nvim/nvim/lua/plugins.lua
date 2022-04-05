@@ -68,6 +68,13 @@ M.startup = function()
             config = require_conf'rust-tools-conf',
         }
 
+        -- java
+        use {
+            'mfussenegger/nvim-jdtls',
+            ft = 'java',
+            config = require_conf'jdtls-conf'
+        }
+
 
         --------------------------------------------------
         -- General purpose
@@ -108,8 +115,8 @@ M.startup = function()
         use {
             'rcarriga/nvim-dap-ui',
             requires = 'mfussenegger/nvim-dap',
-            cond = function() return vim.fn.executable('lldb') == 1 end,
-            ft = 'rust',
+            -- cond = function() return vim.fn.executable('lldb') == 1 end,
+            ft = { 'rust', 'java' },
             config = require_conf'dap-conf',
         }
 
