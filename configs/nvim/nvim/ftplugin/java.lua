@@ -2,7 +2,7 @@ _G.java = {}
 _G.java.install_debugger = function()
     local debuggers_path = vim.fn.stdpath('data') .. '/debuggers'
 
-    local java_debugger_version = '0.34.0'
+    local java_debugger_version = '0.36.0'
     local download_file_name = java_debugger_version .. '.tar.gz'
     local download_url = 'https://github.com/microsoft/java-debug/archive/refs/tags/' .. download_file_name
     local extracted_directory_name = 'java-debug-' .. java_debugger_version
