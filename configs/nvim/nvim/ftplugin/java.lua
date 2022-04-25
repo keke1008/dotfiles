@@ -22,7 +22,7 @@ _G.java.install_debugger = function()
         'wget ' .. download_url .. ' && \\\n' ..
         'tar -zxvf ' .. download_file_name .. ' && \\\n' ..
         'cd ' .. extracted_directory_name .. ' && \\\n' ..
-        './mvnw clean install && \\\n' ..
+        './mvnw clean install -Dmaven.test.skip=true && \\\n' ..
         'rm ../' .. download_file_name
 
     local output = vim.fn.system(script)
