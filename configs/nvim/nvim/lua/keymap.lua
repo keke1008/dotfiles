@@ -116,9 +116,20 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
                 else feedkeys('<Tab>')
                 end
             end},
-            }
+            },
+            { '<C-n>', function()
+                if cmp.visible() then cmp.select_next_item()
+                else feedkeys('<C-n>')
+                end
+            end},
+            { '<C-p>', function()
+                if cmp.visible() then cmp.select_prev_item()
+                else feedkeys('<C-n>')
+                end
+            end}
         }
     }
+
 
     local debug_keymap = TemporaryKeymap.new('debug_keymap', {
         cond = dap_active,
