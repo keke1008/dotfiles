@@ -1,5 +1,6 @@
-_G.java = {}
-_G.java.install_debugger = function()
+local M = {}
+
+M.install = function()
     local debuggers_path = vim.fn.stdpath('data') .. '/debuggers'
 
     local java_debugger_version = '0.34.0'
@@ -7,7 +8,7 @@ _G.java.install_debugger = function()
     local download_url = 'https://github.com/microsoft/java-debug/archive/refs/tags/' .. download_file_name
     local extracted_directory_name = 'java-debug-' .. java_debugger_version
 
-    local download_path = debuggers_path .. '/java-debugger.tar.gz'
+    -- local download_path = debuggers_path .. '/java-debugger.tar.gz'
     local extracted_path = debuggers_path .. '/java-debug-' .. java_debugger_version
 
     if vim.fn.isdirectory(extracted_path) == 1 then
@@ -26,10 +27,7 @@ _G.java.install_debugger = function()
         'rm ../' .. download_file_name
 
     local output = vim.fn.system(script)
-    print(output)
     print('Finished installing java debugger.')
 end
 
-vim.cmd[[
-    command! JavaDebuggerInstall lua _G.java.install_debugger()
-]]
+return M

@@ -129,6 +129,12 @@ M.startup = function()
             config = require_conf'precious',
         }
 
+        -- Debugger installer
+        use {
+            vim.fn.stdpath('config') .. '/plugins/debugger-installer.nvim',
+            config = function() require'debugger-installer'.setup() end
+        }
+
 
         --------------------------------------------------
         -- Appearance
