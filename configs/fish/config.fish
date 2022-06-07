@@ -15,9 +15,19 @@ if [ -d "$HOME/.cargo/bin" ]
     set -x PATH "$HOME/.cargo/bin" $PATH
 end
 
+# ghcup
+if [ -e "$HOME/.ghcup/env" ]
+    set -x PATH (sh -c '. $HOME/.ghcup/env && echo $PATH')
+end
+
+# asdf
+if [ -e "$HOME/.asdf/asdf.fish" ]
+    source "$HOME/.asdf/asdf.fish"
+end
+
 set -x DOTPATH (cat "$HOME/.dotpath")
 
-# if running in WSL
+# if running on WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
   set -x PATH "$DOTPATH/bin/wsl" $PATH
   set -x BROWSER "firefox"
@@ -25,5 +35,9 @@ if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
 end
 
 set -x RUST_BACKTRACE 1
+
+if type nvim > /dev/null 2>&1
+    set -x EDITOR nvim
+end
 
 alias v nvim
