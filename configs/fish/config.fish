@@ -1,7 +1,7 @@
 # run tmux if it is not running
 if type tmux > /dev/null 2>&1
   if [ -z "$TMUX" ]
-    tmux
+    tmux -2
   end
 end
 
