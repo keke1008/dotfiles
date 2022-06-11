@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/bin/sh -eu
 
-fish_dir=$XDG_CONFIG_HOME/fish
+readonly DIR=$(cd $(dirname $0); pwd)
 
-mkdir -p $fish_dir
-ln -snfv $1/config.fish $fish_dir
+readonly FISH_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/fish
 
-mkdir -p $fish_dir/functions
-find $1/functions -type f | xargs ln -snfv -t $fish_dir/functions
+mkdir -p $FISH_DIR/functions
+
+ln -snfv $DIR/config.fish $FISH_DIR
+find $DIR/functions -type f | xargs ln -snfv -t $FISH_DIR/functions

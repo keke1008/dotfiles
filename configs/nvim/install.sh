@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/bin/sh -eu
 
-ln -snfv $1/nvim $XDG_CONFIG_HOME
+readonly DIR=$(cd $(dirname $0); pwd)
+
+ln -snfv $DIR/nvim ${XDG_CONFIG_HOME:-$HOME/.config}

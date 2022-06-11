@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/bin/sh -eu
 
-ln -snfv $1/.bashrc $1/.bash_profile $HOME
+readonly DIR=$(cd $(dirname $0); pwd)
+
+ln -snfv $DIR/.bashrc $DIR/.bash_profile $HOME

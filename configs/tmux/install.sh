@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/bin/sh -eu
 
-ln -snfv "$1/.tmux.conf" "$HOME"
+readonly DIR=$(cd $(dirname $0); pwd)
+
+ln -snfv "$DIR/.tmux.conf" "$HOME"

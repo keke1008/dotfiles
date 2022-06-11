@@ -24,18 +24,12 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# environment variables
-export VIMRUNTIME="/usr/share/nvim/runtime"
-export PS1='\n\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[01;36m\]$(__git_ps1 " (%s) ")\[\033[01;32m\]\$\[\033[00m\]'
-export DOTPATH=$(cat $HOME/.dotpath)
-
 # alises
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-type trash-put > /dev/null 2>&1 && alias rm=trash-put
 
 # if running in WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
@@ -43,6 +37,3 @@ if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
   export BROWSER=firefox
   export DISPLAY=`hostname`.mshome.net:0.0
 fi
-
-# start tmux if tmux is not running.
-type tmux > /dev/null 2>&1 && test -z $TMUX && tmux
