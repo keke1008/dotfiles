@@ -60,7 +60,6 @@ return require_all('nest', 'cmp', 'luasnip', 'dap', 'neoscroll')(function(nest, 
     end
 
     local scroll = function(lines)
-        print(lines)
         local speed = 100;
         if lines == "zt" then
             neoscroll.zt(speed)
@@ -112,8 +111,6 @@ return require_all('nest', 'cmp', 'luasnip', 'dap', 'neoscroll')(function(nest, 
         { 'zt', function() scroll('zt') end },
         { 'zz', function() scroll('zz') end },
         { 'zb', function() scroll('zb') end },
-        { 'gg', function() scroll(-vim.fn.line('.') + 1) end },
-        { 'G', function() scroll(vim.fn.line('$') - vim.fn.line('.')) end },
 
         -- Insert mode / Select mode
         { mode = 'is', {
