@@ -1,4 +1,4 @@
-local require_all = require'utils'.require_all
+local require_all = require 'utils'.require_all
 local api = vim.api
 
 local TemporaryKeymapMetatable = {
@@ -32,10 +32,10 @@ local TemporaryKeymap = {
     end
 }
 
-return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip, dap)
+return require_all('nest', 'cmp', 'luasnip', 'dap', 'neoscroll')(function(nest, cmp, luasnip, dap, neoscroll)
     local telescope_open = function(cmd, layout_config)
         return function()
-            require'telescope.builtin'[cmd]({ layout_strategy = 'cursor', layout_config = layout_config })
+            require 'telescope.builtin'[cmd]({ layout_strategy = 'cursor', layout_config = layout_config })
         end
     end
     local has_words_before = function()
@@ -59,6 +59,20 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
         end
     end
 
+    local scroll = function(lines)
+        print(lines)
+        local speed = 100;
+        if lines == "zt" then
+            neoscroll.zt(speed)
+        elseif lines == "zz" then
+            neoscroll.zz(speed)
+        elseif lines == "zb" then
+            neoscroll.zb(speed)
+        else
+            neoscroll.scroll(lines, true, speed)
+        end
+    end
+
     nest.applyKeymaps {
         -- Normal mode
         { 'g', {
@@ -68,65 +82,74 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
             { 'j', '<Plug>(jumpcursor-jump)' },
             { 'r', telescope_open('lsp_references', { width = 0.5, height = 0.5 }) },
             { 'D', vim.lsp.buf.declaration },
-        }},
+        } },
         { 'j', 'gj' },
         { 'k', 'gk' },
         { 'K', function()
             if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
                 vim.cmd("help " .. vim.fn.expand('<cword>'))
-            elseif dap_active() then require'dapui'.eval()
+            elseif dap_active() then require 'dapui'.eval()
             else vim.lsp.buf.hover()
             end
-        end},
+        end },
         { '[g', vim.diagnostic.goto_prev },
         { ']g', vim.diagnostic.goto_next },
-        { '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"', options = { expr = true }},
+        { '<Esc>', 'len(@%) ? "<CMD>w<CR>" : "<Esc>"', options = { expr = true } },
         { '<leader>', {
-            { '<leader>', '<CMD>noh<CR>', options = { silent = true }},
+            { '<leader>', '<CMD>noh<CR>', options = { silent = true } },
             { 'ep', '<CMD>NvimTreeFindFile<CR>' },
             { 'rn', vim.lsp.buf.rename },
-            { 'ac', telescope_open('lsp_code_actions', { width = 0.4, height = 0.2 })},
-            { 'qf', function() vim.lsp.buf.code_action({ only = 'quickfix'}) end},
+            { 'ac', telescope_open('lsp_code_actions', { width = 0.4, height = 0.2 }) },
+            { 'qf', function() vim.lsp.buf.code_action({ only = 'quickfix' }) end },
             { 'db', function() dap.toggle_breakpoint() end },
             { 'dc', function() dap.continue() end },
-        }},
-        { '<C-K>', function() vim.diagnostic.open_float({ scope = 'cursor' }) end},
+        } },
+        { '<C-K>', function() vim.diagnostic.open_float({ scope = 'cursor' }) end },
+        { '<C-u>', function() scroll(-vim.wo.scroll) end },
+        { '<C-d>', function() scroll(vim.wo.scroll) end },
+        { '<C-f>', function() scroll(vim.api.nvim_win_get_height(0)) end },
+        { '<C-b>', function() scroll(-vim.api.nvim_win_get_height(0)) end },
+        { 'zt', function() scroll('zt') end },
+        { 'zz', function() scroll('zz') end },
+        { 'zb', function() scroll('zb') end },
+        { 'gg', function() scroll(-vim.fn.line('.') + 1) end },
+        { 'G', function() scroll(vim.fn.line('$') - vim.fn.line('.')) end },
 
         -- Insert mode / Select mode
         { mode = 'is', {
-            { '<C-b>', function() if not cmp.scroll_docs(-4) then feedkeys('<C-b>') end end},
-            { '<C-f>', function() if not cmp.scroll_docs(4) then feedkeys('<C-f>') end end},
+            { '<C-b>', function() if not cmp.scroll_docs(-4) then feedkeys('<C-b>') end end },
+            { '<C-f>', function() if not cmp.scroll_docs(4) then feedkeys('<C-f>') end end },
             { '<C-j>', function()
                 if luasnip.jumpable(1) then luasnip.jump(1)
                 else feedkeys('<C-j>')
                 end
-            end},
+            end },
             { '<C-k>', function()
                 if luasnip.jumpable(-1) then luasnip.jump(-1)
                 else feedkeys('<C-k>')
                 end
-            end},
+            end },
             { '<CR>', options = { silent = true }, function()
                 if cmp.visible() then cmp.confirm({ select = true })
-                else feedkeys(require'nvim-autopairs'.autopairs_cr())
+                else feedkeys(require 'nvim-autopairs'.autopairs_cr())
                 end
-            end},
+            end },
             { '<Tab>', function()
                 if has_words_before() then cmp.complete()
                 else feedkeys('<Tab>')
                 end
-            end},
-            },
+            end },
+        },
             { '<C-n>', function()
                 if cmp.visible() then cmp.select_next_item()
                 else feedkeys('<C-n>')
                 end
-            end},
+            end },
             { '<C-p>', function()
                 if cmp.visible() then cmp.select_prev_item()
                 else feedkeys('<C-n>')
                 end
-            end}
+            end }
         }
     }
 
@@ -141,7 +164,7 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
                 { 'o', dap_map('o', dap.step_over) },
                 { 'p', dap_map('p', dap.step_out) },
                 { 'r', dap_map('r', dap.run_last) },
-                { '<C-q>', dap_map('<C-q>', dap.terminate) }}
+                { '<C-q>', dap_map('<C-q>', dap.terminate) } }
             }
         end,
         uninstall = function()
@@ -155,7 +178,7 @@ return require_all('nest', 'cmp', 'luasnip', 'dap')(function(nest, cmp, luasnip,
     local M = {}
     M.debug_keymap = debug_keymap
 
-    vim.cmd[[
+    vim.cmd [[
         augroup debug_keymap
             autocmd!
             autocmd BufEnter * lua require'keymap'.debug_keymap:buf_enter()

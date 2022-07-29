@@ -15,6 +15,11 @@ if [ -d "$HOME/.cargo/bin" ]
     set -x PATH "$HOME/.cargo/bin" $PATH
 end
 
+# deno
+if [ -d "$HOME/.deno/bin" ]
+    set -x PATH "$HOME/.deno/bin" $PATH
+end
+
 # ghcup
 if [ -e "$HOME/.ghcup/env" ]
     set -x PATH (sh -c '. $HOME/.ghcup/env && echo $PATH')
