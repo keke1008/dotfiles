@@ -14,7 +14,7 @@ nvim_tree.setup {
     }
 }
 
-local handler = sidemenu.register('<leader>we', {
+local handler = sidemenu.register('<leader>se', {
     name = "nvim-tree",
     open = nvim_tree_api.tree.open,
     close = nvim_tree_api.tree.close
