@@ -46,7 +46,7 @@ nmap('<C-k>', function() vim.diagnostic.open_float({ scope = 'cursor' }) end)
 nmap('K', function()
     if vim.bo.filetype == 'vim' or vim.bo.filetype == 'help' then
         ---@diagnostic disable-next-line: missing-parameter
-        vim.cmd('help' .. vim.fn.expand('<cword>'))
+        vim.cmd('help ' .. vim.fn.expand('<cword>'))
     else
         vim.lsp.buf.hover()
     end

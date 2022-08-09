@@ -104,17 +104,20 @@ packer.startup(function(use)
             'neovim/nvim-lspconfig',
             'ray-x/lsp_signature.nvim',
             'nvim-telescope/telescope.nvim',
-            'hrsh7th/cmp-nvim-lsp',
         },
         config = function() require 'keke.configs.lsp' end
     }
 
     -- Completion
     use {
-        'saadparwaiz1/cmp_luasnip',
+        'hrsh7th/nvim-cmp',
         requires = {
-            'hrsh7th/nvim-cmp',
-            'L3MON4D3/LuaSnip'
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-buffer',
+            'onsails/lspkind.nvim'
         },
         config = function() require 'keke.configs.cmp' end
     }
@@ -143,7 +146,7 @@ packer.startup(function(use)
     -- Shows a git diff in the sign column.
     use {
         'airblade/vim-gitgutter',
-        config = function() vim.go.gitgutter_signs_priority = 0 end
+        config = function() vim.g.gitgutter_sign_priority = 0 end
     }
 
     -- Filer
