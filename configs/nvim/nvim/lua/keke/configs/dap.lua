@@ -4,10 +4,11 @@ local dapui = require 'dapui'
 local remap = require 'keke.remap'
 local fallback = remap.fallback
 local set_keymap = remap.set_keymap
+local sidemenu = require 'keke.sidemenu'
 
 ---@return boolean
 local is_dap_active = function()
-    return dap.status() ~= ""
+    return dap.status() ~= ''
 end
 
 ---@param lhs string
@@ -45,17 +46,44 @@ set_keymap('n', '<leader>db', dap.toggle_breakpoint)
 set_keymap('n', '<leader>dc', dap.continue)
 
 
-dapui.setup()
+
+local menu = sidemenu.register('<leader>wd', {
+    name = "dapui",
+    open = dapui.open,
+    close = dapui.close
+})
+
 dap.listeners.before['event_initialized']['prepare'] = function(_, _)
-    ---@diagnostic disable-next-line: missing-parameter
-    dapui.open()
+    menu:open()
 end
 vim.api.nvim_create_user_command('CloseDapui', dapui.close, {})
 
+
 vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DebugBreakpointSign' })
 vim.fn.sign_define('DapStopped', { text = '', texthl = 'DebugStopSign', linehl = 'DebugStopLine' })
-vim.cmd [[
-    hi DebugBreakpointSign guifg=#cc2222
-    hi DebugStopLine guibg=#336611
-    hi DebugStopSign guifg=#cccc22
-]]
+vim.api.nvim_set_hl(0, 'DebugBreakpointSign', { fg = '#cc2222' })
+vim.api.nvim_set_hl(0, 'DebugStopLine', { bg = '#336611' })
+vim.api.nvim_set_hl(0, 'DebugStopSign', { fg = '#cccc22' })
+
+dapui.setup({
+    layouts = {
+        {
+            elements = {
+                { id = 'scopes', size = 0.25 },
+                'breakpoints',
+                'stacks',
+                'watches',
+            },
+            size = 40,
+            position = 'left',
+        },
+        {
+            elements = {
+                'repl',
+                'console',
+            },
+            size = 80,
+            position = 'right',
+        },
+    }
+})
