@@ -18,7 +18,7 @@ end
 M.feedkeys_recursive = function(keys)
     keys = vim.api.nvim_replace_termcodes(keys, true, true, true)
     ---@cast keys string
-    vim.api.nvim_feedkeys(keys, 'it', false)
+    vim.api.nvim_feedkeys(keys, 'i', false)
 end
 
 ---@param mode string
