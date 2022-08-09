@@ -94,4 +94,29 @@ mason_lspconfig.setup_handlers({
     end
 })
 
-vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()'
+
+do
+    local augroup = 'format_on_buf_write'
+
+    local register_autocmd = function()
+        vim.api.nvim_create_augroup(augroup, {})
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            group = augroup,
+            pattern = '*',
+            callback = function() vim.lsp.buf.format() end
+        })
+    end
+
+    vim.api.nvim_create_user_command(
+        "W",
+        function(opt)
+            vim.api.nvim_del_augroup_by_name(augroup)
+            local cmd = opt.bang and 'w!' or 'w'
+            vim.cmd(cmd)
+            register_autocmd()
+        end,
+        { bang = true }
+    )
+
+    register_autocmd()
+end

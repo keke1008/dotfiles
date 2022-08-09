@@ -68,15 +68,6 @@ end
 
 vim.cmd 'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }'
 
--- Install packer
-local fn = vim.fn
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-    _G.packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
-        install_path })
-    vim.cmd 'packadd packer.nvim'
-end
-
 vim.g.debug = false
 
 require 'keke.utils'

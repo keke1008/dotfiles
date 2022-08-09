@@ -1,3 +1,11 @@
+-- Install packer
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    _G.packer_bootstrap = vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
+    vim.cmd 'packadd packer.nvim'
+end
+
 local packer = require 'packer'
 
 local reload = function(profile)
@@ -115,7 +123,6 @@ packer.startup(function(use)
     use {
         'mfussenegger/nvim-dap',
         requires = 'rcarriga/nvim-dap-ui',
-        ft = { 'rust', 'java' },
         config = function() require 'keke.configs.dap' end
     }
 
@@ -134,7 +141,10 @@ packer.startup(function(use)
     --------------------------------------------------
 
     -- Shows a git diff in the sign column.
-    use 'airblade/vim-gitgutter'
+    use {
+        'airblade/vim-gitgutter',
+        config = function() vim.go.gitgutter_signs_priority = 0 end
+    }
 
     -- Filer
     use {
@@ -173,4 +183,8 @@ packer.startup(function(use)
         requires = 'kyazdani42/nvim-tree.lua',
         config = function() require 'keke.configs.nightfox' end
     }
+
+    if packer_bootstrap then
+        packer.sync()
+    end
 end)
