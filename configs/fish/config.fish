@@ -30,6 +30,11 @@ if [ -e "$HOME/.asdf/asdf.fish" ]
     source "$HOME/.asdf/asdf.fish"
 end
 
+# fzf key bind
+if type fzf_key_bindings > /dev/null 2>&1
+    fzf_key_bindings
+end
+
 set -x DOTPATH (cat "$HOME/.dotpath")
 
 # if running on WSL
