@@ -81,7 +81,6 @@ packer.startup(function(use)
     use {
         'mfussenegger/nvim-jdtls',
         ft = 'java',
-        config = function() require 'plugins.jdtls-conf' end
     }
 
 
