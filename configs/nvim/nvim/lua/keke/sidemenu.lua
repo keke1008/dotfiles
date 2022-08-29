@@ -18,7 +18,9 @@ local Sidemenu = {
     end,
 
     open = function(self, id)
-        if self.current_id ~= id then
+        if self.current_id == id then
+            self.menus[id].open()
+        else
             self:close()
             self.menus[id].open()
             self.current_id = id

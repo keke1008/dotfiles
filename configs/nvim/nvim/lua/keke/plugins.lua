@@ -108,6 +108,12 @@ packer.startup(function(use)
         config = function() require 'keke.configs.lsp' end
     }
 
+    --Snippet
+    use {
+        'L3MON4D3/LuaSnip',
+        config = function() require 'keke.configs.luasnip' end
+    }
+
     -- Completion
     use {
         'hrsh7th/nvim-cmp',
@@ -162,8 +168,17 @@ packer.startup(function(use)
         config = function() require 'keke.configs.neoscroll' end
     }
 
+    -- UI
+    use {
+        'stevearc/dressing.nvim',
+        config = function() require 'dressing'.setup() end
+    }
+
     --Fuzzy finder
-    use { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+    }
 
     -- Statusline
     use {
