@@ -202,6 +202,16 @@ packer.startup(function(use)
         config = function() require 'keke.configs.nightfox' end
     }
 
+    --------------------------------------------------
+    -- Other
+    --------------------------------------------------
+
+    -- Improve neovim startup time
+    use 'lewis6991/impatient.nvim'
+
+    -- Replace filetype.vim
+    use 'nathom/filetype.nvim'
+
     if packer_bootstrap then
         packer.sync()
     end

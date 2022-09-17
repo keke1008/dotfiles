@@ -70,6 +70,8 @@ vim.cmd 'autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 20
 
 vim.g.debug = false
 
+pcall(require, 'impatient')
+
 require 'keke.utils'
 
 require 'keke.plugins'
