@@ -157,9 +157,22 @@ packer.startup(function(use)
 
     -- Filer
     use {
-        'kyazdani42/nvim-tree.lua',
-        requires = 'kyazdani42/nvim-web-devicons',
-        config = function() require 'keke.configs.nvim-tree' end
+        'lambdalisue/fern.vim',
+        requires = { 'antoinemadec/FixCursorHold.nvim' },
+        cmd = { 'Fern', 'FernDo' },
+        setup = function() require 'keke.configs.fern' end,
+    }
+    use {
+        'lambdalisue/fern-git-status.vim',
+        after = 'fern.vim'
+    }
+    use {
+        'lambdalisue/fern-renderer-nerdfont.vim',
+        after = "fern.vim",
+        requires = {
+            'lambdalisue/nerdfont.vim',
+            'lambdalisue/glyph-palette.vim',
+        }
     }
 
     -- Scroll animation
@@ -198,7 +211,6 @@ packer.startup(function(use)
     -- Colorscheme
     use {
         'EdenEast/nightfox.nvim',
-        requires = 'kyazdani42/nvim-tree.lua',
         config = function() require 'keke.configs.nightfox' end
     }
 
