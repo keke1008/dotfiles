@@ -53,6 +53,12 @@ packer.startup(function(use)
     -- Cursor motion
     use 'skanehira/jumpcursor.vim'
 
+    -- Edge motion
+    use {
+        'haya14busa/vim-edgemotion',
+        config = function() require 'keke.configs.edgemotion' end
+    }
+
     -- Comment
     use {
         'numToStr/Comment.nvim',
@@ -68,6 +74,12 @@ packer.startup(function(use)
 
     -- Show register content
     use 'tversteeg/registers.nvim'
+
+    -- Improve *
+    use {
+        'haya14busa/vim-asterisk',
+        config = function() require 'keke.configs.asterisk' end
+    }
 
 
     --------------------------------------------------
@@ -123,7 +135,8 @@ packer.startup(function(use)
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-cmdline',
             'hrsh7th/cmp-buffer',
-            'onsails/lspkind.nvim'
+            'onsails/lspkind.nvim',
+            'ray-x/cmp-treesitter',
         },
         config = function() require 'keke.configs.cmp' end
     }
@@ -152,6 +165,7 @@ packer.startup(function(use)
     -- Shows a git diff in the sign column.
     use {
         'airblade/vim-gitgutter',
+        setup = function() vim.g.gitgutter_map_keys = 0 end,
         config = function() vim.g.gitgutter_sign_priority = 0 end
     }
 
@@ -164,7 +178,10 @@ packer.startup(function(use)
     }
     use {
         'lambdalisue/fern-git-status.vim',
-        after = 'fern.vim'
+        after = 'fern.vim',
+        config = function()
+            vim.fn['fern_git_status#init']()
+        end
     }
     use {
         'lambdalisue/fern-renderer-nerdfont.vim',

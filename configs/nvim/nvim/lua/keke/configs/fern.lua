@@ -1,3 +1,4 @@
+local sidemenu = require 'keke.sidemenu'
 local remap = require 'keke.remap'
 local set_keymap = remap.set_keymap;
 
@@ -5,17 +6,21 @@ vim.g['fern#renderer'] = 'nerdfont'
 vim.g['fern#disable_default_mappings'] = 1
 vim.g['fern#window_selector_use_popup'] = 1
 
+local get_current_reveal = function()
+    if vim.fn.expand('%') then
+        return '-reveal=%'
+    else
+        return ''
+    end
+end
+
 set_keymap('n', '<C-h>', function()
     if vim.o.ft ~= "fern" then
         local prev_buf = vim.api.nvim_get_current_buf()
         vim.w.keke_fern_previous_buffer = prev_buf
     end
 
-    if vim.fn.expand('%') ~= '' then
-        vim.cmd "Fern . -reveal=%"
-    else
-        vim.cmd "Fern ."
-    end
+    vim.cmd('Fern . ' .. get_current_reveal())
 end)
 
 local with_close = function(keys)
@@ -69,20 +74,42 @@ vim.api.nvim_create_autocmd('Filetype', {
 
         set_keymap('n', 'i', '<Plug>(fern-action-hidden:toggle)', { buffer = true })
 
-        set_keymap('n', 'c', '<Plug>(fern-action-mark:toggle)', { buffer = true, nowait = true })
+        set_keymap('n', '<space>', '<Plug>(fern-action-mark:toggle)', { buffer = true, nowait = true })
 
         set_keymap('n', 'd', '<Plug>(fern-action-remove)', { buffer = true, nowait = true })
+
+        set_keymap('n', 'c', '<Plug>(fern-action-new-path)', { buffer = true, nowait = true })
 
         set_keymap('n', 'r', '<Plug>(fern-action-rename)', { buffer = true })
 
         set_keymap('n', '<S-r>', '<Plug>(fern-action-reload:all)', { buffer = true })
 
-        set_keymap('n', 'q', function()
+        set_keymap('n', '<C-h>', function()
             local prev_buf = vim.w.keke_fern_previous_buffer
             if prev_buf ~= nil then
                 vim.w.previous_buffer = nil
                 vim.api.nvim_set_current_buf(prev_buf)
             end
-        end, { buffer = true })
+        end, { buffer = true, nowait = true })
     end,
+})
+
+local tabedit_winid = nil
+sidemenu.register('<leader>se', {
+    name = 'fern',
+    open = function()
+        if tabedit_winid == nil or not vim.api.nvim_win_is_valid(tabedit_winid) then
+            vim.cmd('Fern . -drawer ' .. get_current_reveal())
+            tabedit_winid = vim.api.nvim_get_current_win()
+        end
+    end,
+    close = function()
+        if tabedit_winid == nil then
+            return
+        end
+        if vim.api.nvim_win_is_valid(tabedit_winid) then
+            vim.api.nvim_win_close(tabedit_winid, false)
+        end
+        tabedit_winid = nil
+    end
 })

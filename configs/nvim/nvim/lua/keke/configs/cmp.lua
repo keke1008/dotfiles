@@ -44,6 +44,7 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'buffer' },
+        { name = 'treesitter' },
     }),
     completion = {
         completeopt = "menuone,noinsert"
