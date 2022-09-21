@@ -116,6 +116,7 @@ packer.startup(function(use)
             'neovim/nvim-lspconfig',
             'ray-x/lsp_signature.nvim',
             'nvim-telescope/telescope.nvim',
+            'hrsh7th/cmp-nvim-lsp',
         },
         config = function() require 'keke.configs.lsp' end
     }
@@ -130,13 +131,21 @@ packer.startup(function(use)
     use {
         'hrsh7th/nvim-cmp',
         requires = {
-            'L3MON4D3/LuaSnip',
-            'saadparwaiz1/cmp_luasnip',
             'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-buffer',
-            'onsails/lspkind.nvim',
-            'ray-x/cmp-treesitter',
+            { 'onsails/lspkind.nvim', event = { 'InsertEnter', 'CmdlineEnter' } },
+            { 'saadparwaiz1/cmp_luasnip', event = { 'InsertEnter', 'CmdlineEnter' } },
+            { 'hrsh7th/cmp-cmdline', event = { 'InsertEnter', 'CmdlineEnter' } },
+            { 'hrsh7th/cmp-buffer', event = { 'InsertEnter', 'CmdlineEnter' } },
+            { 'ray-x/cmp-treesitter', event = { 'InsertEnter', 'CmdlineEnter' } },
+        },
+        after = {
+            'LuaSnip',
+            'lspkind.nvim',
+            'cmp_luasnip',
+            'cmp-nvim-lsp',
+            'cmp-cmdline',
+            'cmp-buffer',
+            'cmp-treesitter',
         },
         config = function() require 'keke.configs.cmp' end
     }
@@ -185,10 +194,10 @@ packer.startup(function(use)
     }
     use {
         'lambdalisue/fern-renderer-nerdfont.vim',
-        after = "fern.vim",
+        after = { 'fern.vim', 'nerdfont.vim', 'glyph-palette.vim' },
         requires = {
-            'lambdalisue/nerdfont.vim',
-            'lambdalisue/glyph-palette.vim',
+            { 'lambdalisue/nerdfont.vim', after = 'fern.vim' },
+            { 'lambdalisue/glyph-palette.vim', after = 'fern.vim' },
         }
     }
 
