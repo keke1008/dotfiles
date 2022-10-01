@@ -6,8 +6,19 @@ vim.g['fern#renderer'] = 'nerdfont'
 vim.g['fern#disable_default_mappings'] = 1
 vim.g['fern#window_selector_use_popup'] = 1
 
+vim.g.Ferm_mapping_fzf_customize_option = function(spec)
+    if vim.fn.exists '*fzf#vim#with_preview' == 1 then
+        return vim.fn['fzf#vim#with_preview'](spec)
+    end
+    return spec
+end
+
+vim.g.Fern_mapping_fzf_file_sink = function(dict)
+    vim.cmd([[FernReveal ]] .. dict.relative_path)
+end
+
 local get_current_reveal = function()
-    if vim.fn.expand('%') then
+    if vim.fn.expand('%') ~= '' then
         return '-reveal=%'
     else
         return ''
@@ -57,31 +68,23 @@ vim.api.nvim_create_autocmd('Filetype', {
         end, { buffer = true, expr = true })
 
         set_keymap('n', 'e', '<Plug>(fern-action-open-or-enter)', { buffer = true })
-
         set_keymap('n', 'w', '<Plug>(fern-action-leave)', { buffer = true })
-
         set_keymap('n', 's', with_close('<Plug>(fern-action-open:select)'), { buffer = true })
         set_keymap('n', 'gs', '<Plug>(fern-action-open:select)', { buffer = true })
-
         set_keymap('n', 'x', with_close('<Plug>(fern-action-open:split)'), { buffer = true })
         set_keymap('n', 'gx', '<Plug>(fern-action-open:split)', { buffer = true })
-
         set_keymap('n', 'v', with_close('<Plug>(fern-action-open:vsplit)'), { buffer = true })
         set_keymap('n', 'gv', '<Plug>(fern-action-open:vsplit)', { buffer = true })
-
         set_keymap('n', 't', with_close('<Plug>(fern-action-open:tabedit)'), { buffer = true })
         set_keymap('n', 'gt', '<Plug>(fern-action-open:tabedit)', { buffer = true })
 
+        set_keymap('n', 'f', '<Plug>(fern-action-fzf-root-files)', { buffer = true })
+        set_keymap('n', 'F', '<Plug>(fern-action-fzf-files)', { buffer = true })
         set_keymap('n', 'i', '<Plug>(fern-action-hidden:toggle)', { buffer = true })
-
         set_keymap('n', '<space>', '<Plug>(fern-action-mark:toggle)', { buffer = true, nowait = true })
-
         set_keymap('n', 'd', '<Plug>(fern-action-remove)', { buffer = true, nowait = true })
-
         set_keymap('n', 'c', '<Plug>(fern-action-new-path)', { buffer = true, nowait = true })
-
         set_keymap('n', 'r', '<Plug>(fern-action-rename)', { buffer = true })
-
         set_keymap('n', '<S-r>', '<Plug>(fern-action-reload:all)', { buffer = true })
 
         set_keymap('n', '<C-h>', function()

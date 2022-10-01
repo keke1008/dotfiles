@@ -200,6 +200,11 @@ packer.startup(function(use)
             { 'lambdalisue/glyph-palette.vim', after = 'fern.vim' },
         }
     }
+    use {
+        'LumaKernel/fern-mapping-fzf.vim',
+        after = { 'fern.vim', 'fzf.vim' },
+        requires = { 'junegunn/fzf', 'junegunn/fzf.vim', },
+    }
 
     -- Scroll animation
     use {
