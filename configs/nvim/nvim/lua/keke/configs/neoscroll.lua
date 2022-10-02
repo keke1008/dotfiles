@@ -4,12 +4,6 @@ local set_keymap = require 'keke.remap'.set_keymap
 
 neoscroll.setup { mappings = {} }
 
----@param lhs string
----@param rhs function
-local map = function(lhs, rhs)
-    set_keymap('nv', lhs, rhs)
-end
-
 local time = 100
 
 ---@param lines string|number
@@ -21,12 +15,33 @@ local scroll = function(lines)
     end
 end
 
-map('<C-u>', function() scroll(-vim.wo.scroll) end)
-map('<C-d>', function() scroll(vim.wo.scroll) end)
-map('<C-b>', function() scroll(-vim.api.nvim_win_get_height(0)) end)
-map('<C-f>', function() scroll(vim.api.nvim_win_get_height(0)) end)
-map('<C-e>', function() scroll(0.1) end)
-map('<C-y>', function() scroll(-0.1) end)
-map('zt', function() scroll('zt') end)
-map('zz', function() scroll('zz') end)
-map('zb', function() scroll('zb') end)
+local mapping = {
+    ['<C-u>'] = function() scroll(-vim.wo.scroll) end,
+    ['<C-d>'] = function() scroll(vim.wo.scroll) end,
+    ['<C-b>'] = function() scroll(-vim.api.nvim_win_get_height(0)) end,
+    ['<C-f>'] = function() scroll(vim.api.nvim_win_get_height(0)) end,
+    ['<C-e>'] = function() scroll(0.1) end,
+    ['<C-y>'] = function() scroll(-0.1) end,
+    ['zt'] = function() scroll('zt') end,
+    ['zz'] = function() scroll('zz') end,
+    ['zb'] = function() scroll('zb') end,
+}
+
+
+local install_mapping = function()
+    for lhs, rhs in pairs(mapping) do
+        set_keymap('nv', lhs, rhs)
+    end
+end
+
+local uninstall_mapping = function()
+    for lhs, _ in pairs(mapping) do
+        vim.keymap.del('n', lhs)
+        vim.keymap.del('v', lhs)
+    end
+end
+
+install_mapping();
+
+vim.api.nvim_create_user_command('EnableScrollMotion', install_mapping, {})
+vim.api.nvim_create_user_command('DisableScrollMotion', uninstall_mapping, {})
