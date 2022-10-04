@@ -86,6 +86,13 @@ mason_lspconfig.setup_handlers({
             }
         }
     end,
+    ['tsserver'] = function()
+        lspconfig.tsserver.setup {
+            capabilities = capabilities,
+            on_attach = on_attach,
+            root_pattern = root_pattern("package.json"),
+        }
+    end,
     ['sumneko_lua'] = function()
         local opt = require 'lua-dev'.setup {
             lspconfig = default_settings
