@@ -70,7 +70,7 @@ set_keymap('n', '<leader>dc', dap.continue)
 
 
 
-local menu = sidemenu.register('<leader>sd', {
+local menu = sidemenu.register('d', {
     name = "dapui",
     open = dapui.open,
     close = dapui.close

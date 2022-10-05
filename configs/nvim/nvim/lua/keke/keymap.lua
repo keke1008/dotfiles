@@ -11,7 +11,8 @@ set_keymap('n', 'k', 'gk')
 set_keymap('n', '<Esc>', '<CMD>write<CR>')
 set_keymap('n', '<leader><leader>', '<CMD>noh<CR>', { silent = true })
 set_keymap('s', '<BS>', '<BS>i')
-set_keymap('n', '<leader>sh', sidemenu.close)
 set_keymap('n', '<C-t>', '<CMD>Telescope<CR>')
 
 set_keymap('t', '<Esc>', '<C-\\><C-n>')
+
+sidemenu.close_keymap('h')

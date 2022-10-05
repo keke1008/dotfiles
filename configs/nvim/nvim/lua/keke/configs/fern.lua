@@ -56,16 +56,14 @@ local function close()
 end
 
 local function call_telescope(builtin_name, selection_key)
-    return function()
-        local cwd = vim.fn['fern#helper#new']().fern.root._path
+    local cwd = vim.fn['fern#helper#new']().fern.root._path
 
-        builtin[builtin_name]({ cwd = cwd })
-        actions.select_default:replace(function(prompt_bufnr)
-            actions.close(prompt_bufnr)
-            local selection = action_state.get_selected_entry()
-            vim.cmd([[FernReveal ]] .. selection[selection_key])
-        end)
-    end
+    builtin[builtin_name]({ cwd = cwd })
+    actions.select_default:replace(function(prompt_bufnr)
+        actions.close(prompt_bufnr)
+        local selection = action_state.get_selected_entry()
+        vim.cmd([[FernReveal ]] .. selection[selection_key])
+    end)
 end
 
 local function find_files()
@@ -121,7 +119,7 @@ vim.api.nvim_create_autocmd('Filetype', {
 })
 
 local tabedit_winid = nil
-sidemenu.register('<leader>se', {
+sidemenu.register('e', {
     name = 'fern',
     open = function()
         if tabedit_winid == nil or not vim.api.nvim_win_is_valid(tabedit_winid) then

@@ -85,7 +85,10 @@ packer.startup(function(use)
     }
 
     -- Undo tree
-    use 'mbbill/undotree'
+    use {
+        'mbbill/undotree',
+        config = function() require 'keke.configs.undotree' end
+    }
 
 
     --------------------------------------------------
