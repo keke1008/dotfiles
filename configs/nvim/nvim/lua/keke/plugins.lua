@@ -209,6 +209,11 @@ packer.startup(function(use)
             { 'lambdalisue/glyph-palette.vim', after = 'fern.vim' },
         }
     }
+    use {
+        'yuki-yano/fern-preview.vim',
+        after = { 'fern.vim' },
+        setup = function() vim.g.fern_auto_preview = true end
+    }
 
     -- Scroll animation
     use {

@@ -109,6 +109,10 @@ vim.api.nvim_create_autocmd('Filetype', {
         set_keymap('n', 'r', '<Plug>(fern-action-rename)', { buffer = true })
         set_keymap('n', '<S-r>', '<Plug>(fern-action-reload:all)', { buffer = true })
 
+        set_keymap('n', 'p', '<Plug>(fern-action-preview:auto:toggle)', { buffer = true })
+        set_keymap('n', '<C-f>', '<Plug>(fern-action-preview:scroll:down:half)', { buffer = true })
+        set_keymap('n', '<C-b>', '<Plug>(fern-action-preview:scroll:up:half)', { buffer = true })
+
         set_keymap('n', 'f', find_files, { buffer = true })
         set_keymap('n', 'l', live_grep, { buffer = true })
 
