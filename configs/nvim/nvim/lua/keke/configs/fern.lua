@@ -1,3 +1,7 @@
+local actions = require 'telescope.actions'
+local action_state = require 'telescope.actions.state'
+local builtin = require 'telescope.builtin'
+
 local sidemenu = require 'keke.sidemenu'
 local remap = require 'keke.remap'
 local set_keymap = remap.set_keymap;
@@ -5,17 +9,6 @@ local set_keymap = remap.set_keymap;
 vim.g['fern#renderer'] = 'nerdfont'
 vim.g['fern#disable_default_mappings'] = 1
 vim.g['fern#window_selector_use_popup'] = 1
-
-vim.g.Ferm_mapping_fzf_customize_option = function(spec)
-    if vim.fn.exists '*fzf#vim#with_preview' == 1 then
-        return vim.fn['fzf#vim#with_preview'](spec)
-    end
-    return spec
-end
-
-vim.g.Fern_mapping_fzf_file_sink = function(dict)
-    vim.cmd([[FernReveal ]] .. dict.relative_path)
-end
 
 local get_current_reveal = function()
     if vim.fn.expand('%') ~= '' then
@@ -54,6 +47,39 @@ local with_close = function(keys)
     end
 end
 
+local function close()
+    local prev_buf = vim.w.keke_fern_previous_buffer
+    if prev_buf ~= nil then
+        vim.w.previous_buffer = nil
+        vim.api.nvim_set_current_buf(prev_buf)
+    end
+end
+
+local function call_telescope(builtin_name, selection_key)
+    return function()
+        local cwd = vim.fn['fern#helper#new']().fern.root._path
+
+        builtin[builtin_name]({ cwd = cwd })
+        actions.select_default:replace(function(prompt_bufnr)
+            actions.close(prompt_bufnr)
+            local selection = action_state.get_selected_entry()
+            vim.cmd([[FernReveal ]] .. selection[selection_key])
+        end)
+    end
+end
+
+local function find_files()
+    call_telescope('find_files', 1)
+end
+
+local function live_grep()
+    if vim.fn.executable('rg') == 0 then
+        error('`rg` not found')
+    end
+    call_telescope('live_grep', 'filename')
+
+end
+
 vim.api.nvim_create_autocmd('Filetype', {
     pattern = "fern",
     callback = function()
@@ -70,16 +96,14 @@ vim.api.nvim_create_autocmd('Filetype', {
         set_keymap('n', 'e', '<Plug>(fern-action-open-or-enter)', { buffer = true })
         set_keymap('n', 'w', '<Plug>(fern-action-leave)', { buffer = true })
         set_keymap('n', 's', with_close('<Plug>(fern-action-open:select)'), { buffer = true })
-        set_keymap('n', 'gs', '<Plug>(fern-action-open:select)', { buffer = true })
+        set_keymap('n', 'S', '<Plug>(fern-action-open:select)', { buffer = true })
         set_keymap('n', 'x', with_close('<Plug>(fern-action-open:split)'), { buffer = true })
-        set_keymap('n', 'gx', '<Plug>(fern-action-open:split)', { buffer = true })
+        set_keymap('n', 'X', '<Plug>(fern-action-open:split)', { buffer = true })
         set_keymap('n', 'v', with_close('<Plug>(fern-action-open:vsplit)'), { buffer = true })
-        set_keymap('n', 'gv', '<Plug>(fern-action-open:vsplit)', { buffer = true })
+        set_keymap('n', 'V', '<Plug>(fern-action-open:vsplit)', { buffer = true })
         set_keymap('n', 't', with_close('<Plug>(fern-action-open:tabedit)'), { buffer = true })
-        set_keymap('n', 'gt', '<Plug>(fern-action-open:tabedit)', { buffer = true })
+        set_keymap('n', 'T', '<Plug>(fern-action-open:tabedit)', { buffer = true })
 
-        set_keymap('n', 'f', '<Plug>(fern-action-fzf-root-files)', { buffer = true })
-        set_keymap('n', 'F', '<Plug>(fern-action-fzf-files)', { buffer = true })
         set_keymap('n', 'i', '<Plug>(fern-action-hidden:toggle)', { buffer = true })
         set_keymap('n', '<space>', '<Plug>(fern-action-mark:toggle)', { buffer = true, nowait = true })
         set_keymap('n', 'd', '<Plug>(fern-action-remove)', { buffer = true, nowait = true })
@@ -87,13 +111,12 @@ vim.api.nvim_create_autocmd('Filetype', {
         set_keymap('n', 'r', '<Plug>(fern-action-rename)', { buffer = true })
         set_keymap('n', '<S-r>', '<Plug>(fern-action-reload:all)', { buffer = true })
 
-        set_keymap('n', '<C-h>', function()
-            local prev_buf = vim.w.keke_fern_previous_buffer
-            if prev_buf ~= nil then
-                vim.w.previous_buffer = nil
-                vim.api.nvim_set_current_buf(prev_buf)
-            end
-        end, { buffer = true, nowait = true })
+        set_keymap('n', 'f', find_files, { buffer = true })
+        set_keymap('n', 'l', live_grep, { buffer = true })
+
+        set_keymap('n', '<C-h>', close, { buffer = true, nowait = true })
+        set_keymap('n', '<Esc>', close, { buffer = true, nowait = true })
+        set_keymap('n', 'q', close, { buffer = true })
     end,
 })
 

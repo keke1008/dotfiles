@@ -73,13 +73,19 @@ packer.startup(function(use)
     }
 
     -- Show register content
-    use 'tversteeg/registers.nvim'
+    use {
+        'tversteeg/registers.nvim',
+        config = function() require 'registers'.setup() end
+    }
 
     -- Improve *
     use {
         'haya14busa/vim-asterisk',
         config = function() require 'keke.configs.asterisk' end
     }
+
+    -- Undo tree
+    use 'mbbill/undotree'
 
 
     --------------------------------------------------
@@ -181,7 +187,7 @@ packer.startup(function(use)
     -- Filer
     use {
         'lambdalisue/fern.vim',
-        requires = { 'antoinemadec/FixCursorHold.nvim' },
+        requires = { 'antoinemadec/FixCursorHold.nvim', 'nvim-telescope/telescope.nvim' },
         cmd = { 'Fern', 'FernDo' },
         setup = function() require 'keke.configs.fern' end,
     }
@@ -199,11 +205,6 @@ packer.startup(function(use)
             { 'lambdalisue/nerdfont.vim', after = 'fern.vim' },
             { 'lambdalisue/glyph-palette.vim', after = 'fern.vim' },
         }
-    }
-    use {
-        'LumaKernel/fern-mapping-fzf.vim',
-        after = { 'fern.vim', 'fzf.vim' },
-        requires = { 'junegunn/fzf', 'junegunn/fzf.vim', },
     }
 
     -- Scroll animation
