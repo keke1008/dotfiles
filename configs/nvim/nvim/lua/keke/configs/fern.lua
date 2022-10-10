@@ -2,58 +2,21 @@ local actions = require 'telescope.actions'
 local action_state = require 'telescope.actions.state'
 local builtin = require 'telescope.builtin'
 
+local fl = require 'flfiler'
+local fl_filer = require 'flfiler.filer'
+local flm = require 'flfiler.mapping'
+
 local sidemenu = require 'keke.sidemenu'
 local remap = require 'keke.remap'
 local set_keymap = remap.set_keymap;
+
+fl.setup { filer = fl_filer.Fern }
 
 vim.g['fern#renderer'] = 'nerdfont'
 vim.g['fern#disable_default_mappings'] = 1
 vim.g['fern#window_selector_use_popup'] = 1
 
-local get_current_reveal = function()
-    if vim.fn.expand('%') ~= '' then
-        return '-reveal=%'
-    else
-        return ''
-    end
-end
-
-set_keymap('n', '<C-h>', function()
-    if vim.o.ft ~= "fern" then
-        local prev_buf = vim.api.nvim_get_current_buf()
-        vim.w.keke_fern_previous_buffer = prev_buf
-    end
-
-    vim.cmd('Fern . ' .. get_current_reveal())
-end)
-
-local with_close = function(keys)
-    return function()
-        local prev_win = vim.api.nvim_get_current_win()
-        local prev_buf = vim.w.keke_fern_previous_buffer
-        vim.w.previous_buffer = nil
-
-        keys = vim.api.nvim_replace_termcodes(keys, true, true, true)
-        vim.api.nvim_feedkeys(keys, 'x', false)
-
-        if prev_buf == nil then
-            return
-        end
-
-        local current_win = vim.api.nvim_get_current_win()
-        if current_win ~= prev_win then
-            vim.api.nvim_win_set_buf(prev_win, prev_buf)
-        end
-    end
-end
-
-local function close()
-    local prev_buf = vim.w.keke_fern_previous_buffer
-    if prev_buf ~= nil then
-        vim.w.previous_buffer = nil
-        vim.api.nvim_set_current_buf(prev_buf)
-    end
-end
+set_keymap('n', '<C-h>', flm.focus_or_launch())
 
 local function call_telescope(builtin_name, selection_key)
     local cwd = vim.fn['fern#helper#new']().fern.root._path
@@ -83,44 +46,44 @@ vim.api.nvim_create_autocmd('Filetype', {
     callback = function()
         vim.fn['glyph_palette#apply']()
 
-        set_keymap('n', 'o', function()
-            return vim.fn['fern#smart#leaf'](
-                '<Plug>(fern-action-open)',
-                '<Plug>(fern-action-expand)',
-                '<Plug>(fern-action-collapse)'
-            )
-        end, { buffer = true, expr = true })
+        set_keymap('n', 'e', flm.switch(flm.edit(false), flm.expand_or_collapse), { buffer = true })
+        set_keymap('n', 'E', flm.switch(flm.edit(true), flm.expand_or_collapse), { buffer = true })
+        set_keymap('n', 'w', flm.enter, { buffer = true })
+        set_keymap('n', 'q', flm.leave, { buffer = true })
+        set_keymap('n', 's', flm.select(false), { buffer = true })
+        set_keymap('n', 'S', flm.select(true), { buffer = true })
+        set_keymap('n', 'x', flm.split(false), { buffer = true })
+        set_keymap('n', 'X', flm.split(true), { buffer = true })
+        set_keymap('n', 'v', flm.vsplit(false), { buffer = true })
+        set_keymap('n', 'V', flm.vsplit(true), { buffer = true })
+        set_keymap('n', 't', flm.tabedit(false), { buffer = true })
+        set_keymap('n', 'T', flm.tabedit(true), { buffer = true })
 
-        set_keymap('n', 'e', '<Plug>(fern-action-open-or-enter)', { buffer = true })
-        set_keymap('n', 'w', '<Plug>(fern-action-leave)', { buffer = true })
-        set_keymap('n', 's', with_close('<Plug>(fern-action-open:select)'), { buffer = true })
-        set_keymap('n', 'S', '<Plug>(fern-action-open:select)', { buffer = true })
-        set_keymap('n', 'x', with_close('<Plug>(fern-action-open:split)'), { buffer = true })
-        set_keymap('n', 'X', '<Plug>(fern-action-open:split)', { buffer = true })
-        set_keymap('n', 'v', with_close('<Plug>(fern-action-open:vsplit)'), { buffer = true })
-        set_keymap('n', 'V', '<Plug>(fern-action-open:vsplit)', { buffer = true })
-        set_keymap('n', 't', with_close('<Plug>(fern-action-open:tabedit)'), { buffer = true })
-        set_keymap('n', 'T', '<Plug>(fern-action-open:tabedit)', { buffer = true })
-
+        set_keymap('n', '<C-f>', flm.scroll_down_preview_half, { buffer = true, nowait = true })
+        set_keymap('n', '<C-b>', flm.scroll_up_preview_half, { buffer = true })
         set_keymap('n', 'i', '<Plug>(fern-action-hidden:toggle)', { buffer = true })
-        set_keymap('n', '<space>', '<Plug>(fern-action-mark:toggle)', { buffer = true, nowait = true })
-        set_keymap('n', 'd', '<Plug>(fern-action-remove)', { buffer = true, nowait = true })
+        set_keymap('n', '<space>', flm.mark, { buffer = true, nowait = true })
+        set_keymap('n', 'd', flm.delete, { buffer = true, nowait = true })
         set_keymap('n', 'c', '<Plug>(fern-action-new-path)', { buffer = true, nowait = true })
-        set_keymap('n', 'r', '<Plug>(fern-action-rename)', { buffer = true })
+        set_keymap('n', 'r', flm.rename, { buffer = true })
         set_keymap('n', '<S-r>', '<Plug>(fern-action-reload:all)', { buffer = true })
-
-        set_keymap('n', 'p', '<Plug>(fern-action-preview:auto:toggle)', { buffer = true })
-        set_keymap('n', '<C-f>', '<Plug>(fern-action-preview:scroll:down:half)', { buffer = true })
-        set_keymap('n', '<C-b>', '<Plug>(fern-action-preview:scroll:up:half)', { buffer = true })
 
         set_keymap('n', 'f', find_files, { buffer = true })
         set_keymap('n', 'l', live_grep, { buffer = true })
 
-        set_keymap('n', '<C-h>', close, { buffer = true, nowait = true })
-        set_keymap('n', '<Esc>', close, { buffer = true, nowait = true })
-        set_keymap('n', 'q', close, { buffer = true })
+        set_keymap('n', '<C-h>', flm.close, { buffer = true, nowait = true })
+        set_keymap('n', '<Esc>', flm.blur, { buffer = true, nowait = true })
     end,
 })
+
+local get_current_reveal = function()
+    ---@diagnostic disable-next-line: missing-parameter
+    if vim.fn.expand('%') ~= '' then
+        return '-reveal=%'
+    else
+        return ''
+    end
+end
 
 local tabedit_winid = nil
 sidemenu.register('e', {

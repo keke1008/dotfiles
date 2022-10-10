@@ -191,6 +191,7 @@ packer.startup(function(use)
     use {
         'lambdalisue/fern.vim',
         requires = { 'antoinemadec/FixCursorHold.nvim', 'nvim-telescope/telescope.nvim' },
+        after = { 'flfiler.nvim' },
         cmd = { 'Fern', 'FernDo' },
         setup = function() require 'keke.configs.fern' end,
     }
@@ -210,9 +211,7 @@ packer.startup(function(use)
         }
     }
     use {
-        'yuki-yano/fern-preview.vim',
-        after = { 'fern.vim' },
-        setup = function() vim.g.fern_auto_preview = true end
+        vim.fn.stdpath('config') .. '/plugins/flfiler.nvim',
     }
 
     -- Scroll animation
