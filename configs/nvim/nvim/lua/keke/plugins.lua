@@ -226,6 +226,12 @@ packer.startup(function(use)
         config = function() require 'dressing'.setup() end
     }
 
+    -- Notification
+    use {
+        'rcarriga/nvim-notify',
+        config = function() require 'keke.configs.notify' end
+    }
+
     --Fuzzy finder
     use {
         'nvim-telescope/telescope.nvim',
