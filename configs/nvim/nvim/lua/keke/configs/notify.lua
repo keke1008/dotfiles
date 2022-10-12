@@ -31,34 +31,33 @@ function Spinner:next()
     return self.characters[self.index]
 end
 
----@class Notification
----@field level string
+---@class ProgressNotification
 ---@field title string
 ---@field message string
----@field icon string?
+---@field spinner Spinner
 ---@field notify_replace notify.Record?
-local Notification = {}
-Notification.__index = Notification
+---@field timer any
+local ProgressNotification = {}
+ProgressNotification.__index = ProgressNotification
 
----@param level string
 ---@param title string
 ---@param message string
----@param icon string?
----@return Notification
-function Notification.new(level, title, message, icon)
+---@return ProgressNotification
+function ProgressNotification.new(title, message)
     return setmetatable({
-        level = level,
         title = title,
         message = message,
-        icon = icon,
-        notify_replace = nil
-    }, Notification)
+        spinner = Spinner.new(),
+        notify_replace = nil,
+        timer = nil,
+    }, ProgressNotification)
 end
 
-function Notification:notify()
-    self.notify_replace = notify(self.message, self.level, {
+---@param icon string
+function ProgressNotification:_notify(icon)
+    self.notify_replace = notify(self.message, "INFO", {
         title = self.title,
-        icon = self.icon,
+        icon = icon,
         replace = self.notify_replace,
         on_close = function()
             self.notify_replace = nil
@@ -66,74 +65,52 @@ function Notification:notify()
     })
 end
 
+---@param message string
+function ProgressNotification:progress(message)
+    self.message = message
+    if not self.timer then
+        self.timer = vim.loop.new_timer()
+        self.timer:start(0, 100, vim.schedule_wrap(function()
+            self:_notify(self.spinner:next())
+        end))
+    end
+end
+
+function ProgressNotification:complete()
+    if self.timer then
+        self.timer:stop()
+        self.timer:close()
+        self.timer = nil
+    end
+    self.message = "Complete"
+    self:_notify('')
+end
+
 ---@class LspProgress
----@field spinner Spinner
----@field notification Notification
----@field timer unknown?
+---@field notification ProgressNotification
 local LspProgress = {}
 LspProgress.__index = LspProgress
 
 ---@param begin_progress WorkDownProgressBegin
----@param client_id number
----@return LspProgress
-function LspProgress.new(begin_progress, client_id)
-    local client_name = vim.lsp.get_client_by_id(client_id).name
+---@param ctx LspProgressHandler.Context
+function LspProgress.new(begin_progress, ctx)
+    local client_name = vim.lsp.get_client_by_id(ctx.client_id).name
     local progress_title = begin_progress.title
     local title = string.format("%s:%s", client_name, progress_title)
     local self = setmetatable({
-        spinner = Spinner.new(),
-        notification = Notification.new("INFO", title, ""),
-        timer = nil,
+        notification = ProgressNotification.new(title, ""),
     }, LspProgress)
-
     return self
-end
-
----@return boolean
-function LspProgress:_is_completed()
-    return self.timer == nil
-end
-
-function LspProgress:_notify()
-    if self:_is_completed() then
-        self.notification.icon = ''
-    else
-        self.notification.icon = self.spinner:next()
-    end
-    self.notification:notify()
-end
-
-function LspProgress:_complete()
-    if self:_is_completed() then
-        return
-    end
-    self.timer:stop()
-    self.timer:close()
-    self.timer = nil
-    self.notification.message = "Complete"
-    self:_notify()
-end
-
-function LspProgress:_start_timer()
-    if not self:_is_completed() then
-        return
-    end
-    self.timer = vim.loop.new_timer()
-    self.timer:start(0, 100, vim.schedule_wrap(function()
-        self:_notify()
-    end))
 end
 
 ---@param progress WorkDownProgress
 function LspProgress:update(progress)
     if progress.kind == "end" then
-        self:_complete()
+        self.notification:complete()
     else
         local percentage = progress.percentage and (progress.percentage .. "%") or ""
-        self.notification.message = string.format("%s %s", percentage, progress.message or "")
-        if self:_is_completed() then
-            self:_start_timer()
-        end
+        local message = string.format("%s %s", percentage, progress.message or "")
+        self.notification:progress(message)
     end
 end
 
@@ -156,7 +133,7 @@ vim.lsp.handlers["$/progress"] = function(_, result, ctx)
     local value = result.value
 
     if value.kind == "begin" and not lsp_progresses[result.token] then
-        lsp_progresses[result.token] = LspProgress.new(value, ctx.client_id)
+        lsp_progresses[result.token] = LspProgress.new(value, ctx)
     end
 
     lsp_progresses[result.token]:update(value)
