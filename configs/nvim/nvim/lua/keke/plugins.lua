@@ -189,11 +189,13 @@ packer.startup(function(use)
 
     -- Filer
     use {
-        'lambdalisue/fern.vim',
-        requires = { 'antoinemadec/FixCursorHold.nvim', 'nvim-telescope/telescope.nvim' },
-        after = { 'flfiler.nvim' },
-        cmd = { 'Fern', 'FernDo' },
-        setup = function() require 'keke.configs.fern' end,
+        vim.fn.stdpath('config') .. '/plugins/floating-fern.nvim',
+        requires = {
+            { 'lambdalisue/fern.vim', cmd = { 'Fern', 'FernDo' } },
+            'antoinemadec/FixCursorHold.nvim',
+            'nvim-telescope/telescope.nvim'
+        },
+        config = function() require 'keke.configs.fern' end,
     }
     use {
         'lambdalisue/fern-git-status.vim',
@@ -209,9 +211,6 @@ packer.startup(function(use)
             { 'lambdalisue/nerdfont.vim', after = 'fern.vim' },
             { 'lambdalisue/glyph-palette.vim', after = 'fern.vim' },
         }
-    }
-    use {
-        vim.fn.stdpath('config') .. '/plugins/flfiler.nvim',
     }
 
     -- Scroll animation
