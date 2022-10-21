@@ -51,3 +51,13 @@ if type nvim > /dev/null 2>&1
 end
 
 alias v nvim
+
+for repeat in (seq 3 10)
+    set cd_parents_name (string repeat -n $repeat '.')
+    set cd_parents_path (string repeat -n $repeat '../')
+
+    alias $cd_parents_name "cd $cd_parents_path"
+end
+
+set -e cd_parents_name
+set -e cd_parents_path
