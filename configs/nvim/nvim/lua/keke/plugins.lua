@@ -75,7 +75,7 @@ packer.startup(function(use)
     -- Show register content
     use {
         'tversteeg/registers.nvim',
-        config = function() require 'registers'.setup() end
+        config = function() require 'keke.configs.registers' end
     }
 
     -- Improve *
