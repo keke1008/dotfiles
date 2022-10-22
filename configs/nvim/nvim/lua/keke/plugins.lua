@@ -231,10 +231,10 @@ packer.startup(function(use)
         config = function() require 'dressing'.setup() end
     }
 
-    -- Notification
+    -- Lsp status
     use {
-        'rcarriga/nvim-notify',
-        config = function() require 'keke.configs.notify' end
+        'j-hui/fidget.nvim',
+        config = function() require 'fidget'.setup {} end
     }
 
     --Fuzzy finder
