@@ -1,15 +1,20 @@
 local null_ls = require 'null-ls'
+local diagnostics = null_ls.builtins.diagnostics
+local formatting = null_ls.builtins.formatting
 
-local function executable(cmd)
+local mason_registry = require'mason-registry'
+
+local function mason_ready(name)
     return {
-        condition = function()
-            return vim.fn.executable(cmd) == 1
+        condition = function ()
+            return mason_registry.is_installed(name)
         end
     }
 end
 
 null_ls.setup {
     sources = {
-        null_ls.builtins.diagnostics.luacheck.with(executable 'luacheck'),
+        diagnostics.luacheck.with(mason_ready 'luacheck'),
+        formatting.stylua.with(mason_ready 'stylua'),
     }
 }
