@@ -1,6 +1,6 @@
-require 'registers'.setup {
+require("registers").setup({
     window = {
-        border = "single"
-    }
-}
-vim.keymap.del('s', '"')
+        border = "single",
+    },
+})
+vim.keymap.del("s", '"')

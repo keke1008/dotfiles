@@ -1,4 +1,4 @@
-local remap = require 'keke.remap'
+local remap = require("keke.remap")
 
 local M = {}
 
@@ -44,7 +44,7 @@ end
 
 local sidemenu = Sidemenu.new()
 
-local prefix_key = '<leader>s'
+local prefix_key = "<leader>s"
 
 ---@class MenuHandler
 ---@field id number
@@ -57,9 +57,7 @@ MenuHandler.new = function(id)
     return setmetatable(handler, { __index = MenuHandler })
 end
 
-function MenuHandler:open()
-    sidemenu:open(self.id)
-end
+function MenuHandler:open() sidemenu:open(self.id) end
 
 ---@param keymap string
 ---@param menu Menu
@@ -67,16 +65,14 @@ end
 M.register = function(keymap, menu)
     local id = sidemenu:register(menu)
     local handler = MenuHandler.new(id)
-    remap.set_keymap('n', prefix_key .. keymap, function() handler:open() end)
+    remap.set_keymap("n", prefix_key .. keymap, function() handler:open() end)
     return handler
 end
 
-M.close = function()
-    sidemenu:close()
-end
+M.close = function() sidemenu:close() end
 
 M.close_keymap = function(keymap)
-    remap.set_keymap('n', prefix_key .. keymap, function() sidemenu:close() end)
+    remap.set_keymap("n", prefix_key .. keymap, function() sidemenu:close() end)
 end
 
 return M

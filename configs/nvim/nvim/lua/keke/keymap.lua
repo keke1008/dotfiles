@@ -1,18 +1,17 @@
-local sidemenu = require 'keke.sidemenu'
+local sidemenu = require("keke.sidemenu")
 
-local remap = require 'keke.remap'
+local remap = require("keke.remap")
 local set_keymap = remap.set_keymap
 
+set_keymap("nv", "ga", "<Plug>(EasyAlign)")
+set_keymap("n", "gj", "<Plug>(jumpcursor-jump)")
+set_keymap("n", "j", "gj")
+set_keymap("n", "k", "gk")
+set_keymap("n", "<Esc>", "<CMD>write<CR>")
+set_keymap("n", "<leader><leader>", "<CMD>noh<CR>", { silent = true })
+set_keymap("s", "<BS>", "<BS>i")
+set_keymap("n", "<C-t>", "<CMD>Telescope<CR>")
 
-set_keymap('nv', 'ga', '<Plug>(EasyAlign)')
-set_keymap('n', 'gj', '<Plug>(jumpcursor-jump)')
-set_keymap('n', 'j', 'gj')
-set_keymap('n', 'k', 'gk')
-set_keymap('n', '<Esc>', '<CMD>write<CR>')
-set_keymap('n', '<leader><leader>', '<CMD>noh<CR>', { silent = true })
-set_keymap('s', '<BS>', '<BS>i')
-set_keymap('n', '<C-t>', '<CMD>Telescope<CR>')
+set_keymap("t", "<Esc>", "<C-\\><C-n>")
 
-set_keymap('t', '<Esc>', '<C-\\><C-n>')
-
-sidemenu.close_keymap('h')
+sidemenu.close_keymap("h")

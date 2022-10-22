@@ -1,4 +1,4 @@
-local PathCore = require "keke.lib.path.core".PathCore
+local PathCore = require("keke.lib.path.core").PathCore
 
 ---@class Path
 ---@field core PathCore
@@ -12,9 +12,7 @@ local function from_core(core)
 end
 
 ---@param path string
-function Path.new(path)
-    return from_core(PathCore.new(path))
-end
+function Path.new(path) return from_core(PathCore.new(path)) end
 
 ---@param other Path | string
 function Path:__div(other)
@@ -25,9 +23,7 @@ end
 
 ---@return string
 function Path:to_string()
-    if self.core:is_absolute() then
-        return self:absolute()
-    end
+    if self.core:is_absolute() then return self:absolute() end
     local cwd = PathCore.new(vim.fn.getcwd())
     return cwd:join(self.core):absolute()
 end

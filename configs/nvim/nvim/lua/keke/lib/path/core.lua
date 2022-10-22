@@ -5,9 +5,7 @@ local PathCore = {}
 PathCore.__index = PathCore
 
 ---@param other PathCore
-function PathCore:__div(other)
-    return self:join(other)
-end
+function PathCore:__div(other) return self:join(other) end
 
 -- absolute: "/" or "(/<name>)+"
 -- relative: ".(/<name>)*"
@@ -24,9 +22,7 @@ local function normalize_path(path)
     end
 
     -- remove trailing slash
-    if path:len() > 1 and path:sub(-1) == "/" then
-        path = path:sub(1, -2)
-    end
+    if path:len() > 1 and path:sub(-1) == "/" then path = path:sub(1, -2) end
 
     -- remove "/."
     -- e.g. "/aaa/./bbb/ccc/." -> "/aaa/bbb/ccc"
@@ -35,9 +31,7 @@ local function normalize_path(path)
     -- prepend "./" when `path` is relative
     -- e.g. "aaa/bbb/ccc" -> "./aaa/bbb/ccc"
     --      "/aaa/bbb/ccc" -> "/aaa/bbb/ccc" (noop)
-    if path:sub(1, 1) ~= "/" and path ~= "." and path:sub(1, 2) ~= "./" then
-        path = "./" .. path
-    end
+    if path:sub(1, 1) ~= "/" and path ~= "." and path:sub(1, 2) ~= "./" then path = "./" .. path end
 
     return path
 end
@@ -52,17 +46,13 @@ function PathCore.new(path)
 
     return setmetatable({
         type = type,
-        path = path
+        path = path,
     }, PathCore)
 end
 
-function PathCore:is_absolute()
-    return self.path:sub(1, 1) == "/"
-end
+function PathCore:is_absolute() return self.path:sub(1, 1) == "/" end
 
-function PathCore:is_relative()
-    return self.path:sub(1, 1) ~= "/"
-end
+function PathCore:is_relative() return self.path:sub(1, 1) ~= "/" end
 
 ---@return string
 function PathCore:absolute()
@@ -72,9 +62,7 @@ end
 
 ---@return string
 function PathCore:name()
-    if self.path == "/" then
-        return "/"
-    end
+    if self.path == "/" then return "/" end
     return self.path:match("([^/]+)$")
 end
 
@@ -83,9 +71,7 @@ function PathCore:parent()
     local pattern = "^(.-)/[^/]+$"
     ---@type string | nil
     local path = self.path:match(pattern)
-    if path ~= nil then
-        return PathCore.new(path)
-    end
+    if path ~= nil then return PathCore.new(path) end
 
     path = self:is_absolute() and "/" or "."
 
@@ -95,9 +81,7 @@ end
 ---@param other PathCore | string
 ---@return PathCore
 function PathCore:join(other)
-    if type(other) == "string" then
-        other = PathCore.new(other)
-    end
+    if type(other) == "string" then other = PathCore.new(other) end
 
     assert(other:is_relative(), "path must be relative.")
     local path = self.path .. "/" .. other.path
@@ -107,9 +91,7 @@ end
 ---@param base PathCore
 ---@return PathCore
 function PathCore:as_absolute(base)
-    if self:is_absolute() then
-        return self
-    end
+    if self:is_absolute() then return self end
 
     return base:join(self)
 end

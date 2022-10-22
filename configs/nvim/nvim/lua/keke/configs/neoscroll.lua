@@ -1,14 +1,14 @@
-local neoscroll = require 'neoscroll'
+local neoscroll = require("neoscroll")
 
-local set_keymap = require 'keke.remap'.set_keymap
+local set_keymap = require("keke.remap").set_keymap
 
-neoscroll.setup { mappings = {} }
+neoscroll.setup({ mappings = {} })
 
 local time = 100
 
 ---@param lines string|number
 local scroll = function(lines)
-    if type(lines) == 'string' then
+    if type(lines) == "string" then
         neoscroll[lines](time)
     else
         neoscroll.scroll(lines, true, time)
@@ -16,32 +16,31 @@ local scroll = function(lines)
 end
 
 local mapping = {
-    ['<C-u>'] = function() scroll(-vim.wo.scroll) end,
-    ['<C-d>'] = function() scroll(vim.wo.scroll) end,
-    ['<C-b>'] = function() scroll(-vim.api.nvim_win_get_height(0)) end,
-    ['<C-f>'] = function() scroll(vim.api.nvim_win_get_height(0)) end,
-    ['<C-e>'] = function() scroll(0.1) end,
-    ['<C-y>'] = function() scroll(-0.1) end,
-    ['zt'] = function() scroll('zt') end,
-    ['zz'] = function() scroll('zz') end,
-    ['zb'] = function() scroll('zb') end,
+    ["<C-u>"] = function() scroll(-vim.wo.scroll) end,
+    ["<C-d>"] = function() scroll(vim.wo.scroll) end,
+    ["<C-b>"] = function() scroll(-vim.api.nvim_win_get_height(0)) end,
+    ["<C-f>"] = function() scroll(vim.api.nvim_win_get_height(0)) end,
+    ["<C-e>"] = function() scroll(0.1) end,
+    ["<C-y>"] = function() scroll(-0.1) end,
+    ["zt"] = function() scroll("zt") end,
+    ["zz"] = function() scroll("zz") end,
+    ["zb"] = function() scroll("zb") end,
 }
-
 
 local install_mapping = function()
     for lhs, rhs in pairs(mapping) do
-        set_keymap('nv', lhs, rhs)
+        set_keymap("nv", lhs, rhs)
     end
 end
 
 local uninstall_mapping = function()
     for lhs, _ in pairs(mapping) do
-        vim.keymap.del('n', lhs)
-        vim.keymap.del('v', lhs)
+        vim.keymap.del("n", lhs)
+        vim.keymap.del("v", lhs)
     end
 end
 
-install_mapping();
+install_mapping()
 
-vim.api.nvim_create_user_command('EnableScrollMotion', install_mapping, {})
-vim.api.nvim_create_user_command('DisableScrollMotion', uninstall_mapping, {})
+vim.api.nvim_create_user_command("EnableScrollMotion", install_mapping, {})
+vim.api.nvim_create_user_command("DisableScrollMotion", uninstall_mapping, {})
