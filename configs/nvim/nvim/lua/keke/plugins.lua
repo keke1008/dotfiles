@@ -130,6 +130,12 @@ packer.startup(function(use)
         config = function() require 'keke.configs.lsp' end
     }
 
+    -- General purposes lunguage server
+    use {
+        'jose-elias-alvarez/null-ls.nvim',
+        config = function () require'keke.configs.null-ls' end
+    }
+
     --Snippet
     use {
         'L3MON4D3/LuaSnip',
