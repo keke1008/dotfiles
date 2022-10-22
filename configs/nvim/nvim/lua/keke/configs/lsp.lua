@@ -2,8 +2,16 @@ local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local lsp_signature = require("lsp_signature")
 
 local set_keymap = require("keke.remap").set_keymap
+
+lsp_signature.setup({
+    bind = true,
+    handler_opts = {
+        border = "rounded",
+    },
+})
 
 ---@param builtin string
 ---@param window_size? 'small'
