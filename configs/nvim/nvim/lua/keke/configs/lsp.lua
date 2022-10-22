@@ -55,11 +55,10 @@ end)
 
 local root_pattern = require 'lspconfig.util'.root_pattern
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = cmp_nvim_lsp.default_capabilities()
 local on_attach = function()
     require 'lsp_signature'.on_attach()
 end
-capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 local default_settings = {
     capabilities = capabilities,
     on_attach = on_attach
@@ -94,10 +93,16 @@ mason_lspconfig.setup_handlers({
         }
     end,
     ['sumneko_lua'] = function()
-        local opt = require 'lua-dev'.setup {
-            lspconfig = default_settings
+        require 'neodev'.setup {}
+        lspconfig.sumneko_lua.setup {
+            settings = {
+                Lua = {
+                    completion = {
+                        callSnnippet = "Replace"
+                    }
+                }
+            }
         }
-        lspconfig.sumneko_lua.setup(opt)
     end
 })
 

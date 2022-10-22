@@ -96,7 +96,7 @@ packer.startup(function(use)
     --------------------------------------------------
 
     -- lua
-    use 'folke/lua-dev.nvim'
+    use 'folke/neodev.nvim'
 
     -- rust
     use {
