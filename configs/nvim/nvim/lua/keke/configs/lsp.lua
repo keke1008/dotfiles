@@ -71,7 +71,7 @@ mason_lspconfig.setup_handlers({
         lspconfig.denols.setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            root_pattern = root_pattern("deno.json", "deno.jsonc"),
+            root_dir = root_pattern("deno.json", "deno.jsonc"),
             settings = {
                 deno = {
                     enable = true,
@@ -86,7 +86,7 @@ mason_lspconfig.setup_handlers({
         lspconfig.tsserver.setup({
             capabilities = capabilities,
             on_attach = on_attach,
-            root_pattern = root_pattern("package.json"),
+            root_dir = root_pattern("package.json"),
         })
     end,
     ["sumneko_lua"] = function()
