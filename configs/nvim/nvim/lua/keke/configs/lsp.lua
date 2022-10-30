@@ -102,37 +102,3 @@ mason_lspconfig.setup_handlers({
         })
     end,
 })
-
-do
-    local disable_formatting_server_name = {
-        "sumneko_lua",
-    }
-    local augroup = "format_on_buf_write"
-
-    local register_autocmd = function()
-        vim.api.nvim_create_augroup(augroup, {})
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            pattern = "*",
-            callback = function()
-                vim.lsp.buf.format({
-                    filter = function(lsp)
-                        for _, name in ipairs(disable_formatting_server_name) do
-                            if name == lsp.name then return false end
-                        end
-                        return true
-                    end,
-                })
-            end,
-        })
-    end
-
-    vim.api.nvim_create_user_command("W", function(opt)
-        vim.api.nvim_del_augroup_by_name(augroup)
-        local cmd = opt.bang and "w!" or "w"
-        vim.cmd(cmd)
-        register_autocmd()
-    end, { bang = true })
-
-    register_autocmd()
-end
