@@ -2,8 +2,8 @@ local null_ls = require("null-ls")
 local code_actions = null_ls.builtins.code_actions
 local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
-
 local mason_registry = require("mason-registry")
+local lsp = require("keke.lsp")
 
 local function mason_ready(name)
     return {
@@ -12,6 +12,7 @@ local function mason_ready(name)
 end
 
 null_ls.setup({
+    on_attach = lsp.on_attach,
     sources = {
         -- lua
         diagnostics.luacheck.with(mason_ready("luacheck")),

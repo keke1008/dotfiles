@@ -52,14 +52,14 @@ end
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = "*",
     callback = function()
-        map("c", dap.continue)
-        map("d", dap.toggle_breakpoint)
-        map("i", dap.step_into)
-        map("o", dap.step_over)
-        map("p", dap.step_out)
-        map("r", dap.run_last)
-        map("<C-q>", dap.terminate)
-        map("K", dapui.eval)
+        -- map("c", dap.continue)
+        -- map("d", dap.toggle_breakpoint)
+        -- map("i", dap.step_into)
+        -- map("o", dap.step_over)
+        -- map("p", dap.step_out)
+        -- map("r", dap.run_last)
+        -- map("<C-q>", dap.terminate)
+        -- map("K", dapui.eval)
     end,
 })
 

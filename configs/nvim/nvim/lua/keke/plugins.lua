@@ -128,6 +128,7 @@ packer.startup(function(use)
             "ray-x/lsp_signature.nvim",
             "nvim-telescope/telescope.nvim",
             "hrsh7th/cmp-nvim-lsp",
+            "glepnir/lspsaga.nvim",
         },
         config = function() require("keke.configs.lsp") end,
     })
