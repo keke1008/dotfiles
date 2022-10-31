@@ -1,6 +1,8 @@
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
+local lspconfig_util = require("lspconfig.util")
+local path = lspconfig_util.path
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local lsp_signature = require("lsp_signature")
 
@@ -65,6 +67,13 @@ local default_settings = {
 
 mason.setup()
 
+---@param name string
+---@return string?
+local function if_exists(name)
+    local exists = vim.fn.glob(name)
+    return exists ~= "" and exists or nil
+end
+
 mason_lspconfig.setup_handlers({
     function(server_name) lspconfig[server_name].setup(default_settings) end,
     ["denols"] = function()
@@ -76,8 +85,8 @@ mason_lspconfig.setup_handlers({
                 deno = {
                     enable = true,
                     lint = true,
-                    config = "./deno.json",
-                    importMap = "./import_map.json",
+                    config = if_exists("./deno.json*"),
+                    importMap = if_exists("./import_map.json"),
                 },
             },
         })
