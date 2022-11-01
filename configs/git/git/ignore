@@ -1,0 +1,5 @@
+# asdf
+.tool-versions
+
+# null-ls.nvim
+.null-ls-root
