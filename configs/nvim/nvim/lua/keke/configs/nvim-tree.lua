@@ -5,6 +5,9 @@ local sidemenu = require("keke.sidemenu")
 local remap = vim.keymap.set
 
 nvim_tree.setup({
+    filters = {
+        dotfiles = true,
+    },
     remove_keymaps = true,
     on_attach = function(bufnr)
         local opt = { buffer = bufnr, noremap = true, nowait = true }
@@ -19,6 +22,7 @@ nvim_tree.setup({
             nvim_tree_api.tree.toggle_gitignore_filter()
             nvim_tree_api.tree.toggle_hidden_filter()
         end, opt)
+        remap("n", "<C-r>", nvim_tree_api.tree.reload, opt)
 
         remap("n", "r", nvim_tree_api.fs.rename, opt)
         remap("n", "c", nvim_tree_api.fs.create, opt)
