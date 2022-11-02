@@ -184,6 +184,13 @@ packer.startup(function(use)
         disable = true,
     })
 
+    -- Showing diagnostics, reference, ...
+    use({
+        "folke/trouble.nvim",
+        requires = "kyazdani42/nvim-web-devicons",
+        config = function() require("keke.configs.trouble") end,
+    })
+
     --------------------------------------------------
     -- Appearance
     --------------------------------------------------
