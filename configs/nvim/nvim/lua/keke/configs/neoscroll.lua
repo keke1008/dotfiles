@@ -1,7 +1,5 @@
 local neoscroll = require("neoscroll")
 
-local set_keymap = require("keke.remap").set_keymap
-
 neoscroll.setup({ mappings = {} })
 
 local time = 100
@@ -29,14 +27,14 @@ local mapping = {
 
 local install_mapping = function()
     for lhs, rhs in pairs(mapping) do
-        set_keymap("nv", lhs, rhs)
+        vim.keymap.set({ "n", "x" }, lhs, rhs)
     end
 end
 
 local uninstall_mapping = function()
     for lhs, _ in pairs(mapping) do
         vim.keymap.del("n", lhs)
-        vim.keymap.del("v", lhs)
+        vim.keymap.del("x", lhs)
     end
 end
 

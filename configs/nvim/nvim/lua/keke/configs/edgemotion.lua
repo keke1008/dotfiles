@@ -1,5 +1,4 @@
-local remap = require("keke.remap")
-local set_keymap = remap.set_keymap
+local remap = vim.keymap.set
 
-set_keymap("nx", "<C-j>", "<Plug>(edgemotion-j)")
-set_keymap("nx", "<C-k>", "<Plug>(edgemotion-k)")
+remap({ "n", "x" }, "<C-j>", "<Plug>(edgemotion-j)")
+remap({ "n", "x" }, "<C-k>", "<Plug>(edgemotion-k)")

@@ -1,7 +1,6 @@
-local remap = require("keke.remap")
-local set_keymap = remap.set_keymap
+local remap = vim.keymap.set
 
-set_keymap("n", "*", "<Plug>(asterisk-z*)")
-set_keymap("n", "#", "<Plug>(asterisk-z#)")
-set_keymap("n", "g*", "<Plug>(asterisk-gz*)")
-set_keymap("n", "g#", "<Plug>(asterisk-gz#)")
+remap("n", "*", "<Plug>(asterisk-z*)")
+remap("n", "#", "<Plug>(asterisk-z#)")
+remap("n", "g*", "<Plug>(asterisk-gz*)")
+remap("n", "g#", "<Plug>(asterisk-gz#)")
