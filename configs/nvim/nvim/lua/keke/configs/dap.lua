@@ -1,10 +1,7 @@
 local dap = require("dap")
 local dapui = require("dapui")
-
-local remap = require("keke.remap")
-local fallback = remap.fallback
-local set_keymap = remap.set_keymap
 local sidemenu = require("keke.sidemenu")
+local remap = vim.keymap.set
 
 local extension_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/"
 local codelldb_path = extension_path .. "adapter/codelldb"
@@ -29,42 +26,33 @@ dap.configurations.cpp = {
     },
 }
 
----@return boolean
-local is_dap_active = function() return dap.status() ~= "" end
+remap("n", "<leader>db", dap.toggle_breakpoint)
+remap("n", "<leader>dc", dap.continue)
+remap("n", "<leader>du", dap.step_back)
+remap("n", "<leader>di", dap.step_into)
+remap("n", "<leader>do", dap.step_over)
+remap("n", "<leader>dp", dap.step_out)
+remap("n", "<leader>dq", dap.terminate)
+remap("n", "<leader>dQ", function()
+    dap.terminate()
+    dapui.close({})
+end)
+remap("n", "<leader>dk", dapui.eval)
 
----@param lhs string
----@param rhs function
-local map = function(lhs, rhs)
-    local mode = "n"
-    local opt = { buffer = true, nowait = true }
-
-    local function inner()
-        if is_dap_active() then
-            rhs()
-        else
-            fallback(mode, lhs, inner, opt)
-        end
-    end
-
-    set_keymap(mode, lhs, inner, opt)
-end
-
-vim.api.nvim_create_autocmd("BufRead", {
-    pattern = "*",
-    callback = function()
-        -- map("c", dap.continue)
-        -- map("d", dap.toggle_breakpoint)
-        -- map("i", dap.step_into)
-        -- map("o", dap.step_over)
-        -- map("p", dap.step_out)
-        -- map("r", dap.run_last)
-        -- map("<C-q>", dap.terminate)
-        -- map("K", dapui.eval)
-    end,
+dapui.setup({
+    layouts = {
+        {
+            elements = { "scopes", "breakpoints", "stacks", "watches" },
+            size = 40,
+            position = "left",
+        },
+        {
+            elements = { "repl", "console" },
+            size = 0.3,
+            position = "right",
+        },
+    },
 })
-
-set_keymap("n", "<leader>db", dap.toggle_breakpoint)
-set_keymap("n", "<leader>dc", dap.continue)
 
 local menu = sidemenu.register("d", {
     name = "dapui",
@@ -72,34 +60,10 @@ local menu = sidemenu.register("d", {
     close = dapui.close,
 })
 
-dap.listeners.before["event_initialized"]["prepare"] = function(_, _) menu:open() end
-vim.api.nvim_create_user_command("CloseDapui", dapui.close, {})
+dap.listeners.before["event_initialized"]["prepare"] = function() menu:open() end
 
-vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DebugBreakpointSign" })
-vim.fn.sign_define("DapStopped", { text = "", texthl = "DebugStopSign", linehl = "DebugStopLine" })
 vim.api.nvim_set_hl(0, "DebugBreakpointSign", { fg = "#cc2222" })
 vim.api.nvim_set_hl(0, "DebugStopLine", { bg = "#336611" })
 vim.api.nvim_set_hl(0, "DebugStopSign", { fg = "#cccc22" })
-
-dapui.setup({
-    layouts = {
-        {
-            elements = {
-                { id = "scopes", size = 0.25 },
-                "breakpoints",
-                "stacks",
-                "watches",
-            },
-            size = 40,
-            position = "left",
-        },
-        {
-            elements = {
-                "repl",
-                "console",
-            },
-            size = 80,
-            position = "right",
-        },
-    },
-})
+vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DebugBreakpointSign" })
+vim.fn.sign_define("DapStopped", { text = "", texthl = "DebugStopSign", linehl = "DebugStopLine" })
