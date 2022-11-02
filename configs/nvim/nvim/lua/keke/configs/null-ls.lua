@@ -1,9 +1,10 @@
 local null_ls = require("null-ls")
+local mason_registry = require("mason-registry")
+local lsp = require("keke.lsp")
+
 local code_actions = null_ls.builtins.code_actions
 local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
-local mason_registry = require("mason-registry")
-local lsp = require("keke.lsp")
 
 local function mason_ready(name)
     return {
@@ -21,6 +22,15 @@ null_ls.setup({
         -- js/ts/..
         code_actions.eslint_d.with(mason_ready("eslint_d")),
         formatting.prettierd.with(mason_ready("prettierd")),
+
+        -- python
+        diagnostics.flake8.with(mason_ready("flake8")),
+        diagnostics.pylint.with(mason_ready("pylint")),
+        diagnostics.mypy.with(mason_ready("mypy")),
+        diagnostics.pycodestyle.with(mason_ready("pycodestyle")),
+        diagnostics.vulture.with(mason_ready("vulture")),
+        formatting.black.with(mason_ready("black")),
+        formatting.isort.with(mason_ready("isort")),
     },
 })
 
