@@ -115,6 +115,12 @@ packer.startup(function(use)
         ft = "java",
     })
 
+    use({
+        "mfussenegger/nvim-dap-python",
+        ft = "python",
+        config = function() require("keke.configs.nvim-dap-python") end,
+    })
+
     --------------------------------------------------
     -- General purpose
     --------------------------------------------------
