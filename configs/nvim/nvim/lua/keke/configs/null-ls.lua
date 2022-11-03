@@ -27,7 +27,6 @@ null_ls.setup({
         diagnostics.flake8.with(mason_ready("flake8")),
         diagnostics.pylint.with(mason_ready("pylint")),
         diagnostics.mypy.with(mason_ready("mypy")),
-        diagnostics.pycodestyle.with(mason_ready("pycodestyle")),
         diagnostics.vulture.with(mason_ready("vulture")),
         formatting.black.with(mason_ready("black")),
         formatting.isort.with(mason_ready("isort")),
