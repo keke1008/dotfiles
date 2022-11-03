@@ -242,6 +242,12 @@ packer.startup(function(use)
         config = function() require("keke.configs.telescope") end,
     })
 
+    -- Indent line
+    use({
+        "lukas-reineke/indent-blankline.nvim",
+        config = function() require("keke.configs.indent-blankline") end,
+    })
+
     -- Statusline
     use({
         "nvim-lualine/lualine.nvim",
