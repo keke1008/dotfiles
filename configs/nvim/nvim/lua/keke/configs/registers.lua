@@ -3,4 +3,3 @@ require("registers").setup({
         border = "single",
     },
 })
-vim.keymap.del("s", '"')
