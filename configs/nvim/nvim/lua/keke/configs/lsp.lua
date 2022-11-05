@@ -1,16 +1,10 @@
-local ok, mason, mason_lspconfig, lspconfig, lspconfig_util, lsp_signature, saga, lsp = pcall(
-    function()
-        return require("mason"),
-            require("mason-lspconfig"),
-            require("lspconfig"),
-            require("lspconfig.util"),
-            require("lsp_signature"),
-            require("lspsaga"),
-            require("keke.lsp")
-    end
-)
-if not ok then return end
-local root_pattern = lspconfig_util.root_pattern
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
+local lspconfig = require("lspconfig")
+local root_pattern = require("lspconfig.util").root_pattern
+local lsp_signature = require("lsp_signature")
+local saga = require("lspsaga")
+local lsp = require("keke.lsp")
 
 mason.setup()
 mason_lspconfig.setup()

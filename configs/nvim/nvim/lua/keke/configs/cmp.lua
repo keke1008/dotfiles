@@ -1,5 +1,6 @@
-local ok, cmp, luasnip, lspkind = pcall(function() return require("cmp"), require("luasnip"), require("lspkind") end)
-if not ok then return end
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+local lspkind = require("lspkind")
 
 local jump_prev = function() return luasnip.jump(-1) end
 local jump_next = function() return luasnip.jump(1) end
