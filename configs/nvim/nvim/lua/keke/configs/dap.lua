@@ -1,5 +1,6 @@
-local dap = require("dap")
-local dapui = require("dapui")
+local ok, dap, dapui = pcall(function() return require("dap"), require("dapui") end)
+if not ok then return end
+
 local sidemenu = require("keke.sidemenu")
 local remap = vim.keymap.set
 
