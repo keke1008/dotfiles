@@ -1,14 +1,14 @@
 local null_ls = require("null-ls")
-local mason_registry = require("mason-registry")
 local lsp = require("keke.lsp")
 
 local code_actions = null_ls.builtins.code_actions
 local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
 
-local function mason_ready(name)
+---@param name string
+local function executable(name)
     return {
-        condition = function() return mason_registry.is_installed(name) end,
+        condition = function() return vim.fn.executable(name) == 1 end,
     }
 end
 
@@ -16,20 +16,20 @@ null_ls.setup({
     on_attach = lsp.on_attach,
     sources = {
         -- lua
-        diagnostics.luacheck.with(mason_ready("luacheck")),
-        formatting.stylua.with(mason_ready("stylua")),
+        diagnostics.luacheck.with(executable("luacheck")),
+        formatting.stylua.with(executable("stylua")),
 
         -- js/ts/..
-        code_actions.eslint_d.with(mason_ready("eslint_d")),
-        formatting.prettierd.with(mason_ready("prettierd")),
+        code_actions.eslint_d.with(executable("eslint_d")),
+        formatting.prettierd.with(executable("prettierd")),
 
         -- python
-        diagnostics.flake8.with(mason_ready("flake8")),
-        diagnostics.pylint.with(mason_ready("pylint")),
-        diagnostics.mypy.with(mason_ready("mypy")),
-        diagnostics.vulture.with(mason_ready("vulture")),
-        formatting.black.with(mason_ready("black")),
-        formatting.isort.with(mason_ready("isort")),
+        diagnostics.flake8.with(executable("flake8")),
+        diagnostics.pylint.with(executable("pylint")),
+        diagnostics.mypy.with(executable("mypy")),
+        diagnostics.vulture.with(executable("vulture")),
+        formatting.black.with(executable("black")),
+        formatting.isort.with(executable("isort")),
     },
 })
 
