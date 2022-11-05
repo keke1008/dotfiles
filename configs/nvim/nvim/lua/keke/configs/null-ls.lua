@@ -45,23 +45,12 @@ local function format()
     end
 end
 
-local augroup_name = "format_on_save"
-
-local function register_format_on_save()
-    local augroup = vim.api.nvim_create_augroup(augroup_name, {})
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        pattern = "*",
-        callback = format,
-    })
-end
-
-local function unregister_format_on_save() vim.api.nvim_del_augroup_by_name(augroup_name) end
-
-register_format_on_save()
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = format,
+})
 
 vim.api.nvim_create_user_command("W", function(opt)
-    unregister_format_on_save()
-    vim.cmd(opt.bang and "w!" or "w")
-    register_format_on_save()
+    local cmd = opt.bang and "w!" or "w"
+    vim.cmd("noautocmd " .. cmd)
 end, { bang = true })
