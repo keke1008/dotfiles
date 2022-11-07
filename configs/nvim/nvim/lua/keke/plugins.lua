@@ -239,6 +239,12 @@ packer.startup(function(use)
         config = function() require("keke.configs.indent-blankline") end,
     })
 
+    -- Zen mode
+    use({
+        "folke/zen-mode.nvim",
+        config = function() require("keke.configs.zen-mode") end,
+    })
+
     -- Statusline
     use({
         "nvim-lualine/lualine.nvim",
