@@ -1,6 +1,6 @@
 local dap = require("dap")
 local dapui = require("dapui")
-local sidemenu = require("keke.sidemenu")
+local menu = require("keke.side_menu")
 local remap = vim.keymap.set
 
 local extension_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/"
@@ -54,13 +54,13 @@ dapui.setup({
     },
 })
 
-local menu = sidemenu.register("d", {
-    name = "dapui",
+local handle = menu.register("d", {
+    position = { "left", "right" },
     open = dapui.open,
     close = dapui.close,
 })
 
-dap.listeners.before["event_initialized"]["prepare"] = function() menu:open() end
+dap.listeners.before["event_initialized"]["prepare"] = function() handle:open() end
 
 vim.api.nvim_set_hl(0, "DebugBreakpointSign", { fg = "#cc2222" })
 vim.api.nvim_set_hl(0, "DebugStopLine", { bg = "#336611" })

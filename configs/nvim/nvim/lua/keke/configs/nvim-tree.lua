@@ -1,6 +1,6 @@
 local nvim_tree = require("nvim-tree")
 local nvim_tree_api = require("nvim-tree.api")
-local sidemenu = require("keke.sidemenu")
+local menu = require("keke.side_menu")
 
 local remap = vim.keymap.set
 
@@ -32,8 +32,8 @@ nvim_tree.setup({
     end,
 })
 
-sidemenu.register("e", {
-    name = "nvim-tree",
+menu.register("e", {
+    position = "left",
     open = nvim_tree_api.tree.open,
     close = nvim_tree_api.tree.close,
 })

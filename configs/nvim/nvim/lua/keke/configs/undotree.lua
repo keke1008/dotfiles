@@ -1,7 +1,7 @@
-local sidemenu = require("keke.sidemenu")
+local menu = require("keke.side_menu")
 
-sidemenu.register("u", {
-    name = "undotree",
+menu.register("u", {
+    position = "left",
     open = function()
         vim.cmd([[
             UndotreeShow
