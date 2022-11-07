@@ -30,6 +30,11 @@ if [ -e "$HOME/.asdf/asdf.fish" ]
     source "$HOME/.asdf/asdf.fish"
 end
 
+# luarocks
+if [ -d "$HOME/.luarocks/bin" ]
+    set -x PATH "$HOME/.luarocks/bin" $PATH
+end
+
 # fzf key bind
 if type fzf_key_bindings > /dev/null 2>&1
     fzf_key_bindings
