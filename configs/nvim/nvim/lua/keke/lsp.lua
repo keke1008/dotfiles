@@ -9,7 +9,8 @@ M.on_attach = function(_, bufnr)
     lsp_signature.on_attach()
 
     local opt = { buffer = bufnr, silent = true }
-    remap("n", "gd", "<CMD>Lspsaga peek_definition<CR>", opt)
+    remap("n", "gd", "<CMD>Telescope lsp_definitions<CR>", opt)
+    remap("n", "<leader>gd", "<CMD>Lspsaga peek_definition<CR>", opt)
     remap("n", "gr", "<CMD>Lspsaga lsp_finder<CR>", opt)
     remap("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opt)
     remap("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opt)
