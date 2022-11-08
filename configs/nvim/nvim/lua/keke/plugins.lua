@@ -273,8 +273,5 @@ packer.startup(function(use)
     -- Improve neovim startup time
     use("lewis6991/impatient.nvim")
 
-    -- Replace filetype.vim
-    use("nathom/filetype.nvim")
-
     if packer_bootstrap then packer.sync() end
 end)
