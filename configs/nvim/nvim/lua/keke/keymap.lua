@@ -1,4 +1,4 @@
-local sidemenu = require("keke.sidemenu")
+local menu = require("keke.side_menu")
 
 local remap = vim.keymap.set
 
@@ -13,4 +13,6 @@ remap("n", "<C-t>", "<CMD>Telescope<CR>")
 
 remap("t", "<Esc>", "<C-\\><C-n>")
 
-sidemenu.close_keymap("h")
+menu.remap_close("h")
+menu.remap_ignore("i")
+menu.remap_close_all("H")

@@ -7,17 +7,17 @@ end
 
 # user's private bin
 if [ -d "$HOME/.local/bin" ]
-    set -x PATH "$HOME/.local/bin" $PATH
+    fish_add_path "$HOME/.local/bin"
 end
 
 # cargo
 if [ -d "$HOME/.cargo/bin" ]
-    set -x PATH "$HOME/.cargo/bin" $PATH
+    fish_add_path "$HOME/.cargo/bin"
 end
 
 # deno
 if [ -d "$HOME/.deno/bin" ]
-    set -x PATH "$HOME/.deno/bin" $PATH
+    fish_add_path "$HOME/.deno/bin"
 end
 
 # ghcup
@@ -28,6 +28,11 @@ end
 # asdf
 if [ -e "$HOME/.asdf/asdf.fish" ]
     source "$HOME/.asdf/asdf.fish"
+end
+
+# luarocks
+if [ -d "$HOME/.luarocks/bin" ]
+    fish_add_path "$HOME/.luarocks/bin"
 end
 
 # fzf key bind

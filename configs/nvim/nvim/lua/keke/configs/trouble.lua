@@ -1,9 +1,8 @@
 local trouble = require("trouble")
-local sidemenu = require("keke.sidemenu")
+local menu = require("keke.side_menu")
 local remap = vim.keymap.set
 
 trouble.setup({
-    position = "left",
     action_keys = {
         open_split = "s",
         open_vsplit = "v",
@@ -27,7 +26,8 @@ remap("n", "<leader>tq", open_trouble_lazy("quickfix"))
 remap("n", "<leader>tl", open_trouble_lazy("loclist"))
 remap("n", "<leader>tw", open_trouble_lazy("workspace_diagnostics"))
 
-sidemenu.register("t", {
+menu.register("t", {
+    position = "bottom",
     open = trouble.open,
     close = trouble.close,
 })

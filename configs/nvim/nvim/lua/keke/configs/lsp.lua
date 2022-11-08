@@ -4,7 +4,9 @@ local lspconfig = require("lspconfig")
 local root_pattern = require("lspconfig.util").root_pattern
 local lsp_signature = require("lsp_signature")
 local saga = require("lspsaga")
+local saga_outline = require("lspsaga.outline")
 local lsp = require("keke.lsp")
+local menu = require("keke.side_menu")
 
 mason.setup()
 mason_lspconfig.setup()
@@ -35,6 +37,16 @@ saga.init_lsp_saga({
         tabe = "<leader>:t",
     },
     rename_action_quit = "<C-c>",
+    show_outline = {
+        jump_key = "e",
+    },
+    symbol_in_winbar = { enable = true },
+})
+
+menu.register("o", {
+    position = "right",
+    open = function() saga_outline:render_outline(true) end,
+    close = function() saga_outline:render_outline() end,
 })
 
 ---@param name string
