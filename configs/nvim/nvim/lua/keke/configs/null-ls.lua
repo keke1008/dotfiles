@@ -30,6 +30,7 @@ null_ls.setup({
         diagnostics.vulture.with(executable("vulture")),
         formatting.black.with(executable("black")),
         formatting.isort.with(executable("isort")),
+        formatting.autopep8.with(executable("autopep8")),
     },
 })
 
