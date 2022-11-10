@@ -88,4 +88,7 @@ mason_lspconfig.setup_handlers({
             },
         }))
     end,
+    ["clangd"] = function()
+        -- clangd_extensions.nvim
+    end,
 })

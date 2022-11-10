@@ -109,6 +109,13 @@ packer.startup(function(use)
         config = function() require("keke.configs.rust-tools") end,
     })
 
+    -- c/c++
+    use({
+        "p00f/clangd_extensions.nvim",
+        ft = { "c", "cpp" },
+        config = function() require("keke.configs.clangd_extensions") end,
+    })
+
     -- java
     use({
         "mfussenegger/nvim-jdtls",
