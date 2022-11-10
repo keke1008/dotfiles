@@ -122,6 +122,7 @@ packer.startup(function(use)
         ft = "java",
     })
 
+    -- python
     use({
         "mfussenegger/nvim-dap-python",
         ft = "python",
