@@ -64,7 +64,7 @@ alias v nvim
 
 for repeat in (seq 3 10)
     set cd_parents_name (string repeat -n $repeat '.')
-    set cd_parents_path (string repeat -n $repeat '../')
+    set cd_parents_path (string repeat -n (math $repeat - 1) '../')
 
     alias $cd_parents_name "cd $cd_parents_path"
 end
