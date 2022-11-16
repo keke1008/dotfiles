@@ -21,7 +21,7 @@ lsp_signature.setup({
 saga.init_lsp_saga({
     saga_winblend = 30,
     code_action_lightbulb = {
-        sign = false,
+        enable = false,
     },
     finder_action_keys = {
         open = "e",
