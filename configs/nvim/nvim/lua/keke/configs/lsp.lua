@@ -58,7 +58,7 @@ end
 
 mason_lspconfig.setup_handlers({
     function(server_name) lspconfig[server_name].setup(lsp.default_config) end,
-    ["denols"] = function()
+    ["denols"] = function(_)
         lspconfig.denols.setup(lsp.extend_default_config({
             root_dir = root_pattern("deno.json", "deno.jsonc"),
             settings = {
@@ -71,7 +71,7 @@ mason_lspconfig.setup_handlers({
             },
         }))
     end,
-    ["sumneko_lua"] = function()
+    ["sumneko_lua"] = function(_)
         require("neodev").setup({})
         lspconfig.sumneko_lua.setup(lsp.extend_default_config({
             settings = {
@@ -83,10 +83,10 @@ mason_lspconfig.setup_handlers({
             },
         }))
     end,
-    ["clangd"] = function()
+    ["clangd"] = function(_)
         -- clangd_extensions.nvim
     end,
-    ["tsserver"] = function()
+    ["tsserver"] = function(_)
         -- typescript.nvim
     end,
 })
