@@ -71,11 +71,6 @@ mason_lspconfig.setup_handlers({
             },
         }))
     end,
-    ["tsserver"] = function()
-        lspconfig.tsserver.setup(lsp.extend_default_config({
-            root_dir = root_pattern("package.json"),
-        }))
-    end,
     ["sumneko_lua"] = function()
         require("neodev").setup({})
         lspconfig.sumneko_lua.setup(lsp.extend_default_config({
@@ -90,5 +85,8 @@ mason_lspconfig.setup_handlers({
     end,
     ["clangd"] = function()
         -- clangd_extensions.nvim
+    end,
+    ["tsserver"] = function()
+        -- typescript.nvim
     end,
 })

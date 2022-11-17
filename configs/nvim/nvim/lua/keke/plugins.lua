@@ -129,6 +129,13 @@ packer.startup(function(use)
         config = function() require("keke.configs.nvim-dap-python") end,
     })
 
+    -- js/ts
+    use({
+        "jose-elias-alvarez/typescript.nvim",
+        ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        config = function() require("keke.configs.typescript") end,
+    })
+
     --------------------------------------------------
     -- General purpose
     --------------------------------------------------
