@@ -35,6 +35,11 @@ if [ -d "$HOME/.luarocks/bin" ]
     fish_add_path "$HOME/.luarocks/bin"
 end
 
+# snap
+if [ -d "/snap/bin" ]
+    fish_add_path "/snap/bin"
+end
+
 # fzf key bind
 if type fzf_key_bindings > /dev/null 2>&1
     fzf_key_bindings
