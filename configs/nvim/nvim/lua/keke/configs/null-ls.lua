@@ -1,36 +1,55 @@
 local null_ls = require("null-ls")
 local lsp = require("keke.lsp")
 
+---@class Condition
+---@field condition fun(): boolean
+---@operator mul(Condition): Condition
+local Condition = {}
+local mt = {
+    __mul = function(a, b)
+        return Condition.new(function() return a.condition() and b.condition() end)
+    end,
+}
+
+---@param f fun(): boolean
+---@return Condition
+function Condition.new(f) return setmetatable({ condition = f }, mt) end
+
 local code_actions = null_ls.builtins.code_actions
 local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
 
 ---@param name string
-local function executable(name)
-    return {
-        condition = function() return vim.fn.executable(name) == 1 end,
-    }
+---@return Condition
+local function exists(name)
+    return Condition.new(function() return vim.fn.executable(name) == 1 end)
+end
+
+local function not_exists(name)
+    return Condition.new(function() return vim.fn.executable(name) ~= 1 end)
 end
 
 null_ls.setup({
     on_attach = lsp.on_attach,
     sources = {
         -- lua
-        diagnostics.luacheck.with(executable("luacheck")),
-        formatting.stylua.with(executable("stylua")),
+        diagnostics.luacheck.with(exists("luacheck")),
+        formatting.stylua.with(exists("stylua")),
 
         -- js/ts/..
-        code_actions.eslint_d.with(executable("eslint_d")),
-        formatting.prettierd.with(executable("prettierd")),
+        code_actions.eslint.with(exists("eslint") * not_exists("eslint_d")),
+        code_actions.eslint_d.with(exists("eslint_d")),
+        formatting.prettier.with(exists("prettier") * not_exists("prettierd")),
+        formatting.prettierd.with(exists("prettierd")),
 
         -- python
-        diagnostics.flake8.with(executable("flake8")),
-        diagnostics.pylint.with(executable("pylint")),
-        diagnostics.mypy.with(executable("mypy")),
-        diagnostics.vulture.with(executable("vulture")),
-        formatting.black.with(executable("black")),
-        formatting.isort.with(executable("isort")),
-        formatting.autopep8.with(executable("autopep8")),
+        diagnostics.flake8.with(exists("flake8")),
+        diagnostics.pylint.with(exists("pylint")),
+        diagnostics.mypy.with(exists("mypy")),
+        diagnostics.vulture.with(exists("vulture")),
+        formatting.black.with(exists("black")),
+        formatting.isort.with(exists("isort")),
+        formatting.autopep8.with(exists("autopep8")),
     },
 })
 
