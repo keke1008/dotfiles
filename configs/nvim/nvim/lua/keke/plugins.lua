@@ -180,15 +180,6 @@ packer.startup(function(use)
         config = function() require("keke.configs.dap") end,
     })
 
-    -- Change filetype
-    use({
-        "osyo-manga/vim-precious",
-        ft = { "html", "markdown" },
-        requires = "Shougo/context_filetype.vim",
-        config = function() require("keke.configs.precious") end,
-        disable = true,
-    })
-
     -- Showing diagnostics, reference, ...
     use({
         "folke/trouble.nvim",
