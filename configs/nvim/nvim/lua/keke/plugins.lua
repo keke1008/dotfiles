@@ -258,10 +258,13 @@ packer.startup(function(use)
         config = function() require("keke.configs.lualine") end,
     })
 
-    -- Highlight
+    -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter-textobjects",
-        requires = "nvim-treesitter/nvim-treesitter",
+        requires = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter/nvim-treesitter-context",
+        },
         event = "BufRead",
         config = function() require("keke.configs.treesitter") end,
     })
