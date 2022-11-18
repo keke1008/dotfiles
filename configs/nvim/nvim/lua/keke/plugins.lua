@@ -76,6 +76,12 @@ packer.startup(function(use)
         config = function() require("nvim-autopairs").setup() end,
     })
 
+    -- Auto close/rename HTML tag
+    use({
+        "windwp/nvim-ts-autotag",
+        config = function() require("nvim-ts-autotag").setup() end,
+    })
+
     -- Show register content
     use({
         "tversteeg/registers.nvim",
