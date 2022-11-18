@@ -15,7 +15,6 @@ local mt = {
 ---@return Condition
 function Condition.new(f) return setmetatable({ condition = f }, mt) end
 
-local code_actions = null_ls.builtins.code_actions
 local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
 
@@ -37,8 +36,8 @@ null_ls.setup({
         formatting.stylua.with(exists("stylua")),
 
         -- js/ts/..
-        code_actions.eslint.with(exists("eslint") * not_exists("eslint_d")),
-        code_actions.eslint_d.with(exists("eslint_d")),
+        diagnostics.eslint.with(exists("eslint") * not_exists("eslint_d")),
+        diagnostics.eslint_d.with(exists("eslint_d")),
         formatting.prettier.with(exists("prettier") * not_exists("prettierd")),
         formatting.prettierd.with(exists("prettierd")),
 
