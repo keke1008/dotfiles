@@ -1,5 +1,5 @@
 #!/bin/sh -eu
 
-readonly DIR=$(cd $(dirname $0); pwd)
-
-ln -snfv $DIR/.bashrc $DIR/.bash_profile $HOME
+for file in $(find $DOTPATH/configs/bash/ -type f -name '.*'); do
+    ln -snfv $file $HOME
+done

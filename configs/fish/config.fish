@@ -46,6 +46,7 @@ if type fzf_key_bindings > /dev/null 2>&1
 end
 
 set -x DOTPATH (cat "$HOME/.dotpath")
+set -x XDG_CONFIG_HOME "$HOME/.config"
 
 # if running on WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
