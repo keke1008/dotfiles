@@ -23,7 +23,6 @@ rt.setup({
     tools = {
         inlay_hints = {
             parameter_hints_prefix = "", -- \uf54d
-            highlight = "rustInlayHints",
             other_hints_prefix = " ", -- \uf554
         },
     },

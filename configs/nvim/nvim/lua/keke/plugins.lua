@@ -277,8 +277,8 @@ packer.startup(function(use)
 
     -- Colorscheme
     use({
-        "EdenEast/nightfox.nvim",
-        config = function() require("keke.configs.nightfox") end,
+        "folke/tokyonight.nvim",
+        config = function() vim.cmd([[colorscheme tokyonight-night]]) end,
     })
 
     --------------------------------------------------
