@@ -8,6 +8,12 @@ if type tmux > /dev/null 2>&1
   end
 end
 
+# Fisher bootstrapping
+if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
+    set -x FISHER_BOOTSTRAPPING true
+    curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+end
+
 # user's private bin
 if [ -d "$HOME/.local/bin" ]
     fish_add_path "$HOME/.local/bin"
@@ -72,3 +78,6 @@ end
 
 set -e cd_parents_name
 set -e cd_parents_path
+
+# colorscheme
+tokyonight_night
