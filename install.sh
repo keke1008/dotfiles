@@ -1,7 +1,9 @@
 #!/bin/sh -eu
 
-readonly DIR=$(cd $(dirname $0); pwd)
+export readonly DOTPATH=$(cd $(dirname $0); pwd)
 
-for dir in $DIR/configs/* ; do
+echo $DOTPATH > $HOME/.dotpath
+
+for dir in $DOTPATH/configs/* ; do
   "$dir/install.sh"
 done
