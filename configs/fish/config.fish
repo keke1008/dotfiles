@@ -2,17 +2,19 @@ set -x DOTPATH (cat "$HOME/.dotpath")
 set -x XDG_CONFIG_HOME "$HOME/.config"
 set -x fish_term24bit 1
 
-# run tmux if it is not running
-if type tmux > /dev/null 2>&1
-  if [ -z "$TMUX" ]
-    tmux -2
-  end
+# Execute tmux if it is not running
+if type -q tmux && [ -z "$TMUX" ]
+    tmux
 end
 
 # Fisher bootstrapping
 if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
     set -x FISHER_BOOTSTRAPPING true
-    curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+    curl -sL https://git.io/fisher | source
+
+    fisher install \
+        jorgebucaran/fisher \
+        oh-my-fish/theme-bobthefish
 end
 
 # user's private bin
@@ -51,34 +53,31 @@ if [ -d "/snap/bin" ]
 end
 
 # fzf key bind
-if type fzf_key_bindings > /dev/null 2>&1
+if type -q fzf_key_bindings
     fzf_key_bindings
 end
 
 # if running on WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
-  set -x PATH "$DOTPATH/bin/wsl" $PATH
-  set -x BROWSER "firefox"
-  set -x DISPLAY (hostname)".mshome.net:0.0"
+    set -x PATH "$DOTPATH/bin/wsl" $PATH
+    set -x BROWSER "firefox"
+    set -x DISPLAY (hostname)".mshome.net:0.0"
 end
 
-set -x RUST_BACKTRACE 1
-
-if type nvim > /dev/null 2>&1
+if type -q nvim
     set -x EDITOR nvim
 end
 
+
+# aliases
 alias v nvim
 
 for repeat in (seq 3 10)
-    set cd_parents_name (string repeat -n $repeat '.')
-    set cd_parents_path (string repeat -n (math $repeat - 1) '../')
+    set -l cd_parents_name (string repeat -n $repeat '.')
+    set -l cd_parents_path (string repeat -n (math $repeat - 1) '../')
 
     alias $cd_parents_name "cd $cd_parents_path"
 end
-
-set -e cd_parents_name
-set -e cd_parents_path
 
 # colorscheme
 tokyonight_night
