@@ -1,6 +1,7 @@
-# ~/.bash_profile
+#!/usr/bin/env bash
+#
 if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
+  . "$HOME/.bashrc"
 fi
 
 # set PATH so it includes user's private bin if it exists
@@ -14,6 +15,6 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # add cargo path
-if [ -f $HOME/.cargo/env ]; then
-  . $HOME/.cargo/env
+if [ -f "$HOME/.cargo/env" ]; then
+  . "$HOME/.cargo/env"
 fi

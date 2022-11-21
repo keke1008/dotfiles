@@ -17,6 +17,7 @@ function Condition.new(f) return setmetatable({ condition = f }, mt) end
 
 local diagnostics = null_ls.builtins.diagnostics
 local formatting = null_ls.builtins.formatting
+local code_action = null_ls.builtins.code_actions
 
 ---@param name string
 ---@return Condition
@@ -49,6 +50,10 @@ null_ls.setup({
         formatting.black.with(exists("black")),
         formatting.isort.with(exists("isort")),
         formatting.autopep8.with(exists("autopep8")),
+
+        -- shell
+        diagnostics.shellcheck.with(exists("shellcheck")),
+        code_action.shellcheck.with(exists("shellcheck")),
     },
 })
 
