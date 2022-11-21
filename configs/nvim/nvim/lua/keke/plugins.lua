@@ -238,6 +238,11 @@ packer.startup(function(use)
         config = function() require("fidget").setup({}) end,
     })
 
+    use({
+        "petertriho/nvim-scrollbar",
+        config = function() require("keke.configs.nvim-scrollbar") end,
+    })
+
     --Fuzzy finder
     use({
         "nvim-telescope/telescope.nvim",
