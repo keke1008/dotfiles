@@ -1,5 +1,6 @@
 set -x DOTPATH (cat "$HOME/.dotpath")
 set -x XDG_CONFIG_HOME "$HOME/.config"
+set -x fish_term24bit 1
 
 # run tmux if it is not running
 if type tmux > /dev/null 2>&1
@@ -81,3 +82,9 @@ set -e cd_parents_path
 
 # colorscheme
 tokyonight_night
+
+# bobthefish
+set -g theme_nerd_fonts yes
+set -g theme_newline_cursor yes
+set -g theme_newline_prompt '$ '
+set -g theme_show_exit_status yes
