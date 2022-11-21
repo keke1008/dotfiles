@@ -32,7 +32,7 @@ nvim_tree.setup({
     end,
 })
 
-menu.register("e", {
+menu.register("nvim-tree", "e", {
     position = "left",
     open = nvim_tree_api.tree.open,
     close = nvim_tree_api.tree.close,

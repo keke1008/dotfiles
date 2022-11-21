@@ -127,10 +127,11 @@ end
 ---@field close fun()
 ---@field position SideMenu.MenuPosition | SideMenu.MenuPosition[]
 
+---@param name string
 ---@param key string
 ---@param param SideMenu.RegisterMenuParam
 ---@return SideMenu.MenuHandle
-function M.register(key, param)
+function M.register(name, key, param)
     local id = M._id
     M._id = M._id + 1
 
@@ -148,7 +149,7 @@ function M.register(key, param)
     }
     M._side_menu:register(id, menu)
 
-    vim.keymap.set("n", M._prefix .. key, function() M._side_menu:open(id) end)
+    vim.keymap.set("n", M._prefix .. key, function() M._side_menu:open(id) end, { desc = ("Open %s"):format(name) })
 
     return MenuHandle.new(id, M._side_menu)
 end
@@ -157,7 +158,12 @@ end
 function M.remap_close(key)
     remap_positions(function(position, suffix)
         local lhs = M._prefix .. key .. suffix
-        vim.keymap.set("n", lhs, function() M._side_menu:close(position) end)
+        vim.keymap.set(
+            "n",
+            lhs,
+            function() M._side_menu:close(position) end,
+            { desc = ("Close %s side menu"):format(position) }
+        )
     end)
 end
 
@@ -165,13 +171,18 @@ end
 function M.remap_ignore(key)
     remap_positions(function(position, suffix)
         local lhs = M._prefix .. key .. suffix
-        vim.keymap.set("n", lhs, function() M._side_menu:ignore(position) end)
+        vim.keymap.set(
+            "n",
+            lhs,
+            function() M._side_menu:ignore(position) end,
+            { desc = ("Ignore %s side menu"):format(position) }
+        )
     end)
 end
 
 ---@param key string
 function M.remap_close_all(key)
-    vim.keymap.set("n", M._prefix .. key, function() M._side_menu:close_all() end)
+    vim.keymap.set("n", M._prefix .. key, function() M._side_menu:close_all() end, { desc = "Close all side menu" })
 end
 
 return M

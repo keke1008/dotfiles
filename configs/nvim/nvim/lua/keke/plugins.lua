@@ -273,6 +273,12 @@ packer.startup(function(use)
         config = function() require("keke.configs.zen-mode") end,
     })
 
+    -- Key binding helper
+    use({
+        "folke/which-key.nvim",
+        config = function() require("which-key").setup() end,
+    })
+
     -- Statusline
     use({
         "nvim-lualine/lualine.nvim",

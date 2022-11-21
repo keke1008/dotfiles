@@ -26,18 +26,18 @@ dap.configurations.cpp = {
     },
 }
 
-remap("n", "<leader>db", dap.toggle_breakpoint)
-remap("n", "<leader>dc", dap.continue)
-remap("n", "<leader>du", dap.step_back)
-remap("n", "<leader>di", dap.step_into)
-remap("n", "<leader>do", dap.step_over)
-remap("n", "<leader>dp", dap.step_out)
-remap("n", "<leader>dq", dap.terminate)
+remap("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+remap("n", "<leader>dc", dap.continue, { desc = "Debug continue" })
+remap("n", "<leader>du", dap.step_back, { desc = "Debug step back" })
+remap("n", "<leader>di", dap.step_into, { desc = "Debug step into" })
+remap("n", "<leader>do", dap.step_over, { desc = "Debug step over" })
+remap("n", "<leader>dp", dap.step_out, { desc = "Debug step out" })
+remap("n", "<leader>dq", dap.terminate, { desc = "Debug terminate" })
 remap("n", "<leader>dQ", function()
     dap.terminate()
     dapui.close({})
 end)
-remap("n", "<leader>dk", dapui.eval)
+remap("n", "<leader>dk", dapui.eval, { desc = "Debug eval" })
 
 dapui.setup({
     layouts = {
@@ -54,7 +54,7 @@ dapui.setup({
     },
 })
 
-local handle = menu.register("d", {
+local handle = menu.register("dap", "d", {
     position = { "left", "right" },
     open = dapui.open,
     close = dapui.close,

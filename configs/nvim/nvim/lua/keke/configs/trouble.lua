@@ -11,22 +11,16 @@ trouble.setup({
     },
 })
 
----@param provider string
----@return fun()
-local function open_trouble_lazy(provider)
-    return function() trouble.open(provider) end
-end
+remap("n", "<leader>tt", "<CMD>Trouble<CR>")
+remap("n", "<leader>td", "<CMD>Trouble lsp_definitions<CR>")
+remap("n", "<leader>tD", "<CMD>Trouble lsp_type_definitions<CR>")
+remap("n", "<leader>tr", "<CMD>Trouble lsp_references<CR>")
+remap("n", "<leader>ti", "<CMD>Trouble lsp_implementations<CR>")
+remap("n", "<leader>tq", "<CMD>Trouble quickfix<CR>")
+remap("n", "<leader>tl", "<CMD>Trouble loclist<CR>")
+remap("n", "<leader>tw", "<CMD>Trouble workspace_diagnostics<CR>")
 
-remap("n", "<leader>tt", trouble.open)
-remap("n", "<leader>td", open_trouble_lazy("lsp_definitions"))
-remap("n", "<leader>tD", open_trouble_lazy("lsp_type_definitions"))
-remap("n", "<leader>tr", open_trouble_lazy("lsp_references"))
-remap("n", "<leader>ti", open_trouble_lazy("lsp_implementations"))
-remap("n", "<leader>tq", open_trouble_lazy("quickfix"))
-remap("n", "<leader>tl", open_trouble_lazy("loclist"))
-remap("n", "<leader>tw", open_trouble_lazy("workspace_diagnostics"))
-
-menu.register("t", {
+menu.register("trouble", "t", {
     position = "bottom",
     open = trouble.open,
     close = trouble.close,

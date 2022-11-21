@@ -1,11 +1,10 @@
 local telescope = require("telescope")
-local telescope_builtin = require("telescope.builtin")
 
 local remap = vim.keymap.set
 
 telescope.setup({})
 
-remap("n", "<leader>fb", telescope_builtin.builtin)
-remap("n", "<leader>ff", telescope_builtin.find_files)
-remap("n", "<leader>fg", telescope_builtin.git_files)
-remap("n", "<leader>fl", telescope_builtin.live_grep)
+remap("n", "<leader>fb", "<CMD>Telescope builtin<CR>")
+remap("n", "<leader>ff", "<CMD>Telescope find_files<CR>")
+remap("n", "<leader>fg", "<CMD>Telescope git_files<CR>")
+remap("n", "<leader>fl", "<CMD>Telescope live_grep<CR>")

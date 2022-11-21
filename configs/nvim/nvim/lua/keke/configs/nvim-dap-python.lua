@@ -21,5 +21,5 @@ local function run_debug(f)
     return function() f(debug_opts) end
 end
 
-remap("n", "<leader>dm", run_debug(dap_python.test_method))
-remap("n", "<leader>da", run_debug(dap_python.test_class))
+remap("n", "<leader>dm", run_debug(dap_python.test_method), { desc = "Debug test method" })
+remap("n", "<leader>da", run_debug(dap_python.test_class), { desc = "Debug test class" })

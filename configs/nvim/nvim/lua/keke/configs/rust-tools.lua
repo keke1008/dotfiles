@@ -15,9 +15,11 @@ local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 rt.setup({
     server = lsp.extend_default_config({
         on_attach = lsp.extend_on_attach(function(_, bufnr)
-            local opt = { buffer = bufnr }
-            remap("n", "K", rt.hover_actions.hover_actions, opt)
-            remap("n", "<leader>la", rt.code_action_group.code_action_group, opt)
+            remap("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
+            remap("n", "<leader>la", rt.code_action_group.code_action_group, {
+                buffer = bufnr,
+                desc = "Lsp code action",
+            })
         end),
     }),
     tools = {

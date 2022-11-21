@@ -44,6 +44,7 @@ vim.o.shiftwidth = 4
 vim.o.completeopt = "menuone,noinsert"
 vim.o.shortmess = vim.o.shortmess .. "c"
 vim.o.updatetime = 300
+vim.o.timeoutlen = 500
 
 vim.o.ignorecase = true
 vim.o.smartcase = true
