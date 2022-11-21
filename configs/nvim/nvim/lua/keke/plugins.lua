@@ -101,63 +101,19 @@ packer.startup(function(use)
     })
 
     --------------------------------------------------
-    -- Languages
-    --------------------------------------------------
-
-    -- lua
-    use("folke/neodev.nvim")
-
-    -- rust
-    use({
-        "simrat39/rust-tools.nvim",
-        branch = "modularize_and_inlay_rewrite",
-        ft = "rust",
-        config = function() require("keke.configs.rust-tools") end,
-    })
-
-    -- c/c++
-    use({
-        "p00f/clangd_extensions.nvim",
-        ft = { "c", "cpp" },
-        config = function() require("keke.configs.clangd_extensions") end,
-    })
-
-    -- java
-    use({
-        "mfussenegger/nvim-jdtls",
-        ft = "java",
-    })
-
-    -- python
-    use({
-        "mfussenegger/nvim-dap-python",
-        ft = "python",
-        config = function() require("keke.configs.nvim-dap-python") end,
-    })
-
-    -- js/ts
-    use({
-        "jose-elias-alvarez/typescript.nvim",
-        ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-        config = function() require("keke.configs.typescript") end,
-    })
-
-    --------------------------------------------------
-    -- General purpose
-    --------------------------------------------------
-
     -- LSP
+    --------------------------------------------------
+
+    -- LSP, DAP, linter, formatter installer
     use({
         "williamboman/mason.nvim",
         requires = {
             "williamboman/mason-lspconfig.nvim",
             "neovim/nvim-lspconfig",
-            "ray-x/lsp_signature.nvim",
             "nvim-telescope/telescope.nvim",
             "hrsh7th/cmp-nvim-lsp",
-            "glepnir/lspsaga.nvim",
         },
-        config = function() require("keke.configs.lsp") end,
+        config = function() require("keke.configs.mason") end,
     })
 
     -- General purposes lunguage server
@@ -200,6 +156,72 @@ packer.startup(function(use)
         config = function() require("keke.configs.trouble") end,
     })
 
+    -- LSP UI plugin
+    use({
+        "glepnir/lspsaga.nvim",
+        config = function() require("keke.configs.lspsaga") end,
+    })
+
+    -- Show LSP status
+    use({
+        "j-hui/fidget.nvim",
+        config = function() require("fidget").setup({}) end,
+    })
+
+    -- Show function signature
+    use({
+        "ray-x/lsp_signature.nvim",
+        config = function() require("keke.configs.lsp_signature") end,
+    })
+
+    -- Scroll bar with diagnostics
+    use({
+        "petertriho/nvim-scrollbar",
+        config = function() require("keke.configs.nvim-scrollbar") end,
+    })
+
+    --------------------------------------------------
+    -- Language-specifig LSP plugins
+    --------------------------------------------------
+
+    -- lua
+    use("folke/neodev.nvim")
+
+    -- rust
+    use({
+        "simrat39/rust-tools.nvim",
+        branch = "modularize_and_inlay_rewrite",
+        ft = "rust",
+        config = function() require("keke.configs.rust-tools") end,
+    })
+
+    -- c/c++
+    use({
+        "p00f/clangd_extensions.nvim",
+        ft = { "c", "cpp" },
+        config = function() require("keke.configs.clangd_extensions") end,
+    })
+
+    -- java
+    use({
+        "mfussenegger/nvim-jdtls",
+        ft = "java",
+    })
+
+    -- python
+    use({
+        "mfussenegger/nvim-dap-python",
+        ft = "python",
+        config = function() require("keke.configs.nvim-dap-python") end,
+    })
+
+    -- js/ts
+    use({
+        "jose-elias-alvarez/typescript.nvim",
+        ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        config = function() require("keke.configs.typescript") end,
+    })
+
     --------------------------------------------------
     -- Appearance
     --------------------------------------------------
@@ -230,17 +252,6 @@ packer.startup(function(use)
     use({
         "stevearc/dressing.nvim",
         config = function() require("dressing").setup() end,
-    })
-
-    -- Lsp status
-    use({
-        "j-hui/fidget.nvim",
-        config = function() require("fidget").setup({}) end,
-    })
-
-    use({
-        "petertriho/nvim-scrollbar",
-        config = function() require("keke.configs.nvim-scrollbar") end,
     })
 
     --Fuzzy finder
