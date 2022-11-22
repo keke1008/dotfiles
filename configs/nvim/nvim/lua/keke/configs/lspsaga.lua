@@ -28,7 +28,7 @@ saga.init_lsp_saga({
     symbol_in_winbar = { enable = true },
 })
 
-menu.register("lspsaga outline", "t", {
+menu.register("lspsaga outline", "o", {
     position = "right",
     open = function() saga_outline:render_outline(true) end,
     close = function() saga_outline:render_outline() end,
