@@ -87,3 +87,4 @@ set -g theme_nerd_fonts yes
 set -g theme_newline_cursor yes
 set -g theme_newline_prompt '$ '
 set -g theme_show_exit_status yes
+set -g theme_display_ruby no # This setting makes powerline fast

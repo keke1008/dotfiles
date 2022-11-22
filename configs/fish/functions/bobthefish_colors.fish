@@ -33,8 +33,8 @@ function bobthefish_colors -S -d 'Define a custom bobthefish color scheme'
 
     set -x color_repo                    $black      $blue
     set -x color_repo_work_tree          $black      $blue
-    set -x color_repo_dirty              $blue       $black   --italic
-    set -x color_repo_staged             $blue       $black   --bold
+    set -x color_repo_dirty              $blue       $black   --bold
+    set -x color_repo_staged             $cyan       $black
 
     set -x color_vi_mode_default         $brblue     $black   --bold
     set -x color_vi_mode_insert          $brgreen    $black   --bold
