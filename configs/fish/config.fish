@@ -14,7 +14,9 @@ if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
 
     fisher install \
         jorgebucaran/fisher \
-        oh-my-fish/theme-bobthefish
+        oh-my-fish/theme-bobthefish \
+        jethrokuan/z \
+        0rax/fish-bd
 end
 
 # user's private bin
