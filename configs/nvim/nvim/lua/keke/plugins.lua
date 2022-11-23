@@ -292,6 +292,7 @@ packer.startup(function(use)
         requires = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-treesitter/nvim-treesitter-context",
+            "andymass/vim-matchup",
         },
         event = "BufRead",
         config = function() require("keke.configs.treesitter") end,
