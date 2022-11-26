@@ -25,14 +25,13 @@ dap.configurations.cpp = {
         stopOnEntry = true,
     },
 }
-
-remap("n", "<leader>db", "DapToggleBreakpoint")
-remap("n", "<leader>dc", "DapContinue")
+remap("n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>")
+remap("n", "<leader>dc", "<CMD>DapContinue<CR>")
+remap("n", "<leader>di", "<CMD>DapStepInto<CR>")
 remap("n", "<leader>du", dap.step_back, { desc = "DapStepBack" })
-remap("n", "<leader>di", "DapStepInto")
-remap("n", "<leader>do", "DapStepOver")
-remap("n", "<leader>dp", "DapStepOut")
-remap("n", "<leader>dq", "DapTerminate")
+remap("n", "<leader>do", "<CMD>DapStepOver<CR>")
+remap("n", "<leader>dp", "<CMD>DapStepOut<CR>")
+remap("n", "<leader>dq", "<CMD>DapTerminate<CR>")
 remap("n", "<leader>dQ", function()
     dap.terminate()
     dapui.close({})
