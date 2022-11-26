@@ -2,6 +2,29 @@ local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local lsp_signature = require("lsp_signature")
 local remap = vim.keymap.set
 
+vim.fn.sign_define({
+    {
+        name = "DiagnosticSignError",
+        text = "",
+        texthl = "DiagnosticSignError",
+    },
+    {
+        name = "DiagnosticSignWarning",
+        text = "",
+        texthl = "DiagnosticSignWarning",
+    },
+    {
+        name = "DiagnosticSignInformation",
+        text = "",
+        texthl = "DiagnosticSignInformation",
+    },
+    {
+        name = "DiagnosticSignHint",
+        text = "",
+        texthl = "DiagnosticSignHint",
+    },
+})
+
 local M = {}
 
 M.capabilities = cmp_nvim_lsp.default_capabilities()
