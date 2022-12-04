@@ -9,9 +9,9 @@ vim.fn.sign_define({
         texthl = "DiagnosticSignError",
     },
     {
-        name = "DiagnosticSignWarning",
+        name = "DiagnosticSignWarn",
         text = "",
-        texthl = "DiagnosticSignWarning",
+        texthl = "DiagnosticSignWarn",
     },
     {
         name = "DiagnosticSignInformation",
