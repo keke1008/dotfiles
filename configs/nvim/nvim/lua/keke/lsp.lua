@@ -25,9 +25,15 @@ vim.fn.sign_define({
     },
 })
 
+local function make_capabilities()
+    local capabilities = cmp_nvim_lsp.default_capabilities()
+    capabilities.offsetEncoding = "utf-8"
+    return capabilities
+end
+
 local M = {}
 
-M.capabilities = cmp_nvim_lsp.default_capabilities()
+M.capabilities = make_capabilities()
 M.on_attach = function(_, bufnr)
     lsp_signature.on_attach()
 
