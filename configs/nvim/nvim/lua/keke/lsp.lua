@@ -27,7 +27,7 @@ vim.fn.sign_define({
 
 local function make_capabilities()
     local capabilities = cmp_nvim_lsp.default_capabilities()
-    capabilities.offsetEncoding = "utf-8"
+    capabilities.offsetEncoding = { "utf-8" }
     return capabilities
 end
 
