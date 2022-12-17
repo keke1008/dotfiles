@@ -54,6 +54,9 @@ null_ls.setup({
         -- shell
         diagnostics.shellcheck.with(exists("shellcheck")),
         code_action.shellcheck.with(exists("shellcheck")),
+
+        -- c
+        diagnostics.cpplint.with(exists("cpplint")),
     },
 })
 
