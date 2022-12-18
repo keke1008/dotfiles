@@ -61,8 +61,7 @@ end
 
 # if running on WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
-    set -x PATH "$DOTPATH/bin/wsl" $PATH
-    set -x BROWSER "firefox"
+    fish_add_path "$DOTPATH/bin/wsl"
 
     # if WSL has WSLg
     if type -q "wslg.exe"
