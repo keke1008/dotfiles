@@ -28,8 +28,6 @@ vim.o.cmdheight = 2
 vim.o.laststatus = 2
 vim.o.showcmd = true
 
-vim.o.clipboard = "unnamedplus"
-
 vim.o.fenc = "utf-8"
 vim.o.backup = false
 vim.o.writebackup = false
@@ -52,21 +50,8 @@ vim.o.incsearch = true
 
 vim.g.mapleader = " "
 
--- https://github.com/neovim/neovim/issues/9570#issuecomment-626275405
-if vim.fn.executable("win32yank.exe") == 1 then
-    vim.g.clipboard = {
-        name = "win32yank",
-        copy = {
-            ["+"] = "win32yank.exe -i --crlf",
-            ["*"] = "win32yank.exe -i --crlf",
-        },
-        paste = {
-            ["+"] = "win32yank.exe -o --lf",
-            ["*"] = "win32yank.exe -o --lf",
-        },
-        cache_enabled = 0,
-    }
-end
+-- Set clipboard configs manually
+require("keke.clipboard")
 
 vim.cmd("autocmd TextYankPost * silent! lua vim.highlight.on_yank { timeout = 200 }")
 
