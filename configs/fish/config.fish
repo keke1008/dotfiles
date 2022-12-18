@@ -63,7 +63,13 @@ end
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
     set -x PATH "$DOTPATH/bin/wsl" $PATH
     set -x BROWSER "firefox"
-    set -x DISPLAY (hostname)".mshome.net:0.0"
+
+    # if WSL has WSLg
+    if type -q "wslg.exe"
+        set -x DISPLAY ":0"
+    else
+        set -x DISPLAY (hostname)".mshome.net:0.0"
+    end
 end
 
 if type -q nvim
