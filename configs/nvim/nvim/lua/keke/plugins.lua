@@ -161,8 +161,12 @@ packer.startup(function(use)
     -- Debugger
     use({
         "mfussenegger/nvim-dap",
-        requires = "rcarriga/nvim-dap-ui",
-        config = function() require("keke.configs.dap") end,
+        requires = { { "rcarriga/nvim-dap-ui", opt = true } },
+        wants = { "nvim-dap-ui" },
+        module = { "dap" },
+        cmd = { "Dap*" },
+        setup = function() require("keke.configs.dap").setup() end,
+        config = function() require("keke.configs.dap").config() end,
     })
 
     -- Showing diagnostics, reference, ...
