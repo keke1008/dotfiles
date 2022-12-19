@@ -52,20 +52,30 @@ packer.startup(function(use)
     })
 
     -- Format
-    use("junegunn/vim-easy-align")
+    use({
+        "junegunn/vim-easy-align",
+        keys = { "<Plug>(EasyAlign)" },
+        setup = function() vim.keymap.set({ "n", "x" }, "ga", "<Plug>(EasyAlign)") end,
+    })
 
     -- Cursor motion
-    use("skanehira/jumpcursor.vim")
+    use({
+        "skanehira/jumpcursor.vim",
+        keys = { "<Plug>(jumpcursor-jump)" },
+        setup = function() vim.keymap.set("n", "gj", "<Plug>(jumpcursor-jump)") end,
+    })
 
     -- Edge motion
     use({
         "haya14busa/vim-edgemotion",
-        config = function() require("keke.configs.edgemotion") end,
+        keys = { "<Plug>(edgemotion-" },
+        setup = function() require("keke.configs.edgemotion") end,
     })
 
     -- Comment
     use({
         "numToStr/Comment.nvim",
+        keys = { "gc" },
         config = function() require("Comment").setup() end,
     })
 
@@ -85,19 +95,23 @@ packer.startup(function(use)
     -- Show register content
     use({
         "tversteeg/registers.nvim",
+        keys = { '"', { "v", '"' }, { "i", "<C-r>" } },
+        cmd = { "Registers" },
         config = function() require("keke.configs.registers") end,
     })
 
     -- Improve *
     use({
         "haya14busa/vim-asterisk",
-        config = function() require("keke.configs.asterisk") end,
+        keys = { "<Plug>(asterisk-" },
+        setup = function() require("keke.configs.asterisk") end,
     })
 
     -- Undo tree
     use({
         "mbbill/undotree",
-        config = function() require("keke.configs.undotree") end,
+        cmd = { "UndotreeShow", "UndotreeHide", "UndotreeToggle", "UndotreeFocus" },
+        setup = function() require("keke.configs.undotree") end,
     })
 
     --------------------------------------------------
@@ -131,14 +145,16 @@ packer.startup(function(use)
     -- Completion
     use({
         "hrsh7th/nvim-cmp",
+        module = { "cmp" },
         requires = {
-            "hrsh7th/cmp-nvim-lsp",
-            "onsails/lspkind.nvim",
-            "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-cmdline",
-            "hrsh7th/cmp-buffer",
-            "ray-x/cmp-treesitter",
+            { "hrsh7th/cmp-nvim-lsp", event = { "InsertEnter" } },
+            { "saadparwaiz1/cmp_luasnip", event = { "InsertEnter" } },
+            { "hrsh7th/cmp-cmdline", event = { "CmdLineEnter" } },
+            { "hrsh7th/cmp-buffer", event = { "InsertEnter" } },
+            { "ray-x/cmp-treesitter", event = { "InsertEnter" } },
+            { "onsails/lspkind.nvim", opt = true },
         },
+        wants = { "lspkind.nvim" },
         config = function() require("keke.configs.cmp") end,
     })
 
@@ -153,13 +169,19 @@ packer.startup(function(use)
     use({
         "folke/trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
-        config = function() require("keke.configs.trouble") end,
+        cmd = { "Trouble" },
+        module = { "toruble" },
+        setup = require("keke.configs.trouble").setup,
+        config = require("keke.configs.trouble").config,
     })
 
     -- LSP UI plugin
     use({
         "glepnir/lspsaga.nvim",
-        config = function() require("keke.configs.lspsaga") end,
+        cmd = { "Lspsaga" },
+        module = { "lspsaga" },
+        setup = require("keke.configs.lspsaga").setup,
+        config = require("keke.configs.lspsaga").config,
     })
 
     -- Show LSP status
@@ -258,7 +280,10 @@ packer.startup(function(use)
     use({
         "nvim-telescope/telescope.nvim",
         requires = "nvim-lua/plenary.nvim",
-        config = function() require("keke.configs.telescope") end,
+        cmd = { "Telescope" },
+        module = { "telescope" },
+        setup = require("keke.configs.telescope").setup,
+        config = require("keke.configs.telescope").config,
     })
 
     -- Indent line
@@ -270,7 +295,9 @@ packer.startup(function(use)
     -- Zen mode
     use({
         "folke/zen-mode.nvim",
-        config = function() require("keke.configs.zen-mode") end,
+        module = { "zen-mode" },
+        setup = require("keke.configs.zen-mode").setup,
+        config = require("keke.configs.zen-mode").config,
     })
 
     -- Key binding helper

@@ -1,10 +1,18 @@
-local zen_mode = require("zen-mode")
-local menu = require("keke.side_menu")
+local M = {}
 
-zen_mode.setup({})
+function M.setup()
+    local menu = require("keke.side_menu")
 
-menu.register("zen-mode", "z", {
-    position = { "left", "right", "bottom" },
-    open = zen_mode.open,
-    close = zen_mode.close,
-})
+    menu.register("zen-mode", "z", {
+        position = { "left", "right", "bottom" },
+        open = function() require("zen-mode").open() end,
+        close = function() require("zen-mode").close() end,
+    })
+end
+
+function M.config()
+    local zen_mode = require("zen-mode")
+    zen_mode.setup({})
+end
+
+return M
