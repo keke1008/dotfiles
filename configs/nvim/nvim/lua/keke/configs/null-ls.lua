@@ -59,25 +59,3 @@ null_ls.setup({
         diagnostics.cpplint.with(exists("cpplint")),
     },
 })
-
-local function format()
-    local null_ls_client = vim.lsp.get_active_clients({
-        name = "null-ls",
-        buffer = vim.api.nvim_get_current_buf,
-    })[1]
-    if null_ls_client and null_ls_client.supports_method("textDocument/formatting") then
-        vim.lsp.buf.format({ id = null_ls_client.id })
-    else
-        vim.lsp.buf.format({})
-    end
-end
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    callback = format,
-})
-
-vim.api.nvim_create_user_command("W", function(opt)
-    local cmd = opt.bang and "w!" or "w"
-    vim.cmd("noautocmd " .. cmd)
-end, { bang = true })

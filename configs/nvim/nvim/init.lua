@@ -63,4 +63,6 @@ require("keke.utils")
 
 require("keke.plugins")
 
+require("keke.configs.lsp")
+
 require("keke.keymap")

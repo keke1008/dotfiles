@@ -121,16 +121,12 @@ packer.startup(function(use)
     -- Global/Local lsp settings
     use({ "folke/neoconf.nvim" })
 
-    -- LSP, DAP, linter, formatter installer
+    -- Install and configure LSP, DAP, linter, formatter
     use({
         "williamboman/mason.nvim",
-        requires = {
-            "williamboman/mason-lspconfig.nvim",
-            "neovim/nvim-lspconfig",
-            "nvim-telescope/telescope.nvim",
-            "hrsh7th/cmp-nvim-lsp",
-        },
-        config = function() require("keke.configs.mason") end,
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+        "hrsh7th/cmp-nvim-lsp",
     })
 
     -- General purposes lunguage server
