@@ -31,16 +31,7 @@ mason_lspconfig.setup_handlers({
         }))
     end,
     ["sumneko_lua"] = function(_)
-        require("neodev").setup({})
-        lspconfig.sumneko_lua.setup(lsp.extend_default_config({
-            settings = {
-                Lua = {
-                    completion = {
-                        callSnnippet = "Replace",
-                    },
-                },
-            },
-        }))
+        -- neodev.nvim
     end,
     ["clangd"] = function(_)
         -- clangd_extensions.nvim

@@ -211,7 +211,11 @@ packer.startup(function(use)
     --------------------------------------------------
 
     -- lua
-    use("folke/neodev.nvim")
+    use({
+        "folke/neodev.nvim",
+        ft = "lua",
+        config = function() require("keke.configs.neodev") end,
+    })
 
     -- rust
     use({
