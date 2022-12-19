@@ -3,3 +3,6 @@
 
 # null-ls.nvim
 .null-ls-root
+
+# neoconf.nvim
+.neoconf.json

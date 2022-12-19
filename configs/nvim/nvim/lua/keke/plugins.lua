@@ -118,6 +118,9 @@ packer.startup(function(use)
     -- LSP
     --------------------------------------------------
 
+    -- Global/Local lsp settings
+    use({ "folke/neoconf.nvim" })
+
     -- LSP, DAP, linter, formatter installer
     use({
         "williamboman/mason.nvim",
