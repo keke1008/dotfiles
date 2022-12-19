@@ -236,10 +236,10 @@ packer.startup(function(use)
     -- Filer
     use({
         "nvim-tree/nvim-tree.lua",
-        requires = {
-            "nvim-tree/nvim-web-devicons",
-        },
-        config = function() require("keke.configs.nvim-tree") end,
+        requires = { "nvim-tree/nvim-web-devicons" },
+        module = { "nvim-tree." }, -- `nvim-treesitter` matches the pattern "nvim-tree".
+        setup = require("keke.configs.nvim-tree").setup,
+        config = require("keke.configs.nvim-tree").config,
     })
 
     -- Scroll animation
