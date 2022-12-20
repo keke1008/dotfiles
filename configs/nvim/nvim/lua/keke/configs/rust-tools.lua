@@ -3,14 +3,21 @@
 
 local rt = require("rust-tools")
 local rt_dap = require("rust-tools.dap")
+local mason_registry = require("mason-registry")
 local lsp = require("keke.lsp")
 local remap = vim.keymap.set
 
 vim.api.nvim_set_hl(0, "rustInlayHints", { fg = "#3467af" })
 
-local extension_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/"
-local codelldb_path = extension_path .. "adapter/codelldb"
-local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+local installed, codelldb = pcall(mason_registry.get_package, "codelldb")
+if not installed then
+    vim.notify("`codelldb` in not installed.", vim.log.levels.INFO)
+    return
+end
+
+local package_path = codelldb:get_install_path()
+local codelldb_path = package_path .. "/extension/adapter/codelldb"
+local liblldb_path = package_path .. "/extension/lldb/lib/liblldb.so"
 
 rt.setup({
     server = lsp.extend_default_config({

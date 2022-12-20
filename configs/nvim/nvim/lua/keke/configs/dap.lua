@@ -43,16 +43,27 @@ function M.config()
         },
     }
 
-    dap.configurations.cpp = {
+    local function prompt_executable()
+        return coroutine.create(function(dap_run_co)
+            vim.ui.input(
+                { prompt = "Path to executable", default = vim.fn.getcwd() .. "/", completion = "file" },
+                function(path) coroutine.resume(dap_run_co, path) end
+            )
+        end)
+    end
+
+    dap.configurations.c = {
         {
             name = "Launch file",
             type = "codelldb",
             request = "launch",
-            program = function() return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file") end,
+            program = prompt_executable,
             cwd = "${workspaceFolder}",
-            stopOnEntry = true,
+            stopOnEntry = false,
         },
     }
+    dap.configurations.cpp = dap.configurations.c
+    dap.configurations.rust = dap.configurations.c
 
     dapui.setup({
         layouts = {

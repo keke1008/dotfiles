@@ -2,9 +2,13 @@ local dap_python = require("dap-python")
 local mason_registry = require("mason-registry")
 local remap = vim.keymap.set
 
-local debugpy_installed, debugpy_package = pcall(mason_registry.get_package, "debugpy")
-if not debugpy_installed then return end
-local debugpy_path = debugpy_package:get_install_path()
+local installed, debugpy = pcall(mason_registry.get_package, "debugpy")
+if not installed then
+    vim.notify("`debugpy` in not installed.", vim.log.levels.INFO)
+    return
+end
+
+local debugpy_path = debugpy:get_install_path()
 local python_path = debugpy_path .. "/venv/bin/python"
 dap_python.setup(python_path)
 
