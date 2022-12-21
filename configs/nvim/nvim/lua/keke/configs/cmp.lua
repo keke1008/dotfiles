@@ -1,6 +1,8 @@
 local cmp = require("cmp")
+local compare = cmp.config.compare
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
+local compare_under_score = require("cmp-under-comparator").under
 
 local jump_prev = function() return luasnip.jump(-1) end
 local jump_next = function() return luasnip.jump(1) end
@@ -32,10 +34,11 @@ cmp.setup({
         expand = function(args) luasnip.lsp_expand(args.body) end,
     },
     sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "treesitter" },
+        { name = "nvim_lsp", priority = 5 },
+        { name = "luasnip", priority = 4 },
+        { name = "path", priority = 3 },
+        { name = "buffer", priority = 2 },
+        { name = "treesitter", priority = 1 },
     }),
     completion = {
         completeopt = "menuone,noinsert",
@@ -63,6 +66,20 @@ cmp.setup({
     window = {
         completion = {
             col_offset = -2,
+        },
+    },
+    sorting = {
+        comparator = {
+            compare.offset,
+            compare.exact,
+            compare.score,
+            compare_under_score,
+            compare.recently_used,
+            compare.locality,
+            compare.kind,
+            compare.sort_text,
+            compare.length,
+            compare.order,
         },
     },
 })

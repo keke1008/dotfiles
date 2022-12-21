@@ -151,9 +151,11 @@ packer.startup(function(use)
             { "hrsh7th/cmp-cmdline", event = { "CmdLineEnter" } },
             { "hrsh7th/cmp-buffer", event = { "InsertEnter" } },
             { "ray-x/cmp-treesitter", event = { "InsertEnter" } },
+            { "hrsh7th/cmp-path", event = { "InsertEnter", "CmdLineEnter" } },
             { "onsails/lspkind.nvim", opt = true },
+            { "lukas-reineke/cmp-under-comparator", opt = true },
         },
-        wants = { "lspkind.nvim" },
+        wants = { "lspkind.nvim", "cmp-under-comparator" },
         config = function() require("keke.configs.cmp") end,
     })
 
