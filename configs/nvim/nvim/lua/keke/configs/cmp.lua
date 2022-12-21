@@ -29,17 +29,24 @@ local remap_mode = { "i", "s", "c" }
 
 local format = lspkind.cmp_format({ mode = "symbol_text" })
 
+local function apply_priority(sources)
+    for index, source in ipairs(sources) do
+        source.priority = #sources - index + 1
+    end
+    return sources
+end
+
 cmp.setup({
     snippet = {
         expand = function(args) luasnip.lsp_expand(args.body) end,
     },
-    sources = cmp.config.sources({
-        { name = "nvim_lsp", priority = 5 },
-        { name = "luasnip", priority = 4 },
-        { name = "path", priority = 3 },
-        { name = "buffer", priority = 2 },
-        { name = "treesitter", priority = 1 },
-    }),
+    sources = cmp.config.sources(apply_priority({
+        { name = "luasnip" },
+        { name = "nvim_lsp" },
+        { name = "path" },
+        { name = "buffer" },
+        { name = "treesitter" },
+    })),
     completion = {
         completeopt = "menuone,noinsert",
     },
