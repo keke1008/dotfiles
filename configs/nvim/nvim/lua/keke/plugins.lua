@@ -138,6 +138,7 @@ packer.startup(function(use)
     --Snippet
     use({
         "L3MON4D3/LuaSnip",
+        requires = { "rafamadriz/friendly-snippets" },
         config = function() require("keke.configs.luasnip") end,
     })
 
