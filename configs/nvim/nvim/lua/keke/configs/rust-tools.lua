@@ -22,11 +22,12 @@ local liblldb_path = package_path .. "/extension/lldb/lib/liblldb.so"
 rt.setup({
     server = lsp.extend_default_config({
         on_attach = function(_, bufnr)
-            remap("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr })
+            remap("n", "K", rt.hover_actions.hover_actions, { buffer = bufnr, desc = "Lsp show hover" })
             remap("n", "<leader>la", rt.code_action_group.code_action_group, {
                 buffer = bufnr,
                 desc = "Lsp code action",
             })
+            remap("n", "<leader>lp", rt.parent_module.parent_module, { buffer = bufnr, desc = "Lsp parent module" })
         end,
     }),
     tools = {
