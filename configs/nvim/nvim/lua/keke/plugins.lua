@@ -60,9 +60,8 @@ packer.startup(function(use)
 
     -- Cursor motion
     use({
-        "skanehira/jumpcursor.vim",
-        keys = { "<Plug>(jumpcursor-jump)" },
-        setup = function() vim.keymap.set("n", "gj", "<Plug>(jumpcursor-jump)") end,
+        "ggandor/leap.nvim",
+        config = function() require("keke.configs.leap") end,
     })
 
     -- Edge motion
