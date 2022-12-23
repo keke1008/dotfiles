@@ -94,7 +94,7 @@ packer.startup(function(use)
     -- Show register content
     use({
         "tversteeg/registers.nvim",
-        keys = { '"', { "v", '"' }, { "i", "<C-r>" } },
+        keys = { { "n", '"' }, { "x", '"' }, { "i", "<C-r>" } },
         cmd = { "Registers" },
         config = function() require("keke.configs.registers") end,
     })

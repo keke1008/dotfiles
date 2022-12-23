@@ -7,6 +7,7 @@ remap("n", "k", "gk")
 remap("n", "<Esc>", "<CMD>write<CR>")
 remap("n", "<leader><leader>", "<CMD>noh<CR>", { silent = true })
 remap("s", "<BS>", "<BS>i")
+remap("n", "+", ",")
 
 remap("t", "<Esc>", "<C-\\><C-n>")
 
