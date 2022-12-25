@@ -113,6 +113,13 @@ packer.startup(function(use)
         setup = function() require("keke.configs.undotree") end,
     })
 
+    -- Substitute operator
+    use({
+        "gbprod/substitute.nvim",
+        module = "substitute",
+        setup = function() require("keke.configs.substitute") end,
+    })
+
     --------------------------------------------------
     -- LSP
     --------------------------------------------------
