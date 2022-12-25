@@ -120,6 +120,12 @@ packer.startup(function(use)
         setup = function() require("keke.configs.substitute") end,
     })
 
+    use({
+        "voldikss/vim-translator",
+        cmd = { "Translate*" },
+        setup = function() require("keke.configs.vim-translator") end,
+    })
+
     --------------------------------------------------
     -- LSP
     --------------------------------------------------
