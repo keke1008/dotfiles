@@ -180,8 +180,11 @@ packer.startup(function(use)
     -- Debugger
     use({
         "mfussenegger/nvim-dap",
-        requires = { { "rcarriga/nvim-dap-ui", opt = true } },
-        wants = { "nvim-dap-ui" },
+        requires = {
+            { "rcarriga/nvim-dap-ui", opt = true },
+            { "theHamsta/nvim-dap-virtual-text", opt = true },
+        },
+        wants = { "nvim-dap-ui", "nvim-dap-virtual-text" },
         module = { "dap" },
         cmd = { "Dap*" },
         setup = function() require("keke.configs.dap").setup() end,

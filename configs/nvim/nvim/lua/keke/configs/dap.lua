@@ -30,6 +30,24 @@ end
 function M.config()
     local dap = require("dap")
     local dapui = require("dapui")
+    local dap_virtual_text = require("nvim-dap-virtual-text")
+
+    dapui.setup({
+        layouts = {
+            {
+                elements = { "scopes", "breakpoints", "stacks", "watches" },
+                size = 40,
+                position = "left",
+            },
+            {
+                elements = { "repl", "console" },
+                size = 0.3,
+                position = "right",
+            },
+        },
+    })
+
+    dap_virtual_text.setup()
 
     local extension_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/"
     local codelldb_path = extension_path .. "adapter/codelldb"
@@ -64,21 +82,6 @@ function M.config()
     }
     dap.configurations.cpp = dap.configurations.c
     dap.configurations.rust = dap.configurations.c
-
-    dapui.setup({
-        layouts = {
-            {
-                elements = { "scopes", "breakpoints", "stacks", "watches" },
-                size = 40,
-                position = "left",
-            },
-            {
-                elements = { "repl", "console" },
-                size = 0.3,
-                position = "right",
-            },
-        },
-    })
 
     dap.listeners.before["event_initialized"]["prepare"] = function() menu_handle:open() end
 
