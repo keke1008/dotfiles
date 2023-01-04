@@ -10,7 +10,7 @@ local function compress(key)
     local prefix = "m"
     local targets = { key, ("<S-%s>"):format(key), ("<C-%s>"):format(key), ("<M-%s>"):format(key) }
     for _, target in ipairs(targets) do
-        remap("n", prefix .. target, target)
+        remap({ "n", "v", "o", "t", "l" }, prefix .. target, target)
     end
 end
 
