@@ -1,7 +1,7 @@
 local root_pattern = require("lspconfig.util").root_pattern
 local typescript = require("typescript")
 
-local lsp = require("keke.lsp")
+local lsp = require("keke.utils.lsp")
 
 typescript.setup({
     server = lsp.extend_default_config({

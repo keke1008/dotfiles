@@ -1,5 +1,5 @@
 local null_ls = require("null-ls")
-local lsp = require("keke.lsp")
+local lsp = require("keke.utils.lsp")
 
 ---@class Condition
 ---@field condition fun(): boolean

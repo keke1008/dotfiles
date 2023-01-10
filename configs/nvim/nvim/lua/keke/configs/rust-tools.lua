@@ -4,7 +4,7 @@
 local rt = require("rust-tools")
 local rt_dap = require("rust-tools.dap")
 local mason_registry = require("mason-registry")
-local lsp = require("keke.lsp")
+local lsp = require("keke.utils.lsp")
 local remap = vim.keymap.set
 
 vim.api.nvim_set_hl(0, "rustInlayHints", { fg = "#3467af" })
