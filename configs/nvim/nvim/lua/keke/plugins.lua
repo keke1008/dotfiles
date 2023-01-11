@@ -212,18 +212,6 @@ packer.startup(function(use)
         config = require("keke.configs.lspsaga").config,
     })
 
-    -- Show LSP status
-    use({
-        "j-hui/fidget.nvim",
-        config = function() require("fidget").setup({}) end,
-    })
-
-    -- Show function signature
-    use({
-        "ray-x/lsp_signature.nvim",
-        config = function() require("keke.configs.lsp_signature") end,
-    })
-
     -- Scroll bar with diagnostics
     use({
         "petertriho/nvim-scrollbar",
@@ -342,6 +330,16 @@ packer.startup(function(use)
         "nvim-lualine/lualine.nvim",
         requires = "kyazdani42/nvim-web-devicons",
         config = function() require("keke.configs.lualine") end,
+    })
+
+    -- cmdheight=0
+    use({
+        "folke/noice.nvim",
+        requires = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
+        },
+        config = function() require("keke.configs.noice") end,
     })
 
     -- Treesitter

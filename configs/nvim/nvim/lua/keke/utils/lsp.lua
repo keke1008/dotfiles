@@ -1,6 +1,5 @@
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
-local lsp_signature = require("lsp_signature")
 local remap = vim.keymap.set
 
 vim.fn.sign_define({
@@ -30,8 +29,6 @@ end, { bang = true })
 local M = {}
 
 function M.on_attach(_, bufnr)
-    lsp_signature.on_attach()
-
     local opt = { buffer = bufnr, silent = true }
     remap("n", "gd", "<CMD>Telescope lsp_definitions<CR>", opt)
     remap("n", "<leader>gd", "<CMD>Lspsaga peek_definition<CR>", opt)
