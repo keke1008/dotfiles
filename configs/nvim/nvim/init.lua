@@ -25,7 +25,7 @@ vim.o.splitbelow = true
 vim.o.scrolloff = 5
 
 vim.o.cmdheight = 2
-vim.o.laststatus = 2
+vim.o.laststatus = 3
 vim.o.showcmd = true
 
 vim.o.fenc = "utf-8"
