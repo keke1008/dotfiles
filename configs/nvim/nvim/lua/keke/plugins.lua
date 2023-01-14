@@ -199,8 +199,8 @@ packer.startup(function(use)
         requires = "kyazdani42/nvim-web-devicons",
         cmd = { "Trouble" },
         module = { "toruble" },
-        setup = require("keke.configs.trouble").setup,
-        config = require("keke.configs.trouble").config,
+        setup = function() require("keke.configs.trouble").setup() end,
+        config = function() require("keke.configs.trouble").config() end,
     })
 
     -- LSP UI plugin
@@ -279,8 +279,8 @@ packer.startup(function(use)
         "nvim-tree/nvim-tree.lua",
         requires = { "nvim-tree/nvim-web-devicons" },
         module = { "nvim-tree." }, -- `nvim-treesitter` matches the pattern "nvim-tree".
-        setup = require("keke.configs.nvim-tree").setup,
-        config = require("keke.configs.nvim-tree").config,
+        setup = function() require("keke.configs.nvim-tree").setup() end,
+        config = function() require("keke.configs.nvim-tree").config() end,
     })
 
     -- Scroll animation
@@ -301,8 +301,8 @@ packer.startup(function(use)
         requires = "nvim-lua/plenary.nvim",
         cmd = { "Telescope" },
         module = { "telescope" },
-        setup = require("keke.configs.telescope").setup,
-        config = require("keke.configs.telescope").config,
+        setup = function() require("keke.configs.telescope").setup() end,
+        config = function() require("keke.configs.telescope").config() end,
     })
 
     -- Indent line
@@ -315,8 +315,8 @@ packer.startup(function(use)
     use({
         "folke/zen-mode.nvim",
         module = { "zen-mode" },
-        setup = require("keke.configs.zen-mode").setup,
-        config = require("keke.configs.zen-mode").config,
+        setup = function() require("keke.configs.zen-mode").setup() end,
+        config = function() require("keke.configs.zen-mode").config() end,
     })
 
     -- Key binding helper
