@@ -208,8 +208,8 @@ packer.startup(function(use)
         "glepnir/lspsaga.nvim",
         cmd = { "Lspsaga" },
         module = { "lspsaga" },
-        setup = require("keke.configs.lspsaga").setup,
-        config = require("keke.configs.lspsaga").config,
+        setup = function() require("keke.configs.lspsaga").setup() end,
+        config = function() require("keke.configs.lspsaga").config() end,
     })
 
     -- Scroll bar with diagnostics

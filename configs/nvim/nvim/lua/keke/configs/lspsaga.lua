@@ -13,29 +13,34 @@ end
 function M.config()
     local saga = require("lspsaga")
 
-    saga.init_lsp_saga({
-        saga_winblend = 30,
-        code_action_lightbulb = {
+    saga.setup({
+        ui = {
+            border = "solid",
+        },
+        lightbulb = {
             enable = false,
         },
-        finder_action_keys = {
+        finder = {
             open = "e",
             vsplit = "v",
             split = "i",
             tabe = "t",
             quit = "<ESC>",
         },
-        definition_action_keys = {
+        definition = {
             edit = "<leader>:e",
             vsplit = "<leader>:v",
             split = "<leader>:s",
             tabe = "<leader>:t",
         },
-        rename_action_quit = "<C-c>",
-        show_outline = {
-            jump_key = "e",
+        outline = {
+            keys = {
+                jump = "e",
+            },
         },
-        symbol_in_winbar = { enable = true },
+        symbol_in_winbar = {
+            enable = true,
+        },
     })
 end
 
