@@ -96,14 +96,6 @@ packer.startup(function(use)
         config = function() require("nvim-ts-autotag").setup() end,
     })
 
-    -- Show register content
-    use({
-        "tversteeg/registers.nvim",
-        keys = { { "n", '"' }, { "x", '"' }, { "i", "<C-r>" } },
-        cmd = { "Registers" },
-        config = function() require("keke.configs.registers") end,
-    })
-
     -- Improve *
     use({
         "haya14busa/vim-asterisk",
