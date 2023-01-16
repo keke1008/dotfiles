@@ -1,16 +1,15 @@
 local menu = require("keke.side_menu")
-
 local remap = vim.keymap.set
 
-remap("n", "mq", "q")
-remap("n", "m<S-q>", "<S-q>")
-remap("n", "m<C-q>", "<C-q>")
+local all_mode = { "n", "v", "o", "t", "l" }
+
+remap(all_mode, "t", "<one-shot-leader>", { remap = true })
 
 local function compress(key)
     local prefix = "m"
     local targets = { key, ("<S-%s>"):format(key), ("<C-%s>"):format(key), ("<M-%s>"):format(key) }
     for _, target in ipairs(targets) do
-        remap({ "n", "v", "o", "t", "l" }, prefix .. target, target)
+        remap(all_mode, prefix .. target, target)
     end
 end
 
