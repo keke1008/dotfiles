@@ -41,8 +41,12 @@ packer.startup(function(use)
     -- Repeat
     use("tpope/vim-repeat")
 
-    -- Git commands
-    use("tpope/vim-fugitive")
+    --- Git
+    use({
+        "lewis6991/gitsigns.nvim",
+        event = "BufRead",
+        config = function() require("keke.configs.gitsigns") end,
+    })
 
     -- Textobj
     use({
@@ -258,13 +262,6 @@ packer.startup(function(use)
     --------------------------------------------------
     -- Appearance
     --------------------------------------------------
-
-    -- Shows a git diff in the sign column.
-    use({
-        "airblade/vim-gitgutter",
-        setup = function() vim.g.gitgutter_map_keys = 0 end,
-        config = function() vim.g.gitgutter_sign_priority = 0 end,
-    })
 
     -- Filer
     use({
