@@ -1,4 +1,8 @@
-require("noice").setup({
+local noice = require("noice")
+local notify = require("notify")
+local remap = vim.keymap.set
+
+noice.setup({
     routes = {
         {
             view = "mini",
@@ -14,3 +18,8 @@ require("noice").setup({
         },
     },
 })
+
+remap("n", "<leader>nh", "Noice history")
+remap("n", "<leader>nl", "Noice last")
+remap("n", "<leader>nt", "Noice telescope")
+remap("n", "<leader>nn", notify.dismiss)
