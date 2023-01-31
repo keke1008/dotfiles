@@ -1,8 +1,10 @@
 [user]
-	email = keke2222337@gmail.com
-	name = keke1008
+    email = keke2222337@gmail.com
+    name = keke1008
+
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
 [alias]
     a = add
     aa = add -A
