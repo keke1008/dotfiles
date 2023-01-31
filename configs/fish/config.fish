@@ -77,6 +77,7 @@ end
 
 
 # aliases
+alias g git
 alias v nvim
 
 for repeat in (seq 3 10)
