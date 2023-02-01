@@ -138,16 +138,12 @@ packer.startup(function(use)
         requires = {
             "williamboman/mason-lspconfig.nvim",
             "neovim/nvim-lspconfig",
+            "jay-babu/mason-null-ls.nvim",
+            "jose-elias-alvarez/null-ls.nvim",
             "hrsh7th/cmp-nvim-lsp",
             "folke/neoconf.nvim",
         },
         config = function() require("keke.configs.mason") end,
-    })
-
-    -- General purposes lunguage server
-    use({
-        "jose-elias-alvarez/null-ls.nvim",
-        config = function() require("keke.configs.null-ls") end,
     })
 
     --Snippet
