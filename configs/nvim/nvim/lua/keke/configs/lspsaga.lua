@@ -15,7 +15,7 @@ function M.config()
 
     saga.setup({
         ui = {
-            border = "solid",
+            border = "single",
         },
         lightbulb = {
             enable = false,

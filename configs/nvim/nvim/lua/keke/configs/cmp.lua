@@ -75,9 +75,13 @@ cmp.setup({
         end,
     },
     window = {
-        completion = {
+        completion = cmp.config.window.bordered({
+            border = "none",
             col_offset = -2,
-        },
+        }),
+        documentation = cmp.config.window.bordered({
+            border = "single",
+        }),
     },
     sorting = {
         comparator = {
