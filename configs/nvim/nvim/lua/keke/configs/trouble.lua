@@ -15,8 +15,8 @@ function M.setup()
 
     menu.register("trouble", "t", {
         position = "bottom",
-        open = function() require("trouble").open() end,
-        close = function() require("trouble").close() end,
+        open = function() vim.cmd([[Trouble]]) end,
+        close = function() vim.cmd([[TroubleClose]]) end,
     })
 end
 
