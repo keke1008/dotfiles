@@ -22,7 +22,11 @@
 
     d = diff
 
+    f = fetch
+
     i = init
+
+    l = log
 
     m = merge
 
