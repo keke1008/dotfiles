@@ -128,6 +128,7 @@ packer.startup(function(use)
         setup = function() require("keke.configs.vim-translator") end,
     })
 
+    --- Terminal
     use({
         "akinsho/toggleterm.nvim",
         tag = "*",
