@@ -4,28 +4,40 @@ local notify = require("notify")
 noice.setup({
     presets = {
         command_palette = true,
-        cmdline_output_to_split = true,
     },
     routes = {
         {
             view = "mini",
-            filter = { event = "msg_show", kind = "" },
+            filter = {
+                event = "msg_show",
+                any = {
+                    { kind = "" },
+                    { error = false },
+                    { kind = "emsg", find = "^E486:" },
+                    { kind = { "echo", "emsg" }, find = "E37" },
+                },
+            },
         },
         {
             view = "mini",
-            filter = { warning = true },
+            filter = { event = "notify", error = false },
         },
         {
-            view = "mini",
-            filter = { event = "msg_show", kind = "emsg", find = "^E486:" },
+            view = "cmdline_output",
+            filter = {
+                cmdline = "^:",
+                error = false,
+                warning = false,
+            },
         },
         {
             view = "vsplit",
-            filter = { error = true, ["not"] = { find = "^E%d+:" } },
-        },
-        {
-            view = "vsplit",
-            filter = { min_height = 10 },
+            filter = {
+                any = {
+                    { error = true, ["not"] = { find = "^E%d+:" } },
+                    { min_height = 10, ["not"] = { event = "lsp" } },
+                },
+            },
         },
     },
 })
