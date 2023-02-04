@@ -13,7 +13,23 @@ end
 
 function M.config()
     local telescope = require("telescope")
-    telescope.setup({})
+    local themes = require("telescope.themes")
+
+    telescope.setup({
+        extensions = {
+            ["ui-select"] = {
+                themes.get_dropdown({}),
+            },
+        },
+    })
+
+    telescope.load_extension("ui-select")
+end
+
+---@diagnostic disable-next-line: duplicate-set-field
+vim.ui.select = function(...)
+    vim.cmd([[PackerLoad telescope.nvim]])
+    vim.ui.select(...)
 end
 
 return M

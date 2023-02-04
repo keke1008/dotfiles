@@ -282,16 +282,14 @@ packer.startup(function(use)
         config = function() require("keke.configs.neoscroll") end,
     })
 
-    -- UI
-    use({
-        "stevearc/dressing.nvim",
-        config = function() require("dressing").setup() end,
-    })
-
     --Fuzzy finder
     use({
         "nvim-telescope/telescope.nvim",
-        requires = "nvim-lua/plenary.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            { "nvim-telescope/telescope-ui-select.nvim", opt = true },
+        },
+        wants = { "telescope-ui-select.nvim" },
         cmd = { "Telescope" },
         module = { "telescope" },
         setup = function() require("keke.configs.telescope").setup() end,
