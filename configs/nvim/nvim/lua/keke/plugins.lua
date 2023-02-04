@@ -128,6 +128,14 @@ packer.startup(function(use)
         setup = function() require("keke.configs.vim-translator") end,
     })
 
+    use({
+        "akinsho/toggleterm.nvim",
+        tag = "*",
+        cmd = "ToggleTerm",
+        setup = function() require("keke.configs.toggleterm").setup() end,
+        config = function() require("keke.configs.toggleterm").config() end,
+    })
+
     --------------------------------------------------
     -- LSP
     --------------------------------------------------
