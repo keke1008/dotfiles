@@ -1,8 +1,11 @@
 local noice = require("noice")
 local notify = require("notify")
-local remap = vim.keymap.set
 
 noice.setup({
+    presets = {
+        command_palette = true,
+        cmdline_output_to_split = true,
+    },
     routes = {
         {
             view = "mini",
@@ -10,16 +13,32 @@ noice.setup({
         },
         {
             view = "mini",
-            filter = { event = "msg_show", kind = "wmsg", find = "^search hit" },
+            filter = { warning = true },
         },
         {
             view = "mini",
-            filter = { event = "msg_show", kind = "emsg", find = "^E486" },
+            filter = { event = "msg_show", kind = "emsg", find = "^E486:" },
+        },
+        {
+            view = "vsplit",
+            filter = { error = true, ["not"] = { find = "^E%d+:" } },
+        },
+        {
+            view = "vsplit",
+            filter = { min_height = 10 },
         },
     },
 })
 
-remap("n", "<leader>nh", "Noice history")
-remap("n", "<leader>nl", "Noice last")
-remap("n", "<leader>nt", "Noice telescope")
-remap("n", "<leader>nn", notify.dismiss)
+---@param key string
+---@param cmd string | fun()
+---@param desc? string
+local function remap(key, cmd, desc)
+    local rhs = type(cmd) == "string" and ("<CMD>Noice %s<CR>"):format(cmd) or cmd
+    vim.keymap.set("n", "<leader>n" .. key, rhs, { desc = desc or cmd })
+end
+
+remap("h", "history")
+remap("l", "last")
+remap("t", "telescope")
+remap("n", notify.dismiss, "dimiss notifications")
