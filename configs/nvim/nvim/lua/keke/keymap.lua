@@ -1,22 +1,6 @@
 local menu = require("keke.side_menu")
 local remap = vim.keymap.set
 
-remap({ "n", "v", "t", "l" }, "t", "<one-shot-leader>", { remap = true })
-
-local function compress(key)
-    local prefix = "m"
-    local targets = { key, ("<S-%s>"):format(key), ("<C-%s>"):format(key), ("<M-%s>"):format(key) }
-    for _, target in ipairs(targets) do
-        remap({ "n", "v", "o", "t", "l" }, prefix .. target, target)
-    end
-end
-
-compress("q")
-compress("r")
-compress("t")
-compress("@")
-compress("m")
-
 remap("n", "j", "gj")
 remap("n", "k", "gk")
 remap("n", "<Esc>", "<CMD>write<CR>")
@@ -29,3 +13,14 @@ remap("t", "<Esc>", "<C-\\><C-n>")
 menu.remap_close("h")
 menu.remap_ignore("i")
 menu.remap_close_all("H")
+
+local M = {}
+
+local second_leader = "\\"
+
+-- second leader key
+---@param key string
+---@return string
+function M.l2(key) return second_leader .. key end
+
+return M
