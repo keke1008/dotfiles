@@ -1,3 +1,4 @@
+local wk = vim.F.npcall(require, "which-key")
 local menu = require("keke.side_menu")
 local remap = vim.keymap.set
 
@@ -15,6 +16,14 @@ menu.remap_ignore("i")
 menu.remap_close_all("H")
 
 local M = {}
+
+---@param group table<string, string>
+function M.register_group(group)
+    if not wk then return end
+
+    group = vim.tbl_map(function(name) return { name = name } end, group)
+    wk.register(group)
+end
 
 local second_leader = "\\"
 

@@ -136,6 +136,15 @@ packer.startup(function(use)
         config = function() require("keke.configs.toggleterm").config() end,
     })
 
+    --- Session manager
+    use({
+        "Shatur/neovim-session-manager",
+        requires = "nvim-lua/plenary.nvim",
+        cmd = "SessionManager",
+        setup = function() require("keke.configs.neovim-session-manager").setup() end,
+        config = function() require("keke.configs.neovim-session-manager").config() end,
+    })
+
     --------------------------------------------------
     -- LSP
     --------------------------------------------------
