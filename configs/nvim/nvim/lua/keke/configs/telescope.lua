@@ -13,9 +13,18 @@ end
 
 function M.config()
     local telescope = require("telescope")
+    local actions = require("telescope.actions")
     local themes = require("telescope.themes")
 
     telescope.setup({
+        defaults = {
+            mappings = {
+                i = {
+                    ["<C-b>"] = actions.preview_scrolling_up,
+                    ["<C-f>"] = actions.preview_scrolling_down,
+                },
+            },
+        },
         extensions = {
             ["ui-select"] = {
                 themes.get_dropdown({}),
