@@ -141,9 +141,7 @@ packer.startup(function(use)
     use({
         "Shatur/neovim-session-manager",
         requires = "nvim-lua/plenary.nvim",
-        cmd = "SessionManager",
-        setup = function() require("keke.configs.neovim-session-manager").setup() end,
-        config = function() require("keke.configs.neovim-session-manager").config() end,
+        config = function() require("keke.configs.neovim-session-manager") end,
     })
 
     --------------------------------------------------
