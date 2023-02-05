@@ -15,6 +15,7 @@ function M.config()
     local remap = vim.keymap.set
 
     nvim_tree.setup({
+        sync_root_with_cwd = true,
         filters = {
             dotfiles = true,
         },
