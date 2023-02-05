@@ -1,8 +1,25 @@
 local session_manager = require("session_manager")
 local AutoloadMode = require("session_manager.config").AutoloadMode
+local utils = require("session_manager.utils")
 local keymap = require("keke.keymap")
 local l2 = keymap.l2
 local register_group = keymap.register_group
+
+vim.opt_global.sessionoptions:append("tabpages");
+
+-- HACK: Let plugin know that help buffer can be restored if 'sessionoptions' include 'help'.
+(function()
+    local original = utils.is_restorable
+
+    ---@diagnostic disable-next-line: duplicate-set-field
+    utils.is_restorable = function(buffer, ...)
+        local sessionoptions = vim.opt.sessionoptions:get()
+        if not vim.tbl_contains(sessionoptions, "help") then return original(buffer, ...) end
+
+        local buftype = vim.api.nvim_buf_get_option(buffer, "buftype")
+        return buftype == "help" or original(buffer, ...)
+    end
+end)()
 
 session_manager.setup({
     autoload_mode = AutoloadMode.CurrentDir,
