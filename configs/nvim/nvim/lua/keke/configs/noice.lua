@@ -2,25 +2,39 @@ local noice = require("noice")
 local notify = require("notify")
 
 noice.setup({
-    presets = {
-        command_palette = true,
+    views = {
+        cmdline_popup = {
+            position = {
+                row = "20%",
+            },
+        },
+        confirm = {
+            position = {
+                row = "20%",
+            },
+        },
     },
     routes = {
         {
             view = "mini",
             filter = {
                 event = "msg_show",
+                kind = "emsg",
                 any = {
-                    { kind = "" },
-                    { error = false },
-                    { kind = "emsg", find = "^E486:" },
-                    { kind = { "echo", "emsg" }, find = "E37" },
+                    { find = "^E486" },
+                    { find = "^E37" },
                 },
             },
         },
         {
             view = "mini",
-            filter = { event = "notify", error = false },
+            filter = {
+                any = {
+                    { event = "msg_show", kind = { "echo", "echomsg", "wmsg" } },
+                    { event = "notify", error = false },
+                    { event = "msg_show", kind = "emsg", find = "E(486|37)" },
+                },
+            },
         },
         {
             view = "cmdline_output",
@@ -28,6 +42,7 @@ noice.setup({
                 cmdline = "^:",
                 error = false,
                 warning = false,
+                ["not"] = { kind = { "confirm", "confirm_sub", "return_prompt" } },
             },
         },
         {
