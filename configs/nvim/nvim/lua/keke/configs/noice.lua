@@ -7,11 +7,23 @@ noice.setup({
             position = {
                 row = "20%",
             },
+            zindex = 100,
         },
         confirm = {
             position = {
                 row = "20%",
             },
+        },
+        vsplit = {
+            size = {
+                max_width = "50%",
+            },
+        },
+        hover = {
+            border = {
+                style = "rounded",
+            },
+            position = { row = 2 },
         },
     },
     routes = {

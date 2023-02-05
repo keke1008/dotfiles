@@ -80,7 +80,8 @@ cmp.setup({
             col_offset = -2,
         }),
         documentation = cmp.config.window.bordered({
-            border = "single",
+            winhighlight = "",
+            side_padding = 2,
         }),
     },
     sorting = {

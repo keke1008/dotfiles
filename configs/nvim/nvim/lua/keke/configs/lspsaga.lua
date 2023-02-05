@@ -15,7 +15,7 @@ function M.config()
 
     saga.setup({
         ui = {
-            border = "single",
+            border = "rounded",
         },
         lightbulb = {
             enable = false,
@@ -42,6 +42,8 @@ function M.config()
             enable = true,
         },
     })
+
+    vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
 end
 
 return M
