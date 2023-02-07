@@ -16,12 +16,6 @@ function M.config()
         highlights = {
             FloatBorder = { link = "FloatBorder" },
         },
-        on_create = function(term)
-            remap("n", "<Esc>", "<CMD>ToggleTerm<CR>", {
-                buffer = term.bufnr,
-                desc = "Close terminal",
-            })
-        end,
     })
 end
 
