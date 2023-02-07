@@ -42,9 +42,8 @@ noice.setup({
             view = "mini",
             filter = {
                 any = {
-                    { event = "msg_show", kind = { "echo", "echomsg", "wmsg" } },
-                    { event = "notify", error = false },
-                    { event = "msg_show", kind = "emsg", find = "E(486|37)" },
+                    { event = "msg_show", kind = { "", "echo", "echomsg", "wmsg" } },
+                    { event = "notify", error = false, warning = false },
                 },
             },
         },
@@ -59,12 +58,7 @@ noice.setup({
         },
         {
             view = "vsplit",
-            filter = {
-                any = {
-                    { error = true, ["not"] = { find = "^E%d+:" } },
-                    { min_height = 10, ["not"] = { event = "lsp" } },
-                },
-            },
+            filter = { min_height = 10, ["not"] = { event = "lsp" } },
         },
     },
 })
