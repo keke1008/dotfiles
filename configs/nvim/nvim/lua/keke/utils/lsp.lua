@@ -12,7 +12,7 @@ vim.fn.sign_define({
 local function format()
     local null_ls_client = vim.lsp.get_active_clients({
         name = "null-ls",
-        buffer = vim.api.nvim_get_current_buf,
+        buffer = vim.api.nvim_get_current_buf(),
     })[1]
     if null_ls_client and null_ls_client.supports_method("textDocument/formatting") then
         vim.lsp.buf.format({ id = null_ls_client.id })
@@ -28,7 +28,7 @@ end, { bang = true })
 
 local M = {}
 
-function M.on_attach(_, bufnr)
+function M.on_attach(client, bufnr)
     local opt = { buffer = bufnr, silent = true }
     remap("n", "gd", "<CMD>Telescope lsp_definitions<CR>", opt)
     remap("n", "<leader>gd", "<CMD>Lspsaga peek_definition<CR>", opt)
@@ -40,13 +40,23 @@ function M.on_attach(_, bufnr)
     remap("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opt)
     remap("n", "<leader>ld", "<CMD>Lspsaga show_cursor_diagnostics", opt)
     remap("n", "<leader>lf", format, opt)
+    remap("n", "<leader>ll", vim.lsp.codelens.run, opt)
 
-    if not vim.b.lsp_format_attached then
+    if not vim.b.is_lsp_format_autocmd_attached then
+        vim.b.is_lsp_format_autocmd_attached = true
         vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
             callback = format,
         })
-        vim.b.lsp_format_attached = true
+    end
+
+    if not vim.b.is_lsp_codelens_autocmd_attached and client.server_capabilities.codeLensProvider then
+        -- if not vim.b.is_lsp_codelens_autocmd_attached and client.supports_method("textDocument/codeLens") then
+        vim.b.is_lsp_codelens_autocmd_attached = true
+        vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+            buffer = bufnr,
+            callback = vim.lsp.codelens.refresh,
+        })
     end
 end
 
