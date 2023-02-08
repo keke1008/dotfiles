@@ -19,6 +19,7 @@ function M.setup()
     end, { desc = "Close Dap" })
     ---@diagnostic disable-next-line: missing-parameter
     remap("n", "<leader>dk", function() require("dapui").eval() end, { desc = "Debug eval" })
+    remap("n", "<leader>dl", function() require("dap").run_last() end, { desc = "Run the last debug session" })
 
     menu_handle = menu.register("dap", "d", {
         position = { "left", "right" },
@@ -47,6 +48,7 @@ function M.config()
         },
     })
 
+    ---@diagnostic disable-next-line: missing-parameter
     dap_virtual_text.setup()
 
     local extension_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/"

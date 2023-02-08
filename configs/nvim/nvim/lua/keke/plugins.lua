@@ -144,6 +144,15 @@ packer.startup(function(use)
         config = function() require("keke.configs.neovim-session-manager") end,
     })
 
+    -- Task runner
+    use({
+        "stevearc/overseer.nvim",
+        cmd = "Overseer*",
+        module = "overseer",
+        setup = function() require("keke.configs.overseer").setup() end,
+        config = function() require("keke.configs.overseer").config() end,
+    })
+
     --------------------------------------------------
     -- LSP
     --------------------------------------------------
