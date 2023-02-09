@@ -7,11 +7,11 @@ vim.opt.listchars:append("eol:↴")
 
 local line_colors = {
     colors.blue,
-    colors.blue2,
+    colors.teal,
     colors.green,
     colors.yellow,
-    colors.orange,
-    colors.red1,
+    colors.red,
+    colors.magenta,
 }
 
 local HIGHLIGHT_PREFIX = "IndentBlanklineIndent"
