@@ -32,11 +32,15 @@ function SideMenu:open(id)
     local next_menu = self.menus[id]
 
     -- There is no applicable menu.
-    if not next_menu then return end
+    if not next_menu then
+        return
+    end
 
     -- `next_menu` is already opened.
     for _, menu in pairs(self.current_layout) do
-        if menu == next_menu then return end
+        if menu == next_menu then
+            return
+        end
     end
 
     for _, position in ipairs(next_menu.position) do
@@ -49,7 +53,9 @@ end
 ---@param ignore_position SideMenu.MenuPosition
 function SideMenu:ignore(ignore_position)
     local ignore_menu = self.current_layout[ignore_position]
-    if not ignore_menu then return end
+    if not ignore_menu then
+        return
+    end
 
     for _, position in ipairs(ignore_menu.position) do
         self.current_layout[position] = nil
@@ -61,7 +67,9 @@ end
 ---@param close_position SideMenu.MenuPosition
 function SideMenu:close(close_position)
     local close_menu = self.current_layout[close_position]
-    if not close_menu then return end
+    if not close_menu then
+        return
+    end
 
     for _, position in ipairs(close_menu.position) do
         self.current_layout[position] = nil
@@ -74,7 +82,9 @@ function SideMenu:close_all()
         menu.close()
         self.current_layout[position] = nil
 
-        if self.ignored_menus[menu.id] then self.ignored_menus = nil end
+        if self.ignored_menus[menu.id] then
+            self.ignored_menus = nil
+        end
     end
 
     for _, menu in pairs(self.ignored_menus) do

@@ -35,7 +35,9 @@ mason_null_ls.setup()
 ---@param condition fun(utils: any): boolean
 local function setup_null_ls_with_condition(condition)
     return function(source_name, methods)
-        if null_ls.is_registered(source_name) then return end
+        if null_ls.is_registered(source_name) then
+            return
+        end
         for _, method in ipairs(methods) do
             null_ls.builtins[method][source_name].with({ condition = condition })
         end

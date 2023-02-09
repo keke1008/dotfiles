@@ -12,7 +12,9 @@ vim.opt_global.sessionoptions:append("tabpages");
     ---@diagnostic disable-next-line: duplicate-set-field
     utils.is_restorable = function(buffer, ...)
         local sessionoptions = vim.opt.sessionoptions:get()
-        if not vim.tbl_contains(sessionoptions, "help") then return original(buffer, ...) end
+        if not vim.tbl_contains(sessionoptions, "help") then
+            return original(buffer, ...)
+        end
 
         local buftype = vim.api.nvim_buf_get_option(buffer, "buftype")
         return buftype == "help" or original(buffer, ...)

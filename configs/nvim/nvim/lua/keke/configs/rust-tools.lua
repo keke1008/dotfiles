@@ -28,7 +28,9 @@ rt.setup({
         },
     },
     dap = (function()
-        if not mason_registry.is_installed("codelldb") then return end
+        if not mason_registry.is_installed("codelldb") then
+            return
+        end
 
         local install_path = mason_registry.get_package("codelldb"):get_install_path()
         local codelldb_path = install_path .. "/extension/adapter/codelldb"

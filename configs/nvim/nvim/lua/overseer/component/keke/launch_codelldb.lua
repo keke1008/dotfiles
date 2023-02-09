@@ -8,7 +8,9 @@ return {
     constructor = function(params)
         return {
             on_complete = function(_, _, status, _)
-                if status ~= "SUCCESS" then return end
+                if status ~= "SUCCESS" then
+                    return
+                end
 
                 local dap = require("dap")
                 dap.run({

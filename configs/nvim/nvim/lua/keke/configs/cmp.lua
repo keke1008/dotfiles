@@ -14,7 +14,9 @@ vim.keymap.set("n", "<C-k>", luasnip_jump_prev, { desc = "luasnip jump prev" })
 ---@return function
 local try_remap = function(action)
     return function(fallback)
-        if not action() then fallback() end
+        if not action() then
+            fallback()
+        end
     end
 end
 

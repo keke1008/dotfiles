@@ -8,7 +8,9 @@ function M.setup()
     vim.keymap.set("n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>")
     vim.keymap.set("n", "<leader>dv", function()
         vim.ui.input({ prompt = "Condition: " }, function(condition)
-            if condition then require("dap").set_breakpoint(condition) end
+            if condition then
+                require("dap").set_breakpoint(condition)
+            end
         end)
     end)
     vim.keymap.set("n", "<leader>dc", "<CMD>DapContinue<CR>")
