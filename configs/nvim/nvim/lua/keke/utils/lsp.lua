@@ -1,6 +1,5 @@
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
-local remap = vim.keymap.set
 
 vim.fn.sign_define({
     { name = "DiagnosticSignError", text = "", texthl = "DiagnosticSignError" },
@@ -29,18 +28,23 @@ end, { bang = true })
 local M = {}
 
 function M.on_attach(client, bufnr)
-    local opt = { buffer = bufnr, silent = true }
-    remap("n", "gd", "<CMD>Telescope lsp_definitions<CR>", opt)
-    remap("n", "<leader>gd", "<CMD>Lspsaga peek_definition<CR>", opt)
-    remap("n", "gr", "<CMD>Lspsaga lsp_finder<CR>", opt)
-    remap("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opt)
-    remap("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opt)
-    remap("n", "K", "<CMD>Lspsaga hover_doc<CR>", opt)
-    remap({ "n", "v" }, "<leader>la", "<CMD>Lspsaga code_action<CR>", opt)
-    remap("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opt)
-    remap("n", "<leader>ld", "<CMD>Lspsaga show_cursor_diagnostics", opt)
-    remap("n", "<leader>lf", format, opt)
-    remap("n", "<leader>ll", vim.lsp.codelens.run, opt)
+    local opts = { buffer = bufnr, silent = true }
+    local function remap(key, rhs) vim.keymap.set("n", key, rhs, opts) end
+
+    remap("gd", "<CMD>Lspsaga goto_definition<CR>")
+    remap("gr", "<CMD>Lspsaga lsp_finder<CR>")
+    remap("[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>")
+    remap("]e", "<CMD>Lspsaga diagnostic_jump_next<CR>")
+    remap("K", "<CMD>Lspsaga hover_doc<CR>")
+    remap("<leader>la", "<CMD>Lspsaga code_action<CR>")
+    remap("<leader>lr", "<CMD>Lspsaga rename<CR>")
+    remap("<leader>le", "<CMD>Lspsaga show_cursor_diagnostics<CR>")
+    remap("<leader>lp", "<CMD>Lspsaga peek_definition<CR>")
+    remap("<leader>li", "<CMD>Lspsaga incoming_calls<CR>")
+    remap("<leader>lo", "<CMD>Lspsaga outgoing_calls<CR>")
+    remap("<leader>ld", "<CMD>Telescope lsp_definitions<CR>")
+    remap("<leader>lf", format)
+    remap("<leader>ll", vim.lsp.codelens.run)
 
     if not vim.b.is_lsp_format_autocmd_attached then
         vim.b.is_lsp_format_autocmd_attached = true
@@ -51,7 +55,6 @@ function M.on_attach(client, bufnr)
     end
 
     if not vim.b.is_lsp_codelens_autocmd_attached and client.server_capabilities.codeLensProvider then
-        -- if not vim.b.is_lsp_codelens_autocmd_attached and client.supports_method("textDocument/codeLens") then
         vim.b.is_lsp_codelens_autocmd_attached = true
         vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
             buffer = bufnr,

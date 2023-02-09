@@ -5,10 +5,10 @@ gitsigns.setup({
     on_attach = function(bufnr)
         local opt = { buffer = bufnr }
 
-        remap({ "n", "v" }, "[h", "<CMD>Gitsigns next_hunk<CR>", opt)
-        remap({ "n", "v" }, "]h", "<CMD>Gitsigns next_hunk<CR>", opt)
-        remap({ "n", "v" }, "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>", opt)
-        remap({ "n", "v" }, "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>", opt)
+        remap({ "n", "x" }, "[h", "<CMD>Gitsigns next_hunk<CR>", opt)
+        remap({ "n", "x" }, "]h", "<CMD>Gitsigns next_hunk<CR>", opt)
+        remap({ "n", "x" }, "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>", opt)
+        remap({ "n", "x" }, "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>", opt)
         remap("n", "<leader>hS", "<CMD>Gitsigns stage_buffer<CR>", opt)
         remap("n", "<leader>hr", "<CMD>Gitsigns reset_buffer<CR>", opt)
         remap("n", "<leader>hu", "<CMD>Gitsigns undo_stage_hunk<CR>", opt)
