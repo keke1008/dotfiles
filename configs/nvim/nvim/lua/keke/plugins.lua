@@ -12,21 +12,12 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-local packer = require("packer")
-
-local reload = function(profile)
-    package.loaded["keke.plugins"] = nil
-    require("keke.plugins")
-    packer.install()
-    packer.compile(profile and "profile=true" or nil)
-end
-
-vim.api.nvim_create_user_command("PackerReload", function() reload(false) end, {})
-vim.api.nvim_create_user_command("PackerReloadWithProfile", function() reload(true) end, {})
-
-packer.startup(function(use)
-    -- Packer
-    use("wbthomason/packer.nvim")
+require("packer").startup(function(use)
+    -- Plugin manager
+    use({
+        "wbthomason/packer.nvim",
+        config = function() require("keke.configs.packer") end,
+    })
 
     --------------------------------------------------
     -- Operation
