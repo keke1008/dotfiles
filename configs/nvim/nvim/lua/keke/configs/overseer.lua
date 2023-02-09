@@ -1,15 +1,14 @@
+local map = require("keke.utils.mapping")
+
 local M = {}
 
 function M.setup()
-    local remap = vim.keymap.set
-    local keymap = require("keke.keymap")
-    local l2 = keymap.l2
     local side_menu = require("keke.side_menu")
 
-    keymap.register_group(l2("ov"), "Overseer")
+    map.add_group(map.l2("ov"), "Overseer")
 
-    remap("n", l2("ovr"), "<CMD>OverseerRun<CR>")
-    remap("n", l2("ovl"), function()
+    vim.keymap.set("n", map.l2("ovr"), "<CMD>OverseerRun<CR>")
+    vim.keymap.set("n", map.l2("ovl"), function()
         local overseer = require("overseer")
         local tasks = overseer.list_tasks({ recent_first = true })
         if vim.tbl_isempty(tasks) then

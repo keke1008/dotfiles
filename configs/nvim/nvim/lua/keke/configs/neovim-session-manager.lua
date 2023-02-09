@@ -1,9 +1,7 @@
 local session_manager = require("session_manager")
 local AutoloadMode = require("session_manager.config").AutoloadMode
 local utils = require("session_manager.utils")
-local keymap = require("keke.keymap")
-local l2 = keymap.l2
-local register_group = keymap.register_group
+local map = require("keke.utils.mapping")
 
 vim.opt_global.sessionoptions:append("tabpages");
 
@@ -29,17 +27,10 @@ session_manager.setup({
     },
 })
 
-register_group({ [l2("se")] = "SessionManager" })
+map.add_group(map.l2("se"), "SessionManager")
 
----@param key string
----@param sub_cmd string
-local function remap(key, sub_cmd)
-    local cmd = ("<CMD>SessionManager %s<CR>"):format(sub_cmd)
-    vim.keymap.set("n", l2(key), cmd, { desc = sub_cmd })
-end
-
-remap("sea", "load_session")
-remap("sep", "load_last_session")
-remap("sel", "load_current_dir_session")
-remap("ses", "save_current_session")
-remap("sed", "delete_session")
+vim.keymap.set("n", map.l2("sea"), "<CMD>SessionManager load_session<CR>")
+vim.keymap.set("n", map.l2("sep"), "<CMD>SessionManager load_last_session<CR>")
+vim.keymap.set("n", map.l2("sel"), "<CMD>SessionManager load_current_dir_session<CR>")
+vim.keymap.set("n", map.l2("ses"), "<CMD>SessionManager save_current_session<CR>")
+vim.keymap.set("n", map.l2("sed"), "<CMD>SessionManager delete_session<CR>")

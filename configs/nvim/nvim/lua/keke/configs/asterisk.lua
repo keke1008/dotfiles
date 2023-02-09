@@ -1,6 +1,4 @@
-local remap = vim.keymap.set
-
-remap("n", "*", "<Plug>(asterisk-z*)")
-remap("n", "#", "<Plug>(asterisk-z#)")
-remap("n", "g*", "<Plug>(asterisk-gz*)")
-remap("n", "g#", "<Plug>(asterisk-gz#)")
+vim.keymap.set("n", "*", "<Plug>(asterisk-z*)")
+vim.keymap.set("n", "#", "<Plug>(asterisk-z#)")
+vim.keymap.set("n", "g*", "<Plug>(asterisk-gz*)")
+vim.keymap.set("n", "g#", "<Plug>(asterisk-gz#)")

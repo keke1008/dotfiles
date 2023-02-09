@@ -1,9 +1,8 @@
-local remap = vim.keymap.set
-local l2 = require("keke.keymap").l2
+local map = require("keke.utils.mapping")
 
 local M = {}
 
-function M.setup() remap("n", l2("te"), "<CMD>ToggleTerm<CR>") end
+function M.setup() vim.keymap.set("n", map.l2("te"), "<CMD>ToggleTerm<CR>") end
 
 function M.config()
     local toggleterm = require("toggleterm")

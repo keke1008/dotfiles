@@ -1,3 +1,5 @@
+local map = require("keke.utils.mapping")
+
 local M = {}
 
 function M.setup()
@@ -12,7 +14,6 @@ end
 function M.config()
     local nvim_tree = require("nvim-tree")
     local nvim_tree_api = require("nvim-tree.api")
-    local remap = vim.keymap.set
 
     nvim_tree.setup({
         sync_root_with_cwd = true,
@@ -21,25 +22,25 @@ function M.config()
         },
         remove_keymaps = true,
         on_attach = function(bufnr)
-            local opt = { buffer = bufnr, noremap = true, nowait = true }
-            remap("n", "e", nvim_tree_api.node.open.edit, opt)
-            remap("n", "v", nvim_tree_api.node.open.vertical, opt)
-            remap("n", "s", nvim_tree_api.node.open.horizontal, opt)
-            remap("n", "t", nvim_tree_api.node.open.tab, opt)
+            local opts = { buffer = bufnr, noremap = true, nowait = true }
+            vim.keymap.set("n", "e", nvim_tree_api.node.open.edit, map.add_desc(opts, "edit"))
+            vim.keymap.set("n", "v", nvim_tree_api.node.open.vertical, map.add_desc(opts, "vsplit"))
+            vim.keymap.set("n", "s", nvim_tree_api.node.open.horizontal, map.add_desc(opts, "split"))
+            vim.keymap.set("n", "t", nvim_tree_api.node.open.tab, map.add_desc(opts, "tabedit"))
 
-            remap("n", "w", nvim_tree_api.tree.change_root_to_node, opt)
-            remap("n", "b", nvim_tree_api.tree.change_root_to_parent, opt)
-            remap("n", "i", function()
+            vim.keymap.set("n", "w", nvim_tree_api.tree.change_root_to_node, map.add_desc(opts, "enter directory"))
+            vim.keymap.set("n", "b", nvim_tree_api.tree.change_root_to_parent, map.add_desc(opts, "leave directory"))
+            vim.keymap.set("n", "i", function()
                 nvim_tree_api.tree.toggle_gitignore_filter()
                 nvim_tree_api.tree.toggle_hidden_filter()
-            end, opt)
-            remap("n", "<C-r>", nvim_tree_api.tree.reload, opt)
+            end, map.add_desc(opts, ""))
+            vim.keymap.set("n", "<C-r>", nvim_tree_api.tree.reload, map.add_desc(opts, "reload"))
 
-            remap("n", "r", nvim_tree_api.fs.rename, opt)
-            remap("n", "c", nvim_tree_api.fs.create, opt)
-            remap("n", "d", nvim_tree_api.fs.remove, opt)
-            remap("n", "y", nvim_tree_api.fs.copy.node, opt)
-            remap("n", "p", nvim_tree_api.fs.paste, opt)
+            vim.keymap.set("n", "r", nvim_tree_api.fs.rename, map.add_desc(opts, "rename"))
+            vim.keymap.set("n", "c", nvim_tree_api.fs.create, map.add_desc(opts, "create"))
+            vim.keymap.set("n", "d", nvim_tree_api.fs.remove, map.add_desc(opts, "remove"))
+            vim.keymap.set("n", "y", nvim_tree_api.fs.copy.node, map.add_desc(opts, "copy"))
+            vim.keymap.set("n", "p", nvim_tree_api.fs.paste, map.add_desc(opts, "paste"))
         end,
     })
 end

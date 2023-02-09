@@ -1,25 +1,23 @@
+local map = require("keke.utils.mapping")
+local menu = require("keke.side_menu")
+
 local M = {}
 
 local menu_handle
 
 function M.setup()
-    local remap = vim.keymap.set
-    local menu = require("keke.side_menu")
+    map.add_group("<leader>d", "Dap")
 
-    remap("n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>")
-    remap("n", "<leader>dc", "<CMD>DapContinue<CR>")
-    remap("n", "<leader>di", "<CMD>DapStepInto<CR>")
-    remap("n", "<leader>du", function() require("dap").step_back() end, { desc = "DapStepBack" })
-    remap("n", "<leader>do", "<CMD>DapStepOver<CR>")
-    remap("n", "<leader>dp", "<CMD>DapStepOut<CR>")
-    remap("n", "<leader>dq", "<CMD>DapTerminate<CR>")
-    remap("n", "<leader>dQ", function()
-        require("dap").terminate()
-        require("dapui").close({})
-    end, { desc = "Close Dap" })
+    vim.keymap.set("n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>")
+    vim.keymap.set("n", "<leader>dc", "<CMD>DapContinue<CR>")
+    vim.keymap.set("n", "<leader>di", "<CMD>DapStepInto<CR>")
+    vim.keymap.set("n", "<leader>du", function() require("dap").step_back() end, { desc = "DapStepBack" })
+    vim.keymap.set("n", "<leader>do", "<CMD>DapStepOver<CR>")
+    vim.keymap.set("n", "<leader>dp", "<CMD>DapStepOut<CR>")
+    vim.keymap.set("n", "<leader>dq", "<CMD>DapTerminate<CR>")
     ---@diagnostic disable-next-line: missing-parameter
-    remap("n", "<leader>dk", function() require("dapui").eval() end, { desc = "Debug eval" })
-    remap("n", "<leader>dl", function() require("dap").run_last() end, { desc = "Run the last debug session" })
+    vim.keymap.set("n", "<leader>dk", function() require("dapui").eval() end, { desc = "Debug eval" })
+    vim.keymap.set("n", "<leader>dl", function() require("dap").run_last() end, { desc = "Run the last debug session" })
 
     menu_handle = menu.register("dap", "d", {
         position = { "left", "right" },

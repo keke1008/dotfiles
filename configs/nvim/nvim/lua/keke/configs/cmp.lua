@@ -3,13 +3,12 @@ local compare = cmp.config.compare
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
 local compare_under_score = require("cmp-under-comparator").under
-local remap = vim.keymap.set
 
 local luasnip_jump_prev = function() return luasnip.jump(-1) end
 local luasnip_jump_next = function() return luasnip.jump(1) end
 
-remap("n", "<C-j>", luasnip_jump_next)
-remap("n", "<C-k>", luasnip_jump_prev)
+vim.keymap.set("n", "<C-j>", luasnip_jump_next, { desc = "luasnip jump next" })
+vim.keymap.set("n", "<C-k>", luasnip_jump_prev, { desc = "luasnip jump prev" })
 
 ---@param action fun()
 ---@return function

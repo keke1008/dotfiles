@@ -1,5 +1,3 @@
-local remap = vim.keymap.set
-
 local function leap_tabpage()
     require("leap").leap({
         target_windows = vim.tbl_filter(
@@ -9,5 +7,5 @@ local function leap_tabpage()
     })
 end
 
-remap({ "n", "x" }, ",", leap_tabpage)
-remap({ "i", "s" }, "<C-L>", leap_tabpage)
+vim.keymap.set({ "n", "x" }, ",", leap_tabpage)
+vim.keymap.set({ "i", "s" }, "<C-L>", leap_tabpage)

@@ -1,5 +1,4 @@
-local remap = vim.keymap.set
-local l2 = require("keke.keymap").l2
+local map = require("keke.utils.mapping")
 
 ---@param command string
 ---@return function
@@ -7,7 +6,9 @@ local function substitute(command)
     return function() require("substitute")[command]() end
 end
 
-remap("n", l2("r"), substitute("operator"))
-remap("n", l2("rr"), substitute("line"))
-remap("n", l2("R"), substitute("eol"))
-remap("x", l2("r"), substitute("visual"))
+map.add_group(map.l2("su"), "substitute")
+
+vim.keymap.set("n", map.l2("su"), substitute("operator"), { desc = "substitute" })
+vim.keymap.set("n", map.l2("suu"), substitute("line"), { desc = "substitute line" })
+vim.keymap.set("n", map.l2("sU"), substitute("eol"), { desc = "substitute eol" })
+vim.keymap.set("x", map.l2("su"), substitute("visual"), { desc = "substitute" })

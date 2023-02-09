@@ -1,5 +1,6 @@
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local map = require("keke.utils.mapping")
 
 vim.fn.sign_define({
     { name = "DiagnosticSignError", text = "", texthl = "DiagnosticSignError" },
@@ -28,23 +29,23 @@ end, { bang = true })
 local M = {}
 
 function M.on_attach(client, bufnr)
-    local opts = { buffer = bufnr, silent = true }
-    local function remap(key, rhs) vim.keymap.set("n", key, rhs, opts) end
+    map.add_group("<leader>la", "Lsp")
 
-    remap("gd", "<CMD>Lspsaga goto_definition<CR>")
-    remap("gr", "<CMD>Lspsaga lsp_finder<CR>")
-    remap("[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>")
-    remap("]e", "<CMD>Lspsaga diagnostic_jump_next<CR>")
-    remap("K", "<CMD>Lspsaga hover_doc<CR>")
-    remap("<leader>la", "<CMD>Lspsaga code_action<CR>")
-    remap("<leader>lr", "<CMD>Lspsaga rename<CR>")
-    remap("<leader>le", "<CMD>Lspsaga show_cursor_diagnostics<CR>")
-    remap("<leader>lp", "<CMD>Lspsaga peek_definition<CR>")
-    remap("<leader>li", "<CMD>Lspsaga incoming_calls<CR>")
-    remap("<leader>lo", "<CMD>Lspsaga outgoing_calls<CR>")
-    remap("<leader>ld", "<CMD>Telescope lsp_definitions<CR>")
-    remap("<leader>lf", format)
-    remap("<leader>ll", vim.lsp.codelens.run)
+    local opts = { buffer = bufnr, silent = true }
+    vim.keymap.set("n", "gd", "<CMD>Lspsaga goto_definition<CR>", opts)
+    vim.keymap.set("n", "gr", "<CMD>Lspsaga lsp_finder<CR>", opts)
+    vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
+    vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
+    vim.keymap.set("n", "K", "<CMD>Lspsaga hover_doc<CR>", opts)
+    vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
+    vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
+    vim.keymap.set("n", "<leader>le", "<CMD>Lspsaga show_cursor_diagnostics<CR>", opts)
+    vim.keymap.set("n", "<leader>lp", "<CMD>Lspsaga peek_definition<CR>", opts)
+    vim.keymap.set("n", "<leader>li", "<CMD>Lspsaga incoming_calls<CR>", opts)
+    vim.keymap.set("n", "<leader>lo", "<CMD>Lspsaga outgoing_calls<CR>", opts)
+    vim.keymap.set("n", "<leader>ld", "<CMD>Telescope lsp_definitions<CR>", opts)
+    vim.keymap.set("n", "<leader>lf", format, map.add_desc(opts, "format"))
+    vim.keymap.set("n", "<leader>ll", vim.lsp.codelens.run, map.add_desc(opts, "run codelens"))
 
     if not vim.b.is_lsp_format_autocmd_attached then
         vim.b.is_lsp_format_autocmd_attached = true

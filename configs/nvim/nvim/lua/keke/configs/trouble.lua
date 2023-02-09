@@ -1,17 +1,19 @@
+local map = require("keke.utils.mapping")
+local menu = require("keke.side_menu")
+
 local M = {}
 
 function M.setup()
-    local remap = vim.keymap.set
-    local menu = require("keke.side_menu")
+    map.add_group("<leader>t", "Trouble")
 
-    remap("n", "<leader>tt", "<CMD>Trouble<CR>")
-    remap("n", "<leader>td", "<CMD>Trouble lsp_definitions<CR>")
-    remap("n", "<leader>tD", "<CMD>Trouble lsp_type_definitions<CR>")
-    remap("n", "<leader>tr", "<CMD>Trouble lsp_references<CR>")
-    remap("n", "<leader>ti", "<CMD>Trouble lsp_implementations<CR>")
-    remap("n", "<leader>tq", "<CMD>Trouble quickfix<CR>")
-    remap("n", "<leader>tl", "<CMD>Trouble loclist<CR>")
-    remap("n", "<leader>tw", "<CMD>Trouble workspace_diagnostics<CR>")
+    vim.keymap.set("n", "<leader>tt", "<CMD>Trouble<CR>")
+    vim.keymap.set("n", "<leader>td", "<CMD>Trouble lsp_definitions<CR>")
+    vim.keymap.set("n", "<leader>tD", "<CMD>Trouble lsp_type_definitions<CR>")
+    vim.keymap.set("n", "<leader>tr", "<CMD>Trouble lsp_references<CR>")
+    vim.keymap.set("n", "<leader>ti", "<CMD>Trouble lsp_implementations<CR>")
+    vim.keymap.set("n", "<leader>tq", "<CMD>Trouble quickfix<CR>")
+    vim.keymap.set("n", "<leader>tl", "<CMD>Trouble loclist<CR>")
+    vim.keymap.set("n", "<leader>tw", "<CMD>Trouble workspace_diagnostics<CR>")
 
     menu.register("trouble", "t", {
         position = "bottom",

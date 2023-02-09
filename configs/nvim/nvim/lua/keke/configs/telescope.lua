@@ -1,14 +1,16 @@
+local map = require("keke.utils.mapping")
+
 local M = {}
 
 function M.setup()
-    local remap = vim.keymap.set
+    map.add_group("<leader>f", "Telescope")
 
-    remap("n", "<leader>fb", "<CMD>Telescope buffers<CR>")
-    remap("n", "<leader>ff", "<CMD>Telescope find_files<CR>")
-    remap("n", "<leader>fg", "<CMD>Telescope git_files<CR>")
-    remap("n", "<leader>fh", "<CMD>Telescope help_tags<CR>")
-    remap("n", "<leader>fl", "<CMD>Telescope live_grep<CR>")
-    remap("n", "<leader>fm", "<CMD>Telescope marks<CR>")
+    vim.keymap.set("n", "<leader>fb", "<CMD>Telescope buffers<CR>")
+    vim.keymap.set("n", "<leader>ff", "<CMD>Telescope find_files<CR>")
+    vim.keymap.set("n", "<leader>fg", "<CMD>Telescope git_files<CR>")
+    vim.keymap.set("n", "<leader>fh", "<CMD>Telescope help_tags<CR>")
+    vim.keymap.set("n", "<leader>fl", "<CMD>Telescope live_grep<CR>")
+    vim.keymap.set("n", "<leader>fm", "<CMD>Telescope marks<CR>")
 end
 
 function M.config()

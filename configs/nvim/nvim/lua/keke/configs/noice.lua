@@ -1,5 +1,6 @@
 local noice = require("noice")
 local notify = require("notify")
+local map = require("keke.utils.mapping")
 
 noice.setup({
     views = {
@@ -63,15 +64,9 @@ noice.setup({
     },
 })
 
----@param key string
----@param cmd string | fun()
----@param desc? string
-local function remap(key, cmd, desc)
-    local rhs = type(cmd) == "string" and ("<CMD>Noice %s<CR>"):format(cmd) or cmd
-    vim.keymap.set("n", "<leader>n" .. key, rhs, { desc = desc or cmd })
-end
+map.add_group("<leader>n", "Noice")
 
-remap("h", "history")
-remap("l", "last")
-remap("t", "telescope")
-remap("n", notify.dismiss, "dimiss notifications")
+vim.keymap.set("n", "<leader>nh", "<CMD>Noice history<CR>")
+vim.keymap.set("n", "<leader>nl", "<CMD>Noice last<CR>")
+vim.keymap.set("n", "<leader>nt", "<CMD>Noice telescope<CR>")
+vim.keymap.set("n", "<leader>nn", notify.dismiss, { desc = "dimiss notifications" })
