@@ -15,10 +15,10 @@ vim.api.nvim_create_user_command("PackerReloadWithProfile", function() reload(tr
 map.add_group(map.l2("pa"), "Packer")
 
 local opts = { silent = true }
+vim.keymap.set("n", map.l2("pacl"), "<CMD>PackerClean<CR>", opts)
+vim.keymap.set("n", map.l2("paco"), "<CMD>PackerCompile<CR>", opts)
 vim.keymap.set("n", map.l2("pai"), "<CMD>PackerInstall<CR>", opts)
-vim.keymap.set("n", map.l2("pal"), "<CMD>PackerClean<CR>", opts)
-vim.keymap.set("n", map.l2("pau"), "<CMD>PackerUpdate<CR>", opts)
-vim.keymap.set("n", map.l2("pas"), "<CMD>PackerStatus<CR>", opts)
-vim.keymap.set("n", map.l2("pay"), "<CMD>PackerSync<CR>", opts)
-vim.keymap.set("n", map.l2("pac"), "<CMD>PackerCompile<CR>", opts)
 vim.keymap.set("n", map.l2("par"), "<CMD>PackerReload<CR>", opts)
+vim.keymap.set("n", map.l2("past"), "<CMD>PackerStatus<CR>", opts)
+vim.keymap.set("n", map.l2("pasy"), "<CMD>PackerSync<CR>", opts)
+vim.keymap.set("n", map.l2("pau"), "<CMD>PackerUpdate<CR>", opts)
