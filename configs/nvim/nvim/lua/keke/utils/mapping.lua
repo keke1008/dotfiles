@@ -22,10 +22,11 @@ end
 
 ---@param key string
 ---@param name string
-function M.add_group(key, name)
+---@param buffer? number
+function M.add_group(key, name, buffer)
     local wk = vim.F.npcall(require, "which-key")
     if not wk then return end
-    wk.register({ [key] = { name = name } })
+    wk.register({ [key] = { name = name } }, { buffer = buffer })
 end
 
 return M
