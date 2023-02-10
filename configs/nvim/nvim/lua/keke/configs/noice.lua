@@ -3,6 +3,11 @@ local notify = require("notify")
 local map = require("keke.utils.mapping")
 
 noice.setup({
+    commands = {
+        history = {
+            view = "vsplit",
+        },
+    },
     views = {
         cmdline_popup = {
             position = {
@@ -29,6 +34,15 @@ noice.setup({
     },
     routes = {
         {
+            view = "cmdline_output",
+            filter = {
+                cmdline = "^:",
+                error = false,
+                warning = false,
+                ["not"] = { kind = { "confirm", "confirm_sub", "return_prompt" } },
+            },
+        },
+        {
             view = "mini",
             filter = {
                 event = "msg_show",
@@ -39,28 +53,6 @@ noice.setup({
                 },
             },
         },
-        {
-            view = "mini",
-            filter = {
-                any = {
-                    { event = "msg_show", kind = { "", "echo", "echomsg", "wmsg" } },
-                    { event = "notify", error = false, warning = false },
-                },
-            },
-        },
-        {
-            view = "cmdline_output",
-            filter = {
-                cmdline = "^:",
-                error = false,
-                warning = false,
-                ["not"] = { kind = { "confirm", "confirm_sub", "return_prompt" } },
-            },
-        },
-        {
-            view = "vsplit",
-            filter = { min_height = 10, ["not"] = { event = "lsp" } },
-        },
     },
 })
 
@@ -70,3 +62,15 @@ vim.keymap.set("n", "<leader>nh", "<CMD>Noice history<CR>")
 vim.keymap.set("n", "<leader>nl", "<CMD>Noice last<CR>")
 vim.keymap.set("n", "<leader>nt", "<CMD>Noice telescope<CR>")
 vim.keymap.set("n", "<leader>nn", notify.dismiss, { desc = "dimiss notifications" })
+
+vim.keymap.set({ "n", "i" }, "<C-f>", function()
+    if not require("noice.lsp").scroll(4) then
+        return "<C-f>"
+    end
+end, { silent = true, expr = true, desc = "Scroll down noice lsp" })
+
+vim.keymap.set({ "n", "i" }, "<C-b>", function()
+    if not require("noice.lsp").scroll(-4) then
+        return "<C-b>"
+    end
+end, { silent = true, expr = true, desc = "Scroll up noice lsp" })

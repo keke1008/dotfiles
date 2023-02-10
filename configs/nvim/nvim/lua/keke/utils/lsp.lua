@@ -1,5 +1,6 @@
 local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+local noice_lsp = require("noice.lsp")
 local map = require("keke.utils.mapping")
 
 vim.fn.sign_define({
@@ -38,7 +39,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gr", "<CMD>Lspsaga lsp_finder<CR>", opts)
         vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
         vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
-        vim.keymap.set("n", "K", "<CMD>Lspsaga hover_doc<CR>", opts)
+        vim.keymap.set("n", "K", noice_lsp.hover, opts)
         vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
         vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
         vim.keymap.set("n", "<leader>le", "<CMD>Lspsaga show_cursor_diagnostics<CR>", opts)
