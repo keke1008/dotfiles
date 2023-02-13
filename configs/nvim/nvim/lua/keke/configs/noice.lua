@@ -20,11 +20,6 @@ noice.setup({
                 row = "20%",
             },
         },
-        vsplit = {
-            size = {
-                max_width = "50%",
-            },
-        },
         hover = {
             border = {
                 style = "rounded",
@@ -34,23 +29,24 @@ noice.setup({
     },
     routes = {
         {
+            view = "mini",
+            filter = {
+                event = "msg_show",
+                any = {
+                    { kind = "emsg", find = "^E486" },
+                    { kind = "emsg", find = "^E37" },
+                    { kind = "wmsg", find = "^search hit " },
+                    { kind = "", find = "written$" },
+                },
+            },
+        },
+        {
             view = "cmdline_output",
             filter = {
                 cmdline = "^:",
                 error = false,
                 warning = false,
                 ["not"] = { kind = { "confirm", "confirm_sub", "return_prompt" } },
-            },
-        },
-        {
-            view = "mini",
-            filter = {
-                event = "msg_show",
-                kind = "emsg",
-                any = {
-                    { find = "^E486" },
-                    { find = "^E37" },
-                },
             },
         },
     },
