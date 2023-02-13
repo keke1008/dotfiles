@@ -1,4 +1,4 @@
-local remap = vim.keymap.set
+local map = require("keke.utils.mapping")
 
-remap({ "n", "v" }, "<one-shot-leader>t", "<CMD>Translate<CR>")
+vim.keymap.set({ "n", "v" }, map.l2("tr"), "<CMD>Translate<CR>")
 vim.g.translator_target_lang = "ja"

@@ -1,65 +1,51 @@
+local map = require("keke.utils.mapping")
+
 local M = {}
 
-local menu_handle
-
 function M.setup()
-    local remap = vim.keymap.set
-    local menu = require("keke.side_menu")
+    map.add_group("<leader>d", "Dap")
 
-    remap("n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>")
-    remap("n", "<leader>dc", "<CMD>DapContinue<CR>")
-    remap("n", "<leader>di", "<CMD>DapStepInto<CR>")
-    remap("n", "<leader>du", function() require("dap").step_back() end, { desc = "DapStepBack" })
-    remap("n", "<leader>do", "<CMD>DapStepOver<CR>")
-    remap("n", "<leader>dp", "<CMD>DapStepOut<CR>")
-    remap("n", "<leader>dq", "<CMD>DapTerminate<CR>")
-    remap("n", "<leader>dQ", function()
-        require("dap").terminate()
-        require("dapui").close({})
-    end, { desc = "Close Dap" })
+    vim.keymap.set("n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>")
+    vim.keymap.set("n", "<leader>dv", function()
+        vim.ui.input({ prompt = "Condition: " }, function(condition)
+            if condition then
+                require("dap").set_breakpoint(condition)
+            end
+        end)
+    end)
+    vim.keymap.set("n", "<leader>dc", "<CMD>DapContinue<CR>")
+    vim.keymap.set("n", "<leader>di", "<CMD>DapStepInto<CR>")
+    vim.keymap.set("n", "<leader>du", function() require("dap").step_back() end, { desc = "DapStepBack" })
+    vim.keymap.set("n", "<leader>do", "<CMD>DapStepOver<CR>")
+    vim.keymap.set("n", "<leader>dp", "<CMD>DapStepOut<CR>")
+    vim.keymap.set("n", "<leader>dq", "<CMD>DapTerminate<CR>")
     ---@diagnostic disable-next-line: missing-parameter
-    remap("n", "<leader>dk", function() require("dapui").eval() end, { desc = "Debug eval" })
-
-    menu_handle = menu.register("dap", "d", {
-        position = { "left", "right" },
-        open = function() require("dapui").open({}) end,
-        close = function() require("dapui").close({}) end,
-    })
+    vim.keymap.set("n", "<leader>dk", function() require("dapui").eval() end, { desc = "Debug eval" })
+    vim.keymap.set("n", "<leader>dl", function() require("dap").run_last() end, { desc = "Run the last debug session" })
 end
 
 function M.config()
     local dap = require("dap")
     local dapui = require("dapui")
     local dap_virtual_text = require("nvim-dap-virtual-text")
+    local mason_registry = require("mason-registry")
+    local colors = require("tokyonight.colors").setup()
 
-    dapui.setup({
-        layouts = {
-            {
-                elements = { "scopes", "breakpoints", "stacks", "watches" },
-                size = 40,
-                position = "left",
+    dapui.setup()
+    dap_virtual_text.setup({})
+
+    if mason_registry.is_installed("codelldb") then
+        local install_path = mason_registry.get_package("codelldb"):get_install_path()
+        local adapter_path = install_path .. "/extension/adapter/codelldb"
+        dap.adapters.codelldb = {
+            type = "server",
+            port = "${port}",
+            executable = {
+                command = adapter_path,
+                args = { "--port", "${port}" },
             },
-            {
-                elements = { "repl", "console" },
-                size = 0.3,
-                position = "right",
-            },
-        },
-    })
-
-    dap_virtual_text.setup()
-
-    local extension_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/"
-    local codelldb_path = extension_path .. "adapter/codelldb"
-
-    dap.adapters.codelldb = {
-        type = "server",
-        port = "${port}",
-        executable = {
-            command = codelldb_path,
-            args = { "--port", "${port}" },
-        },
-    }
+        }
+    end
 
     local function prompt_executable()
         return coroutine.create(function(dap_run_co)
@@ -83,13 +69,21 @@ function M.config()
     dap.configurations.cpp = dap.configurations.c
     dap.configurations.rust = dap.configurations.c
 
-    dap.listeners.before["event_initialized"]["prepare"] = function() menu_handle:open() end
+    dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+    dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+    dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
 
-    vim.api.nvim_set_hl(0, "DebugBreakpointSign", { fg = "#cc2222" })
-    vim.api.nvim_set_hl(0, "DebugStopLine", { bg = "#336611" })
-    vim.api.nvim_set_hl(0, "DebugStopSign", { fg = "#cccc22" })
-    vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DebugBreakpointSign" })
-    vim.fn.sign_define("DapStopped", { text = "", texthl = "DebugStopSign", linehl = "DebugStopLine" })
+    vim.api.nvim_set_hl(0, "DebugStopLine", { bg = colors.blue0 })
+    vim.api.nvim_set_hl(0, "DebugStopSign", { fg = colors.blue })
+    vim.api.nvim_set_hl(0, "DebugBreakpointSign", { fg = colors.red })
+
+    vim.fn.sign_define({
+        { name = "DapStopped", text = " ", texthl = "DebugStopSign", linehl = "DebugStopLine" },
+        { name = "DapBreakpoint", text = " ", texthl = "DebugBreakpointSign" },
+        { name = "DapBreakpointRejected", text = " ", texthl = "DebugBreakpointSign" },
+        { name = "DapBreakpointCondition", text = " ", texthl = "DebugBreakpointSign" },
+        { name = "DapLogPoint", text = " ", texthl = "DebugBreakpointSign" },
+    })
 end
 
 return M

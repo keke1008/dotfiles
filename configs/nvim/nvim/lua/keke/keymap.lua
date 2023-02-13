@@ -1,30 +1,13 @@
 local menu = require("keke.side_menu")
-local remap = vim.keymap.set
 
-remap({ "n", "v", "t", "l" }, "t", "<one-shot-leader>", { remap = true })
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
+vim.keymap.set("n", "<leader><leader>", "<CMD>noh<CR>", { silent = true })
+vim.keymap.set("s", "<BS>", "<BS>i")
+vim.keymap.set("n", "+", ",")
 
-local function compress(key)
-    local prefix = "m"
-    local targets = { key, ("<S-%s>"):format(key), ("<C-%s>"):format(key), ("<M-%s>"):format(key) }
-    for _, target in ipairs(targets) do
-        remap({ "n", "v", "o", "t", "l" }, prefix .. target, target)
-    end
-end
-
-compress("q")
-compress("r")
-compress("t")
-compress("@")
-compress("m")
-
-remap("n", "j", "gj")
-remap("n", "k", "gk")
-remap("n", "<Esc>", "<CMD>write<CR>")
-remap("n", "<leader><leader>", "<CMD>noh<CR>", { silent = true })
-remap("s", "<BS>", "<BS>i")
-remap("n", "+", ",")
-
-remap("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 
 menu.remap_close("h")
 menu.remap_ignore("i")

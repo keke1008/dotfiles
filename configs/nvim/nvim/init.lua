@@ -59,7 +59,7 @@ vim.g.debug = false
 
 pcall(require, "impatient")
 
-require("keke.utils")
+require("keke.global")
 
 require("keke.plugins")
 

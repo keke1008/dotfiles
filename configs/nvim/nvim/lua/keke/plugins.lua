@@ -12,21 +12,12 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-local packer = require("packer")
-
-local reload = function(profile)
-    package.loaded["keke.plugins"] = nil
-    require("keke.plugins")
-    packer.install()
-    packer.compile(profile and "profile=true" or nil)
-end
-
-vim.api.nvim_create_user_command("PackerReload", function() reload(false) end, {})
-vim.api.nvim_create_user_command("PackerReloadWithProfile", function() reload(true) end, {})
-
-packer.startup(function(use)
-    -- Packer
-    use("wbthomason/packer.nvim")
+require("packer").startup(function(use)
+    -- Plugin manager
+    use({
+        "wbthomason/packer.nvim",
+        config = function() require("keke.configs.packer") end,
+    })
 
     --------------------------------------------------
     -- Operation
@@ -66,11 +57,6 @@ packer.startup(function(use)
     use({
         "ggandor/leap.nvim",
         config = function() require("keke.configs.leap") end,
-    })
-    use({
-        "skanehira/jumpcursor.vim",
-        keys = { "<Plug>(jumpcursor-jump)" },
-        setup = function() vim.keymap.set("n", "gj", "<Plug>(jumpcursor-jump)") end,
     })
 
     -- Edge motion
@@ -126,6 +112,31 @@ packer.startup(function(use)
         "voldikss/vim-translator",
         cmd = { "Translate*" },
         setup = function() require("keke.configs.vim-translator") end,
+    })
+
+    --- Terminal
+    use({
+        "akinsho/toggleterm.nvim",
+        tag = "*",
+        cmd = "ToggleTerm",
+        setup = function() require("keke.configs.toggleterm").setup() end,
+        config = function() require("keke.configs.toggleterm").config() end,
+    })
+
+    --- Session manager
+    use({
+        "Shatur/neovim-session-manager",
+        requires = "nvim-lua/plenary.nvim",
+        config = function() require("keke.configs.neovim-session-manager") end,
+    })
+
+    -- Task runner
+    use({
+        "stevearc/overseer.nvim",
+        cmd = "Overseer*",
+        module = "overseer",
+        setup = function() require("keke.configs.overseer").setup() end,
+        config = function() require("keke.configs.overseer").config() end,
     })
 
     --------------------------------------------------
@@ -274,16 +285,14 @@ packer.startup(function(use)
         config = function() require("keke.configs.neoscroll") end,
     })
 
-    -- UI
-    use({
-        "stevearc/dressing.nvim",
-        config = function() require("dressing").setup() end,
-    })
-
     --Fuzzy finder
     use({
         "nvim-telescope/telescope.nvim",
-        requires = "nvim-lua/plenary.nvim",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            { "nvim-telescope/telescope-ui-select.nvim", opt = true },
+        },
+        wants = { "telescope-ui-select.nvim" },
         cmd = { "Telescope" },
         module = { "telescope" },
         setup = function() require("keke.configs.telescope").setup() end,
@@ -352,5 +361,7 @@ packer.startup(function(use)
     -- Improve neovim startup time
     use("lewis6991/impatient.nvim")
 
-    if packer_bootstrap then packer.sync() end
+    if packer_bootstrap then
+        packer.sync()
+    end
 end)

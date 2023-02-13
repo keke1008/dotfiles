@@ -1,19 +1,20 @@
 local gitsigns = require("gitsigns")
-local remap = vim.keymap.set
+local map = require("keke.utils.mapping")
 
 gitsigns.setup({
     on_attach = function(bufnr)
-        local opt = { buffer = bufnr }
+        map.add_group("<leader>h", "Gitsigns")
 
-        remap({ "n", "v" }, "[h", "<CMD>Gitsigns next_hunk<CR>", opt)
-        remap({ "n", "v" }, "]h", "<CMD>Gitsigns next_hunk<CR>", opt)
-        remap({ "n", "v" }, "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>", opt)
-        remap({ "n", "v" }, "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>", opt)
-        remap("n", "<leader>hS", "<CMD>Gitsigns stage_buffer<CR>", opt)
-        remap("n", "<leader>hr", "<CMD>Gitsigns reset_buffer<CR>", opt)
-        remap("n", "<leader>hu", "<CMD>Gitsigns undo_stage_hunk<CR>", opt)
-        remap("n", "<leader>hp", "<CMD>Gitsigns preview_hunk<CR>", opt)
-        remap("n", "<leader>hd", "<CMD>Gitsigns diffthis<CR>", opt)
-        remap("n", "<leader>hb", "<CMD>Gitsigns blame_line<CR>", opt)
+        local opts = { buffer = bufnr }
+        vim.keymap.set({ "n", "x" }, "[h", "<CMD>Gitsigns next_hunk<CR>", opts)
+        vim.keymap.set({ "n", "x" }, "]h", "<CMD>Gitsigns next_hunk<CR>", opts)
+        vim.keymap.set({ "n", "x" }, "<leader>hs", "<CMD>Gitsigns stage_hunk<CR>", opts)
+        vim.keymap.set({ "n", "x" }, "<leader>hr", "<CMD>Gitsigns reset_hunk<CR>", opts)
+        vim.keymap.set("n", "<leader>hS", "<CMD>Gitsigns stage_buffer<CR>", opts)
+        vim.keymap.set("n", "<leader>hr", "<CMD>Gitsigns reset_buffer<CR>", opts)
+        vim.keymap.set("n", "<leader>hu", "<CMD>Gitsigns undo_stage_hunk<CR>", opts)
+        vim.keymap.set("n", "<leader>hp", "<CMD>Gitsigns preview_hunk<CR>", opts)
+        vim.keymap.set("n", "<leader>hd", "<CMD>Gitsigns diffthis<CR>", opts)
+        vim.keymap.set("n", "<leader>hb", "<CMD>Gitsigns blame_line<CR>", opts)
     end,
 })

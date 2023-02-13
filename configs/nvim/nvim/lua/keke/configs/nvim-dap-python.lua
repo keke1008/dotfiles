@@ -1,6 +1,5 @@
 local dap_python = require("dap-python")
 local mason_registry = require("mason-registry")
-local remap = vim.keymap.set
 
 local installed, debugpy = pcall(mason_registry.get_package, "debugpy")
 if not installed then
@@ -21,9 +20,5 @@ vim.api.nvim_create_user_command("DebugpyRunner", function(e) debug_opts.test_ru
     complete = function() return { "unittest", "pytest", "django" } end,
 })
 
-local function run_debug(f)
-    return function() f(debug_opts) end
-end
-
-remap("n", "<leader>dm", run_debug(dap_python.test_method), { desc = "Debug test method" })
-remap("n", "<leader>da", run_debug(dap_python.test_class), { desc = "Debug test class" })
+vim.keymap.set("n", "<leader>dm", function() dap_python.test_method(debug_opts) end, { desc = "Debug test method" })
+vim.keymap.set("n", "<leader>da", function() dap_python.test_class(debug_opts) end, { desc = "Debug test class" })
