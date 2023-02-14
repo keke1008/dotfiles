@@ -46,7 +46,13 @@ noice.setup({
                 cmdline = "^:",
                 error = false,
                 warning = false,
-                ["not"] = { kind = { "confirm", "confirm_sub", "return_prompt" } },
+                ["not"] = {
+                    any = {
+                        kind = { "confirm", "confirm_sub", "return_prompt" },
+                        { kind = "", find = "substitutions on %d+ lines$" },
+                        { kind = "echo", find = "substitutions on %d+ lines$" },
+                    },
+                },
             },
         },
     },
@@ -57,7 +63,10 @@ map.add_group("<leader>n", "Noice")
 vim.keymap.set("n", "<leader>nh", "<CMD>Noice history<CR>")
 vim.keymap.set("n", "<leader>nl", "<CMD>Noice last<CR>")
 vim.keymap.set("n", "<leader>nt", "<CMD>Noice telescope<CR>")
-vim.keymap.set("n", "<leader>nn", notify.dismiss, { desc = "dimiss notifications" })
+vim.keymap.set("n", "<leader><leader>", function()
+    notify.dismiss({})
+    vim.cmd([[noh]])
+end, { desc = "dimiss notifications and highlights" })
 
 vim.keymap.set({ "n", "i" }, "<C-f>", function()
     if not require("noice.lsp").scroll(4) then

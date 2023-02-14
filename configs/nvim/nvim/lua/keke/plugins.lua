@@ -12,7 +12,9 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-require("packer").startup(function(use)
+local packer = require("packer")
+
+packer.startup(function(use)
     -- Plugin manager
     use({
         "wbthomason/packer.nvim",
@@ -91,6 +93,12 @@ require("packer").startup(function(use)
         "haya14busa/vim-asterisk",
         keys = { "<Plug>(asterisk-" },
         setup = function() require("keke.configs.asterisk") end,
+    })
+
+    -- Improve increment/decrement
+    use({
+        "monaqa/dial.nvim",
+        config = function() require("keke.configs.dial") end,
     })
 
     -- Undo tree
@@ -338,13 +346,13 @@ require("packer").startup(function(use)
 
     -- Treesitter
     use({
-        "nvim-treesitter/nvim-treesitter-textobjects",
+        "nvim-treesitter/nvim-treesitter",
         requires = {
-            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter/nvim-treesitter-textobjects",
             "nvim-treesitter/nvim-treesitter-context",
             "andymass/vim-matchup",
+            "RRethy/nvim-treesitter-endwise",
         },
-        event = "BufRead",
         config = function() require("keke.configs.treesitter") end,
     })
 
