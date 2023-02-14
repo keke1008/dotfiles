@@ -348,6 +348,7 @@ packer.startup(function(use)
             "nvim-treesitter/nvim-treesitter-context",
             "andymass/vim-matchup",
             "RRethy/nvim-treesitter-endwise",
+            "mrjones2014/nvim-ts-rainbow",
         },
         config = function() require("keke.configs.treesitter") end,
     })
