@@ -289,12 +289,6 @@ packer.startup(function(use)
         config = function() require("keke.configs.nvim-tree").config() end,
     })
 
-    -- Scroll animation
-    use({
-        "karb94/neoscroll.nvim",
-        config = function() require("keke.configs.neoscroll") end,
-    })
-
     --Fuzzy finder
     use({
         "nvim-telescope/telescope.nvim",
