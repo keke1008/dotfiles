@@ -117,9 +117,11 @@ packer.startup(function(use)
 
     --- Translation
     use({
-        "voldikss/vim-translator",
-        cmd = { "Translate*" },
-        setup = function() require("keke.configs.vim-translator") end,
+        "potamides/pantran.nvim",
+        module = "pantran",
+        cmd = "Pantran",
+        setup = function() require("keke.configs.pantran").setup() end,
+        config = function() require("keke.configs.pantran").config() end,
     })
 
     --- Terminal
