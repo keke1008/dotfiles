@@ -4,4 +4,4 @@ local lsp = require("keke.utils.lsp")
 
 neodev.setup({})
 
-lspconfig.sumneko_lua.setup(lsp.default_config)
+lspconfig.lua_ls.setup(lsp.default_config)

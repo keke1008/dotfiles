@@ -19,7 +19,7 @@ mason_lspconfig.setup_handlers({
             root_dir = root_pattern("deno.json", "deno.jsonc"),
         }))
     end,
-    ["sumneko_lua"] = function(_)
+    ["lua_ls"] = function(_)
         -- neodev.nvim
     end,
     ["clangd"] = function(_)
