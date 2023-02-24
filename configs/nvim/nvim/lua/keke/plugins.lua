@@ -276,6 +276,15 @@ packer.startup(function(use)
         config = function() require("keke.configs.typescript") end,
     })
 
+    -- dart/flutter
+    use({
+        "akinsho/flutter-tools.nvim",
+        requires = { "nvim-lua/plenary.nvim" },
+        ft = "dart",
+        opt = true,
+        config = function() require("keke.configs.flutter-tools") end,
+    })
+
     --------------------------------------------------
     -- Appearance
     --------------------------------------------------
