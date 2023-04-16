@@ -19,6 +19,7 @@
     ca = commit --amend
     cm = commit -m
     cam = commit --amend -m
+    cl = clone
 
     d = diff
 
