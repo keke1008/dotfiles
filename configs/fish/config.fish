@@ -54,6 +54,11 @@ if [ -d "/snap/bin" ]
     fish_add_path "/snap/bin"
 end
 
+# fly.io
+if [ -d "$HOME/.fly" ]
+    fish_add_path "$HOME/.fly/bin"
+end
+
 # fzf key bind
 if type -q fzf_key_bindings
     fzf_key_bindings
