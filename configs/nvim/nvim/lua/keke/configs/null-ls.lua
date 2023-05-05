@@ -74,6 +74,13 @@ local register_source_list = {
     isort = { method = METHOD.formatting },
     autopep8 = { method = METHOD.formatting },
 
+    -- Ruby
+    rubocop = { method = { METHOD.diagnostics, METHOD.formatting } },
+    erb_lint = {
+        method = { METHOD.diagnostics, METHOD.formatting },
+        command = "erblint",
+    },
+
     -- Shell Script
     shellcheck = { method = { METHOD.code_actions, METHOD.diagnostics } },
 
