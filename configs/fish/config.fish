@@ -84,6 +84,9 @@ end
 # aliases
 alias g git
 alias v nvim
+alias c cargo
+alias be "bundle exec"
+alias bi "bundle install"
 
 for repeat in (seq 3 10)
     set -l cd_parents_name (string repeat -n $repeat '.')
