@@ -59,6 +59,10 @@ if [ -d "$HOME/.fly" ]
     fish_add_path "$HOME/.fly/bin"
 end
 
+if [ -d "$HOME/.platformio/penv/bin" ]
+    fish_add_path "$HOME/.platformio/penv/bin"
+end
+
 # fzf key bind
 if type -q fzf_key_bindings
     fzf_key_bindings
