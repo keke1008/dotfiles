@@ -86,6 +86,9 @@ local register_source_list = {
 
     -- C/C++
     cpplint = { method = METHOD.diagnostics },
+
+    -- Spell Checker
+    cspell = { method = { METHOD.diagnostics, METHOD.code_actions } },
 }
 
 local sources = {}
