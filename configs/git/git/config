@@ -42,6 +42,8 @@
     rr = restore
     rb = rebase
     rbi = rebase -i
+    rba = rebase --abort
+    rbc = rebase --continue
 
     s = status
     si = switch
