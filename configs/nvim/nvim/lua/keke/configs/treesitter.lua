@@ -8,7 +8,7 @@ treesitter_configs.setup({
 
     indent = {
         enable = true,
-        disable = { "python" },
+        disable = { "cpp", "python" },
     },
 
     textobjects = {
