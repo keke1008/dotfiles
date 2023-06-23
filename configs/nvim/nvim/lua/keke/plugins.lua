@@ -235,6 +235,8 @@ packer.startup(function(use)
         config = function() require("keke.configs.nvim-scrollbar") end,
     })
 
+    use("github/copilot.vim")
+
     --------------------------------------------------
     -- Language-specifig LSP plugins
     --------------------------------------------------

@@ -58,12 +58,15 @@ cmp.setup({
     mapping = {
         ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), remap_mode),
         ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), remap_mode),
-        ["<C-j>"] = cmp.mapping(try_remap(luasnip_jump_next), { "i", "s", "c" }),
-        ["<C-k>"] = cmp.mapping(try_remap(luasnip_jump_prev), { "i", "s", "c" }),
+        ["<C-j>"] = cmp.mapping(try_remap(luasnip_jump_next), remap_mode),
+        ["<C-k>"] = cmp.mapping(try_remap(luasnip_jump_prev), remap_mode),
         ["<C-p>"] = cmp.mapping(remap_complete_or(cmp.select_prev_item), remap_mode),
         ["<C-n>"] = cmp.mapping(remap_complete_or(cmp.select_next_item), remap_mode),
-        ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), remap_mode),
         ["<CR>"] = cmp.mapping(try_remap(cmp.confirm), { "i", "s" }),
+        ["<C-e>"] = cmp.mapping(function()
+            cmp.abort()
+            vim.api.nvim_input("<CR>")
+        end, remap_mode),
     },
     formatting = {
         fields = { "kind", "abbr", "menu" },
@@ -102,6 +105,13 @@ cmp.setup({
 })
 
 cmp.setup.cmdline(":", {
+    mapping = {
+        ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
+        ["<CR>"] = cmp.mapping(function()
+            cmp.confirm()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "nt", false)
+        end, { "c" }),
+    },
     sources = {
         { name = "cmdline" },
         { name = "path" },
