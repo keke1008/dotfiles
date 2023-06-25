@@ -107,10 +107,6 @@ cmp.setup({
 cmp.setup.cmdline(":", {
     mapping = {
         ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
-        ["<CR>"] = cmp.mapping(function()
-            cmp.confirm()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "nt", false)
-        end, { "c" }),
     },
     sources = {
         { name = "cmdline" },
