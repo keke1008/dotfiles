@@ -31,13 +31,30 @@ noice.setup({
         {
             view = "mini",
             filter = {
-                event = "msg_show",
                 any = {
-                    { kind = "emsg", find = "^E486" },
-                    { kind = "emsg", find = "^E37" },
-                    { kind = "wmsg", find = "^search hit " },
-                    { kind = "", find = "written$" },
+                    {
+                        event = "msg_show",
+                        any = {
+                            { kind = "emsg", find = "^E486" },
+                            { kind = "emsg", find = "^E37" },
+                            { kind = "wmsg", find = "^search hit " },
+                            { kind = "", find = "written$" },
+                        },
+                    },
+                    {
+                        event = "notify",
+                        kind = "info",
+                        find = "^No code actions available", -- for lspsaga
+                    },
                 },
+            },
+        },
+        {
+            opts = { skip = true },
+            filter = {
+                event = "notify",
+                kind = "warn",
+                find = "^warning: multiple different client offset_encodings", -- for clangd lsp
             },
         },
         {
