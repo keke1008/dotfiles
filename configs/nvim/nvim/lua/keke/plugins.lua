@@ -210,6 +210,22 @@ packer.startup(function(use)
         config = function() require("keke.configs.dap").config() end,
     })
 
+    -- Testing
+    use({
+        "nvim-neotest/neotest",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "antoinemadec/FixCursorHold.nvim",
+            { "marilari88/neotest-vitest", opt = true },
+        },
+        wants = { "neotest-vitest" },
+        module = { "neotest" },
+        cmd = { "Neotest" },
+        setup = function() require("keke.configs.neotest").setup() end,
+        config = function() require("keke.configs.neotest").config() end,
+    })
+
     -- Showing diagnostics, reference, ...
     use({
         "folke/trouble.nvim",
