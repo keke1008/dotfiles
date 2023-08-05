@@ -13,12 +13,14 @@
     b = branch
     bd = branch -d
     bD = branch -D
+
     bl = blame
 
     c = commit
     ca = commit --amend
     cm = commit -m
     cam = commit --amend -m
+
     cl = clone
 
     d = diff
@@ -33,13 +35,16 @@
 
     p = pull
     pp = pull --prune
+
     ps = push
     psf = push --force-with-lease --force-if-includes
 
     r = reset
     rs = reset --soft
     rh = reset --hard
+
     rr = restore
+
     rb = rebase
     rbi = rebase -i
     rba = rebase --abort
@@ -47,11 +52,14 @@
 
     s = status
     su = status -u
+
     si = switch
     sic = switch -c
+
     sh = stash
     shu = stash -u
     shp = stash pop
+
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
