@@ -46,6 +46,7 @@
     rbc = rebase --continue
 
     s = status
+    su = status -u
     si = switch
     sic = switch -c
     sh = stash
