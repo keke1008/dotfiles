@@ -20,6 +20,7 @@
     ca = commit --amend
     cm = commit -m
     cam = commit --amend -m
+    cane = commit --amend --no-edit
 
     cl = clone
 
