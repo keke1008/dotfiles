@@ -53,7 +53,7 @@ cmp.setup({
         { name = "treesitter" },
     })),
     completion = {
-        completeopt = "menuone,noinsert",
+        completeopt = "menuone",
     },
     mapping = {
         ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), remap_mode),
