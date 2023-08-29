@@ -115,6 +115,9 @@ cmp.setup.cmdline(":", {
 })
 
 cmp.setup.cmdline("/", {
+    mapping = {
+        ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
+    },
     sources = {
         { name = "buffer" },
     },
