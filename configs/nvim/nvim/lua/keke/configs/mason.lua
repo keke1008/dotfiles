@@ -16,11 +16,16 @@ mason_lspconfig.setup_handlers({
             root_dir = root_pattern("deno.json", "deno.jsonc"),
         }))
     end,
+    ["clangd"] = function(_)
+        lspconfig.clangd.setup(lsp.extend_default_config({
+            on_attach = function(_, bufnr)
+                local opts = { buffer = bufnr, silent = true }
+                vim.keymap.set("n", "<leader>ls", "<CMD>ClangdSwitchSourceHeader<CR>", opts)
+            end,
+        }))
+    end,
     ["lua_ls"] = function(_)
         -- neodev.nvim
-    end,
-    ["clangd"] = function(_)
-        -- clangd_extensions.nvim
     end,
     ["tsserver"] = function(_)
         -- typescript.nvim

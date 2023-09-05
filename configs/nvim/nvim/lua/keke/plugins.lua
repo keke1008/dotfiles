@@ -276,7 +276,6 @@ packer.startup(function(use)
     use({
         "p00f/clangd_extensions.nvim",
         ft = { "c", "cpp" },
-        config = function() require("keke.configs.clangd_extensions") end,
     })
 
     -- java
