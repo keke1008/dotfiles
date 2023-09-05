@@ -149,6 +149,14 @@ packer.startup(function(use)
         config = function() require("keke.configs.overseer").config() end,
     })
 
+    -- Markdown preview
+    use({
+        "iamcco/markdown-preview.nvim",
+        ft = "markdown",
+        cmd = "MarkdownPreview",
+        config = function() require("keke.configs.markdown-preview").config() end,
+    })
+
     --------------------------------------------------
     -- LSP
     --------------------------------------------------
