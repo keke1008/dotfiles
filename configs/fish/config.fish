@@ -89,6 +89,8 @@ end
 alias g git
 alias v nvim
 alias c cargo
+alias d docker
+alias dc "docker compose"
 alias be "bundle exec"
 alias bi "bundle install"
 
