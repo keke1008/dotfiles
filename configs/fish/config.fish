@@ -72,6 +72,12 @@ end
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
     fish_add_path "$DOTPATH/bin/wsl"
 
+    set -l firefox_path '/mnt/c/Program Files/Mozilla Firefox/firefox.exe'
+    if [ -e "$firefox_path" ]
+        set -x BROWSER "$firefox_path"
+        alias firefox (string replace -a ' ' '\\ ' "$firefox_path")
+    end
+
     # if WSL has WSLg
     if type -q "wslg.exe"
         set -x DISPLAY ":0"
