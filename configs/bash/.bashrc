@@ -29,11 +29,14 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# load $DOTPATH
+export DOTPATH=$(cat "$HOME/.dotpath")
+
 # mapping
 stty werase undef
 bind '\C-w:unix-filename-rubout'
 
-if !(type vim > /dev/null 2>&1); then
+if ! type vim > /dev/null 2>&1; then
   alias vim='vi'
 fi
 
