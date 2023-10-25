@@ -1,5 +1,5 @@
 [user]
-    email = keke2222337@gmail.com
+    email = 49900846+keke1008@users.noreply.github.com
     name = keke1008
 
 [init]
@@ -33,6 +33,7 @@
     l = log
 
     m = merge
+    ma = merge --abort
 
     p = pull
     pp = pull --prune
