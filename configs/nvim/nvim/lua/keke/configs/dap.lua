@@ -27,12 +27,33 @@ end
 function M.config()
     local dap = require("dap")
     local dapui = require("dapui")
+    local dap_vscode_js = require("dap-vscode-js")
     local dap_virtual_text = require("nvim-dap-virtual-text")
     local mason_registry = require("mason-registry")
     local colors = require("tokyonight.colors").setup()
 
     dapui.setup()
     dap_virtual_text.setup({})
+    dap_vscode_js.setup({
+        adapters = { "pwa-node" },
+    })
+
+    local function remap_only_debugging(key, command)
+        vim.keymap.set("n", key, function()
+            if dap.status() == "" then
+                return key
+            else
+                return "<CMD>" .. command .. "<CR>"
+            end
+        end, { desc = command, silent = true, expr = true })
+    end
+
+    remap_only_debugging("<C-k>", "lua require('dapui').eval()")
+    -- remap_only_debugging("d", "DapToggleBreakpoint")
+    -- remap_only_debugging("c", "DapContinue")
+    -- remap_only_debugging("i", "DapStepInto")
+    -- remap_only_debugging("o", "DapStepOver")
+    -- remap_only_debugging("p", "DapStepOut")
 
     if mason_registry.is_installed("codelldb") then
         local install_path = mason_registry.get_package("codelldb"):get_install_path()

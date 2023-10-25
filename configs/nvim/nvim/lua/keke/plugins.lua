@@ -210,12 +210,18 @@ packer.startup(function(use)
         requires = {
             { "rcarriga/nvim-dap-ui", opt = true },
             { "theHamsta/nvim-dap-virtual-text", opt = true },
+            { "mxsdev/nvim-dap-vscode-js", opt = true },
         },
-        wants = { "nvim-dap-ui", "nvim-dap-virtual-text" },
+        wants = { "nvim-dap-ui", "nvim-dap-virtual-text", "nvim-dap-vscode-js" },
         module = { "dap" },
         cmd = { "Dap*" },
         setup = function() require("keke.configs.dap").setup() end,
         config = function() require("keke.configs.dap").config() end,
+    })
+    use({
+        "microsoft/vscode-js-debug",
+        opt = true,
+        run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
     })
 
     -- Testing
@@ -226,8 +232,9 @@ packer.startup(function(use)
             "nvim-treesitter/nvim-treesitter",
             "antoinemadec/FixCursorHold.nvim",
             { "marilari88/neotest-vitest", opt = true },
+            { "marilari88/neotest-jest", opt = true },
         },
-        wants = { "neotest-vitest" },
+        wants = { "neotest-vitest", "neotest-jest" },
         module = { "neotest" },
         cmd = { "Neotest" },
         setup = function() require("keke.configs.neotest").setup() end,
