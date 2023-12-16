@@ -61,6 +61,8 @@ pcall(require, "impatient")
 
 require("keke.global")
 
+require("keke.commands")
+
 require("keke.plugins")
 
 require("keke.keymap")
