@@ -4,7 +4,6 @@ treesitter_configs.setup({
     highlight = { enable = true },
     matchup = { enable = true },
     endwise = { enable = true },
-    rainbow = { enable = true },
 
     indent = {
         enable = true,
