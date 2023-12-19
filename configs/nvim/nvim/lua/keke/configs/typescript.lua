@@ -11,5 +11,9 @@ end
 typescript.setup({
     server = lsp.extend_default_config({
         root_dir = util.find_package_json_ancestor,
+        on_attach = function(_, bufnr)
+            vim.keymap.set("n", "<leader>lm", "<CMD>TypescriptAddMissingImports<CR>", { buffer = bufnr, silent = true })
+            vim.keymap.set("n", "<leader>lR", "<CMD>TypescriptRenameFile<CR>", { buffer = bufnr, silent = true })
+        end,
     }),
 })
