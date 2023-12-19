@@ -20,8 +20,6 @@ vim.o.number = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = true
 vim.o.signcolumn = "yes"
-vim.o.splitright = true
-vim.o.splitbelow = true
 vim.o.scrolloff = 5
 
 vim.o.cmdheight = 2
