@@ -90,6 +90,21 @@ function M.config()
     dap.configurations.cpp = dap.configurations.c
     dap.configurations.rust = dap.configurations.c
 
+    dap.configurations.typescript = {
+        {
+            name = "tsx",
+            type = "pwa-node",
+            request = "launch",
+            program = prompt_executable,
+            cwd = "${workspaceFolder}",
+            runtimeExecutable = "${workspaceFolder}/node_modules/.bin/tsx",
+            sourceMaps = true,
+            protocol = "inspector",
+            console = "integratedTerminal",
+            skipFiles = { "<node_internals>/**" },
+        },
+    }
+
     dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
     dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
     dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
