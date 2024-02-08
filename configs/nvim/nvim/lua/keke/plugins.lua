@@ -269,6 +269,22 @@ packer.startup(function(use)
     -- Github Copilot
     use("github/copilot.vim")
 
+    -- ChatGPT
+    use({
+        "jackMort/ChatGPT.nvim",
+        setup = function() require("keke.configs.chatgpt").setup() end,
+        config = function() require("keke.configs.chatgpt").config() end,
+        cmd = { "ChatGPT*" },
+        module = { "chatgpt" },
+        requires = {
+            "MunifTanjim/nui.nvim",
+            "nvim-lua/plenary.nvim",
+            { "folke/trouble.nvim", opt = true },
+            { "nvim-telescope/telescope.nvim", opt = true },
+        },
+        wants = { "trouble.nvim", "telescope.nvim" },
+    })
+
     --------------------------------------------------
     -- Language-specifig LSP plugins
     --------------------------------------------------
