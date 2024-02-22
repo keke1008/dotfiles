@@ -1,6 +1,7 @@
 set -x DOTPATH (cat "$HOME/.dotpath")
 set -x XDG_CONFIG_HOME "$HOME/.config"
 set -x fish_term24bit 1
+set -x GPG_TTY (tty)
 
 # Execute tmux if it is not running
 if type -q tmux && [ -z "$TMUX" ]
