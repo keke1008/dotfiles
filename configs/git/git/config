@@ -1,5 +1,8 @@
+[include]
+    path = ./local-config
+
 [user]
-    email = 49900846+keke1008@users.noreply.github.com
+    email = keke2222337@gmail.com
     name = keke1008
 
 [init]
