@@ -43,6 +43,8 @@ end
 # asdf
 if [ -e "$HOME/.asdf/asdf.fish" ]
     source "$HOME/.asdf/asdf.fish"
+else if [ -e "/opt/asdf-vm/asdf.fish" ]
+    source "/opt/asdf-vm/asdf.fish"
 end
 
 # luarocks
