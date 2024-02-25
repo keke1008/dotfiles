@@ -59,7 +59,7 @@ return {
         init = function()
             ---@diagnostic disable-next-line: duplicate-set-field
             vim.ui.select = function(...)
-                vim.cmd([[packadd telescope.nvim]])
+                vim.cmd([[Lazy load telescope.nvim]])
                 vim.ui.select(...)
             end
         end,
