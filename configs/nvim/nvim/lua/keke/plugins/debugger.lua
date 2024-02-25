@@ -11,7 +11,7 @@ return {
         init = function()
             drawer.register({
                 name = "dap",
-                positions = { "left", "right" },
+                positions = { "left", "bottom" },
                 open = function() require("dapui").open() end,
                 close = function() require("dapui").close() end,
             })
@@ -94,7 +94,7 @@ return {
                 },
             }
 
-            dap.listeners.after.event_initialized["dapui_config"] = function() drawer.open("dap") end
+            dap.listeners.after.event_initialized["dapui_config"] = function() drawer.push("dap") end
             dap.listeners.before.event_terminated["dapui_config"] = function() drawer.close_by_name("dap") end
             dap.listeners.before.event_exited["dapui_config"] = function() drawer.close_by_name("dap") end
 

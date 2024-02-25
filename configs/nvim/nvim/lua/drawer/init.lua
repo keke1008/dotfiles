@@ -51,6 +51,11 @@ return {
         state:open(name)
     end,
 
+    ---@param name drawer.DrawerName
+    push = function(name)
+        state:push(name)
+    end,
+
     ---@param position drawer.DrawerPosition
     close_by_position = function(position)
         state:close_by_position(position)
