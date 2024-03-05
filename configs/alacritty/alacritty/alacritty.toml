@@ -1,4 +1,4 @@
-# live_config_reload = true
+import = ["~/.config/alacritty/env-dependent.toml"]
 
 [[keyboard.bindings]]
 key = ";"
