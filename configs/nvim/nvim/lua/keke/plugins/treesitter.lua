@@ -30,6 +30,13 @@ return {
                     ["if"] = "@function.inner",
                     ["ac"] = "@class.outer",
                     ["ic"] = "@class.inner",
+                    ["ab"] = "@block.outer",
+                    ["ib"] = "@block.inner",
+                    ["al"] = "@call.outer",
+                    ["il"] = "@call.inner",
+                    ["ao"] = "@conditional.outer",
+                    ["io"] = "@conditional.inner",
+                    ["as"] = "@statement.outer",
                 },
             },
             swap = {
