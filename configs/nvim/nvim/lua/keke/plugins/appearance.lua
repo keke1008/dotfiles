@@ -2,24 +2,37 @@ return {
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
-        lazy = false,
         init = function()
             vim.opt.list = true
             vim.opt.listchars:append("space:⋅")
             vim.opt.listchars:append("eol:↴")
         end,
+        event = "UIEnter",
         config = true,
     },
     {
         "folke/which-key.nvim",
-        lazy = false,
+        event = "VeryLazy",
         config = true,
     },
     {
         "nvim-lualine/lualine.nvim",
-        dependencies = { "kyazdani42/nvim-web-devicons" },
+        dependencies = {
+            "kyazdani42/nvim-web-devicons",
+            { "folke/noice.nvim", optional = true }
+        },
+        event = "UIEnter",
         opts = function()
-            local noice = require("noice")
+            local has_noice, noice = pcall(require, "noice")
+            local noice_status = nil
+            if has_noice then
+                noice_status = {
+                    noice.api.status.mode.get,
+                    cond = noice.api.status.mode.has,
+                    color = { fg = "#ff9e64" }
+                }
+            end
+
             return {
                 options = {
                     icons_enabled = true,
@@ -33,10 +46,7 @@ return {
                 sections = {
                     lualine_a = { "mode" },
                     lualine_b = { "branch", "diff", "diagnostics" },
-                    lualine_c = {
-                        "filename",
-                        { noice.api.status.mode.get, cond = noice.api.status.mode.has, color = { fg = "#ff9e64" } },
-                    },
+                    lualine_c = { "filename", noice_status },
                     lualine_x = { "encoding", "fileformat", "filetype" },
                     lualine_y = { "progress" },
                     lualine_z = { "location" },
@@ -57,7 +67,7 @@ return {
     {
 
         "lewis6991/gitsigns.nvim",
-        event = "BufRead",
+        event = "UIEnter",
         opts = {
             on_attach = function(bufnr)
                 local opts = { buffer = bufnr }

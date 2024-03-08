@@ -1,6 +1,5 @@
 return {
     "folke/noice.nvim",
-    lazy = false,
     dependencies = {
         "MunifTanjim/nui.nvim",
         "rcarriga/nvim-notify",
@@ -78,7 +77,7 @@ return {
                         {
                             event = "notify",
                             kind = "info",
-                            find = "^No code actions available",     -- for lspsaga
+                            find = "^No code actions available", -- for lspsaga
                         },
                     },
                 },
@@ -88,7 +87,7 @@ return {
                 filter = {
                     event = "notify",
                     kind = "warn",
-                    find = "^warning: multiple different client offset_encodings",     -- for clangd lsp
+                    find = "^warning: multiple different client offset_encodings", -- for clangd lsp
                 },
             }
         },

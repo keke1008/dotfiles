@@ -31,7 +31,7 @@ vim.o.incsearch = true
 vim.g.mapleader = " "
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
+vim.keymap.set("n", "<Esc>", "<CMD>" .. (vim.g.vscode and "Write" or "write") .. "<CR>")
 vim.keymap.set("s", "<BS>", "<BS>i")
 vim.keymap.set("n", "+", ",")
 vim.keymap.set("n", "[c", "<CMD>cp<CR>")
@@ -68,4 +68,5 @@ vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()
     end
 end, { desc = "Wipe invisible buffers" })
 
+require("keke.global")
 require("keke.lazy")

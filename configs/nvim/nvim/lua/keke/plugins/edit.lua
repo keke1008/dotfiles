@@ -4,17 +4,22 @@ local drawer = require("drawer")
 return {
     {
         "tpope/vim-repeat",
+        cond = true,
         lazy = false,
     },
     {
         "kylechui/nvim-surround",
-        lazy = false,
+        cond = true,
+        event = "VeryLazy",
         config = true,
     },
     {
         "sgur/vim-textobj-parameter",
-        lazy = false,
-        dependencies = { "kana/vim-textobj-user" },
+        cond = true,
+        event = "VeryLazy",
+        dependencies = {
+            { "kana/vim-textobj-user", cond = true }
+        },
     },
     {
         "junegunn/vim-easy-align",
@@ -24,6 +29,7 @@ return {
     },
     {
         "ggandor/leap.nvim",
+        cond = true,
         keys = function()
             local function leap_tabpage()
                 require("leap").leap({
@@ -41,6 +47,7 @@ return {
     },
     {
         "haya14busa/vim-edgemotion",
+        cond = true,
         keys = {
             { "<C-n>", "<Plug>(edgemotion-j)", mode = { "n", "x", "o" } },
             { "<C-p>", "<Plug>(edgemotion-k)", mode = { "n", "x", "o" } },
@@ -48,6 +55,7 @@ return {
     },
     {
         "numToStr/Comment.nvim",
+        cond = true,
         keys = {
             { "gc", mode = { "n", "x" } }
         },
@@ -55,11 +63,13 @@ return {
     },
     {
         "windwp/nvim-autopairs",
+        cond = true,
         event = "InsertEnter",
         config = true,
     },
     {
         "haya14busa/vim-asterisk",
+        cond = true,
         keys = {
             { "*",  "<Plug>(asterisk-z*)",  mode = { "n", "x" } },
             { "#",  "<Plug>(asterisk-z#)",  mode = { "n", "x" } },
@@ -69,6 +79,7 @@ return {
     },
     {
         "monaqa/dial.nvim",
+        cond = true,
         keys = {
             { "<C-a> ", "<Plug>(dial-increment)",  mode = { "n" } },
             { "<C-x> ", "<Plug>(dial-decrement)",  mode = { "n" } },
@@ -97,6 +108,7 @@ return {
     },
     {
         "gbprod/substitute.nvim",
+        cond = true,
         keys = function()
             local function substitute(command)
                 return function() require("substitute")[command]() end
@@ -176,7 +188,7 @@ return {
     },
     {
         "Shatur/neovim-session-manager",
-        lazy = false,
+        event = "VimEnter",
         dependencies = { "nvim-lua/plenary.nvim" },
         opts = function()
             local AutoloadMode = require("session_manager.config").AutoloadMode

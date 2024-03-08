@@ -12,6 +12,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("keke.plugins", {
+    defaults = {
+        lazy = true,
+        cond = is_in_terminal,
+    },
     performance = {
         rtp = {
             disabled_plugins = {

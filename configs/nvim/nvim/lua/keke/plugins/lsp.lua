@@ -3,13 +3,13 @@ local drawer = require("drawer")
 return {
     {
         "williamboman/mason.nvim",
-        lazy = false,
         dependencies = {
             { "folke/neoconf.nvim", config = true },
             "williamboman/mason-lspconfig.nvim",
             "neovim/nvim-lspconfig",
             "hrsh7th/cmp-nvim-lsp",
         },
+        event = "VeryLazy",
         config = function()
             local mason = require("mason")
             local mason_lspconfig = require("mason-lspconfig")
@@ -46,8 +46,8 @@ return {
     },
     {
         "L3MON4D3/LuaSnip",
-        lazy = false,
         dependencies = { "rafamadriz/friendly-snippets" },
+        event = "InsertEnter",
         config = function()
             local loader = require("luasnip.loaders.from_vscode")
 
@@ -294,7 +294,9 @@ return {
     },
     {
         "folke/neodev.nvim",
+        dependencies = { "williamboman/mason.nvim" },
         ft = "lua",
+        event = "VeryLazy",
         config = function()
             local lsp = require("keke.utils.lsp")
 
@@ -339,14 +341,17 @@ return {
     },
     {
         "p00f/clangd_extensions.nvim",
+        dependencies = { "williamboman/mason.nvim" },
         ft = { "c", "cpp" },
     },
     {
         "mfussenegger/nvim-jdtls",
+        dependencies = { "williamboman/mason.nvim" },
         ft = "java",
     },
     {
         "jose-elias-alvarez/typescript.nvim",
+        dependencies = { "williamboman/mason.nvim" },
         ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
         config = function()
             local util = require("lspconfig.util")
@@ -374,7 +379,10 @@ return {
     },
     {
         "akinsho/flutter-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "nvim-lua/plenary.nvim"
+        },
         ft = "dart",
         config = function()
             local flutter_tools = require("flutter-tools")
