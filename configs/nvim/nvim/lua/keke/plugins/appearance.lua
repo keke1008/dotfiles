@@ -160,6 +160,7 @@ return {
             "RRethy/nvim-treesitter-endwise",
             "windwp/nvim-ts-autotag",
         },
+        main = "nvim-treesitter.configs",
         opts = {
             highlight = { enable = true },
             matchup = { enable = true },
