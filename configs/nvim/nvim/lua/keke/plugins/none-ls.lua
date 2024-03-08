@@ -41,12 +41,7 @@ return {
             }
 
             return vim.tbl_map(
-                function(method)
-                    print(method)
-                    print(name)
-
-                    return null_ls.builtins[method][name].with(option)
-                end,
+                function(method) return null_ls.builtins[method][name].with(option) end,
                 type(source.method) == "table" and source.method or { source.method } --[=[@as SourceMethod[]]=]
             )
         end
