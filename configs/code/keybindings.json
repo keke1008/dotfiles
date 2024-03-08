@@ -1,0 +1,38 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+q",
+        "command": "-workbench.action.quit"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "-workbench.action.files.newUntitledFile"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "vscode-neovim.send",
+        "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
+        "args": "<C-n>",
+    },
+    {
+        "key": "ctrl+p",
+        "command": "vscode-neovim.send",
+        "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
+        "args": "<C-p>",
+    },
+    {
+        "key": "ctrl+q",
+        "command": "vscode-neovim.send",
+        "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
+        "args": "<C-q>",
+    },
+    {
+        "key": "ctrl+w ctrl+q",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "!filesExplorerFocus && !searchViewletFocus && !terminalFocus && neovim.mode != 'cmdline'"
+    }
+]

@@ -1,3 +1,5 @@
+_G.is_in_terminal = not vim.g.vscode
+
 vim.o.number = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = true
@@ -37,6 +39,10 @@ vim.keymap.set("n", "+", ",")
 vim.keymap.set("n", "[c", "<CMD>cp<CR>")
 vim.keymap.set("n", "]c", "<CMD>cn<CR>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+if not is_in_terminal then
+    vim.keymap.set("n", "<leader><leader>", "<CMD>noh<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-w><C-q>", "<nop>")
+end
 
 local drawer = require("drawer")
 drawer.setup({ prefix_key = "<leader>s" })
@@ -68,5 +74,4 @@ vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()
     end
 end, { desc = "Wipe invisible buffers" })
 
-require("keke.global")
 require("keke.lazy")
