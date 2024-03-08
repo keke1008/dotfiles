@@ -85,12 +85,13 @@ return {
         end,
         cmd = "Telescope",
         keys = {
-            { "<leader>fb", "<CMD>Telescope buffers<CR>",    mode = "n" },
-            { "<leader>ff", "<CMD>Telescope find_files<CR>", mode = "n" },
-            { "<leader>fg", "<CMD>Telescope git_files<CR>",  mode = "n" },
-            { "<leader>fh", "<CMD>Telescope help_tags<CR>",  mode = "n" },
-            { "<leader>fl", "<CMD>Telescope live_grep<CR>",  mode = "n" },
-            { "<leader>fm", "<CMD>Telescope marks<CR>",      mode = "n" },
+            { "<leader>fb", "<CMD>Telescope buffers<CR>",                                               mode = "n" },
+            { "<leader>ff", "<CMD>Telescope find_files<CR>",                                            mode = "n" },
+            { "<leader>fF", function() require("telescope.builtin").find_files({ hidden = true, }) end, mode = "n", desc = "find hidden files" },
+            { "<leader>fg", "<CMD>Telescope git_files<CR>",                                             mode = "n" },
+            { "<leader>fh", "<CMD>Telescope help_tags<CR>",                                             mode = "n" },
+            { "<leader>fl", "<CMD>Telescope live_grep<CR>",                                             mode = "n" },
+            { "<leader>fm", "<CMD>Telescope marks<CR>",                                                 mode = "n" },
         },
         config = function()
             local telescope = require("telescope")
