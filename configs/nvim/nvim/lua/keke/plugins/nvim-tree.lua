@@ -5,7 +5,10 @@ local drawer_name = "filer"
 return {
     {
         "nvim-tree/nvim-tree.lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+            "stevearc/oil.nvim"
+        },
         cmd = { "NvimTree" },
         keys = {
             { drawer.with_prefix_key("e"), function() drawer.open(drawer_name) end, desc = "open filer" },
@@ -23,7 +26,6 @@ return {
             filters = {
                 dotfiles = true,
             },
-            remove_keymaps = true,
             on_attach = function(bufnr)
                 local nvim_tree_api = require("nvim-tree.api")
                 local map = require("keke.utils.mapping")
@@ -33,6 +35,7 @@ return {
                 vim.keymap.set("n", "v", nvim_tree_api.node.open.vertical, map.add_desc(opts, "vsplit"))
                 vim.keymap.set("n", "s", nvim_tree_api.node.open.horizontal, map.add_desc(opts, "split"))
                 vim.keymap.set("n", "t", nvim_tree_api.node.open.tab, map.add_desc(opts, "tabedit"))
+                vim.keymap.set("n", "K", nvim_tree_api.node.show_info_popup, map.add_desc(opts, "info"))
 
                 vim.keymap.set("n", "w", nvim_tree_api.tree.change_root_to_node, map.add_desc(opts, "enter directory"))
                 vim.keymap.set("n", "b", nvim_tree_api.tree.change_root_to_parent, map.add_desc(opts, "leave directory"))
@@ -47,8 +50,25 @@ return {
                 vim.keymap.set("n", "d", nvim_tree_api.fs.remove, map.add_desc(opts, "remove"))
                 vim.keymap.set("n", "y", nvim_tree_api.fs.copy.node, map.add_desc(opts, "copy"))
                 vim.keymap.set("n", "p", nvim_tree_api.fs.paste, map.add_desc(opts, "paste"))
+                vim.keymap.set("n", "o", function()
+                    local node = nvim_tree_api.tree.get_node_under_cursor()
+                    if node.name == ".." then
+                        vim.cmd.Oil("..")
+                    elseif node.type == "directory" then
+                        vim.cmd.Oil(node.absolute_path)
+                    elseif node.type == "file" then
+                        vim.cmd.Oil(string.match(node.absolute_path, "^(.+/).+$"))
+                    else
+                        vim.notify("Directory not found", "warn")
+                    end
+                end, map.add_desc(opts, "launch oil"))
             end,
         }
+    },
+    {
+        "stevearc/oil.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = true,
     },
     {
         "nvim-telescope/telescope.nvim",
