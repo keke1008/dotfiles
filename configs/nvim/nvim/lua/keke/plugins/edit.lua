@@ -250,5 +250,16 @@ return {
                 vim.fn["firenvim#install"](0)
             end, { desc = "Install firenvim" })
         end
+    },
+    {
+        "epwalsh/obsidian.nvim",
+        version = "*",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        ft = "markdown",
+        opts = {
+            workspaces = {
+                { name = "Obsidian", path = "~/Documents/Obsidian/Obsidian Vault/" }
+            }
+        }
     }
 }
