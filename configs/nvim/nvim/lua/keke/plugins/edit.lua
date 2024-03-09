@@ -240,5 +240,15 @@ return {
                 { desc = "Install markdown-preview.nvim" }
             )
         end,
+    },
+    {
+        "glacambre/firenvim",
+        lazy = not vim.g.started_by_firenvim,
+        cond = vim.g.started_by_firenvim,
+        config = function()
+            vim.api.nvim_create_user_command("FirenvimInstall", function()
+                vim.fn["firenvim#install"](0)
+            end, { desc = "Install firenvim" })
+        end
     }
 }
