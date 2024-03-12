@@ -7,6 +7,8 @@ return {
             "antoinemadec/FixCursorHold.nvim",
             "marilari88/neotest-vitest",
             "marilari88/neotest-jest",
+            "nvim-neotest/neotest-python",
+            "rouge8/neotest-rust",
         },
         cmd = "Neotest",
         keys = function()
@@ -28,6 +30,8 @@ return {
                 adapters = {
                     require("neotest-vitest"),
                     require("neotest-jest"),
+                    require("neotest-python"),
+                    require("neotest-rust"),
                 },
             }
         end
