@@ -4,7 +4,7 @@ set -x fish_term24bit 1
 set -x GPG_TTY (tty)
 
 # Execute tmux if it is not running
-if type -q tmux && [ -z "$TMUX" ]
+if status --is-interactive && type -q tmux && [ -z "$TMUX" ]
     tmux
 end
 
