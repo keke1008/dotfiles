@@ -1,0 +1,113 @@
+@define-color foreground #c8c8c8;
+@define-color selected-bg rgba(100, 100, 100, 0.5);
+@define-color warning #ffcc00;
+@define-color urgent #ff4444;
+@define-color urgent-bg rgba(235, 77, 75, 0.3);
+
+* {
+    font-size: 16px;
+    color: @foreground;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+window#waybar {
+    background: transparent;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+label.module {
+    padding: 0 10px;
+}
+
+#workspaces {
+    margin: 0 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    transition-property: background-color;
+    transition-duration: .1s;
+}
+
+#workspaces button.focused {
+    background-color: @selected-bg;
+}
+
+#workspaces button.urgent {
+    background-color: @urgent-bg;
+}
+
+#mode {
+    background-color: @selected-bg;
+}
+
+.critical {
+    color: @urgent
+}
+
+.warning {
+    color: @warning
+}
+
+#privacy {
+    background-color: @selected-bg;
+}
+
+#privacy-item {
+    padding: 0 5px;
+}
+
+#pulseaudio-slider {
+    padding-right: 0;
+}
+
+#pulseaudio-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+}
+
+#pulseaudio-slider trough {
+    min-height: 5px;
+    min-width: 80px;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+#pulseaudio-slider highlight {
+    border-radius: 5px;
+    border: none;
+    background-color: @foreground;
+}
+
+#pulseaudio {
+    padding-left: 4px;
+}
+
+#keyboard-state label:not(.locked) {
+    opacity: 0;
+    font-size: 0;
+}
+
+#keyboard-state label.locked {
+    padding: 0 5px;
+    color: @foreground;
+}
