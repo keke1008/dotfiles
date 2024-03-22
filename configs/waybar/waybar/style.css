@@ -97,6 +97,7 @@ label.module {
     min-height: 5px;
     min-width: 80px;
     border-radius: 5px;
+    border: 1px solid @foreground;
     background-color: transparent;
 }
 
