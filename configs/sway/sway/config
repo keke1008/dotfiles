@@ -205,5 +205,8 @@ bar {
     swaybar_command waybar
 }
 
+default_border none
+gaps inner 10
+
 include /etc/sway/config.d/*
 include ~/.config/sway/local/config
