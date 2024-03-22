@@ -1,14 +1,18 @@
-@define-color foreground #c8c8c8;
+@define-color foreground #aaaaaa;
 @define-color selected-bg rgba(100, 100, 100, 0.5);
 @define-color warning #ffcc00;
-@define-color urgent #ff4444;
-@define-color urgent-bg rgba(235, 77, 75, 0.3);
+@define-color critical #ff4444;
+@define-color critical-bg rgba(235, 77, 75, 0.3);
+@define-color inactive #666666;
 
 * {
-    font-size: 16px;
     color: @foreground;
     border-radius: 0;
     box-shadow: none;
+}
+
+window, tooltip {
+    font-size: 16px;
 }
 
 window#waybar {
@@ -50,15 +54,19 @@ label.module {
 }
 
 #workspaces button.urgent {
-    background-color: @urgent-bg;
+    background-color: @critical-bg;
 }
 
 #mode {
     background-color: @selected-bg;
 }
 
+.modules-right {
+    font-size: 20px;
+}
+
 .critical {
-    color: @urgent
+    color: @critical
 }
 
 .warning {
@@ -100,6 +108,14 @@ label.module {
 
 #pulseaudio {
     padding-left: 4px;
+}
+
+#idle_inhibitor.deactivated {
+    color: @inactive;
+}
+
+#network.disconnected {
+    color: @critical;
 }
 
 #keyboard-state label:not(.locked) {
