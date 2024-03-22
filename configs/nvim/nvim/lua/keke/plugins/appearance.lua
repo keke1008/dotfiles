@@ -22,7 +22,7 @@ return {
             { "folke/noice.nvim", optional = true }
         },
         event = "UIEnter",
-        opts = function()
+        config = function()
             local has_noice, noice = pcall(require, "noice")
             local noice_status = nil
             if has_noice then
@@ -33,7 +33,7 @@ return {
                 }
             end
 
-            return {
+            require("lualine").setup {
                 options = {
                     icons_enabled = true,
                     theme = "tokyonight",
@@ -62,6 +62,9 @@ return {
                 tabline = {},
                 extensions = {},
             }
+
+            vim.cmd("highlight lualine_c_inactive guibg=NONE")
+            vim.cmd("highlight lualine_c_normal guibg=NONE")
         end
     },
     {
@@ -91,6 +94,7 @@ return {
         end,
         opts = {
             style = "night",
+            transparent = true,
             on_colors = function(colors)
                 vim.api.nvim_set_hl(0, "WinSeparator", {
                     fg = colors.blue0,

@@ -5,6 +5,9 @@ key = ";"
 mods = "Control"
 action = "IncreaseFontSize"
 
+[window]
+opacity = 0.9
+
 # TokyoNight Alacritty Colors
 # Default colors
 [colors.primary]
