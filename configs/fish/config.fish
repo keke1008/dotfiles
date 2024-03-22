@@ -2,6 +2,8 @@ set -x DOTPATH (cat "$HOME/.dotpath")
 set -x XDG_CONFIG_HOME "$HOME/.config"
 set -x fish_term24bit 1
 set -x GPG_TTY (tty)
+set -x GTK_THEME Adwaita:dark
+set -x QT_QPA_PLATFORMTHEME qt5ct
 
 # Execute tmux if it is not running
 if status --is-interactive && type -q tmux && [ -z "$TMUX" ]
