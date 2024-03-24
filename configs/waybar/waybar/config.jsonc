@@ -18,8 +18,8 @@
         "idle_inhibitor",
         "network",
         "cpu",
-        "memory",
         "temperature",
+        "memory",
         "keyboard-state",
         "clock",
         "tray"
