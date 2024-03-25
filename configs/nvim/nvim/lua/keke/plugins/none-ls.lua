@@ -73,6 +73,9 @@ return {
                 method = { METHOD.diagnostics, METHOD.formatting },
                 command = "erblint",
             },
+
+            -- Shell
+            shfmt = { method = METHOD.formatting },
         }
 
         local sources = {}
