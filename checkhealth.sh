@@ -14,9 +14,6 @@ print_colored() {
 	local color=$1
 	local text=$2
 
-	local left_escape="\\e["
-	local right_escape="\\e[0m"
-
 	local id
 	case ${color} in
 	red) id="31" ;;
@@ -26,7 +23,7 @@ print_colored() {
 	*) abort "Invalid color: ${color}" ;;
 	esac
 
-	echo -en "${left_escape}${id}m${text}${right_escape}"
+	echo -en "\e[${id}m${text}\e[0m"
 }
 
 report() {
@@ -37,8 +34,6 @@ report() {
 	local level=$1
 	local message=$2
 	local detail=${3:-""}
-
-	local text=" ${message}\n"
 
 	local color
 	case ${level} in
@@ -52,7 +47,7 @@ report() {
 	*) abort "Invalid level: ${level}" ;;
 	esac
 
-	echo -en "\t$(print_colored "${color}" "${text}")"
+	echo -en "\t$(print_colored "${color}" " ${message}\n")"
 
 	if [ -n "${detail}" ]; then
 		echo -e "\t\t${detail}"
@@ -166,14 +161,14 @@ checkhealth_configs() {
 		abort "DOTPATH is not set"
 	fi
 
-	local is_all_health=0
+	local is_all_healthy=0
 	for dir in "${DOTPATH}/configs/"*; do
 		if ! checkhealth_single_config "${dir}"; then
-			is_all_health=1
+			is_all_healthy=1
 		fi
 	done
 
-	return ${is_all_health}
+	return ${is_all_healthy}
 }
 
 main() {
@@ -187,7 +182,7 @@ main() {
 	fi
 
 	unexport_items
-	exit ${result}
+	return ${result}
 }
 
 main
