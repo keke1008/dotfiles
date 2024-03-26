@@ -7,7 +7,7 @@ else
 fi
 
 report_command_exists "info" "sway"
-report_command_exists "$level" "waybar"
-report_command_exists "$level" "wofi"
-report_command_exists "$level" "alacritty"
+report_command_exists "$level" "waybar" "Status bar"
+report_command_exists "$level" "wofi" "Application launcher"
+report_command_exists "$level" "alacritty" "Terminal emulator"
 report_command_exists "warn" "dunst" "Notification daemon"
