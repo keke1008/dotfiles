@@ -49,7 +49,7 @@ report() {
 
 	echo -en "\t$(print_colored "${color}" " ${message}\n")"
 
-	if [ -n "${detail}" ]; then
+	if [ -n "${detail}" ] && [ "${level}" != "trace" ]; then
 		echo -e "\t\t${detail}"
 	fi
 }
