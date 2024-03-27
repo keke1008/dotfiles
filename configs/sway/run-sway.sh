@@ -5,6 +5,4 @@ export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=wayland
 export QT_IM_MODULE=fcitx
 
-fcitx5 -d
-
 exec sway
