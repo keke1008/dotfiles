@@ -1,0 +1,78 @@
+(deflocalkeys-win
+  ^     222
+  at    192
+  ;     187
+  :     186
+)
+
+(deflocalkeys-linux
+  ^     13
+  at    26
+  ;     39
+  :     40
+  [     27
+  ]     43
+  \     89
+  ¥     124
+  zh    41
+)
+
+(defsrc
+  esc   1     2     3     4     5     6     7     8     9     0     -     ^     bspc
+  tab   q     w     e     r     t     y     u     i     o     p     at    [     ret
+  lctl  a     s     d     f     g     h     j     k     l     ;     :     ]
+  lsft  z     x     c     v     b     n     m     ,     .     /     \     rsft
+  caps  lmet  lalt        ncnv  spc   cnv         ralt  rmet  rctl
+)
+
+(deflayer  default
+  esc   1     2     3     4     5     6     7     8     9     0     -     ^     bspc
+  tab   q     w     e     r     t     y     u     i     o     p     at    [     ret
+  lctl  a     s     d     f     g     h     j     k     l     ;     :     ]
+  lsft  z     x     c     v     b     n     m     ,     .     /     \     rsft
+  lctl  lmet  lalt        @wnd  @num  @edt        ralt  rmet  rctl
+)
+
+(deflayer template
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _           _     _     _           _     _     _
+)
+ 
+(defalias num (tap-hold-press 0 200 spc (layer-while-held number)))
+(deflayer number
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     lrld  _     _     _     _     _     _     _     _     _
+  _     1     2     3     4     5     6     7     8     9     0     -     ^
+  _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _           _     _     _           _     _     _
+)
+
+(defalias dim (multi f10 ret zh))
+(defalias im  M-spc)
+(defalias edt (layer-while-held edit))
+(deflayer edit
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     esc   ret   tab   _     _     bspc  _     _     _     _     _ 
+  _     _     zh    del   _     home  end   lft   down  up    rght  _     _
+  _     _     _     _     pgup  @dim  pgdn  _     _     _     _     _     _
+  _     _     _           _     _     _           _     _     _
+)
+
+(defalias gnw (multi (release-key alt) M-pgdn))
+(defalias gpw (multi (release-key alt) M-pgup))
+(defalias mnw (multi (release-key alt) S-M-pgdn))
+(defalias mpw (multi (release-key alt) S-M-pgup))
+(defalias cmd (multi (release-key alt) A-f2))
+(defalias wmu (multi (release-key alt) met))
+
+(defalias wnd (multi alt (layer-while-held window)))
+(deflayer window
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     @wmu  _     @cmd  _     _     _     _     _     @mpw  _     _     _
+  _     S-tab tab   _     _     _     _     @gpw  _     _     @gnw  _     _
+  _     _     _     _     _     _     @mnw  _     _     _     _     _     _
+  _     _     _           _     _     _           _     _     _
+)
