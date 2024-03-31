@@ -1,21 +1,19 @@
 [Hotkey]
+# Trigger Input Method
+TriggerKeys=
 # Enumerate when press trigger key repeatedly
 EnumerateWithTriggerKeys=True
-# Enumerate Input Method Forward
-EnumerateForwardKeys=
+# Temporally switch between first and current Input Method
+AltTriggerKeys=
 # Enumerate Input Method Backward
 EnumerateBackwardKeys=
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
+# Enumerate Input Method Group Forward
+EnumerateGroupForwardKeys=
 
-[Hotkey/TriggerKeys]
-0=Zenkaku_Hankaku
-
-[Hotkey/AltTriggerKeys]
-0=Shift_L
-
-[Hotkey/EnumerateGroupForwardKeys]
-0=Super+space
+[Hotkey/EnumerateForwardKeys]
+0=Shift+space
 
 [Hotkey/EnumerateGroupBackwardKeys]
 0=Shift+Super+space
