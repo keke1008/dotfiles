@@ -41,55 +41,56 @@ return {
             },
         }
     end,
-    opts = {
-        commands = {
-            history = {
-                view = "vsplit",
+    config = function()
+        require("noice").setup({
+            commands = {
+                history = {
+                    view = "vsplit",
+                },
             },
-        },
-        views = {
-            cmdline_popup = {
-                position = { row = "20%" },
-                zindex = 100,
+            views = {
+                cmdline_popup = {
+                    position = { row = "20%" },
+                    zindex = 100,
+                },
+                confirm = {
+                    position = { row = "20%" },
+                },
+                hover = {
+                    border = { style = "rounded" },
+                    position = { row = 2 },
+                },
             },
-            confirm = {
-                position = { row = "20%" },
-            },
-            hover = {
-                border = { style = "rounded" },
-                position = { row = 2 },
-            },
-        },
-        routes = {
-            {
-                view = "mini",
-                filter = {
-                    any = {
-                        {
-                            event = "msg_show",
-                            any = {
-                                { kind = "emsg", find = "^E486" },
-                                { kind = "emsg", find = "^E37" },
-                                { kind = "wmsg", find = "^search hit " },
-                                { kind = "",     find = "written$" },
+            routes = {
+                {
+                    view = "mini",
+                    filter = {
+                        any = {
+                            { warning = true },
+                            { event = "notify", kind = "info" },
+                            {
+                                event = "msg_show",
+                                any = {
+                                    { kind = "emsg", find = "^E486" },
+                                    { kind = "emsg", find = "^E37" },
+                                    { kind = "",     find = "written$" },
+                                },
                             },
                         },
-                        {
-                            event = "notify",
-                            kind = "info",
-                            find = "^No code actions available", -- for lspsaga
-                        },
                     },
-                },
+                }
             },
-            {
-                opts = { skip = true },
-                filter = {
-                    event = "notify",
-                    kind = "warn",
-                    find = "^warning: multiple different client offset_encodings", -- for clangd lsp
-                },
-            }
-        },
-    },
+        })
+
+        local highlights = {
+            "NormalSB",
+            "NormalFloat",
+            "DiagnosticVirtualTextInfo",
+            "DiagnosticVirtualTextWarn",
+            "DiagnosticVirtualTextError",
+        }
+        for _, hi in ipairs(highlights) do
+            vim.cmd.hi(hi .. " guibg=NONE ctermbg=NONE")
+        end
+    end
 }
