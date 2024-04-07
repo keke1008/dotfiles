@@ -5,15 +5,14 @@ TriggerKeys=
 EnumerateWithTriggerKeys=True
 # Temporally switch between first and current Input Method
 AltTriggerKeys=
+# Enumerate Input Method Forward
+EnumerateForwardKeys=
 # Enumerate Input Method Backward
 EnumerateBackwardKeys=
 # Skip first input method while enumerating
 EnumerateSkipFirst=False
 # Enumerate Input Method Group Forward
 EnumerateGroupForwardKeys=
-
-[Hotkey/EnumerateForwardKeys]
-0=Shift+space
 
 [Hotkey/EnumerateGroupBackwardKeys]
 0=Shift+Super+space
