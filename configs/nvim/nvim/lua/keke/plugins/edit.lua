@@ -261,5 +261,9 @@ return {
                 { name = "Obsidian", path = "~/Documents/Obsidian/Obsidian Vault/" }
             }
         }
+    },
+    {
+        "itchyny/vim-qfedit",
+        event = "QuickFixCmdPre"
     }
 }
