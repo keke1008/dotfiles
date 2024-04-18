@@ -4,6 +4,7 @@ set -x fish_term24bit 1
 set -x GPG_TTY (tty)
 set -x GTK_THEME Adwaita:dark
 set -x QT_QPA_PLATFORMTHEME qt5ct
+set -x GOPATH "$HOME/.go"
 
 # Execute tmux if it is not running
 if status --is-interactive && type -q tmux && [ -z "$TMUX" ]
@@ -43,6 +44,7 @@ if [ -e "$HOME/.ghcup/env" ]
 end
 
 # asdf
+set -x ASDF_GOLANG_MOD_VERSION_ENABLED true
 if [ -e "$HOME/.asdf/asdf.fish" ]
     source "$HOME/.asdf/asdf.fish"
 else if [ -e "/opt/asdf-vm/asdf.fish" ]
@@ -121,3 +123,4 @@ set -g theme_newline_cursor yes
 set -g theme_newline_prompt '$ '
 set -g theme_show_exit_status yes
 set -g theme_display_ruby no # This setting makes powerline fast
+set -g theme_display_go no # This setting makes powerline fast
