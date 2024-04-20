@@ -74,7 +74,7 @@ return {
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            { "nvim-telescope/telescope-ui-select.nvim", opt = true },
+            "nvim-telescope/telescope-ui-select.nvim",
         },
         init = function()
             ---@diagnostic disable-next-line: duplicate-set-field
