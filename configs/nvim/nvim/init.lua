@@ -15,12 +15,8 @@ vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
 vim.o.hidden = true
-vim.o.list = true
 
 vim.o.smartindent = true
-vim.o.expandtab = true
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
 vim.o.completeopt = "menuone,noinsert"
 vim.o.shortmess = vim.o.shortmess .. "c"
 vim.o.updatetime = 300
@@ -29,6 +25,14 @@ vim.o.timeoutlen = 500
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.incsearch = true
+
+vim.o.expandtab = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.go", "*.sh" },
+    callback = function() vim.bo.expandtab = false end,
+})
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "j", "gj")
@@ -43,6 +47,8 @@ if not is_in_terminal then
     vim.keymap.set("n", "<leader><leader>", "<CMD>noh<CR>")
     vim.keymap.set({ "n", "v" }, "<C-w><C-q>", "<nop>")
 end
+
+vim.diagnostic.config({ severity_sort = true })
 
 local drawer = require("drawer")
 drawer.setup({ prefix_key = "<leader>s" })

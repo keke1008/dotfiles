@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         map.add_group("<leader>l", "Lsp", bufnr)
         vim.keymap.set("n", "gd", "<CMD>Lspsaga goto_definition<CR>", opts)
-        vim.keymap.set("n", "gr", "<CMD>Lspsaga lsp_finder<CR>", opts)
+        vim.keymap.set("n", "gr", "<CMD>Lspsaga finder<CR>", opts)
         vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
         vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
         vim.keymap.set("n", "K", noice_lsp.hover, opts)

@@ -119,7 +119,8 @@ return {
                 { map.l2("sU"),  substitute("eol"),      mode = { "n" }, desc = "substitute eol" },
                 { map.l2("su"),  substitute("visual"),   mode = { "x" }, desc = "substitute" },
             }
-        end
+        end,
+        config = true,
     },
     {
         "mbbill/undotree",
