@@ -4,7 +4,11 @@ return {
     {
         "mfussenegger/nvim-dap",
         dependencies = {
-            { "rcarriga/nvim-dap-ui",            config = true },
+            {
+                "rcarriga/nvim-dap-ui",
+                config = true,
+                dependencies = { "nvim-neotest/nvim-nio" }
+            },
             { "theHamsta/nvim-dap-virtual-text", config = true },
             { "mxsdev/nvim-dap-vscode-js",       opts = { adapters = { "pwa-node" } } },
         },
