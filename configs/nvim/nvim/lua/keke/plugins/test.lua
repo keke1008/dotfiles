@@ -3,12 +3,14 @@ return {
         "nvim-neotest/neotest",
         dependencies = {
             "nvim-lua/plenary.nvim",
+            "nvim-neotest/nvim-nio",
             "nvim-treesitter/nvim-treesitter",
             "antoinemadec/FixCursorHold.nvim",
             "marilari88/neotest-vitest",
             "marilari88/neotest-jest",
             "nvim-neotest/neotest-python",
             "rouge8/neotest-rust",
+            "nvim-neotest/neotest-go"
         },
         cmd = "Neotest",
         keys = function()
@@ -32,6 +34,7 @@ return {
                     require("neotest-jest"),
                     require("neotest-python"),
                     require("neotest-rust"),
+                    require("neotest-go")
                 },
             }
         end
