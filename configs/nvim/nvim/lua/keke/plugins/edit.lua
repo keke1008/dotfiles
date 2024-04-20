@@ -188,16 +188,13 @@ return {
         }
     },
     {
-        "Shatur/neovim-session-manager",
-        event = "VimEnter",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = function()
-            local AutoloadMode = require("session_manager.config").AutoloadMode
-            return {
-                autoload_mode = AutoloadMode.CurrentDir,
-                autosave_ignore_filetypes = { "gitcommit", "NvimTree" },
-            }
-        end
+        "rmagatti/auto-session",
+        lazy = false,
+        opts = {
+            log_level = "error",
+            pre_save_cmds = { drawer.close_all },
+            auto_session_supress_dirs = { "/", "~/", "~/projects", "~/Downloads" },
+        }
     },
     {
         "stevearc/overseer.nvim",
