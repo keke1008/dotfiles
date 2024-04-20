@@ -18,7 +18,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         dependencies = {
-            "kyazdani42/nvim-web-devicons",
+            "nvim-tree/nvim-web-devicons",
             { "folke/noice.nvim", optional = true }
         },
         event = "UIEnter",
