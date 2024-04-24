@@ -70,6 +70,9 @@ if [ -d "$HOME/.platformio/penv/bin" ]
     fish_add_path "$HOME/.platformio/penv/bin"
 end
 
+# Go
+fish_add_path "$GOPATH/bin"
+
 # fzf key bind
 if type -q fzf_key_bindings
     fzf_key_bindings
