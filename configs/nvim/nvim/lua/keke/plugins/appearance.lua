@@ -3,9 +3,9 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         init = function()
-            vim.opt.list = true
-            vim.opt.listchars:append("space:⋅")
-            vim.opt.listchars:append("eol:↴")
+            -- vim.opt.list = true
+            -- vim.opt.listchars:append("space:⋅")
+            -- vim.opt.listchars:append("eol:↴")
         end,
         event = "UIEnter",
         config = true,
@@ -18,7 +18,7 @@ return {
     {
         "nvim-lualine/lualine.nvim",
         dependencies = {
-            "kyazdani42/nvim-web-devicons",
+            "nvim-tree/nvim-web-devicons",
             { "folke/noice.nvim", optional = true }
         },
         event = "UIEnter",
@@ -96,9 +96,8 @@ return {
             style = "night",
             transparent = true,
             on_colors = function(colors)
-                vim.api.nvim_set_hl(0, "WinSeparator", {
-                    fg = colors.blue0,
-                })
+                vim.cmd.highlight("WinSeparator", "guifg=" .. colors.blue0)
+                vim.cmd.highlight("FloatBorder", "guibg=NONE")
             end,
         }
     },

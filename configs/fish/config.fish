@@ -70,6 +70,9 @@ if [ -d "$HOME/.platformio/penv/bin" ]
     fish_add_path "$HOME/.platformio/penv/bin"
 end
 
+# Go
+fish_add_path "$GOPATH/bin"
+
 # fzf key bind
 if type -q fzf_key_bindings
     fzf_key_bindings
@@ -124,3 +127,8 @@ set -g theme_newline_prompt '$ '
 set -g theme_show_exit_status yes
 set -g theme_display_ruby no # This setting makes powerline fast
 set -g theme_display_go no # This setting makes powerline fast
+
+set local_config "$DOTPATH/configs/fish/local.fish"
+if [ -e $local_config ]
+    source $local_config
+end
