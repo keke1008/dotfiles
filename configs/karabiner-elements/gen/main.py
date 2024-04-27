@@ -5,6 +5,13 @@ from karabiner import Karabiner, mod, mouse_key, pointing_button, to, to_if_alon
 def main():
     k = Karabiner("My Config")
 
+    k.register(
+        [],
+        {
+            "international1": "international3",
+        },
+    )
+
     rmod = k.var("rmod", "lang1", "japanese_pc_xfer")
     k.register(
         [rmod],

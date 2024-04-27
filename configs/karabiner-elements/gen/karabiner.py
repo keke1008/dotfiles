@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
 type JsonPrimitive = int | float | str
-type Json = int | float | str | dict[JsonPrimitive, Json] | list[Json] | None
+type Json = JsonPrimitive | dict[JsonPrimitive, Json] | list[Json] | tuple[
+    Json, ...
+] | None
 type JsonDict = dict[JsonPrimitive, Json]
 
 
@@ -21,7 +23,48 @@ class Variable:
         }
 
 
-type ToEntryLike = str | ToEntry
+@dataclass(frozen=True)
+class ModifiedKey:
+    key_code: str
+    modifiers: tuple[str, ...]
+
+
+def mod(*modifiers: str):
+    def wrapper(key_code: str):
+        return ModifiedKey(key_code, modifiers)
+
+    return wrapper
+
+
+type FromLike = str | ModifiedKey | From
+
+
+@dataclass(frozen=True)
+class From:
+    key_code: str
+    mandatory_modifiers: tuple[str, ...]
+    optional_modifiers: tuple[str, ...] | None
+
+    @staticmethod
+    def from_like(value: FromLike):
+        if isinstance(value, str):
+            value = ModifiedKey(value, ())
+        if isinstance(value, ModifiedKey):
+            value = From(value.key_code, value.modifiers, None)
+        return value
+
+    def to_json(self) -> Json:
+        opt: Json = self.optional_modifiers if self.optional_modifiers else ["any"]
+        return {
+            "key_code": self.key_code,
+            "modifiers": {
+                "mandatory": self.mandatory_modifiers,
+                "optional": opt,
+            },
+        }
+
+
+type ToEntryLike = str | ModifiedKey | ToEntry
 
 
 @dataclass
@@ -32,17 +75,12 @@ class ToEntry:
         return self.entry
 
     @staticmethod
-    def from_like(entry: ToEntryLike):
+    def from_like(entry: ToEntryLike) -> "ToEntry":
         if isinstance(entry, str):
             return ToEntry({"key_code": entry})
+        if isinstance(entry, ModifiedKey):
+            return ToEntry({"key_code": entry.key_code, "modifiers": entry.modifiers})
         return entry
-
-
-def mod(*modifiers: str):
-    def wrapper(key_code: str):
-        return ToEntry({"key_code": key_code, "modifiers": list(modifiers)})
-
-    return wrapper
 
 
 def set_variable(name: str, value: int | float):
@@ -57,7 +95,7 @@ def pointing_button(button: str):
     return ToEntry({"pointing_button": button})
 
 
-type ToLike = str | ToEntry | To
+type ToLike = ToEntryLike | To
 
 
 @dataclass
@@ -70,31 +108,10 @@ class To:
         self.entries = [ToEntry.from_like(entry) for entry in entries]
 
     @staticmethod
-    def from_like(value: ToLike):
+    def from_like(value: ToLike) -> "To":
         if isinstance(value, To):
             return value
         return To("to", [ToEntry.from_like(value)])
-
-
-class Manipulator:
-    from_key_code: str
-    to: To
-    conditions: list[Variable]
-
-    def __init__(
-        self, from_key_code: str, to: str | ToEntry | To, conditions: list[Variable]
-    ):
-        self.from_key_code = from_key_code
-        self.to = To.from_like(to)
-        self.conditions = conditions
-
-    def to_json(self) -> Json:
-        return {
-            "type": "basic",
-            "from": {"key_code": self.from_key_code},
-            "conditions": [cond.to_condition() for cond in self.conditions],
-            self.to.name: [entry.to_json() for entry in self.to.entries],
-        }
 
 
 def to(*entries: ToEntryLike):
@@ -107,6 +124,25 @@ def to_after_key_up(*entries: ToEntryLike):
 
 def to_if_alone(*entries: ToEntryLike):
     return To("to_if_alone", list(entries))
+
+
+class Manipulator:
+    _from: From
+    _to: To
+    _conditions: list[Variable]
+
+    def __init__(self, from_: FromLike, to: ToLike, conditions: list[Variable]):
+        self._from = From.from_like(from_)
+        self._to = To.from_like(to)
+        self._conditions = conditions
+
+    def to_json(self) -> Json:
+        return {
+            "type": "basic",
+            "from": self._from.to_json(),
+            "conditions": [cond.to_condition() for cond in self._conditions],
+            self._to.name: [entry.to_json() for entry in self._to.entries],
+        }
 
 
 class Karabiner:
@@ -124,12 +160,12 @@ class Karabiner:
                 (
                     Manipulator(
                         conditions=[],
-                        from_key_code=key_code,
+                        from_=key_code,
                         to=set_variable(name, 1),
                     ),
                     Manipulator(
                         conditions=[],
-                        from_key_code=key_code,
+                        from_=key_code,
                         to=to_after_key_up(set_variable(name, 0)),
                     ),
                 )
@@ -137,9 +173,7 @@ class Karabiner:
 
         return Variable(name)
 
-    def register(
-        self, variables: list[Variable], manipulator: dict[str, str | ToEntry | To]
-    ):
+    def register(self, variables: list[Variable], manipulator: dict[FromLike, ToLike]):
         for key_code, to in manipulator.items():
             self._manipulators.append(Manipulator(key_code, to, variables))
 
