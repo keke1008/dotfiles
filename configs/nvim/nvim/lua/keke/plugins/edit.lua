@@ -264,4 +264,14 @@ return {
         "itchyny/vim-qfedit",
         event = "QuickFixCmdPre",
     },
+    {
+        "michaelb/sniprun",
+        cmd = { "SnipRun", "SnipInfo" },
+        init = function()
+            vim.api.nvim_create_user_command("SnipRunInstall", function()
+                local path = "~/.local/share/nvim/lazy/sniprun/install.sh"
+                vim.fn.system({ "sh", path })
+            end, { desc = "Install sniprun" })
+        end,
+    },
 }
