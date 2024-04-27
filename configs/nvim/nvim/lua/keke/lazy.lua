@@ -36,7 +36,7 @@ require("lazy").setup("keke.plugins", {
                 "tutor_mode_plugin",
                 "zip",
                 "zipPlugin",
-            }
-        }
-    }
+            },
+        },
+    },
 })

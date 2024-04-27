@@ -11,7 +11,7 @@ return {
             "nvim-neotest/neotest-python",
             "rouge8/neotest-rust",
             "nvim-neotest/neotest-go",
-            { "leoluz/nvim-dap-go", dependencies = { "mfussenegger/nvim-dap" }, config = true }
+            { "leoluz/nvim-dap-go", dependencies = { "mfussenegger/nvim-dap" }, config = true },
         },
         cmd = "Neotest",
         keys = function()
@@ -33,8 +33,18 @@ return {
             end
 
             return {
-                { "<leader>tt", with(function(run) run.run() end),                   mode = "n", desc = "nearest test" },
-                { "<leader>tf", with(function(run) run.run(vim.fn.expand("%")) end), mode = "n", desc = "current file" },
+                {
+                    "<leader>tt",
+                    with(function(run) run.run() end),
+                    mode = "n",
+                    desc = "nearest test",
+                },
+                {
+                    "<leader>tf",
+                    with(function(run) run.run(vim.fn.expand("%")) end),
+                    mode = "n",
+                    desc = "current file",
+                },
                 {
                     "<leader>td",
                     with(function(run)
@@ -43,7 +53,7 @@ return {
                         end
                     end),
                     mode = "n",
-                    desc = "debug"
+                    desc = "debug",
                 },
                 {
                     "<leader>tl",
@@ -53,9 +63,9 @@ return {
                         end
                     end),
                     mode = "n",
-                    desc = "last"
+                    desc = "last",
                 },
-                { "<leader>ts", with(function(run) run.stop() end),   mode = "n", desc = "stop" },
+                { "<leader>ts", with(function(run) run.stop() end), mode = "n", desc = "stop" },
                 { "<leader>ta", with(function(run) run.attach() end), mode = "n", desc = "attach" },
             }
         end,
@@ -66,10 +76,9 @@ return {
                     require("neotest-jest"),
                     require("neotest-python"),
                     require("neotest-rust"),
-                    require("neotest-go")
+                    require("neotest-go"),
                 },
             }
-        end
-
-    }
+        end,
+    },
 }

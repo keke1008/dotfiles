@@ -13,7 +13,7 @@ return {
                     vim.cmd("noh")
                 end,
                 mode = "n",
-                desc = "dimiss notifications and highlights"
+                desc = "dimiss notifications and highlights",
             },
             {
                 "<C-f>",
@@ -25,7 +25,7 @@ return {
                 silent = true,
                 expr = true,
                 mode = "n",
-                desc = "Scroll down noice lsp"
+                desc = "Scroll down noice lsp",
             },
             {
                 "<C-b>",
@@ -37,7 +37,7 @@ return {
                 silent = true,
                 expr = true,
                 mode = "n",
-                desc = "Scroll up noice lsp"
+                desc = "Scroll up noice lsp",
             },
         }
     end,
@@ -73,12 +73,12 @@ return {
                                 any = {
                                     { kind = "emsg", find = "^E486" },
                                     { kind = "emsg", find = "^E37" },
-                                    { kind = "",     find = "written$" },
+                                    { kind = "", find = "written$" },
                                 },
                             },
                         },
                     },
-                }
+                },
             },
         })
 
@@ -92,5 +92,5 @@ return {
         for _, hi in ipairs(highlights) do
             vim.cmd.hi(hi .. " guibg=NONE ctermbg=NONE")
         end
-    end
+    end,
 }

@@ -32,9 +32,7 @@ end
 
 return {
     ---@param config_ drawer.Config
-    setup = function(config_)
-        config = config_
-    end,
+    setup = function(config_) config = config_ end,
 
     ---@param drawer drawer.DrawerSpec
     register = function(drawer)
@@ -47,35 +45,21 @@ return {
     end,
 
     ---@param name drawer.DrawerName
-    open = function(name)
-        state:open(name)
-    end,
+    open = function(name) state:open(name) end,
 
     ---@param name drawer.DrawerName
-    push = function(name)
-        state:push(name)
-    end,
+    push = function(name) state:push(name) end,
 
     ---@param position drawer.DrawerPosition
-    close_by_position = function(position)
-        state:close_by_position(position)
-    end,
+    close_by_position = function(position) state:close_by_position(position) end,
 
     ---@param name drawer.DrawerName
-    close_by_name = function(name)
-        state:close_by_name(name)
-    end,
+    close_by_name = function(name) state:close_by_name(name) end,
 
-    close_all = function()
-        state:close_all()
-    end,
+    close_all = function() state:close_all() end,
 
-    prefix_key = function()
-        return get_config().prefix_key
-    end,
+    prefix_key = function() return get_config().prefix_key end,
 
     ---@param key string
-    with_prefix_key = function(key)
-        return get_config().prefix_key .. key
-    end
+    with_prefix_key = function(key) return get_config().prefix_key .. key end,
 }

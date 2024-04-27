@@ -7,10 +7,10 @@ return {
             {
                 "rcarriga/nvim-dap-ui",
                 config = true,
-                dependencies = { "nvim-neotest/nvim-nio" }
+                dependencies = { "nvim-neotest/nvim-nio" },
             },
             { "theHamsta/nvim-dap-virtual-text", config = true },
-            { "mxsdev/nvim-dap-vscode-js",       opts = { adapters = { "pwa-node" } } },
+            { "mxsdev/nvim-dap-vscode-js", opts = { adapters = { "pwa-node" } } },
         },
         init = function()
             drawer.register({
@@ -31,16 +31,36 @@ return {
             end
 
             return {
-                { drawer.with_prefix_key("d"), function() drawer.open("dap") end,        mode = "n", desc = "open dap" },
-                { "<leader>db",                "<CMD>DapToggleBreakpoint<CR>",           mode = "n" },
-                { "<leader>dv",                conditional,                              mode = "n", desc = "Set condition breakpoint" },
-                { "<leader>dc",                "<CMD>DapContinue<CR>",                   mode = "n" },
-                { "<leader>di",                "<CMD>DapStepInto<CR>",                   mode = "n" },
-                { "<leader>do",                "<CMD>DapStepOver<CR>",                   mode = "n" },
-                { "<leader>dp",                "<CMD>DapStepOut<CR>",                    mode = "n" },
-                { "<leader>dq",                "<CMD>DapTerminate<CR>",                  mode = "n" },
-                { "<leader>dk",                function() require("dapui").eval() end,   mode = "n", desc = "Debug eval" },
-                { "<leader>dl",                function() require("dap").run_last() end, mode = "n", desc = "Run the last debug session" },
+                {
+                    drawer.with_prefix_key("d"),
+                    function() drawer.open("dap") end,
+                    mode = "n",
+                    desc = "open dap",
+                },
+                { "<leader>db", "<CMD>DapToggleBreakpoint<CR>", mode = "n" },
+                {
+                    "<leader>dv",
+                    conditional,
+                    mode = "n",
+                    desc = "Set condition breakpoint",
+                },
+                { "<leader>dc", "<CMD>DapContinue<CR>", mode = "n" },
+                { "<leader>di", "<CMD>DapStepInto<CR>", mode = "n" },
+                { "<leader>do", "<CMD>DapStepOver<CR>", mode = "n" },
+                { "<leader>dp", "<CMD>DapStepOut<CR>", mode = "n" },
+                { "<leader>dq", "<CMD>DapTerminate<CR>", mode = "n" },
+                {
+                    "<leader>dk",
+                    function() require("dapui").eval() end,
+                    mode = "n",
+                    desc = "Debug eval",
+                },
+                {
+                    "<leader>dl",
+                    function() require("dap").run_last() end,
+                    mode = "n",
+                    desc = "Run the last debug session",
+                },
             }
         end,
         config = function()
@@ -113,7 +133,7 @@ return {
                 { name = "DapBreakpointCondition", text = " ", texthl = "DebugBreakpointSign" },
                 { name = "DapLogPoint", text = " ", texthl = "DebugBreakpointSign" },
             })
-        end
+        end,
     },
     {
         "mfussenegger/nvim-dap-python",
@@ -141,10 +161,18 @@ return {
                 complete = function() return { "unittest", "pytest", "django" } end,
             })
 
-            vim.keymap.set("n", "<leader>dm", function() dap_python.test_method(debug_opts) end,
-                { desc = "Debug test method" })
-            vim.keymap.set("n", "<leader>da", function() dap_python.test_class(debug_opts) end,
-                { desc = "Debug test class" })
+            vim.keymap.set(
+                "n",
+                "<leader>dm",
+                function() dap_python.test_method(debug_opts) end,
+                { desc = "Debug test method" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>da",
+                function() dap_python.test_class(debug_opts) end,
+                { desc = "Debug test class" }
+            )
         end,
-    }
+    },
 }

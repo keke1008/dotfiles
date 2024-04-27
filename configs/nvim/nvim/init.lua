@@ -1,4 +1,4 @@
-_G.is_in_terminal = (not vim.g.vscode) and (not vim.g.started_by_firenvim)
+_G.is_in_terminal = (not vim.g.vscode) and not vim.g.started_by_firenvim
 
 vim.o.number = true
 vim.o.cursorline = true
@@ -53,22 +53,31 @@ vim.diagnostic.config({ severity_sort = true })
 
 local drawer = require("drawer")
 drawer.setup({ prefix_key = "<leader>s" })
-vim.keymap.set("n", drawer.with_prefix_key("hl"), function() drawer.close_by_position("left") end,
-    { desc = "close left drawer" });
-vim.keymap.set("n", drawer.with_prefix_key("hr"), function() drawer.close_by_position("right") end,
-    { desc = "close right drawer" });
-vim.keymap.set("n", drawer.with_prefix_key("hb"), function() drawer.close_by_position("bottom") end,
-    { desc = "close bottom drawer" });
-vim.keymap.set("n", drawer.with_prefix_key("H"), drawer.close_all, { desc = "close all drawers" });
-
+vim.keymap.set(
+    "n",
+    drawer.with_prefix_key("hl"),
+    function() drawer.close_by_position("left") end,
+    { desc = "close left drawer" }
+)
+vim.keymap.set(
+    "n",
+    drawer.with_prefix_key("hr"),
+    function() drawer.close_by_position("right") end,
+    { desc = "close right drawer" }
+)
+vim.keymap.set(
+    "n",
+    drawer.with_prefix_key("hb"),
+    function() drawer.close_by_position("bottom") end,
+    { desc = "close bottom drawer" }
+)
+vim.keymap.set("n", drawer.with_prefix_key("H"), drawer.close_all, { desc = "close all drawers" })
 
 -- Set clipboard configs manually
 require("keke.clipboard")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank({ timeout = 200 })
-    end,
+    callback = function() vim.highlight.on_yank({ timeout = 200 }) end,
 })
 
 vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()

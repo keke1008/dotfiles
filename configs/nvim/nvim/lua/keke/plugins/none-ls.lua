@@ -1,7 +1,7 @@
 return {
     "nvimtools/none-ls.nvim",
     dependencies = {
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
@@ -87,5 +87,5 @@ return {
             sources = sources,
             root_dir = utils.root_pattern(".null-ls-root", "neoconf.json", ".git", "Makefile"),
         })
-    end
+    end,
 }

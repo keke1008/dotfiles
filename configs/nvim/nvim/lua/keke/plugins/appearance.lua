@@ -19,7 +19,7 @@ return {
         "nvim-lualine/lualine.nvim",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
-            { "folke/noice.nvim", optional = true }
+            { "folke/noice.nvim", optional = true },
         },
         event = "UIEnter",
         config = function()
@@ -29,11 +29,11 @@ return {
                 noice_status = {
                     noice.api.status.mode.get,
                     cond = noice.api.status.mode.has,
-                    color = { fg = "#ff9e64" }
+                    color = { fg = "#ff9e64" },
                 }
             end
 
-            require("lualine").setup {
+            require("lualine").setup({
                 options = {
                     icons_enabled = true,
                     theme = "tokyonight",
@@ -61,11 +61,11 @@ return {
                 },
                 tabline = {},
                 extensions = {},
-            }
+            })
 
             vim.cmd("highlight lualine_c_inactive guibg=NONE")
             vim.cmd("highlight lualine_c_normal guibg=NONE")
-        end
+        end,
     },
     {
 
@@ -85,13 +85,11 @@ return {
                 vim.keymap.set("n", "<leader>hd", "<CMD>Gitsigns diffthis<CR>", opts)
                 vim.keymap.set("n", "<leader>hb", "<CMD>Gitsigns blame_line<CR>", opts)
             end,
-        }
+        },
     },
     {
         "folke/tokyonight.nvim",
-        init = function()
-            vim.cmd.colorscheme("tokyonight")
-        end,
+        init = function() vim.cmd.colorscheme("tokyonight") end,
         opts = {
             style = "night",
             transparent = true,
@@ -99,6 +97,6 @@ return {
                 vim.cmd.highlight("WinSeparator", "guifg=" .. colors.blue0)
                 vim.cmd.highlight("FloatBorder", "guibg=NONE")
             end,
-        }
+        },
     },
 }

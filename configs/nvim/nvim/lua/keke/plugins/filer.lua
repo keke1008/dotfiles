@@ -7,7 +7,7 @@ return {
         "nvim-tree/nvim-tree.lua",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
-            "stevearc/oil.nvim"
+            "stevearc/oil.nvim",
         },
         cmd = { "NvimTree" },
         keys = {
@@ -38,7 +38,12 @@ return {
                 vim.keymap.set("n", "K", nvim_tree_api.node.show_info_popup, map.add_desc(opts, "info"))
 
                 vim.keymap.set("n", "w", nvim_tree_api.tree.change_root_to_node, map.add_desc(opts, "enter directory"))
-                vim.keymap.set("n", "b", nvim_tree_api.tree.change_root_to_parent, map.add_desc(opts, "leave directory"))
+                vim.keymap.set(
+                    "n",
+                    "b",
+                    nvim_tree_api.tree.change_root_to_parent,
+                    map.add_desc(opts, "leave directory")
+                )
                 vim.keymap.set("n", "i", function()
                     nvim_tree_api.tree.toggle_gitignore_filter()
                     nvim_tree_api.tree.toggle_hidden_filter()
@@ -63,7 +68,7 @@ return {
                     end
                 end, map.add_desc(opts, "launch oil"))
             end,
-        }
+        },
     },
     {
         "stevearc/oil.nvim",
@@ -85,13 +90,18 @@ return {
         end,
         cmd = "Telescope",
         keys = {
-            { "<leader>fb", "<CMD>Telescope buffers<CR>",                                               mode = "n" },
-            { "<leader>ff", "<CMD>Telescope find_files<CR>",                                            mode = "n" },
-            { "<leader>fF", function() require("telescope.builtin").find_files({ hidden = true, }) end, mode = "n", desc = "find hidden files" },
-            { "<leader>fg", "<CMD>Telescope git_files<CR>",                                             mode = "n" },
-            { "<leader>fh", "<CMD>Telescope help_tags<CR>",                                             mode = "n" },
-            { "<leader>fl", "<CMD>Telescope live_grep<CR>",                                             mode = "n" },
-            { "<leader>fm", "<CMD>Telescope marks<CR>",                                                 mode = "n" },
+            { "<leader>fb", "<CMD>Telescope buffers<CR>", mode = "n" },
+            { "<leader>ff", "<CMD>Telescope find_files<CR>", mode = "n" },
+            {
+                "<leader>fF",
+                function() require("telescope.builtin").find_files({ hidden = true }) end,
+                mode = "n",
+                desc = "find hidden files",
+            },
+            { "<leader>fg", "<CMD>Telescope git_files<CR>", mode = "n" },
+            { "<leader>fh", "<CMD>Telescope help_tags<CR>", mode = "n" },
+            { "<leader>fl", "<CMD>Telescope live_grep<CR>", mode = "n" },
+            { "<leader>fm", "<CMD>Telescope marks<CR>", mode = "n" },
         },
         config = function()
             local telescope = require("telescope")
@@ -116,5 +126,5 @@ return {
 
             telescope.load_extension("ui-select")
         end,
-    }
+    },
 }

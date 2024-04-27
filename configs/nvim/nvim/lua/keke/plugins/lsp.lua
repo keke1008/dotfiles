@@ -42,7 +42,7 @@ return {
                     -- typescript.nvim
                 end,
             })
-        end
+        end,
     },
     {
         "L3MON4D3/LuaSnip",
@@ -66,8 +66,7 @@ return {
                     t({ "", "return M" }),
                 }),
             })
-        end
-
+        end,
     },
     {
         "hrsh7th/nvim-cmp",
@@ -207,7 +206,7 @@ return {
                     { name = "buffer" },
                 },
             })
-        end
+        end,
     },
     {
         "folke/trouble.nvim",
@@ -231,7 +230,7 @@ return {
                 open_tab = "t",
                 toggle_fold = "e",
             },
-        }
+        },
     },
     {
         "glepnir/lspsaga.nvim",
@@ -270,7 +269,7 @@ return {
             })
 
             vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
-        end
+        end,
     },
     {
         "petertriho/nvim-scrollbar",
@@ -289,8 +288,7 @@ return {
                     Misc = { color = colors.purple },
                 },
             }
-        end
-
+        end,
     },
     {
         "folke/neodev.nvim",
@@ -302,7 +300,7 @@ return {
 
             require("neodev").setup()
             require("lspconfig").lua_ls.setup(lsp.default_config)
-        end
+        end,
     },
     {
         "mrcjkb/rustaceanvim",
@@ -312,7 +310,7 @@ return {
             vim.g.rustaceanvim = function()
                 local lsp = require("keke.utils.lsp")
                 local mason_registry = require("mason-registry")
-                local cfg = require('rustaceanvim.config')
+                local cfg = require("rustaceanvim.config")
 
                 return {
                     server = {
@@ -322,7 +320,7 @@ return {
                             vim.keymap.set("n", "<leader>lD", "<CMD>RustLsp renderDiagnostic<CR>", opts)
                             vim.keymap.set("n", "<leader>lE", "<CMD>RustLsp explainError<CR>", opts)
                         end,
-                        default_settings = { ["rust-analyzer"] = lsp.default_config }
+                        default_settings = { ["rust-analyzer"] = lsp.default_config },
                     },
                     dap = (function()
                         if not mason_registry.is_installed("codelldb") then
@@ -368,20 +366,28 @@ return {
                 server = lsp.extend_default_config({
                     root_dir = util.find_package_json_ancestor,
                     on_attach = function(_, bufnr)
-                        vim.keymap.set("n", "<leader>lm", "<CMD>TypescriptAddMissingImports<CR>",
-                            { buffer = bufnr, silent = true })
-                        vim.keymap.set("n", "<leader>lR", "<CMD>TypescriptRenameFile<CR>",
-                            { buffer = bufnr, silent = true })
+                        vim.keymap.set(
+                            "n",
+                            "<leader>lm",
+                            "<CMD>TypescriptAddMissingImports<CR>",
+                            { buffer = bufnr, silent = true }
+                        )
+                        vim.keymap.set(
+                            "n",
+                            "<leader>lR",
+                            "<CMD>TypescriptRenameFile<CR>",
+                            { buffer = bufnr, silent = true }
+                        )
                     end,
                 }),
             })
-        end
+        end,
     },
     {
         "akinsho/flutter-tools.nvim",
         dependencies = {
             "williamboman/mason.nvim",
-            "nvim-lua/plenary.nvim"
+            "nvim-lua/plenary.nvim",
         },
         ft = "dart",
         config = function()
@@ -399,7 +405,6 @@ return {
             if ok then
                 telescope.load_extension("flutter")
             end
-        end
+        end,
     },
-
 }

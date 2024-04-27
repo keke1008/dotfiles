@@ -18,14 +18,14 @@ return {
         cond = true,
         event = "VeryLazy",
         dependencies = {
-            { "kana/vim-textobj-user", cond = true }
+            { "kana/vim-textobj-user", cond = true },
         },
     },
     {
         "junegunn/vim-easy-align",
         keys = {
             { "ga", "<Plug>(EasyAlign)", mode = { "n", "x" }, desc = "easy align" },
-        }
+        },
     },
     {
         "ggandor/leap.nvim",
@@ -40,10 +40,10 @@ return {
                 })
             end
             return {
-                { ",",     leap_tabpage, mode = { "n", "x" }, desc = "leap tabpage" },
+                { ",", leap_tabpage, mode = { "n", "x" }, desc = "leap tabpage" },
                 { "<C-l>", leap_tabpage, mode = { "i", "s" }, desc = "leap tabpage" },
             }
-        end
+        end,
     },
     {
         "haya14busa/vim-edgemotion",
@@ -51,13 +51,13 @@ return {
         keys = {
             { "<C-n>", "<Plug>(edgemotion-j)", mode = { "n", "x", "o" } },
             { "<C-p>", "<Plug>(edgemotion-k)", mode = { "n", "x", "o" } },
-        }
+        },
     },
     {
         "numToStr/Comment.nvim",
         cond = true,
         keys = {
-            { "gc", mode = { "n", "x" } }
+            { "gc", mode = { "n", "x" } },
         },
         config = true,
     },
@@ -71,22 +71,22 @@ return {
         "haya14busa/vim-asterisk",
         cond = true,
         keys = {
-            { "*",  "<Plug>(asterisk-z*)",  mode = { "n", "x" } },
-            { "#",  "<Plug>(asterisk-z#)",  mode = { "n", "x" } },
+            { "*", "<Plug>(asterisk-z*)", mode = { "n", "x" } },
+            { "#", "<Plug>(asterisk-z#)", mode = { "n", "x" } },
             { "g*", "<Plug>(asterisk-gz*)", mode = { "n", "x" } },
             { "g#", "<Plug>(asterisk-gz#)", mode = { "n", "x" } },
-        }
+        },
     },
     {
         "monaqa/dial.nvim",
         cond = true,
         keys = {
-            { "<C-a>",  "<Plug>(dial-increment)",  mode = { "n" } },
-            { "<C-x>",  "<Plug>(dial-decrement)",  mode = { "n" } },
+            { "<C-a>", "<Plug>(dial-increment)", mode = { "n" } },
+            { "<C-x>", "<Plug>(dial-decrement)", mode = { "n" } },
             { "g<C-a>", "g<Plug>(dial-increment)", mode = { "n" } },
             { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "n" } },
-            { "<C-a>",  "<Plug>(dial-increment)",  mode = { "v" } },
-            { "<C-x>",  "<Plug>(dial-decrement)",  mode = { "v" } },
+            { "<C-a>", "<Plug>(dial-increment)", mode = { "v" } },
+            { "<C-x>", "<Plug>(dial-decrement)", mode = { "v" } },
             { "g<C-a>", "g<Plug>(dial-increment)", mode = { "v" } },
             { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "v" } },
         },
@@ -104,7 +104,7 @@ return {
                     augend.constant.alias.ja_weekday,
                 },
             })
-        end
+        end,
     },
     {
         "gbprod/substitute.nvim",
@@ -114,10 +114,10 @@ return {
                 return function() require("substitute")[command]() end
             end
             return {
-                { map.l2("su"),  substitute("operator"), mode = { "n" }, desc = "substitute" },
-                { map.l2("suu"), substitute("line"),     mode = { "n" }, desc = "substitute line" },
-                { map.l2("sU"),  substitute("eol"),      mode = { "n" }, desc = "substitute eol" },
-                { map.l2("su"),  substitute("visual"),   mode = { "x" }, desc = "substitute" },
+                { map.l2("su"), substitute("operator"), mode = { "n" }, desc = "substitute" },
+                { map.l2("suu"), substitute("line"), mode = { "n" }, desc = "substitute line" },
+                { map.l2("sU"), substitute("eol"), mode = { "n" }, desc = "substitute eol" },
+                { map.l2("su"), substitute("visual"), mode = { "x" }, desc = "substitute" },
             }
         end,
         config = true,
@@ -134,22 +134,20 @@ return {
             })
         end,
         keys = {
-            { drawer.with_prefix_key("u"), function() drawer.open("undotree") end, desc = "open undotree" }
+            { drawer.with_prefix_key("u"), function() drawer.open("undotree") end, desc = "open undotree" },
         },
     },
     {
         "potamides/pantran.nvim",
         cmd = "Pantran",
         keys = function()
-            local function motion_translate()
-                require("pantran").motion_translate({ mode = "hover" })
-            end
+            local function motion_translate() require("pantran").motion_translate({ mode = "hover" }) end
             return {
-                { map.l2("tr"),  motion_translate,   mode = { "n" }, desc = "translate" },
-                { map.l2("trr"), map.l2("tr_"),      mode = { "n" }, desc = "translate line" },
-                { map.l2("tR"),  map.l2("tr$"),      mode = { "n" }, desc = "translate eol" },
+                { map.l2("tr"), motion_translate, mode = { "n" }, desc = "translate" },
+                { map.l2("trr"), map.l2("tr_"), mode = { "n" }, desc = "translate line" },
+                { map.l2("tR"), map.l2("tr$"), mode = { "n" }, desc = "translate eol" },
                 { map.l2("tro"), "<CMD>Pantran<CR>", mode = { "n" }, desc = "open pantran" },
-                { map.l2("tr"),  motion_translate,   mode = { "x" }, desc = "translate" },
+                { map.l2("tr"), motion_translate, mode = { "x" }, desc = "translate" },
             }
         end,
         opts = function()
@@ -172,7 +170,7 @@ return {
                     options = { winhighlight = "" },
                 },
             }
-        end
+        end,
     },
     {
         "akinsho/toggleterm.nvim",
@@ -185,7 +183,7 @@ return {
             direction = "float",
             float_opts = { border = "rounded" },
             highlights = { FloatBorder = { link = "FloatBorder" } },
-        }
+        },
     },
     {
         "rmagatti/auto-session",
@@ -194,7 +192,7 @@ return {
             log_level = "error",
             pre_save_cmds = { drawer.close_all },
             auto_session_supress_dirs = { "/", "~/", "~/projects", "~/Downloads" },
-        }
+        },
     },
     {
         "stevearc/overseer.nvim",
@@ -209,7 +207,7 @@ return {
         end,
         keys = {
             { drawer.with_prefix_key("o"), function() drawer.open("overseer") end, desc = "open overseer" },
-            { map.l2("ovr"),               "<CMD>OverseerRun<CR>",                 mode = { "n" } },
+            { map.l2("ovr"), "<CMD>OverseerRun<CR>", mode = { "n" } },
             {
                 map.l2("ovl"),
                 function()
@@ -222,10 +220,10 @@ return {
                     end
                 end,
                 mode = { "n" },
-                desc = "restart last task"
+                desc = "restart last task",
             },
         },
-        opts = { templates = { "builtin", "keke" } }
+        opts = { templates = { "builtin", "keke" } },
     },
     {
         "iamcco/markdown-preview.nvim",
@@ -244,10 +242,12 @@ return {
         lazy = not vim.g.started_by_firenvim,
         cond = vim.g.started_by_firenvim,
         config = function()
-            vim.api.nvim_create_user_command("FirenvimInstall", function()
-                vim.fn["firenvim#install"](0)
-            end, { desc = "Install firenvim" })
-        end
+            vim.api.nvim_create_user_command(
+                "FirenvimInstall",
+                function() vim.fn["firenvim#install"](0) end,
+                { desc = "Install firenvim" }
+            )
+        end,
     },
     {
         "epwalsh/obsidian.nvim",
@@ -256,12 +256,12 @@ return {
         ft = "markdown",
         opts = {
             workspaces = {
-                { name = "Obsidian", path = "~/Documents/Obsidian/Obsidian Vault/" }
-            }
-        }
+                { name = "Obsidian", path = "~/Documents/Obsidian/Obsidian Vault/" },
+            },
+        },
     },
     {
         "itchyny/vim-qfedit",
-        event = "QuickFixCmdPre"
-    }
+        event = "QuickFixCmdPre",
+    },
 }
