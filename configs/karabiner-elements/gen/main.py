@@ -1,21 +1,21 @@
 import json
-from karabiner import Karabiner, mod, mouse_key, pointing_button, to, to_if_alone
+from karabiner import Karabiner, mod, mouse_key, pointing_button, to_if_alone
 
 
 def main():
     k = Karabiner("My Config")
 
     k.register(
-        [],
-        {
-            "international1": "international3",
+        condition=(),
+        manipulators={
+            mod(optional=())("international1"): ("international3"),
         },
     )
 
     rmod = k.var("rmod", "lang1", "japanese_pc_xfer")
     k.register(
-        [rmod],
-        {
+        condition=rmod,
+        manipulators={
             "j": "left_arrow",
             "k": "down_arrow",
             "l": "up_arrow",
@@ -30,14 +30,14 @@ def main():
             "r": "return_or_enter",
             "t": "tab",
             "e": "escape",
-            "b": to("f10", "return_or_enter", mod("option", "control")("spacebar")),
+            "b": ["f10", "return_or_enter", mod("option", "control")("spacebar")],
         },
     )
 
     lmod = k.var("lmod", "japanese_eisuu", "japanese_pc_nfer")
     k.register(
-        [lmod],
-        {
+        condition=lmod,
+        manipulators={
             "r": pointing_button("button1"),
             "u": pointing_button("button2"),
             "i": mouse_key(vertical_wheel=50),
@@ -53,8 +53,8 @@ def main():
 
     space = k.var("space", "spacebar")
     k.register(
-        [space],
-        {
+        condition=space,
+        manipulators={
             "spacebar": to_if_alone("spacebar"),
             "a": "1",
             "s": "2",

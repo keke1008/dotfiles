@@ -1,37 +1,22 @@
+from collections import defaultdict
 from dataclasses import dataclass
+from typing import Iterable
 
-type JsonPrimitive = int | float | str
-type Json = JsonPrimitive | dict[JsonPrimitive, Json] | list[Json] | tuple[
-    Json, ...
-] | None
-type JsonDict = dict[JsonPrimitive, Json]
-
-
-@dataclass(frozen=True)
-class Variable:
-    name: str
-    inversed: bool = False
-
-    def __invert__(self):
-        return Variable(self.name, not self.inversed)
-
-    def to_condition(self) -> JsonDict:
-        return {
-            "name": self.name,
-            "type": "variable_if",
-            "value": 0 if self.inversed else 1,
-        }
+type JsonPrimitive = bool | int | float | str
+type Json = JsonPrimitive | dict[JsonPrimitive, Json] | list[Json] | None
 
 
 @dataclass(frozen=True)
 class ModifiedKey:
     key_code: str
-    modifiers: tuple[str, ...]
+    modifiers: frozenset[str]
+    optional: frozenset[str] | None = None
 
 
-def mod(*modifiers: str):
+def mod(*modifiers: str, optional: str | Iterable[str] | None = None):
     def wrapper(key_code: str):
-        return ModifiedKey(key_code, modifiers)
+        opt = frozenset(optional) if optional else None
+        return ModifiedKey(key_code, frozenset(modifiers), opt)
 
     return wrapper
 
@@ -42,24 +27,27 @@ type FromLike = str | ModifiedKey | From
 @dataclass(frozen=True)
 class From:
     key_code: str
-    mandatory_modifiers: tuple[str, ...]
-    optional_modifiers: tuple[str, ...] | None
+    mandatory_modifiers: frozenset[str]
+    optional_modifiers: frozenset[str] | None
 
     @staticmethod
     def from_like(value: FromLike):
         if isinstance(value, str):
-            value = ModifiedKey(value, ())
+            value = ModifiedKey(value, frozenset())
         if isinstance(value, ModifiedKey):
-            value = From(value.key_code, value.modifiers, None)
+            value = From(value.key_code, value.modifiers, value.optional)
         return value
 
     def to_json(self) -> Json:
-        opt: Json = self.optional_modifiers if self.optional_modifiers else ["any"]
         return {
             "key_code": self.key_code,
             "modifiers": {
-                "mandatory": self.mandatory_modifiers,
-                "optional": opt,
+                "mandatory": list(self.mandatory_modifiers),
+                "optional": (
+                    list(self.optional_modifiers)
+                    if self.optional_modifiers
+                    else ["any"]
+                ),
             },
         }
 
@@ -69,7 +57,7 @@ type ToEntryLike = str | ModifiedKey | ToEntry
 
 @dataclass
 class ToEntry:
-    entry: JsonDict
+    entry: Json
 
     def to_json(self) -> Json:
         return self.entry
@@ -79,11 +67,13 @@ class ToEntry:
         if isinstance(entry, str):
             return ToEntry({"key_code": entry})
         if isinstance(entry, ModifiedKey):
-            return ToEntry({"key_code": entry.key_code, "modifiers": entry.modifiers})
+            return ToEntry(
+                {"key_code": entry.key_code, "modifiers": list(entry.modifiers)}
+            )
         return entry
 
 
-def set_variable(name: str, value: int | float):
+def set_variable(name: str, value: bool | int | str):
     return ToEntry({"set_variable": {"name": name, "value": value}})
 
 
@@ -95,92 +85,116 @@ def pointing_button(button: str):
     return ToEntry({"pointing_button": button})
 
 
-type ToLike = ToEntryLike | To
-
-
-@dataclass
 class To:
     name: str
     entries: list[ToEntry]
 
-    def __init__(self, name: str, entries: list[ToEntryLike]):
+    def __init__(self, name: str, entries: Iterable[ToEntryLike]):
         self.name = name
         self.entries = [ToEntry.from_like(entry) for entry in entries]
 
-    @staticmethod
-    def from_like(value: ToLike) -> "To":
-        if isinstance(value, To):
-            return value
-        return To("to", [ToEntry.from_like(value)])
-
-
-def to(*entries: ToEntryLike):
-    return To("to", list(entries))
-
 
 def to_after_key_up(*entries: ToEntryLike):
-    return To("to_after_key_up", list(entries))
+    return To("to_after_key_up", entries)
 
 
 def to_if_alone(*entries: ToEntryLike):
-    return To("to_if_alone", list(entries))
+    return To("to_if_alone", entries)
 
 
-class Manipulator:
-    _from: From
-    _to: To
-    _conditions: list[Variable]
+@dataclass(frozen=True)
+class Variable:
+    name: str
+    inversed: bool = False
 
-    def __init__(self, from_: FromLike, to: ToLike, conditions: list[Variable]):
-        self._from = From.from_like(from_)
-        self._to = To.from_like(to)
-        self._conditions = conditions
+    @staticmethod
+    def ENABLED() -> bool:
+        return True
+
+    @staticmethod
+    def DISABLED() -> bool:
+        return False
+
+    def __invert__(self):
+        return Variable(self.name, not self.inversed)
 
     def to_json(self) -> Json:
         return {
-            "type": "basic",
-            "from": self._from.to_json(),
-            "conditions": [cond.to_condition() for cond in self._conditions],
-            self._to.name: [entry.to_json() for entry in self._to.entries],
+            "name": self.name,
+            "type": "variable_if",
+            "value": self.DISABLED() if self.inversed else self.ENABLED(),
         }
+
+
+type ConditionLike = Variable | Iterable[Variable]
+
+
+@dataclass(frozen=True)
+class Condition:
+    variables: frozenset[Variable]
+
+    def to_json(self) -> Json:
+        return [variable.to_json() for variable in self.variables]
+
+    @staticmethod
+    def from_like(value: ConditionLike):
+        if isinstance(value, Variable):
+            value = [value]
+        return Condition(frozenset(value))
+
+
+type ToLike = ToEntryLike | To | list[ToEntryLike | To]
 
 
 class Karabiner:
     _description: str
-    _manipulators: list[Manipulator]
+    _manipulators: defaultdict[tuple[From, Condition], defaultdict[str, list[ToEntry]]]
 
     def __init__(self, description: str):
         self._description = description
-        self._variables = {}
-        self._manipulators = []
+        self._manipulators = defaultdict(lambda: defaultdict(list))
+
+    def register(self, condition: ConditionLike, manipulators: dict[FromLike, ToLike]):
+        conditions = Condition.from_like(condition)
+
+        for from_like, to_like in manipulators.items():
+            from_ = From.from_like(from_like)
+            manipulator = self._manipulators[from_, conditions]
+            if not isinstance(to_like, list):
+                to_like = [to_like]
+
+            for to_ in to_like if isinstance(to_like, list) else [to_like]:
+                if not isinstance(to_, To):
+                    to_ = To("to", [to_])
+                manipulator[to_.name].extend(to_.entries)
 
     def var(self, name: str, *key_codes: str) -> Variable:
-        for key_code in key_codes:
-            self._manipulators.extend(
-                (
-                    Manipulator(
-                        conditions=[],
-                        from_=key_code,
-                        to=set_variable(name, 1),
-                    ),
-                    Manipulator(
-                        conditions=[],
-                        from_=key_code,
-                        to=to_after_key_up(set_variable(name, 0)),
-                    ),
-                )
-            )
+        self.register(
+            condition=(),
+            manipulators={
+                key_code: [
+                    set_variable(name, Variable.ENABLED()),
+                    to_after_key_up(set_variable(name, Variable.DISABLED())),
+                ]
+                for key_code in key_codes
+            },
+        )
 
         return Variable(name)
-
-    def register(self, variables: list[Variable], manipulator: dict[FromLike, ToLike]):
-        for key_code, to in manipulator.items():
-            self._manipulators.append(Manipulator(key_code, to, variables))
 
     def to_json(self) -> Json:
         return {
             "description": self._description,
             "manipulators": [
-                manipulator.to_json() for manipulator in self._manipulators
+                {
+                    "type": "basic",
+                    "conditions": condition.to_json(),
+                    "from": from_.to_json(),
+                    **{
+                        name: [to.to_json() for to in entries]
+                        for name, entries in to.items()
+                    },
+                }
+                for (from_, condition), to in self._manipulators.items()
             ],
         }
