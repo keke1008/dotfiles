@@ -43,19 +43,24 @@ def main():
             "i": mouse_key(vertical_wheel=50),
             "o": mouse_key(vertical_wheel=-50),
             "h": mouse_key(x=-1500),
-            "j": mouse_key(y=-1500),
-            "k": mouse_key(y=1500),
+            "j": mouse_key(y=1500),
+            "k": mouse_key(y=-1500),
             "l": mouse_key(x=1500),
             "w": mouse_key(speed_multiplier=3),
             "e": mouse_key(speed_multiplier=0.2),
         },
     )
 
+    k.register(
+        condition=(),
+        manipulators={
+            "spacebar": to_if_alone("spacebar"),
+        },
+    )
     space = k.var("space", "spacebar")
     k.register(
         condition=space,
         manipulators={
-            "spacebar": to_if_alone("spacebar"),
             "a": "1",
             "s": "2",
             "d": "3",
