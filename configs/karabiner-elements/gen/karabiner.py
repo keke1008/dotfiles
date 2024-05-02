@@ -15,7 +15,7 @@ class ModifiedKey:
 
 def mod(*modifiers: str, optional: str | Iterable[str] | None = None):
     def wrapper(key_code: str):
-        opt = frozenset(optional) if optional else None
+        opt = None if optional is None else frozenset(optional)
         return ModifiedKey(key_code, frozenset(modifiers), opt)
 
     return wrapper
@@ -45,7 +45,7 @@ class From:
                 "mandatory": list(self.mandatory_modifiers),
                 "optional": (
                     list(self.optional_modifiers)
-                    if self.optional_modifiers
+                    if self.optional_modifiers is not None
                     else ["any"]
                 ),
             },
