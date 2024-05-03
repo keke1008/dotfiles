@@ -1,27 +1,35 @@
-import json
-from karabiner import Karabiner, mod, mouse_key, pointing_button, to_if_alone
+from karabiner import Karabiner, apps, mod, mouse_key, pointing_button, to_after_key_up, to_if_alone, var, when
+from karabiner.condition import Variable
+
+
+def make_sync(variable: Variable):
+    return [variable.set(True), to_after_key_up(variable.set(False))]
 
 
 def main():
     k = Karabiner("My Config")
 
     k.register(
-        condition=(),
-        manipulators={
+        {
             mod(optional=())("international1"): ("international3"),
         },
     )
 
-    rmod = k.var("rmod", "lang1", "japanese_pc_xfer")
+    rmod = var("rmod")
+    rmod_sync = make_sync(rmod)
+    k.register({"lang1": rmod_sync, "japanese_pc_xfer": rmod_sync})
+    terminal = apps(r"^com\.github\.wez\.wezterm$")
     k.register(
-        condition=rmod,
+        conditions=rmod.equals(True),
         manipulators={
             "j": "left_arrow",
             "k": "down_arrow",
             "l": "up_arrow",
             "semicolon": "right_arrow",
-            "g": mod("command")("left_arrow"),
-            "h": mod("command")("right_arrow"),
+            when(terminal.is_not_frontmost())("g"): mod("command")("left_arrow"),
+            when(terminal.is_not_frontmost())("h"): mod("command")("right_arrow"),
+            when(terminal.is_frontmost())("g"): "home",
+            when(terminal.is_frontmost())("h"): "end",
             "v": "page_up",
             "n": "page_down",
             "s": mod("option", "control")("spacebar"),
@@ -34,9 +42,11 @@ def main():
         },
     )
 
-    lmod = k.var("lmod", "japanese_eisuu", "japanese_pc_nfer")
+    lmod = var("lmod")
+    lmod_sync = make_sync(lmod)
+    k.register({"japanese_eisuu": lmod_sync, "japanese_pc_nfer": lmod_sync})
     k.register(
-        condition=lmod,
+        conditions=lmod.equals(True),
         manipulators={
             "r": pointing_button("button1"),
             "u": pointing_button("button2"),
@@ -51,15 +61,11 @@ def main():
         },
     )
 
+    space = var("space")
+    space_sync = make_sync(space)
+    k.register({"spacebar": [space_sync, to_if_alone("spacebar")]})
     k.register(
-        condition=(),
-        manipulators={
-            "spacebar": to_if_alone("spacebar"),
-        },
-    )
-    space = k.var("space", "spacebar")
-    k.register(
-        condition=space,
+        conditions=space.equals(True),
         manipulators={
             "a": "1",
             "s": "2",
@@ -77,7 +83,7 @@ def main():
         },
     )
 
-    print(json.dumps(k.to_json()))
+    print(k.to_json())
 
 
 if __name__ == "__main__":

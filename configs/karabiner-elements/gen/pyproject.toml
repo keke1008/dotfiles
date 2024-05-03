@@ -1,0 +1,22 @@
+[project]
+name = "karabiner"
+version = "0.1.0"
+
+[tool.black]
+line-length = 120
+
+[tool.poetry]
+name = "karabiner"
+version = "0.1.0"
+description = ""
+authors = ["keke1008 <keke2222337@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
