@@ -1,4 +1,4 @@
-from typing import Iterable, TypedDict, Unpack, overload
+from typing import Iterable, Literal, TypedDict, Unpack, overload
 
 
 from . import json
@@ -56,6 +56,13 @@ def mouse_key(**values: Unpack[_MouseKey]):
 
 def pointing_button(button: str):
     return ToEventEntry(json.from_like({"pointing_button": button}))
+
+
+type StickyOperation = Literal["on", "off", "toggle"]
+
+
+def sticky_modifier(**spec: StickyOperation):
+    return [ToEventEntry(json.from_like({"sticky_modifier": {key: op}})) for key, op in spec.items()]
 
 
 def to_if_alone(*entries: ToEventEntryLike):

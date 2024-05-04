@@ -1,4 +1,15 @@
-from karabiner import Karabiner, apps, mod, mouse_key, pointing_button, to_after_key_up, to_if_alone, var, when
+from karabiner import (
+    Karabiner,
+    apps,
+    mod,
+    mouse_key,
+    pointing_button,
+    sticky_modifier,
+    to_after_key_up,
+    to_if_alone,
+    var,
+    when,
+)
 from karabiner.condition import Variable
 
 
@@ -45,9 +56,11 @@ def main():
     lmod = var("lmod")
     lmod_sync = make_sync(lmod)
     k.register({"japanese_eisuu": lmod_sync, "japanese_pc_nfer": lmod_sync})
+    window = var("window")
     k.register(
-        conditions=lmod.equals(True),
+        conditions=[lmod.equals(True), window.equals(False)],
         manipulators={
+            "d": [window.set(True), *sticky_modifier(option="on", control="on")],
             "r": pointing_button("button1"),
             "u": pointing_button("button2"),
             "i": mouse_key(vertical_wheel=50),
@@ -58,6 +71,12 @@ def main():
             "l": mouse_key(x=1500),
             "w": mouse_key(speed_multiplier=3),
             "e": mouse_key(speed_multiplier=0.2),
+        },
+    )
+    k.register(
+        conditions=window.equals(True),
+        manipulators={
+            "q": [window.set(False), *sticky_modifier(option="off", control="off")],
         },
     )
 

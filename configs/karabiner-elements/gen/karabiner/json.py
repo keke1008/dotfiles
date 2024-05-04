@@ -1,4 +1,5 @@
 from typing import Protocol, assert_never, runtime_checkable
+import json as stdlib_json
 
 
 type _Primitive = str | int | float | bool | None
@@ -7,19 +8,13 @@ type Json = _Primitive | tuple[Json, ...] | frozenset[tuple[_Primitive, Json]]
 
 def stringify(json: Json) -> str:
     match json:
-        case str():
-            return f'"{json}"'
-        case bool():
-            return "true" if json else "false"
-        case int() | float():
-            return str(json)
-        case None:
-            return "null"
+        case str() | bool() | int() | float() | None:
+            return stdlib_json.dumps(json)
         case tuple(items):
-            items = ", ".join(map(stringify, items))
+            items = ",".join(map(stringify, items))
             return "[" + items + "]"
         case frozenset(entires):
-            entires = ", ".join(f"{stringify(k)}: {stringify(v)}" for k, v in entires)
+            entires = ",".join(f"{stringify(k)}:{stringify(v)}" for k, v in entires)
             return "{" + entires + "}"
         case unreachable:
             assert_never(unreachable)
