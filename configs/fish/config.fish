@@ -3,13 +3,12 @@ set -x fish_term24bit 1
 # Fisher bootstrapping
 if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
     set -x FISHER_BOOTSTRAPPING true
-    curl -sL https://git.io/fisher | source
+    echo "Fisher is not installed. Installing Fisher..."
 
+    curl -sL https://git.io/fisher | source
     fisher install \
         jorgebucaran/fisher \
-        oh-my-fish/theme-bobthefish \
-        jethrokuan/z \
-        0rax/fish-bd
+        oh-my-fish/theme-bobthefish
 end
 
 if type -q fzf_key_bindings
