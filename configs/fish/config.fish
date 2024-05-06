@@ -38,7 +38,7 @@ for repeat in (seq 3 10)
 end
 
 # colorscheme
-tokyonight_night
+fish_config theme choose tokyonight_night
 
 # bobthefish
 set -g theme_nerd_fonts yes
