@@ -6,7 +6,20 @@
 -- Writing the configs to `/etc/wsl.conf` will disable PATH inheritans, but that is inconvenient.
 -- So, in this file, the clipboard is set manually.
 
-if vim.fn.executable("xclip") == 1 then
+if vim.env.TMUX ~= nil then
+    vim.g.clipboard = {
+        name = "tmux",
+        copy = {
+            ["+"] = { "tmux", "load-buffer", "-w", "-" },
+            ["*"] = { "tmux", "load-buffer", "-w", "-" },
+        },
+        paste = {
+            ["+"] = { "tmux", "save-buffer", "-" },
+            ["*"] = { "tmux", "save-buffer", "-" },
+        },
+        cache_enabled = 1,
+    }
+elseif vim.fn.executable("xclip") == 1 then
     vim.g.clipboard = {
         name = "xclip",
         copy = {
