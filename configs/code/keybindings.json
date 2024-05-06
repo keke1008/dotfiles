@@ -1,38 +1,24 @@
 // Place your key bindings in this file to override the defaults
 [
     {
-        "key": "ctrl+q",
-        "command": "-workbench.action.quit"
+        "key": "enter",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "editorFocus && findInputFocussed"
     },
     {
-        "key": "ctrl+n",
-        "command": "-workbench.action.files.newUntitledFile"
+        "key": "ctrl+tab",
+        "command": "workbench.action.nextEditorInGroup"
     },
     {
-        "key": "ctrl+p",
-        "command": "-workbench.action.quickOpen"
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.previousEditorInGroup"
     },
     {
-        "key": "ctrl+n",
-        "command": "vscode-neovim.send",
-        "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
-        "args": "<C-n>",
-    },
-    {
-        "key": "ctrl+p",
-        "command": "vscode-neovim.send",
-        "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
-        "args": "<C-p>",
-    },
-    {
-        "key": "ctrl+q",
-        "command": "vscode-neovim.send",
-        "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
-        "args": "<C-q>",
+        "key": "ctrl+escape",
+        "command": "workbench.action.focusActiveEditorGroup"
     },
     {
         "key": "ctrl+w ctrl+q",
-        "command": "workbench.action.closeActiveEditor",
-        "when": "!filesExplorerFocus && !searchViewletFocus && !terminalFocus && neovim.mode != 'cmdline'"
-    }
+        "command": "workbench.action.closeActiveEditor"
+    },
 ]

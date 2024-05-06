@@ -63,13 +63,11 @@ return {
     },
     {
         "windwp/nvim-autopairs",
-        cond = true,
         event = "InsertEnter",
         config = true,
     },
     {
         "haya14busa/vim-asterisk",
-        cond = true,
         keys = {
             { "*", "<Plug>(asterisk-z*)", mode = { "n", "x" } },
             { "#", "<Plug>(asterisk-z#)", mode = { "n", "x" } },

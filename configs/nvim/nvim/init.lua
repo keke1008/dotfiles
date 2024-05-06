@@ -38,16 +38,12 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 vim.g.mapleader = " "
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "<Esc>", "<CMD>" .. (vim.g.vscode and "Write" or "write") .. "<CR>")
+vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
 vim.keymap.set("s", "<BS>", "<BS>i")
 vim.keymap.set("n", "+", ",")
 vim.keymap.set("n", "[c", "<CMD>cp<CR>")
 vim.keymap.set("n", "]c", "<CMD>cn<CR>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-if not is_in_terminal then
-    vim.keymap.set("n", "<leader><leader>", "<CMD>noh<CR>")
-    vim.keymap.set({ "n", "v" }, "<C-w><C-q>", "<nop>")
-end
 
 vim.diagnostic.config({ severity_sort = true })
 
@@ -89,5 +85,9 @@ vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()
         end
     end
 end, { desc = "Wipe invisible buffers" })
+
+if vim.g.vscode then
+    require("keke.vscode")
+end
 
 require("keke.lazy")
