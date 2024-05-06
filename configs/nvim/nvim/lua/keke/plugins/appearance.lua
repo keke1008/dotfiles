@@ -8,7 +8,12 @@ return {
             -- vim.opt.listchars:append("eol:↴")
         end,
         event = "UIEnter",
-        config = true,
+        config = {
+            scope = {
+                show_start = false,
+                show_end = false,
+            },
+        },
     },
     {
         "folke/which-key.nvim",
