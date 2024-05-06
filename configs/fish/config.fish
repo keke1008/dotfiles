@@ -1,15 +1,4 @@
-set -x DOTPATH (cat "$HOME/.dotpath")
-set -x XDG_CONFIG_HOME "$HOME/.config"
 set -x fish_term24bit 1
-set -x GPG_TTY (tty)
-set -x GTK_THEME Adwaita:dark
-set -x QT_QPA_PLATFORMTHEME qt5ct
-set -x GOPATH "$HOME/.go"
-
-# Execute tmux if it is not running
-if status --is-interactive && type -q tmux && [ -z "$TMUX" ]
-    tmux
-end
 
 # Fisher bootstrapping
 if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
@@ -23,92 +12,24 @@ if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
         0rax/fish-bd
 end
 
-# user's private bin
-if [ -d "$HOME/.local/bin" ]
-    fish_add_path "$HOME/.local/bin"
-end
-
-# cargo
-if [ -d "$HOME/.cargo/bin" ]
-    fish_add_path "$HOME/.cargo/bin"
-end
-
-# deno
-if [ -d "$HOME/.deno/bin" ]
-    fish_add_path "$HOME/.deno/bin"
-end
-
-# ghcup
-if [ -e "$HOME/.ghcup/env" ]
-    set -x PATH (sh -c '. $HOME/.ghcup/env && echo $PATH')
-end
-
-# asdf
-set -x ASDF_GOLANG_MOD_VERSION_ENABLED true
-if [ -e "$HOME/.asdf/asdf.fish" ]
-    source "$HOME/.asdf/asdf.fish"
-else if [ -e "/opt/asdf-vm/asdf.fish" ]
-    source "/opt/asdf-vm/asdf.fish"
-end
-
-# luarocks
-if [ -d "$HOME/.luarocks/bin" ]
-    fish_add_path "$HOME/.luarocks/bin"
-end
-
-# snap
-if [ -d "/snap/bin" ]
-    fish_add_path "/snap/bin"
-end
-
-# fly.io
-if [ -d "$HOME/.fly" ]
-    fish_add_path "$HOME/.fly/bin"
-end
-
-if [ -d "$HOME/.platformio/penv/bin" ]
-    fish_add_path "$HOME/.platformio/penv/bin"
-end
-
-# Go
-fish_add_path "$GOPATH/bin"
-
-# fzf key bind
 if type -q fzf_key_bindings
     fzf_key_bindings
 end
 
-# if running on WSL
-if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]
-    fish_add_path "$DOTPATH/bin/wsl"
-
-    set -l firefox_path '/mnt/c/Program Files/Mozilla Firefox/firefox.exe'
-    if [ -e "$firefox_path" ]
-        set -x BROWSER "$firefox_path"
-        alias firefox (string replace -a ' ' '\\ ' "$firefox_path")
-    end
-
-    # if WSL has WSLg
-    if type -q "wslg.exe"
-        set -x DISPLAY ":0"
-    else
-        set -x DISPLAY (hostname)".mshome.net:0.0"
-    end
-end
-
-if type -q nvim
-    set -x EDITOR nvim
-end
-
-
-# aliases
-alias g git
-alias v nvim
-alias c cargo
-alias d docker
+alias v "$EDITOR"
+alias g "git"
+alias c "cargo"
+alias d "docker"
 alias dc "docker compose"
+alias kc "kubectl"
 alias be "bundle exec"
 alias bi "bundle install"
+if not type -q vim
+    alias vim "vi"
+end
+if type -q bat
+    alias cat "bat"
+end
 
 for repeat in (seq 3 10)
     set -l cd_parents_name (string repeat -n $repeat '.')
