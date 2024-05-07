@@ -18,7 +18,7 @@ for CODE_DIR in "$CODE_OSS_DIR" "$VSCODE_DIR"; do
 done
 
 # for remote development
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+if [ -n ${SSH_CLIENT:-''} ] || [ -n ${SSH_TTY:-''} ]; then # Use parameter expansion to prevent an 'undefined variable' error
 	VSCODE_SERVER_DIR="$HOME/.vscode-server/data/Machine"
 	mkdir -p "$VSCODE_SERVER_DIR"
 	ln -snvf "$SRC_DIR/settings.json" "$VSCODE_SERVER_DIR"
