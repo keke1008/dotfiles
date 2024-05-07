@@ -2,7 +2,7 @@
 
 SRC_DIR="$DOTPATH/configs/code"
 
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" = "Darwin" ]; then
 	CODE_BASE_DIR="$HOME/Library/Application Support/"
 	CODE_OSS_DIR="$CODE_BASE_DIR/Code/User"
 	VSCODE_DIR="$CODE_BASE_DIR/Code - OSS/User"
