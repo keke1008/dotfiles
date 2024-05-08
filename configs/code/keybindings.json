@@ -19,6 +19,7 @@
     },
     {
         "key": "ctrl+w ctrl+q",
-        "command": "workbench.action.closeActiveEditor"
+        "command": "workbench.action.closeActiveEditor",
+        "when": "!editorFocus || neovim.mode == 'normal'"
     },
 ]
