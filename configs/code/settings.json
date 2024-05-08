@@ -54,5 +54,6 @@
         "down",
         "backspace",
         "delete",
-    ]
+    ],
+    "editor.fontFamily": "'UDEV Gothic 35NF', Menlo, Monaco, 'Courier New', monospace"
 }

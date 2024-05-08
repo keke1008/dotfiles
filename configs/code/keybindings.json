@@ -20,6 +20,6 @@
     {
         "key": "ctrl+w ctrl+q",
         "command": "workbench.action.closeActiveEditor",
-        "when": "!editorFocus || neovim.mode == 'normal'"
+        "when": "!terminalFocus && (!editorFocus || neovim.mode == 'normal')"
     },
 ]
