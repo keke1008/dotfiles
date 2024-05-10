@@ -55,5 +55,27 @@
         "backspace",
         "delete",
     ],
-    "editor.fontFamily": "'UDEV Gothic 35NF', Menlo, Monaco, 'Courier New', monospace"
+    "editor.fontFamily": "'UDEV Gothic 35NF', Menlo, Monaco, 'Courier New', monospace",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+            "args": ["-l"]
+        },
+        "zsh": {
+            "path": "zsh"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        }
+    }
 }
