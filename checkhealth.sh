@@ -20,6 +20,9 @@ print_colored() {
 	green) id="32" ;;
 	yellow) id="33" ;;
 	blue) id="34" ;;
+	magenta) id="35" ;;
+	cyan) id="36" ;;
+	white) id="37" ;;
 	*) abort "Invalid color: ${color}" ;;
 	esac
 
@@ -40,10 +43,7 @@ report() {
 	trace) color="green" ;;
 	info) color="blue" ;;
 	warn) color="yellow" ;;
-	error)
-		color="red"
-		echo "E" >&2
-		;;
+	error) color="red" ;;
 	*) abort "Invalid level: ${level}" ;;
 	esac
 
@@ -85,104 +85,41 @@ unexport_items() {
 }
 
 run_checkhealth_single_config() {
-	# 0: success
-	# 1: error
-	# 2: ignore
-
 	if [ $# -ne 1 ]; then
 		abort "Usage: checkhealth_single_config config_dir"
 	fi
-
 	local config_dir=$1
+
 	local checkhealth_script="${config_dir}/checkhealth.sh"
+	if [ ! -e "${checkhealth_script}" ]; then
+		return
+	fi
+
+	print_colored "cyan" " $(basename ${config_dir})\n"
 	if [ ! -x "${checkhealth_script}" ]; then
-		if [ -e "${checkhealth_script}" ]; then
-			print_colored red "\tError: ${checkhealth_script} is not executable\n\n"
-			return 1
-		else
-			return 2
-		fi
-
+		print_colored red "\tError: ${checkhealth_script} is not executable\n\n"
+		return
 	fi
 
-	local temp_stderr
-	temp_stderr=$(mktemp)
-	# shellcheck disable=SC2064
-	trap "rm -f ${temp_stderr}" EXIT
-
-	if ! "${checkhealth_script}" 2>"${temp_stderr}"; then
-		print_colored red "\tError: ${checkhealth_script} exited with non-zero status\n"
-		print_colored red "\tstderr:\n"
-		cat "${temp_stderr}"
-		echo
-		return 1
-	fi
-
-	test ! -s "${temp_stderr}"
-	return $?
+	"$checkhealth_script"
+	echo
 }
 
-checkhealth_single_config() {
-	if [ $# -ne 1 ]; then
-		abort "Usage: checkhealth_single_config config_dir"
-	fi
-
-	local config_dir=$1
-
-	local title
-	title=" $(basename "${config_dir}")"
-
-	local stdout
-	stdout=$(run_checkhealth_single_config "${config_dir}")
-	case $? in
-	0)
-		print_colored green "${title}\n"
-		local result=0
-		;;
-	1)
-		print_colored red "${title}\n"
-		local result=1
-		;;
-	2)
-		return 0
-		;;
-	*)
-		abort "Invalid return code"
-		;;
-	esac
-
-	echo -e "${stdout}"
-	return ${result}
-}
-
-checkhealth_configs() {
+run_checkhealth_configs() {
 	DOTPATH=$(cat "$HOME/.dotpath")
 	if [ -z "${DOTPATH}" ]; then
 		abort "DOTPATH is not set"
 	fi
 
-	local is_all_healthy=0
 	for dir in "${DOTPATH}/configs/"*; do
-		if ! checkhealth_single_config "${dir}"; then
-			is_all_healthy=1
-		fi
+		run_checkhealth_single_config "${dir}"
 	done
-
-	return ${is_all_healthy}
 }
 
 main() {
 	export_items
-	if ! checkhealth_configs; then
-		print_colored red "Some configurations are unhealthy\n"
-		local result=1
-	else
-		print_colored green "All configurations are healthy\n"
-		local result=0
-	fi
-
+	run_checkhealth_configs
 	unexport_items
-	return ${result}
 }
 
 main
