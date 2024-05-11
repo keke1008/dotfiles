@@ -31,6 +31,11 @@ fi
 if command -v "bat" > /dev/null; then
 	alias cat="bat"
 fi
+if command -v "trash-put" > /dev/null; then
+	alias rm="trash-put"
+else
+	alias rm="rm -i"
+fi
 
 dots=".."
 cd_command="cd .."

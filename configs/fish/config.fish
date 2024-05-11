@@ -29,6 +29,11 @@ end
 if type -q bat
     alias cat "bat"
 end
+if type -q trash-put
+    alias rm "trash-put"
+else
+    alias rm "rm -i"
+end
 
 for repeat in (seq 3 10)
     set -l cd_parents_name (string repeat -n $repeat '.')
