@@ -8,6 +8,7 @@ abort() {
 if ! DOTPATH="$(cd "$(dirname "$0")"; pwd)"; then
 	abort "Failed to get DOTPATH"
 fi
+export DOTPATH
 echo "${DOTPATH}" > "${HOME}/.dotpath"
 . "${DOTPATH}/scripts/common.sh"
 
