@@ -6,6 +6,5 @@
 
 ```sh
 $ git clone https://github.com/keke1008/dotfiles.git
-$ cd dotfiles
-$ ./install.sh all
+$ ./dotfiles/install.sh
 ```
