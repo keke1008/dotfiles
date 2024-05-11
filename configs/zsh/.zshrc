@@ -15,6 +15,7 @@ autoload -Uz promptinit
 promptinit
 prompt clint
 
-if [ -r "$DOTPATH/configs/zsh/local.zsh" ]; then
-    . "$DOTPATH/configs/zsh/local.zsh"
+local_rc="${DOTFILES_LOCAL_HOME}/zsh/local_rc.sh"
+if [ -r "${local_rc}"]; then
+    . "${local_rc}"
 fi

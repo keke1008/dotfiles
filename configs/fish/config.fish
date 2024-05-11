@@ -53,7 +53,7 @@ set -g theme_show_exit_status yes
 set -g theme_display_ruby no # This setting makes powerline fast
 set -g theme_display_go no # This setting makes powerline fast
 
-set local_config "$DOTPATH/configs/fish/local.fish"
+set local_config "$DOTFILES_LOCAL_HOME/fish/local_config.fish"
 if [ -e $local_config ]
     source $local_config
 end

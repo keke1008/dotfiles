@@ -70,11 +70,50 @@ report_command_exists() {
 	fi
 }
 
+report_file_readable() {
+	if [ $# -ne 2 ] && [ $# -ne 3 ]; then
+		abort "Usage: report_file_readable level file_path [detail]"
+	fi
+
+	local level=$1
+	local file_path=$2
+	local detail=${3:-""}
+
+	if [ ! -f "${file_path}" ]; then
+		report "${level}" "File does not exist: ${file_path}" "${detail}"
+	elif [ -r "${file_path}" ]; then
+		report "trace" "File is readable: ${file_path}" "${detail}"
+	else
+		report "${level}" "File is not readable: ${file_path}" "${detail}"
+	fi
+}
+
+report_file_executable() {
+	if [ $# -ne 2 ] && [ $# -ne 3 ]; then
+		abort "Usage: report_file_executable level file_path [detail]"
+	fi
+
+	local level=$1
+	local file_path=$2
+	local detail=${3:-""}
+
+	if [ ! -f "${file_path}" ]; then
+		report "${level}" "File does not exist: ${file_path}" "${detail}"
+	elif [ -x "${file_path}" ]; then
+		report "trace" "File is executable: ${file_path}" "${detail}"
+	else
+		report "${level}" "File is not executable: ${file_path}" "${detail}"
+	fi
+}
+
 export_functions=" \
     abort \
     print_colored \
     report \
-    report_command_exists"
+    report_command_exists \
+	report_file_readable \
+	report_file_executable \
+	"
 
 export_items() {
 	eval "export -f ${export_functions}"

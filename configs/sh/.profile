@@ -1,9 +1,9 @@
 if [ -r "$HOME/.dotpath" ]; then
 	export DOTPATH=$(cat "$HOME/.dotpath")
 fi
+. "${DOTPATH}/scripts/common.sh"
 
 export GPG_TTY=$(tty)
-export XDG_CONFIG_HOME="$HOME/.config"
 export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME=qt5ct
 
@@ -61,7 +61,7 @@ if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
 fi
 
 # Source local profile
-LOCAL_PROFILE="$DOTPATH/configs/sh/local.sh"
+LOCAL_PROFILE="${DOTFILES_LOCAL_HOME}/sh/local_profile.sh"
 if [ -r "$LOCAL_PROFILE" ]; then
     . "$LOCAL_PROFILE"
 fi

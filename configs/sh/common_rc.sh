@@ -45,3 +45,8 @@ for _ in $(seq 1 9); do
 	# shellcheck disable=SC2139
 	alias "$dots"="$cd_command"
 done
+
+local_rc="${DOTFILES_LOCAL_HOME}/sh/local_rc.sh"
+if [ -r "$local_rc" ]; then
+	. "$local_rc"
+fi

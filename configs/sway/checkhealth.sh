@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sway/local_config" "Local sway config file"
+
 if command -v sway >/dev/null 2>&1; then
 	level="error"
 else

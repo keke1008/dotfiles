@@ -1,4 +1,4 @@
-import = ["~/.config/alacritty/env-dependent.toml"]
+import = ["~/.config/dotfiles/local/alacritty/local_config.toml"]
 
 [[keyboard.bindings]]
 key = ";"

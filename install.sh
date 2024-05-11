@@ -1,9 +1,9 @@
 #!/bin/sh -eu
 
-export readonly DOTPATH=$(cd $(dirname $0); pwd)
-export XDG_CONFIG_HOME=$HOME/.config
+export DOTPATH="$(cd "$(dirname "$0")"; pwd)"
+echo "${DOTPATH}" > "${DOTPATH}/.dotpath"
+. "${DOTPATH}/scripts/common.sh"
 
-echo $DOTPATH > $HOME/.dotpath
 
 if [ $# -eq 0 ]; then
     echo "Usage: $0 [ all | nvim | fish | ... ] [ nvim | fish | ... ] ..."
