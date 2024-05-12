@@ -8,9 +8,16 @@ jobs:
       matrix:
         container:
           - ubuntu:latest
+          - debian:latest
+          - archlinux:latest
           - alpine:latest
     runs-on: ubuntu-latest
     container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v4
-      - run: ./install.sh
+
+      - name: Print shell
+        run: realpath /bin/sh
+
+      - name: Run install.sh
+        run: ./install.sh
