@@ -2,18 +2,18 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # Source common rc file
 if [ -r "$DOTPATH/configs/sh/common_rc.sh" ]; then
-    . "$DOTPATH/configs/sh/common_rc.sh"
+	. "$DOTPATH/configs/sh/common_rc.sh"
 fi
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-  . /etc/bashrc
+	. /etc/bashrc
 fi
 
 # don't put duplicate lines or lines starting with space in the history.
