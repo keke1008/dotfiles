@@ -7,8 +7,8 @@ jobs:
     strategy:
       matrix:
         container:
-          - ubuntu-latest
-          - alpine-latest
+          - ubuntu:latest
+          - alpine:latest
     runs-on: ubuntu-latest
     container: ${{ matrix.container }}
     steps:
