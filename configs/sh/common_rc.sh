@@ -1,14 +1,14 @@
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
-if command -v "tmux" > /dev/null && [ -z "$TMUX" ]; then
+if command -v "tmux" >/dev/null && [ -z "$TMUX" ]; then
 	tmux
 fi
 
-if command -v "fish" > /dev/null; then
+if command -v "fish" >/dev/null; then
 	exec fish
 fi
 
@@ -25,13 +25,13 @@ alias grep='grep --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-if ! command -v "vim" > /dev/null 2>&1; then
+if ! command -v "vim" >/dev/null 2>&1; then
 	alias vim='vi'
 fi
-if command -v "bat" > /dev/null; then
+if command -v "bat" >/dev/null; then
 	alias cat="bat"
 fi
-if command -v "trash-put" > /dev/null; then
+if command -v "trash-put" >/dev/null; then
 	alias rm="trash-put"
 else
 	alias rm="rm -i"
