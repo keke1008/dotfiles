@@ -4,8 +4,13 @@ on: push
 
 jobs:
   installation-test:
+    strategy:
+      matrix:
+        container:
+          - ubuntu-latest
+          - alpine-latest
     runs-on: ubuntu-latest
-
+    container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v4
       - run: ./install.sh
