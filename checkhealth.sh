@@ -1,5 +1,4 @@
 #!/bin/bash -eu
-#
 
 abort() {
 	echo "Error: " "$@"
@@ -134,7 +133,7 @@ run_checkhealth_single_config() {
 		return
 	fi
 
-	print_colored "cyan" " $(basename ${config_dir})\n"
+	print_colored "cyan" " $(basename "${config_dir}")\n"
 	if [ ! -x "${checkhealth_script}" ]; then
 		print_colored red "\tError: ${checkhealth_script} is not executable\n\n"
 		return
