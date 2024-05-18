@@ -5,15 +5,12 @@ abort() {
 	exit 1
 }
 
-if ! DOTPATH="$(
-	cd "$(dirname "$0")"
-	pwd
-)"; then
+if ! DOTPATH="$(cd "$(dirname "$0")" && pwd)"; then
 	abort "Failed to get DOTPATH"
 fi
 export DOTPATH
 echo "${DOTPATH}" >"${HOME}/.dotpath"
-. "${DOTPATH}/scripts/common.sh"
+. "${DOTPATH}/scripts/init.sh"
 
 ensure_install_script_file() {
 	if [ $# -ne 1 ]; then

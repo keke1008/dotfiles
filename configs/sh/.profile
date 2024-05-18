@@ -1,7 +1,10 @@
 if [ -r "$HOME/.dotpath" ] && DOTPATH=$(cat "$HOME/.dotpath"); then
 	export DOTPATH
+else
+	echo "Error: Failed to get DOTPATH" >&2
+	return 1
 fi
-. "${DOTPATH}/scripts/common.sh"
+. "${DOTPATH}/scripts/init.sh"
 
 if GPG_TTY=$(tty); then
 	export GPG_TTY
