@@ -105,23 +105,6 @@ report_file_executable() {
 	fi
 }
 
-export_functions=" \
-    abort \
-    print_colored \
-    report \
-    report_command_exists \
-	report_file_readable \
-	report_file_executable \
-	"
-
-export_items() {
-	eval "export -f ${export_functions}"
-}
-
-unexport_items() {
-	unset "${export_functions}"
-}
-
 run_checkhealth_single_config() {
 	if [ $# -ne 1 ]; then
 		abort "Usage: checkhealth_single_config config_dir"
@@ -139,7 +122,8 @@ run_checkhealth_single_config() {
 		return
 	fi
 
-	"$checkhealth_script"
+	# shellcheck disable=SC1090
+	. "$checkhealth_script"
 	echo
 }
 
@@ -155,9 +139,7 @@ run_checkhealth_configs() {
 }
 
 main() {
-	export_items
 	run_checkhealth_configs
-	unexport_items
 }
 
 main

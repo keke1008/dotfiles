@@ -61,5 +61,6 @@ fi
 # install the given directories
 for dir in $script_dirs; do
 	file=$(get_script_file_from_dir "${dir}")
-	"${file}"
+	# shellcheck disable=SC1090
+	. "${file}"
 done
