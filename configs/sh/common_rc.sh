@@ -25,11 +25,14 @@ alias grep='grep --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
 if ! command -v "vim" >/dev/null 2>&1; then
 	alias vim='vi'
 fi
 if command -v "bat" >/dev/null; then
 	alias cat="bat"
+elif command -v "batcat" >/dev/null; then
+	alias cat="batcat"
 fi
 if command -v "trash-put" >/dev/null; then
 	alias rm="trash-put"
