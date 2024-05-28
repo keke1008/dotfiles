@@ -16,6 +16,6 @@ promptinit
 prompt clint
 
 local_rc="${DOTFILES_LOCAL_HOME}/zsh/local_rc.sh"
-if [ -r "${local_rc}"]; then
+if [ -r "${local_rc}" ]; then
     . "${local_rc}"
 fi
