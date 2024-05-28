@@ -77,5 +77,6 @@
             "path": "pwsh",
             "icon": "terminal-powershell"
         }
-    }
+    },
+    "github.copilot.editor.enableAutoCompletions": true
 }
