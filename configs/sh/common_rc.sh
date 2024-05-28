@@ -8,7 +8,7 @@ if command -v "tmux" >/dev/null && [ -z "$TMUX" ]; then
 	tmux
 fi
 
-if command -v "fish" >/dev/null; then
+if [ -z "$DISABLE_EXEC_SHELL" ] && command -v "fish" >/dev/null; then
 	exec fish
 fi
 
