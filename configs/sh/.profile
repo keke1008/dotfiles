@@ -47,6 +47,10 @@ elif [ -r "/opt/asdf-vm/asdf.sh" ]; then # installed by pacman
 	. "/opt/asdf-vm/asdf.sh"
 fi
 
+if [ -x "/opt/homebrew/bin/brew" ]; then
+	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # Editor
 if command -v "nvim" >/dev/null; then
 	export EDITOR="nvim"
