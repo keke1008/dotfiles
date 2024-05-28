@@ -16,5 +16,8 @@ if ! command -v kanata >/dev/null 2>&1; then
 	return
 fi
 
-systemctl --user daemon-reload
-systemctl --user enable --now kanata.service
+# Check if kanata service is already enabled
+if ! systemctl --user --quiet is-enabled kanata.service; then
+	systemctl --user daemon-reload
+	systemctl --user enable --now kanata.service
+fi
