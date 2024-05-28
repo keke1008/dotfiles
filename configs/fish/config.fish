@@ -11,10 +11,6 @@ if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
         oh-my-fish/theme-bobthefish
 end
 
-if type -q fzf_key_bindings
-    fzf_key_bindings
-end
-
 alias v "$EDITOR"
 alias g "git"
 alias c "cargo"
@@ -46,6 +42,29 @@ end
 
 # colorscheme
 fish_config theme choose tokyonight_night
+
+# key bindings
+if type -q fzf_key_bindings
+    fzf_key_bindings
+end
+function ctrl_j_popd
+    if test (count (string split ' ' (dirs))) -le 1
+        return
+    end
+    popd > /dev/null
+    commandline -f repaint
+end
+function ctrl_k_pushd
+    if test $PWD = "/"
+        return
+    end
+    pushd .. > /dev/null
+    commandline -f repaint
+end
+bind \cj 'ctrl_j_popd'
+bind \ck 'ctrl_k_pushd'
+
+
 
 # bobthefish
 set -g theme_nerd_fonts yes
