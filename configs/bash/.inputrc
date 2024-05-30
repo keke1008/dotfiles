@@ -1,2 +1,0 @@
-"\C-k":"\C-a [ \"$PWD\" != \"/\" ] && pushd .. >/dev/null\C-m"
-"\C-j":"\C-a [ \"$(dirs -v | wc -l)\" -gt 1 ] && popd >/dev/null\C-m"
