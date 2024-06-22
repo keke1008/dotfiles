@@ -30,6 +30,9 @@ return {
     {
         "ggandor/leap.nvim",
         cond = true,
+        dependencies = {
+            "tpope/vim-repeat",
+        },
         keys = function()
             local function leap_tabpage()
                 require("leap").leap({
@@ -40,8 +43,8 @@ return {
                 })
             end
             return {
-                { ",", leap_tabpage, mode = { "n", "x", "o" }, desc = "leap tabpage" },
-                { "<C-l>", leap_tabpage, mode = { "i", "s" }, desc = "leap tabpage" },
+                { ",",     leap_tabpage, mode = { "n", "x", "o" }, desc = "leap tabpage" },
+                { "<C-l>", leap_tabpage, mode = { "i", "s" },      desc = "leap tabpage" },
             }
         end,
     },
@@ -69,40 +72,11 @@ return {
     {
         "haya14busa/vim-asterisk",
         keys = {
-            { "*", "<Plug>(asterisk-z*)", mode = { "n", "x" } },
-            { "#", "<Plug>(asterisk-z#)", mode = { "n", "x" } },
+            { "*",  "<Plug>(asterisk-z*)",  mode = { "n", "x" } },
+            { "#",  "<Plug>(asterisk-z#)",  mode = { "n", "x" } },
             { "g*", "<Plug>(asterisk-gz*)", mode = { "n", "x" } },
             { "g#", "<Plug>(asterisk-gz#)", mode = { "n", "x" } },
         },
-    },
-    {
-        "monaqa/dial.nvim",
-        cond = true,
-        keys = {
-            { "<C-a>", "<Plug>(dial-increment)", mode = { "n" } },
-            { "<C-x>", "<Plug>(dial-decrement)", mode = { "n" } },
-            { "g<C-a>", "g<Plug>(dial-increment)", mode = { "n" } },
-            { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "n" } },
-            { "<C-a>", "<Plug>(dial-increment)", mode = { "v" } },
-            { "<C-x>", "<Plug>(dial-decrement)", mode = { "v" } },
-            { "g<C-a>", "g<Plug>(dial-increment)", mode = { "v" } },
-            { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "v" } },
-        },
-        config = function()
-            local augend = require("dial.augend")
-            local config = require("dial.config")
-            config.augends:register_group({
-                default = {
-                    augend.integer.alias.decimal,
-                    augend.integer.alias.hex,
-                    augend.constant.alias.bool,
-                    augend.date.alias["%Y/%m/%d"],
-                    augend.date.alias["%Y-%m-%d"],
-                    augend.date.alias["%H:%M:%S"],
-                    augend.constant.alias.ja_weekday,
-                },
-            })
-        end,
     },
     {
         "gbprod/substitute.nvim",
@@ -112,10 +86,10 @@ return {
                 return function() require("substitute")[command]() end
             end
             return {
-                { map.l2("su"), substitute("operator"), mode = { "n" }, desc = "substitute" },
-                { map.l2("suu"), substitute("line"), mode = { "n" }, desc = "substitute line" },
-                { map.l2("sU"), substitute("eol"), mode = { "n" }, desc = "substitute eol" },
-                { map.l2("su"), substitute("visual"), mode = { "x" }, desc = "substitute" },
+                { map.l2("su"),  substitute("operator"), mode = { "n" }, desc = "substitute" },
+                { map.l2("suu"), substitute("line"),     mode = { "n" }, desc = "substitute line" },
+                { map.l2("sU"),  substitute("eol"),      mode = { "n" }, desc = "substitute eol" },
+                { map.l2("su"),  substitute("visual"),   mode = { "x" }, desc = "substitute" },
             }
         end,
         config = true,
@@ -141,11 +115,11 @@ return {
         keys = function()
             local function motion_translate() require("pantran").motion_translate({ mode = "hover" }) end
             return {
-                { map.l2("tr"), motion_translate, mode = { "n" }, desc = "translate" },
-                { map.l2("trr"), map.l2("tr_"), mode = { "n" }, desc = "translate line" },
-                { map.l2("tR"), map.l2("tr$"), mode = { "n" }, desc = "translate eol" },
+                { map.l2("tr"),  motion_translate,   mode = { "n" }, desc = "translate" },
+                { map.l2("trr"), map.l2("tr_"),      mode = { "n" }, desc = "translate line" },
+                { map.l2("tR"),  map.l2("tr$"),      mode = { "n" }, desc = "translate eol" },
                 { map.l2("tro"), "<CMD>Pantran<CR>", mode = { "n" }, desc = "open pantran" },
-                { map.l2("tr"), motion_translate, mode = { "x" }, desc = "translate" },
+                { map.l2("tr"),  motion_translate,   mode = { "x" }, desc = "translate" },
             }
         end,
         opts = function()
@@ -184,13 +158,18 @@ return {
         },
     },
     {
-        "rmagatti/auto-session",
-        lazy = false,
-        opts = {
-            log_level = "error",
-            pre_save_cmds = { drawer.close_all },
-            auto_session_supress_dirs = { "/", "~/", "~/projects", "~/Downloads" },
+        "Shatur/neovim-session-manager",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
         },
+        lazy = false,
+        config = function()
+            local session_manager = require("session_manager")
+            local config = require("session_manager.config")
+            session_manager.setup({
+                autoload_mode = config.AutoloadMode.CurrentDir
+            })
+        end
     },
     {
         "stevearc/overseer.nvim",
@@ -205,7 +184,7 @@ return {
         end,
         keys = {
             { drawer.with_prefix_key("o"), function() drawer.open("overseer") end, desc = "open overseer" },
-            { map.l2("ovr"), "<CMD>OverseerRun<CR>", mode = { "n" } },
+            { map.l2("ovr"),               "<CMD>OverseerRun<CR>",                 mode = { "n" } },
             {
                 map.l2("ovl"),
                 function()

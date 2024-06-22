@@ -80,6 +80,7 @@ return {
             "hrsh7th/cmp-path",
             "onsails/lspkind.nvim",
             "lukas-reineke/cmp-under-comparator",
+            "folke/lazydev.nvim",
         },
         config = function()
             local cmp = require("cmp")
@@ -135,6 +136,7 @@ return {
                     { name = "path" },
                     { name = "buffer" },
                     { name = "treesitter" },
+                    { name = "lazydev",   group_index = 0 },
                 })),
                 completion = {
                     completeopt = "menuone",
@@ -233,7 +235,7 @@ return {
         },
     },
     {
-        "glepnir/lspsaga.nvim",
+        "nvimdev/lspsaga.nvim",
         cmd = "Lspsaga",
         config = function()
             local saga = require("lspsaga")
@@ -264,7 +266,7 @@ return {
                     },
                 },
                 symbol_in_winbar = {
-                    enable = true,
+                    enable = false,
                 },
             })
 
@@ -291,15 +293,21 @@ return {
         end,
     },
     {
-        "folke/neodev.nvim",
-        dependencies = { "williamboman/mason.nvim" },
+        "folke/lazydev.nvim",
+        dependencies = {
+            -- `require("neoconf").setup()` should be run **BEFORE** setting up
+            -- any lsp server with lspconfig
+            { "folke/neoconf.nvim", optional = true },
+        },
         ft = "lua",
         event = "VeryLazy",
         config = function()
+            local lazydev = require("lazydev")
             local lsp = require("keke.utils.lsp")
+            local lspconfig = require("lspconfig")
 
-            require("neodev").setup()
-            require("lspconfig").lua_ls.setup(lsp.default_config)
+            lazydev.setup()
+            lspconfig.lua_ls.setup(lsp.default_config)
         end,
     },
     {

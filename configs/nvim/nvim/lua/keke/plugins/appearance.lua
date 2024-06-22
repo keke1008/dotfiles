@@ -2,13 +2,8 @@ return {
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
-        init = function()
-            -- vim.opt.list = true
-            -- vim.opt.listchars:append("space:⋅")
-            -- vim.opt.listchars:append("eol:↴")
-        end,
         event = "UIEnter",
-        config = {
+        opts = {
             scope = {
                 show_start = false,
                 show_end = false,
@@ -24,6 +19,7 @@ return {
         "nvim-lualine/lualine.nvim",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
+            "folke/tokyonight.nvim",
             { "folke/noice.nvim", optional = true },
         },
         event = "UIEnter",
@@ -73,6 +69,43 @@ return {
         end,
     },
     {
+        "romgrk/barbar.nvim",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+            { "lewis6991/gitsigns.nvim", optional = true },
+        },
+        event = "UIEnter",
+        keys = {
+            { "[b",         "<CMD>BufferPrev<CR>" },
+            { "]b",         "<CMD>BufferNext<CR>" },
+            { "{B",         "<CMD>BufferMovePrevious<CR>" },
+            { "}B",         "<CMD>BufferMoveNext<CR>" },
+            { "<leader>bd", "<CMD>BufferClose<CR>" },
+            { "<leader>bD", "<CMD>BufferCloseBuffersRight<CR>" },
+            { "<leader>bU", "<CMD>BufferCloseBuffersLeft<CR>" },
+            { "<leader>bo", "<CMD>BufferCloseAllButCurrentOrPinned<CR>" },
+            { "<leader>bO", "<CMD>BufferCloseAllButCurrent<CR>" },
+            { "<leader>bP", "<CMD>BufferCloseAllButPinned<CR>" },
+            { "<leader>bp", "<CMD>BufferPin<CR>" },
+            { "<leader>bs", "<CMD>BufferPick<CR>" },
+            { "<leader>b^", "<CMD>BufferFirst<CR>" },
+            { "<leader>b$", "<CMD>BufferLast<CR>" },
+            { "<leader>b1", "<CMD>BufferGoto 1<CR>" },
+            { "<leader>b2", "<CMD>BufferGoto 2<CR>" },
+            { "<leader>b3", "<CMD>BufferGoto 3<CR>" },
+            { "<leader>b4", "<CMD>BufferGoto 4<CR>" },
+            { "<leader>b5", "<CMD>BufferGoto 5<CR>" },
+            { "<leader>b6", "<CMD>BufferGoto 6<CR>" },
+            { "<leader>b7", "<CMD>BufferGoto 7<CR>" },
+            { "<leader>b8", "<CMD>BufferGoto 8<CR>" },
+            { "<leader>b9", "<CMD>BufferGoto 9<CR>" },
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            animation = false,
+        },
+    },
+    {
 
         "lewis6991/gitsigns.nvim",
         event = "UIEnter",
@@ -98,10 +131,11 @@ return {
         opts = {
             style = "night",
             transparent = true,
-            on_colors = function(colors)
-                vim.cmd.highlight("WinSeparator", "guifg=" .. colors.blue0)
-                vim.cmd.highlight("FloatBorder", "guibg=NONE")
-            end,
+            styles = {
+                sidebar = "transparent",
+                floats = "transparent",
+            },
+            on_colors = function(colors) vim.cmd.highlight("WinSeparator", "guifg=" .. colors.blue0) end,
         },
     },
 }

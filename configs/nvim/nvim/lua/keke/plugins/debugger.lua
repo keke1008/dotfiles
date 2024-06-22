@@ -137,6 +137,9 @@ return {
     },
     {
         "mfussenegger/nvim-dap-python",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+        },
         ft = "python",
         config = function()
             local dap_python = require("dap-python")
