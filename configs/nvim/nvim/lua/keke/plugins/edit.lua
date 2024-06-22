@@ -40,7 +40,7 @@ return {
                 })
             end
             return {
-                { ",", leap_tabpage, mode = { "n", "x" }, desc = "leap tabpage" },
+                { ",", leap_tabpage, mode = { "n", "x", "o" }, desc = "leap tabpage" },
                 { "<C-l>", leap_tabpage, mode = { "i", "s" }, desc = "leap tabpage" },
             }
         end,

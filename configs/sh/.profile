@@ -35,6 +35,7 @@ append_path_if_exists "$HOME/.cargo/bin"
 append_path_if_exists "$HOME/.deno/bin"
 append_path_if_exists "$HOME/.luarocks/bin"
 append_path_if_exists "$HOME/.go/bin"
+append_path_if_exists "$HOME/.tfenv/bin"
 append_path_if_exists "$HOME/.fly/bin" # fly.io
 append_path_if_exists "/snap/bin"
 
