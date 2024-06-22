@@ -63,9 +63,6 @@ return {
                 tabline = {},
                 extensions = {},
             })
-
-            vim.cmd("highlight lualine_c_inactive guibg=NONE")
-            vim.cmd("highlight lualine_c_normal guibg=NONE")
         end,
     },
     {
@@ -132,10 +129,13 @@ return {
             style = "night",
             transparent = true,
             styles = {
-                sidebar = "transparent",
+                sidebars = "transparent",
                 floats = "transparent",
             },
-            on_colors = function(colors) vim.cmd.highlight("WinSeparator", "guifg=" .. colors.blue0) end,
+            on_colors = function(colors)
+                colors.border = colors.blue0
+                colors.bg_statusline = colors.none
+            end,
         },
     },
 }
