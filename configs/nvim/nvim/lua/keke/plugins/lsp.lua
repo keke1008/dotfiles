@@ -253,9 +253,6 @@ return {
         ft = "rust",
         init = function()
             vim.g.rustaceanvim = function()
-                local mason_registry = require("mason-registry")
-                local cfg = require("rustaceanvim.config")
-
                 return {
                     server = {
                         on_attach = function(_, bufnr)
@@ -266,17 +263,6 @@ return {
                         end,
                         capabilities = lsp_setup_config().capabilities,
                     },
-                    dap = (function()
-                        if not mason_registry.is_installed("codelldb") then
-                            return
-                        end
-
-                        local install_path = mason_registry.get_package("codelldb"):get_install_path()
-                        local codelldb_path = install_path .. "/extension/adapter/codelldb"
-                        local liblldb_path = install_path .. "/extension/lldb/lib/liblldb.so"
-
-                        return { adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path) }
-                    end)(),
                 }
             end
         end,
