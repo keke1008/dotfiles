@@ -1,34 +1,112 @@
 local drawer = require("drawer")
+local map = require("keke.utils.mapping")
+
+
+local lsp_setup_config = (function()
+    local default_config = nil
+
+    local function init_default_config()
+        if default_config ~= nil then return end
+
+        local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+        if not ok then
+            vim.notify("com_nvim_lsp is not loaded", vim.log.levels.ERROR)
+            return
+        end
+
+        local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+        local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
+        default_config = {
+            capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities),
+        }
+    end
+
+    ---@param overrides table | nil
+    ----@return table
+    return function(overrides)
+        overrides = overrides or {}
+        init_default_config()
+        return vim.tbl_deep_extend("force", default_config, overrides)
+    end
+end)()
 
 return {
     {
-        "williamboman/mason.nvim",
+        "neovim/nvim-lspconfig",
         dependencies = {
+            -- `require("neoconf").setup()` should be run **BEFORE** setting up
+            -- any lsp server with lspconfig
             { "folke/neoconf.nvim", config = true },
-            "williamboman/mason-lspconfig.nvim",
+        },
+        config = function()
+            local function format()
+                local null_ls_client = vim.lsp.get_clients({
+                    name = "null-ls",
+                    buffer = vim.api.nvim_get_current_buf(),
+                })[1]
+                if null_ls_client and null_ls_client.supports_method("textDocument/formatting") then
+                    vim.lsp.buf.format({ id = null_ls_client.id })
+                else
+                    vim.lsp.buf.format({})
+                end
+            end
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("keke_lsp_setting_lsp_attach", {}),
+                desc = "Setup LSP settings for buffer",
+                callback = function(args)
+                    local bufnr = args.buf
+                    local opts = { buffer = bufnr, silent = true }
+
+                    map.add_group("<leader>l", "Lsp", bufnr)
+                    vim.keymap.set("n", "<leader>lf", format, map.add_desc(opts, "Format"))
+                    vim.keymap.set("n", "<leader>lc", vim.lsp.codelens.run, map.add_desc(opts, "Run codelens"))
+
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = vim.api.nvim_create_augroup("keke_lsp_format_bufwritepre_" .. bufnr, {}),
+                        desc = "Format on save",
+                        buffer = bufnr,
+                        callback = format,
+                    })
+
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    if client and client.supports_method("textDocument/codeLens") then
+                        vim.api.nvim_create_autocmd("InsertLeave", {
+                            group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, {}),
+                            desc = "Refresh codelens",
+                            buffer = bufnr,
+                            callback = vim.lsp.codelens.refresh,
+                        })
+                        vim.api.nvim_buf_call(bufnr, vim.lsp.codelens.refresh)
+                    end
+                end,
+            })
+        end
+
+    },
+    {
+        "williamboman/mason-lspconfig.nvim",
+        dependencies = {
+            "williamboman/mason.nvim",
             "neovim/nvim-lspconfig",
             "hrsh7th/cmp-nvim-lsp",
         },
         event = "VeryLazy",
         config = function()
-            local mason = require("mason")
             local mason_lspconfig = require("mason-lspconfig")
             local lspconfig = require("lspconfig")
             local root_pattern = require("lspconfig.util").root_pattern
-            local lsp = require("keke.utils.lsp")
 
-            mason.setup()
             mason_lspconfig.setup()
-
             mason_lspconfig.setup_handlers({
-                function(server_name) lspconfig[server_name].setup(lsp.default_config) end,
+                function(server_name) lspconfig[server_name].setup(lsp_setup_config()) end,
                 ["denols"] = function(_)
-                    lspconfig.denols.setup(lsp.extend_default_config({
+                    lspconfig.denols.setup(lsp_setup_config({
                         root_dir = root_pattern("deno.json", "deno.jsonc"),
                     }))
                 end,
                 ["clangd"] = function(_)
-                    lspconfig.clangd.setup(lsp.extend_default_config({
+                    lspconfig.clangd.setup(lsp_setup_config({
                         on_attach = function(_, bufnr)
                             local opts = { buffer = bufnr, silent = true }
                             vim.keymap.set("n", "<leader>ls", "<CMD>ClangdSwitchSourceHeader<CR>", opts)
@@ -36,177 +114,14 @@ return {
                     }))
                 end,
                 ["lua_ls"] = function(_)
-                    -- neodev.nvim
+                    -- lazydev.nvim
                 end,
                 ["tsserver"] = function(_)
                     -- typescript.nvim
                 end,
-            })
-        end,
-    },
-    {
-        "L3MON4D3/LuaSnip",
-        dependencies = { "rafamadriz/friendly-snippets" },
-        event = "InsertEnter",
-        config = function()
-            local loader = require("luasnip.loaders.from_vscode")
-
-            loader.lazy_load()
-
-            local ls = require("luasnip")
-            local s = ls.snippet
-            local t = ls.text_node
-            local i = ls.insert_node
-
-            -- stylua: ignore
-            ls.add_snippets("lua", {
-                s("module", {
-                    t({ "local M = {}", "" }),
-                    t("\t"), i(0),
-                    t({ "", "return M" }),
-                }),
-            })
-        end,
-    },
-    {
-        "hrsh7th/nvim-cmp",
-        event = { "InsertEnter", "CmdLineEnter" },
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "saadparwaiz1/cmp_luasnip",
-            "hrsh7th/cmp-cmdline",
-            "hrsh7th/cmp-buffer",
-            "ray-x/cmp-treesitter",
-            "hrsh7th/cmp-path",
-            "onsails/lspkind.nvim",
-            "lukas-reineke/cmp-under-comparator",
-            "folke/lazydev.nvim",
-        },
-        config = function()
-            local cmp = require("cmp")
-            local compare = cmp.config.compare
-            local luasnip = require("luasnip")
-            local lspkind = require("lspkind")
-            local compare_under_score = require("cmp-under-comparator").under
-
-            local luasnip_jump_prev = function() return luasnip.jump(-1) end
-            local luasnip_jump_next = function() return luasnip.jump(1) end
-
-            vim.keymap.set("n", "<C-j>", luasnip_jump_next, { desc = "luasnip jump next" })
-            vim.keymap.set("n", "<C-k>", luasnip_jump_prev, { desc = "luasnip jump prev" })
-
-            ---@param action fun()
-            ---@return function
-            local try_remap = function(action)
-                return function(fallback)
-                    if not action() then
-                        fallback()
-                    end
-                end
-            end
-
-            local remap_complete_or = function(action)
-                return function()
-                    if cmp.visible() then
-                        action()
-                    else
-                        cmp.complete()
-                    end
-                end
-            end
-
-            local remap_mode = { "i", "s", "c" }
-
-            local format = lspkind.cmp_format({ mode = "symbol_text" })
-
-            local function apply_priority(sources)
-                for index, source in ipairs(sources) do
-                    source.priority = #sources - index + 1
-                end
-                return sources
-            end
-
-            cmp.setup({
-                snippet = {
-                    expand = function(args) luasnip.lsp_expand(args.body) end,
-                },
-                sources = cmp.config.sources(apply_priority({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "path" },
-                    { name = "buffer" },
-                    { name = "treesitter" },
-                    { name = "lazydev",   group_index = 0 },
-                })),
-                completion = {
-                    completeopt = "menuone",
-                },
-                mapping = {
-                    ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), remap_mode),
-                    ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), remap_mode),
-                    ["<C-j>"] = cmp.mapping(try_remap(luasnip_jump_next), remap_mode),
-                    ["<C-k>"] = cmp.mapping(try_remap(luasnip_jump_prev), remap_mode),
-                    ["<C-p>"] = cmp.mapping(remap_complete_or(cmp.select_prev_item), remap_mode),
-                    ["<C-n>"] = cmp.mapping(remap_complete_or(cmp.select_next_item), remap_mode),
-                    ["<CR>"] = cmp.mapping(try_remap(cmp.confirm), { "i", "s" }),
-                    ["<C-e>"] = cmp.mapping(function()
-                        cmp.abort()
-                        vim.api.nvim_input("<CR>")
-                    end, remap_mode),
-                },
-                formatting = {
-                    fields = { "kind", "abbr", "menu" },
-                    format = function(entry, vim_item)
-                        local kind = format(entry, vim_item)
-                        local strings = vim.split(kind.kind, "%s", { trimempty = true })
-                        kind.kind = strings[1]
-                        kind.menu = strings[2]
-                        return kind
-                    end,
-                },
-                window = {
-                    completion = cmp.config.window.bordered({
-                        border = "none",
-                        col_offset = -2,
-                    }),
-                    documentation = cmp.config.window.bordered({
-                        winhighlight = "",
-                        side_padding = 2,
-                    }),
-                },
-                sorting = {
-                    comparator = {
-                        compare.offset,
-                        compare.exact,
-                        compare.score,
-                        compare_under_score,
-                        compare.recently_used,
-                        compare.locality,
-                        compare.kind,
-                        compare.sort_text,
-                        compare.length,
-                        compare.order,
-                    },
-                },
-            })
-
-            cmp.setup.cmdline(":", {
-                mapping = {
-                    ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
-                },
-                sources = {
-                    { name = "cmdline" },
-                    { name = "path" },
-                },
-            })
-
-            cmp.setup.cmdline("/", {
-                mapping = {
-                    ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
-                },
-                sources = {
-                    { name = "buffer" },
-                },
+                ["rust_analyzer"] = function(_)
+                    -- rustaceanvim
+                end,
             })
         end,
     },
@@ -237,44 +152,61 @@ return {
     {
         "nvimdev/lspsaga.nvim",
         cmd = "Lspsaga",
-        config = function()
-            local saga = require("lspsaga")
+        init = function()
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("keke_lspsaga_lsp_attach", {}),
+                desc = "Lspsaga buffer local configs",
+                callback = function(args)
+                    local bufnr = args.buf
+                    local opts = { buffer = bufnr, silent = true }
 
-            saga.setup({
-                ui = {
-                    border = "rounded",
-                },
-                lightbulb = {
-                    enable = false,
-                },
-                finder = {
-                    open = "e",
-                    vsplit = "v",
-                    split = "i",
-                    tabe = "t",
-                    quit = "<ESC>",
-                },
-                definition = {
-                    edit = "<leader>:e",
-                    vsplit = "<leader>:v",
-                    split = "<leader>:s",
-                    tabe = "<leader>:t",
-                },
-                outline = {
-                    keys = {
-                        jump = "e",
-                    },
-                },
-                symbol_in_winbar = {
-                    enable = false,
-                },
+                    vim.keymap.set("n", "gd", "<CMD>Lspsaga goto_definition<CR>", opts)
+                    vim.keymap.set("n", "gr", "<CMD>Lspsaga finder<CR>", opts)
+                    vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
+                    vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
+                    vim.keymap.set("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", opts)
+                    vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
+                    vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
+                    vim.keymap.set("n", "<leader>le", "<CMD>Lspsaga show_cursor_diagnostics<CR>", opts)
+                    vim.keymap.set("n", "<leader>lp", "<CMD>Lspsaga peek_definition<CR>", opts)
+                    vim.keymap.set("n", "<leader>li", "<CMD>Lspsaga incoming_calls<CR>", opts)
+                    vim.keymap.set("n", "<leader>lo", "<CMD>Lspsaga outgoing_calls<CR>", opts)
+                end,
             })
-
-            vim.api.nvim_set_hl(0, "SagaBorder", { link = "FloatBorder" })
         end,
+        opts = {
+            ui = {
+                border = "rounded",
+            },
+            lightbulb = {
+                enable = false,
+            },
+            finder = {
+                open = "e",
+                vsplit = "v",
+                split = "i",
+                tabe = "t",
+                quit = "<ESC>",
+            },
+            definition = {
+                edit = "<leader>:e",
+                vsplit = "<leader>:v",
+                split = "<leader>:s",
+                tabe = "<leader>:t",
+            },
+            outline = {
+                keys = {
+                    jump = "e",
+                },
+            },
+            symbol_in_winbar = {
+                enable = false,
+            },
+        },
     },
     {
         "petertriho/nvim-scrollbar",
+        event = "BufEnter",
         opts = function()
             local colors = require("tokyonight.colors").setup()
             return {
@@ -295,28 +227,27 @@ return {
     {
         "folke/lazydev.nvim",
         dependencies = {
-            -- `require("neoconf").setup()` should be run **BEFORE** setting up
-            -- any lsp server with lspconfig
             { "folke/neoconf.nvim", optional = true },
         },
         ft = "lua",
         event = "VeryLazy",
         config = function()
             local lazydev = require("lazydev")
-            local lsp = require("keke.utils.lsp")
             local lspconfig = require("lspconfig")
 
             lazydev.setup()
-            lspconfig.lua_ls.setup(lsp.default_config)
+            lspconfig.lua_ls.setup(lsp_setup_config())
         end,
     },
     {
         "mrcjkb/rustaceanvim",
+        dependencies = {
+            "nvim-lspconfig",
+        },
         version = "^4",
         ft = "rust",
         init = function()
             vim.g.rustaceanvim = function()
-                local lsp = require("keke.utils.lsp")
                 local mason_registry = require("mason-registry")
                 local cfg = require("rustaceanvim.config")
 
@@ -328,7 +259,7 @@ return {
                             vim.keymap.set("n", "<leader>lD", "<CMD>RustLsp renderDiagnostic<CR>", opts)
                             vim.keymap.set("n", "<leader>lE", "<CMD>RustLsp explainError<CR>", opts)
                         end,
-                        default_settings = { ["rust-analyzer"] = lsp.default_config },
+                        capabilities = lsp_setup_config().capabilities,
                     },
                     dap = (function()
                         if not mason_registry.is_installed("codelldb") then
@@ -357,13 +288,14 @@ return {
     },
     {
         "jose-elias-alvarez/typescript.nvim",
-        dependencies = { "williamboman/mason.nvim" },
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "williamboman/mason.nvim",
+        },
         ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
         config = function()
             local util = require("lspconfig.util")
             local typescript = require("typescript")
-
-            local lsp = require("keke.utils.lsp")
 
             local is_deno_project = util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd())
             if is_deno_project then
@@ -371,7 +303,7 @@ return {
             end
 
             typescript.setup({
-                server = lsp.extend_default_config({
+                server = lsp_setup_config({
                     root_dir = util.find_package_json_ancestor,
                     on_attach = function(_, bufnr)
                         vim.keymap.set(
@@ -400,12 +332,8 @@ return {
         ft = "dart",
         config = function()
             local flutter_tools = require("flutter-tools")
-            local lsp = require("keke.utils.lsp")
 
             flutter_tools.setup({
-                lsp = {
-                    capabilities = lsp.default_config.capabilities,
-                },
                 flutter_lookup_cmd = vim.fn.executable("asdf") and "asdf where flutter",
             })
 

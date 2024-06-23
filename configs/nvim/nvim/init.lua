@@ -71,6 +71,13 @@ vim.keymap.set(
 )
 vim.keymap.set("n", drawer.with_prefix_key("H"), drawer.close_all, { desc = "close all drawers" })
 
+vim.fn.sign_define({
+    { name = "DiagnosticSignError", text = "", texthl = "DiagnosticSignError" },
+    { name = "DiagnosticSignWarn", text = "", texthl = "DiagnosticSignWarn" },
+    { name = "DiagnosticSignInformation", text = "", texthl = "DiagnosticSignInformation" },
+    { name = "DiagnosticSignHint", text = "", texthl = "DiagnosticSignHint" },
+})
+
 -- Set clipboard configs manually
 require("keke.clipboard")
 
@@ -87,6 +94,11 @@ vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()
         end
     end
 end, { desc = "Wipe invisible buffers" })
+
+vim.api.nvim_create_user_command("W", function(opt)
+    local cmd = opt.bang and "w!" or "w"
+    vim.cmd("noautocmd " .. cmd)
+end, { bang = true, desc = "Write the buffer without autocmd" })
 
 if vim.g.vscode then
     require("keke.vscode")
