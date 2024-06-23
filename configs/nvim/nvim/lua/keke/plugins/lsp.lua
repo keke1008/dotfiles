@@ -1,12 +1,13 @@
 local drawer = require("drawer")
 local map = require("keke.utils.mapping")
 
-
 local lsp_setup_config = (function()
     local default_config = nil
 
     local function init_default_config()
-        if default_config ~= nil then return end
+        if default_config ~= nil then
+            return
+        end
 
         local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
         if not ok then
@@ -39,24 +40,25 @@ return {
             { "folke/neoconf.nvim", config = true },
         },
         config = function()
-            local function format()
-                local null_ls_client = vim.lsp.get_clients({
-                    name = "null-ls",
-                    buffer = vim.api.nvim_get_current_buf(),
-                })[1]
-                if null_ls_client and null_ls_client.supports_method("textDocument/formatting") then
-                    vim.lsp.buf.format({ id = null_ls_client.id })
-                else
-                    vim.lsp.buf.format({})
-                end
-            end
-
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("keke_lsp_setting_lsp_attach", {}),
                 desc = "Setup LSP settings for buffer",
                 callback = function(args)
                     local bufnr = args.buf
                     local opts = { buffer = bufnr, silent = true }
+
+                    local function format()
+                        local null_ls_client = vim.lsp.get_clients({
+                            name = "null-ls",
+                            buffer = bufnr,
+                            method = "textDocument/formatting",
+                        })[1]
+                        if null_ls_client then
+                            vim.lsp.buf.format({ id = null_ls_client.id })
+                        else
+                            vim.lsp.buf.format({})
+                        end
+                    end
 
                     map.add_group("<leader>l", "Lsp", bufnr)
                     vim.keymap.set("n", "<leader>lf", format, map.add_desc(opts, "Format"))
@@ -69,20 +71,23 @@ return {
                         callback = format,
                     })
 
-                    local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    if client and client.supports_method("textDocument/codeLens") then
-                        vim.api.nvim_create_autocmd("InsertLeave", {
-                            group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, {}),
-                            desc = "Refresh codelens",
-                            buffer = bufnr,
-                            callback = vim.lsp.codelens.refresh,
-                        })
-                        vim.api.nvim_buf_call(bufnr, vim.lsp.codelens.refresh)
+                    local function refresh_codelens()
+                        local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
+                        if #client > 0 then
+                            vim.lsp.codelens.refresh({ bufnr = bufnr })
+                        end
                     end
+
+                    vim.api.nvim_create_autocmd("InsertLeave", {
+                        group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, {}),
+                        desc = "Refresh codelens",
+                        buffer = bufnr,
+                        callback = refresh_codelens,
+                    })
+                    refresh_codelens()
                 end,
             })
-        end
-
+        end,
     },
     {
         "williamboman/mason-lspconfig.nvim",
