@@ -43,12 +43,14 @@
 
     ps = push
     psf = push --force-with-lease --force-if-includes
+    psuo = push -u origin @
 
     r = reset
     rs = reset --soft
     rh = reset --hard
 
     rr = restore
+    rrs = restore --staged
 
     rb = rebase
     rbi = rebase -i
@@ -60,6 +62,7 @@
 
     si = switch
     sic = switch -c
+    sid = switch --detach
 
     sh = stash
     shu = stash -u
