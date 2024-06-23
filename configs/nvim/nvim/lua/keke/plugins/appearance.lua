@@ -69,22 +69,21 @@ return {
         "romgrk/barbar.nvim",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
-            { "lewis6991/gitsigns.nvim", optional = true },
         },
         event = "UIEnter",
         keys = {
-            { "[b",         "<CMD>BufferPrev<CR>" },
-            { "]b",         "<CMD>BufferNext<CR>" },
-            { "{B",         "<CMD>BufferMovePrevious<CR>" },
-            { "}B",         "<CMD>BufferMoveNext<CR>" },
-            { "<leader>bd", "<CMD>BufferClose<CR>" },
+            { "[b", "<CMD>BufferPrev<CR>" },
+            { "]b", "<CMD>BufferNext<CR>" },
+            { "{B", "<CMD>BufferMovePrevious<CR>" },
+            { "}B", "<CMD>BufferMoveNext<CR>" },
+            { "<leader>bb", "<CMD>BufferClose<CR>" },
             { "<leader>bD", "<CMD>BufferCloseBuffersRight<CR>" },
             { "<leader>bU", "<CMD>BufferCloseBuffersLeft<CR>" },
             { "<leader>bo", "<CMD>BufferCloseAllButCurrentOrPinned<CR>" },
             { "<leader>bO", "<CMD>BufferCloseAllButCurrent<CR>" },
             { "<leader>bP", "<CMD>BufferCloseAllButPinned<CR>" },
             { "<leader>bp", "<CMD>BufferPin<CR>" },
-            { "<leader>bs", "<CMD>BufferPick<CR>" },
+            { "<leader>bf", "<CMD>BufferPick<CR>" },
             { "<leader>b^", "<CMD>BufferFirst<CR>" },
             { "<leader>b$", "<CMD>BufferLast<CR>" },
             { "<leader>b1", "<CMD>BufferGoto 1<CR>" },
@@ -133,8 +132,18 @@ return {
                 floats = "transparent",
             },
             on_colors = function(colors)
-                colors.border = colors.blue0
+                colors.border = colors.blue7
                 colors.bg_statusline = colors.none
+            end,
+            on_highlights = function(highlights, colors)
+                -- barbar.nvim
+                highlights["BufferTabpageFill"].bg = colors.none
+                highlights["BufferCurrentSign"].fg = colors.info
+                highlights["BufferVisibleSign"].fg = colors.blue7
+                highlights["BufferInactiveSign"].fg = colors.blue7
+
+                -- indent-blankline.nvim
+                highlights["IblScope"].fg = colors.blue0
             end,
         },
     },
