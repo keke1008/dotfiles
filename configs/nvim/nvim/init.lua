@@ -1,6 +1,7 @@
 _G.is_in_terminal = (not vim.g.vscode) and not vim.g.started_by_firenvim
 
 vim.o.number = true
+vim.o.relativenumber = true
 vim.o.cursorline = true
 vim.o.cursorcolumn = true
 vim.o.signcolumn = "yes"
@@ -83,6 +84,18 @@ require("keke.clipboard")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function() vim.highlight.on_yank({ timeout = 200 }) end,
+})
+
+vim.api.nvim_create_autocmd("CmdlineEnter", {
+    callback = function()
+        vim.o.relativenumber = false
+    end
+})
+
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+    callback = function()
+        vim.o.relativenumber = true
+    end
 })
 
 vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()
