@@ -122,6 +122,12 @@ return {
         },
     },
     {
+        "akinsho/git-conflict.nvim",
+        version = "*",
+        lazy = false,
+        config = true,
+    },
+    {
         "folke/tokyonight.nvim",
         init = function() vim.cmd.colorscheme("tokyonight") end,
         opts = {
