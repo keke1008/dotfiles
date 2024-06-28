@@ -19,6 +19,7 @@ alias dc "docker compose"
 alias kc "kubectl"
 alias be "bundle exec"
 alias bi "bundle install"
+alias tf "terraform"
 if not type -q vim
     alias vim "vi"
 end
