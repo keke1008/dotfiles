@@ -86,16 +86,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function() vim.highlight.on_yank({ timeout = 200 }) end,
 })
 
-vim.api.nvim_create_autocmd("CmdlineEnter", {
-    callback = function()
-        vim.o.relativenumber = false
+local function set_relativenumber(value)
+    return function()
+        local is_number_shown = vim.api.nvim_get_option_value("number", {})
+        if is_number_shown then
+            vim.api.nvim_set_option_value("relativenumber", value, {})
+        end
     end
+end
+
+vim.api.nvim_create_autocmd("CmdlineEnter", {
+    callback = set_relativenumber(false),
 })
 
 vim.api.nvim_create_autocmd("CmdlineLeave", {
-    callback = function()
-        vim.o.relativenumber = true
-    end
+    callback = set_relativenumber(true),
 })
 
 vim.api.nvim_create_user_command("WipeInvisibleBuffers", function()
