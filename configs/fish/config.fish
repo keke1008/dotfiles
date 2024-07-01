@@ -65,6 +65,11 @@ end
 bind \cj 'ctrl_j_popd'
 bind \ck 'ctrl_k_pushd'
 
+# direnv
+if type -q direnv
+    eval (direnv hook fish)
+end
+
 
 
 # bobthefish

@@ -35,6 +35,11 @@ zle -N ctrl_k_pushd
 bindkey "^J" ctrl_j_popd
 bindkey "^K" ctrl_k_pushd
 
+# direnv
+if command -v "direnv" >/dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
 zstyle :compinstall filename "$HOME/.zshrc"
 autoload -Uz compinit
 compinit

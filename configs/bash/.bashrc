@@ -50,6 +50,11 @@ ctrl_j_popd() {
 bind '"\C-k":"\C-a ctrl_k_pushd \C-m"'
 bind '"\C-j":"\C-a ctrl_j_popd \C-m"'
 
+# direnv
+if command -v "direnv" >/dev/null; then
+    eval "$(direnv hook bash)"
+fi
+
 PS1='\[\e[32m\]\u\[\e[32m\]@\[\e[32m\]\h \[\e[34m\]\w \[\e[35m\]exit: $?, jobs: \j \[\e[36m\]$(git branch 2>/dev/null | grep '"'"'*'"'"' | colrm 1 2 | xargs -I {} echo "({})")\n\[\e[38;5;242m\]\$ \[\e[0m\]'
 
 local_rc="${DOTFILES_LOCAL_HOME}/bash/local_rc.sh"
