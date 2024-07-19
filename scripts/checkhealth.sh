@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+. "${DOTPATH}/scripts/lib/config_directory.sh"
+
 abort() {
 	echo "Error: " "$@"
 	exit 1
@@ -128,9 +130,10 @@ run_checkhealth_single_config() {
 }
 
 main() {
-	for dir in "${DOTPATH}/configs/"*; do
+	config_directories=$(enumerate_config_directory "$@" | filter_file_exists "checkhealth.sh")
+	for dir in $config_directories; do
 		run_checkhealth_single_config "${dir}"
 	done
 }
 
-main
+main "$@"
