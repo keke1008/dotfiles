@@ -5,6 +5,7 @@
 ## Installation
 
 ```sh
-$ git clone https://github.com/keke1008/dotfiles.git
-$ ./dotfiles/dot install
+git clone https://github.com/keke1008/dotfiles.git
+cd ./dotfiles
+./dot install
 ```
