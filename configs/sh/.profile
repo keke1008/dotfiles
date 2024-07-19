@@ -4,7 +4,7 @@ else
 	echo "Error: Failed to get DOTPATH" >&2
 	return 1
 fi
-. "${DOTPATH}/scripts/init.sh"
+eval "$("${DOTPATH}/dot" shellenv)"
 
 if GPG_TTY=$(tty); then
 	export GPG_TTY

@@ -128,13 +128,6 @@ run_checkhealth_single_config() {
 }
 
 main() {
-	DOTPATH=$(cat "$HOME/.dotpath")
-	if [ -z "${DOTPATH}" ]; then
-		abort "DOTPATH is not set"
-	fi
-
-	. "${DOTPATH}/scripts/init.sh"
-
 	for dir in "${DOTPATH}/configs/"*; do
 		run_checkhealth_single_config "${dir}"
 	done

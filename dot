@@ -1,0 +1,42 @@
+#!/bin/sh
+
+abort() {
+	echo "Error:" "$@" >&2
+	exit 1
+}
+
+bootstrap() {
+	if ! DOTPATH="$(cd "$(dirname "$0")" && pwd)"; then
+		abort "Failed to resolve DOTPATH"
+	fi
+	export DOTPATH
+	echo "${DOTPATH}" >"${HOME}/.dotpath"
+
+	export XDG_CONFIG_HOME="${HOME}/.config"
+	export DOTFILES_CONFIG_HOME="${XDG_CONFIG_HOME}/dotfiles"
+	export DOTFILES_LOCAL_HOME="${DOTFILES_CONFIG_HOME}/local"
+}
+
+execute_script() {
+	subcommand="$1"
+	shift
+
+	if [ -z "${subcommand}" ]; then
+		echo "Usage: $0 <subcommand> [args...]" >&2
+		abort "Subcommand is required"
+	fi
+
+	subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
+	if [ -r "${subcommand_source}" ]; then
+		"${subcommand_source}" "$@"
+	else
+		abort "Unknown subcommand: ${subcommand}"
+	fi
+}
+
+main() {
+	bootstrap
+	execute_script "$@"
+}
+
+main "$@"
