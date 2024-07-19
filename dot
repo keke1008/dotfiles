@@ -5,6 +5,15 @@ abort() {
 	exit 1
 }
 
+export_and_mkdir() {
+	if [ $# -ne 2 ]; then
+		abort "export_and_mkdir requires exactly 2 arguments"
+	fi
+
+	export "$1"="$2"
+	mkdir -p "$2"
+}
+
 bootstrap() {
 	if ! DOTPATH="$(cd "$(dirname "$0")" && pwd)"; then
 		abort "Failed to resolve DOTPATH"
@@ -12,9 +21,9 @@ bootstrap() {
 	export DOTPATH
 	echo "${DOTPATH}" >"${HOME}/.dotpath"
 
-	export XDG_CONFIG_HOME="${HOME}/.config"
-	export DOTFILES_CONFIG_HOME="${XDG_CONFIG_HOME}/dotfiles"
-	export DOTFILES_LOCAL_HOME="${DOTFILES_CONFIG_HOME}/local"
+	export_and_mkdir XDG_CONFIG_HOME "${HOME}/.config"
+	export_and_mkdir DOTFILES_CONFIG_HOME "${XDG_CONFIG_HOME}/dotfiles"
+	export_and_mkdir DOTFILES_LOCAL_HOME "${DOTFILES_CONFIG_HOME}/local"
 }
 
 execute_script() {
