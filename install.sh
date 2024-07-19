@@ -12,14 +12,6 @@ export DOTPATH
 echo "${DOTPATH}" >"${HOME}/.dotpath"
 . "${DOTPATH}/scripts/init.sh"
 
-is_local_config_repo_dirty() {
-	(cd "${DOTFILES_CONFIG_HOME}" && [ -n "$(git status --porcelain)" ])
-}
-
-if is_local_config_repo_dirty; then
-	abort "There are uncommitted changes in the local configuration directory. Please commit or stash them."
-fi
-
 ensure_install_script_file() {
 	if [ $# -ne 1 ]; then
 		abort "Usage: ensure_install_script file_path"
@@ -69,8 +61,3 @@ for dir in $script_dirs; do
 	# shellcheck disable=SC1090
 	. "${file}"
 done
-
-if is_local_config_repo_dirty; then
-	commit_message="Update configuration by executing command: ${0} $*"
-	(cd "${DOTFILES_CONFIG_HOME}" && git add . && git commit -m "${commit_message}")
-fi
