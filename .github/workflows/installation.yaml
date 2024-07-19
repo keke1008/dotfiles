@@ -19,5 +19,5 @@ jobs:
       - name: Print shell
         run: realpath /bin/sh
 
-      - name: Run install.sh
-        run: ./dot install.sh
+      - name: Run installation
+        run: ./dot install
