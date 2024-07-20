@@ -24,6 +24,7 @@ bootstrap() {
 	export_and_mkdir XDG_CONFIG_HOME "${HOME}/.config"
 	export_and_mkdir DOTFILES_CONFIG_HOME "${XDG_CONFIG_HOME}/dotfiles"
 	export_and_mkdir DOTFILES_LOCAL_HOME "${DOTFILES_CONFIG_HOME}/local"
+	export_and_mkdir DOTFILES_ORGINAL_HOME "${DOTFILES_CONFIG_HOME}/original"
 }
 
 execute_script() {

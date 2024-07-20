@@ -18,6 +18,7 @@ main() {
 		XDG_CONFIG_HOME \
 		DOTFILES_CONFIG_HOME \
 		DOTFILES_LOCAL_HOME \
+		DOTFILES_ORGINAL_HOME \
 	"
 
 	for var in $variables; do
