@@ -27,9 +27,8 @@ append_path_if_exists() {
 	fi
 }
 
-if [ ! -d "$HOME/.local/bin" ]; then
-	mkdir -p "$HOME/.local/bin"
-fi
+append_path "$DOTPATH/bin"
+mkdir -p "$HOME/.local/bin"
 append_path "$HOME/.local/bin"
 append_path_if_exists "$HOME/.cargo/bin"
 append_path_if_exists "$HOME/.deno/bin"
