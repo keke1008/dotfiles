@@ -1,4 +1,0 @@
-#!/bin/bash
-
-target_path=$(wslpath -w "${1:-.}")
-explorer.exe "$target_path"

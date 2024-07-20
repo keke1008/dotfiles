@@ -1,0 +1,8 @@
+#!/bin/sh -eu
+
+if [ -z "${DOTPATH}" ]; then
+	echo "DOTPATH is not set" 1>&2
+	exit 1
+fi
+
+"${DOTPATH}/dot" "$@"

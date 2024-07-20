@@ -10,6 +10,15 @@ print_export_variable_command() {
 	echo "export ${key}='${value}'"
 }
 
+prepend_path_lazy() {
+	if [ "$#" -ne 1 ]; then
+		abort "Usage: prepend_path_lazy <path>"
+	fi
+
+	path="$1"
+	echo "export PATH=\"${path}:\${PATH}\""
+}
+
 main() {
 	variables=" \
 		DOTPATH \
@@ -21,6 +30,8 @@ main() {
 	for var in $variables; do
 		print_export_variable_command "$var"
 	done
+
+	prepend_path_lazy "\${DOTPATH}/bin"
 }
 
 main
