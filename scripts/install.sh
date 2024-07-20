@@ -1,5 +1,6 @@
 #!/bin/sh -eu
 
+. "${DOTPATH}/scripts/lib/abort.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
 
 main() {

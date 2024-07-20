@@ -1,5 +1,7 @@
 #!/bin/sh -eu
 
+. "${DOTPATH}/scripts/lib/abort.sh"
+
 print_export_variable_command() {
 	if [ "$#" -ne 1 ]; then
 		abort "Usage: print_export_variable_command <variable_name>"

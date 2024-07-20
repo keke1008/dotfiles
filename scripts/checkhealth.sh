@@ -1,11 +1,7 @@
 #!/bin/bash -eu
 
+. "${DOTPATH}/scripts/lib/abort.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
-
-abort() {
-	echo "Error: " "$@"
-	exit 1
-}
 
 print_colored() {
 	if [ $# -ne 2 ]; then
