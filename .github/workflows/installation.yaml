@@ -21,3 +21,6 @@ jobs:
 
       - name: Run installation
         run: ./dot install
+
+      - name: Run restoration
+        run: ./dot restore
