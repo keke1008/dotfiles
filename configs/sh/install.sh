@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-ln -snfv "$DOTPATH/configs/sh/.profile" "$HOME"
+install_home_config "sh" ".profile"

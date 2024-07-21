@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-ln -snfv "$DOTPATH/configs/nvim/nvim" "$XDG_CONFIG_HOME"
+install_xdg_based_config "nvim"

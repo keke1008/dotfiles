@@ -1,11 +1,10 @@
 #!/bin/sh -eu
 
-create_original_home "gtk"
 for version in 3.0 4.0; do
 	mkdir -p "$XDG_CONFIG_HOME/gtk-${version}"
-	stash_and_link \
+	unlink_and_restore \
 		"gtk" \
 		"${XDG_CONFIG_HOME}/gtk-${version}/settings.ini" \
 		"gtk-${version}-settings.ini"
 done
-mark_stashed "gtk"
+mark_unstashed "gtk"

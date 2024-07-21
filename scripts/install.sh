@@ -2,6 +2,7 @@
 
 . "${DOTPATH}/scripts/lib/abort.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
+. "${DOTPATH}/scripts/lib/install.sh"
 
 main() {
 	config_directories=$(enumerate_config_directory "$@")

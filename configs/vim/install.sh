@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-ln -snfv "$DOTPATH/configs/vim/.vimrc" "$HOME"
+install_home_config "vim" ".vimrc"

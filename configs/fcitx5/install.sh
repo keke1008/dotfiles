@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-ln -snfv "$DOTPATH/configs/fcitx5/fcitx5" "$XDG_CONFIG_HOME"
+install_xdg_based_config "fcitx5"

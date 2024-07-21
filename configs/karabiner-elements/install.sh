@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-ln -snfv "$DOTPATH/configs/karabiner-elements/karabiner" "$XDG_CONFIG_HOME"
+install_xdg_based_config "karabiner-elements" "karabiner"

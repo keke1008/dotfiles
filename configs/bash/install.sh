@@ -1,4 +1,3 @@
 #!/bin/sh -eu
 
-ln -snfv "${DOTPATH}/configs/bash/.bashrc" "${HOME}"
-ln -snfv "${DOTPATH}/configs/bash/.bash_profile" "${HOME}"
+install_home_config "bash" ".bashrc" ".bash_profile"
