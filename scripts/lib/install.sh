@@ -67,6 +67,11 @@ stash_and_link() {
 			abort "The stashed file already exists: ${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
 		fi
 
+		# Check if the destination is already linked to the configuration file
+		if [ "$(readlink -f "${dst}")" = "${DOTPATH}/configs/${name}/${src}" ]; then
+			return
+		fi
+
 		mv "${dst}" "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
 	fi
 
