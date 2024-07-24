@@ -62,14 +62,12 @@ stash_and_link() {
 	local stashed="${4:-${src}}"
 
 	# stash
-	if ! is_stashed "${name}"; then
-		if [ -e "${dst}" ]; then
-			if [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
-				abort "The stashed file already exists: ${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
-			fi
-
-			mv "${dst}" "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
+	if ! is_stashed "${name}" && [ -e "${dst}" ]; then
+		if [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
+			abort "The stashed file already exists: ${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
 		fi
+
+		mv "${dst}" "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
 	fi
 
 	# link
@@ -98,10 +96,8 @@ unlink_and_restore() {
 	fi
 
 	# restore
-	if is_stashed "${name}"; then
-		if [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
-			mv "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" "${dst}"
-		fi
+	if is_stashed "${name}" && [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
+		mv "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" "${dst}"
 	fi
 }
 
