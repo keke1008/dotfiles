@@ -7,4 +7,3 @@ for version in 3.0 4.0; do
 		"${XDG_CONFIG_HOME}/gtk-${version}/settings.ini" \
 		"gtk-${version}-settings.ini"
 done
-mark_unstashed "gtk"

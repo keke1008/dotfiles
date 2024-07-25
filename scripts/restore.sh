@@ -12,7 +12,12 @@ main() {
 	# shellcheck disable=SC2167
 	for config_dirname in $config_dirnames; do
 		# shellcheck disable=SC1090
-		. "$(config_dirname_to_path "${config_dirname}")/restore.sh"
+		if ! . "$(config_dirname_to_path "${config_dirname}")/restore.sh"; then
+			echo "Failed to restore configuration directory: ${config_dirname}" >&2
+			continue
+		fi
+
+		mark_unstashed "${config_dirname}"
 	done
 }
 

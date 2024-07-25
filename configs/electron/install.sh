@@ -1,6 +1,5 @@
 #!/bin/sh -eu
 
-create_original_home "electron"
 for version in 27 28; do
 	stash_and_link \
 		"electron" \
@@ -8,4 +7,3 @@ for version in 27 28; do
 		"electron-flags.conf" \
 		"electron${version}-flags.conf"
 done
-mark_stashed "electron"

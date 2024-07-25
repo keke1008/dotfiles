@@ -120,9 +120,7 @@ install_xdg_based_config() {
 	local name="$1"
 	local src="${2:-${name}}"
 
-	create_original_home "${name}"
 	stash_and_link "${name}" "${XDG_CONFIG_HOME}/${src}" "${src}"
-	mark_stashed "${name}"
 }
 
 # Restore the original file and uninstall the configuration file from the XDG_CONFIG_HOME
@@ -140,7 +138,6 @@ restore_xdg_based_config() {
 	local src="${2:-${name}}"
 
 	unlink_and_restore "${name}" "${XDG_CONFIG_HOME}/${src}" "${src}"
-	mark_unstashed "${name}"
 }
 
 # Install the configuration file to the home directory
@@ -157,12 +154,10 @@ install_home_config() {
 	local name="$1"
 	shift
 
-	create_original_home "${name}"
 	local src
 	for src in "$@"; do
 		stash_and_link "${name}" "${HOME}/${src}" "${src}"
 	done
-	mark_stashed "${name}"
 }
 
 # Restore the original file and uninstall the configuration file from the home directory
@@ -183,5 +178,4 @@ restore_home_config() {
 	for src in "$@"; do
 		unlink_and_restore "${name}" "${HOME}/${src}" "${src}"
 	done
-	mark_unstashed "${name}"
 }

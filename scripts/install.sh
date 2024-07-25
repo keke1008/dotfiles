@@ -14,8 +14,15 @@ main() {
 	local config_dirname
 	# shellcheck disable=SC2167
 	for config_dirname in $config_dirnames; do
+		create_original_home "${config_dirname}"
+
 		# shellcheck disable=SC1090
-		. "$(config_dirname_to_path "${config_dirname}")/install.sh"
+		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
+			echo "Failed to install configuration directory: ${config_dirname}" >&2
+			continue
+		fi
+
+		mark_stashed "${config_dirname}"
 	done
 }
 

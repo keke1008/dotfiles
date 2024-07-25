@@ -6,4 +6,3 @@ for version in 27 28; do
 		"${XDG_CONFIG_HOME}/electron${version}-flags.conf" \
 		"electron${version}-flags.conf"
 done
-mark_unstashed "electron"
