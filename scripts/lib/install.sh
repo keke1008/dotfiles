@@ -158,6 +158,7 @@ install_home_config() {
 	shift
 
 	create_original_home "${name}"
+	local src
 	for src in "$@"; do
 		stash_and_link "${name}" "${HOME}/${src}" "${src}"
 	done
@@ -178,6 +179,7 @@ restore_home_config() {
 	local name="$1"
 	shift
 
+	local src
 	for src in "$@"; do
 		unlink_and_restore "${name}" "${HOME}/${src}" "${src}"
 	done

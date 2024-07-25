@@ -8,6 +8,7 @@ main() {
 	local config_dirnames
 	config_dirnames="$(enumerate_config_dirname "$@" | filter_file_exists "restore.sh")"
 
+	local config_dirname
 	# shellcheck disable=SC2167
 	for config_dirname in $config_dirnames; do
 		# shellcheck disable=SC1090

@@ -129,6 +129,7 @@ main() {
 	local config_dirnames
 	config_dirnames=$(enumerate_config_dirname "$@" | filter_file_exists "checkhealth.sh")
 
+	local config_dirname
 	for config_dirname in $config_dirnames; do
 		run_checkhealth_single_config "$(config_dirname_to_path "${config_dirname}")"
 	done

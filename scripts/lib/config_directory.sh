@@ -17,6 +17,7 @@ enumerate_config_dirname() {
 		dir_paths="$*"
 	fi
 
+	local dir
 	for dir in $dir_paths; do
 		local config_dirname
 		config_dirname="$(basename "${dir}")"
@@ -33,8 +34,10 @@ enumerate_config_dirname() {
 }
 
 check_file_exists() {
-	is_all_file_exists=0
+	local is_all_file_exists=0
+	local dir
 	while read -r dir; do
+		local check_filename
 		for check_filename in "$@"; do
 			local check_file_path
 			check_file_path="$(config_dirname_to_path "${dir}")/${check_filename}"
@@ -49,8 +52,10 @@ check_file_exists() {
 }
 
 check_file_readable() {
-	is_all_file_readable=0
+	local is_all_file_readable=0
+	local dir
 	while read -r dir; do
+		local check_filename
 		for check_filename in "$@"; do
 			local check_file_path
 			check_file_path="$(config_dirname_to_path "${dir}")/${check_filename}"
@@ -65,7 +70,9 @@ check_file_readable() {
 }
 
 filter_file_exists() {
+	local dir
 	while read -r dir; do
+		local filter_filename
 		for filter_filename in "$@"; do
 			if [ -f "$(config_dirname_to_path "${dir}")/${filter_filename}" ]; then
 				echo "${dir}"
@@ -75,7 +82,9 @@ filter_file_exists() {
 }
 
 filter_file_readable() {
+	local dir
 	while read -r dir; do
+		local filter_filename
 		for filter_filename in "$@"; do
 			if [ -r "$(config_dirname_to_path "${dir}")/${filter_filename}" ]; then
 				echo "${dir}"
