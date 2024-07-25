@@ -126,9 +126,11 @@ run_checkhealth_single_config() {
 }
 
 main() {
-	config_directories=$(enumerate_config_directory "$@" | filter_file_exists "checkhealth.sh")
-	for dir in $config_directories; do
-		run_checkhealth_single_config "${dir}"
+	local config_dirnames
+	config_dirnames=$(enumerate_config_dirname "$@" | filter_file_exists "checkhealth.sh")
+
+	for config_dirname in $config_dirnames; do
+		run_checkhealth_single_config "$(config_dirname_to_path "${config_dirname}")"
 	done
 }
 

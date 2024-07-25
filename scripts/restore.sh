@@ -5,12 +5,13 @@
 . "${DOTPATH}/scripts/lib/install.sh"
 
 main() {
-	local config_dirs
-	config_dirs="$(enumerate_config_directory "$@" | filter_file_exists "restore.sh")"
+	local config_dirnames
+	config_dirnames="$(enumerate_config_dirname "$@" | filter_file_exists "restore.sh")"
+
 	# shellcheck disable=SC2167
-	for config_directory in $config_dirs; do
+	for config_dirname in $config_dirnames; do
 		# shellcheck disable=SC1090
-		. "${config_directory}/restore.sh"
+		. "$(config_dirname_to_path "${config_dirname}")/restore.sh"
 	done
 }
 
