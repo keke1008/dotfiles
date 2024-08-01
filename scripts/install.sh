@@ -17,6 +17,8 @@ declare_home_config_link() {
 }
 
 main() {
+	DOTFILES_INSTALL_MODE="install"
+
 	local config_dirnames
 	config_dirnames="$(enumerate_config_dirname "$@")"
 	if ! echo "$config_dirnames" | check_file_exists "install.sh"; then

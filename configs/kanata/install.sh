@@ -1,23 +1,28 @@
 #!/bin/sh -eu
 
-if ! command -v systemctl >/dev/null 2>&1; then
-	echo "systemctl command not found. Kanata installation canceled."
-	return
-fi
+main() {
+	if ! command -v systemctl >/dev/null 2>&1; then
+		return
+	fi
 
-service_file_path="$DOTPATH/configs/kanata/kanata.service"
-link_dir_path="$HOME/.config/systemd/user"
+	mkdir -p "${XDG_CONFIG_HOME}/systemd/user"
+	declare_config_link "${XDG_CONFIG_HOME}/systemd/user/kanata.service" "kanata.service"
 
-mkdir -p "$link_dir_path"
-ln -snfv "$service_file_path" "$link_dir_path"
+	if ! command -v kanata >/dev/null 2>&1; then
+		return
+	fi
 
-if ! command -v kanata >/dev/null 2>&1; then
-	echo "kanata command not found. Enable systemd service canceled."
-	return
-fi
+	if [ "${DOTFILES_INSTALL_MODE}" = "install" ]; then
+		# Check if kanata service is already enabled
+		if ! systemctl --user --quiet is-enabled kanata.service; then
+			systemctl --user daemon-reload
+			systemctl --user enable --now kanata.service
+		fi
+	else
+		if systemctl --user --quiet is-enabled kanata.service; then
+			systemctl --user disable --now kanata.service
+		fi
+	fi
+}
 
-# Check if kanata service is already enabled
-if ! systemctl --user --quiet is-enabled kanata.service; then
-	systemctl --user daemon-reload
-	systemctl --user enable --now kanata.service
-fi
+main
