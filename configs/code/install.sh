@@ -1,25 +1,28 @@
 #!/bin/sh -eu
 
-SRC_DIR="$DOTPATH/configs/code"
+main() {
+	local src_dir="${DOTPATH}/configs/code"
 
-if [ "$(uname)" = "Darwin" ]; then
-	CODE_BASE_DIR="$HOME/Library/Application Support/"
-	CODE_OSS_DIR="$CODE_BASE_DIR/Code/User"
-	VSCODE_DIR="$CODE_BASE_DIR/Code - OSS/User"
-else
-	CODE_OSS_DIR="$XDG_CONFIG_HOME/Code - OSS/User"
-	VSCODE_DIR="$XDG_CONFIG_HOME/Code/User"
-fi
+	if [ "$(uname)" = "Darwin" ]; then
+		local code_base_dir="${HOME}/Library/Application Support"
+	else
+		local code_base_dir="${XDG_CONFIG_HOME}"
+	fi
 
-for CODE_DIR in "$CODE_OSS_DIR" "$VSCODE_DIR"; do
-	mkdir -p "$CODE_DIR"
-	ln -snvf "$SRC_DIR/keybindings.json" "$CODE_DIR"
-	ln -snvf "$SRC_DIR/settings.json" "$CODE_DIR"
-done
+	local code_dirname
+	for code_dirname in "Code - OSS" "Code"; do
+		local code_dir="${code_base_dir}/${code_dirname}/User"
+		mkdir -p "${code_dir}"
+		declare_config_link "${code_dir}/keybindings.json" "keybindings.json" "${code_dirname}-keybindings.json"
+		declare_config_link "${code_dir}/settings.json" "settings.json" "${code_dirname}-settings.json"
+	done
 
-# for remote development
-if [ -n "${SSH_CLIENT:-''}" ] || [ -n "${SSH_TTY:-''}" ]; then # Use parameter expansion to prevent an 'undefined variable' error
-	VSCODE_SERVER_DIR="$HOME/.vscode-server/data/Machine"
-	mkdir -p "$VSCODE_SERVER_DIR"
-	ln -snvf "$SRC_DIR/settings.json" "$VSCODE_SERVER_DIR"
-fi
+	# for remote development
+	if [ -n "${SSH_CLIENT:-''}" ] || [ -n "${SSH_TTY:-''}" ]; then # Use parameter expansion to prevent an 'undefined variable' error
+		local vscode_server_dir="${HOME}/.vscode-server/data/Machine"
+		mkdir -p "${vscode_server_dir}"
+		declare_config_link "${vscode_server_dir}/settings.json" "settings.json" "remote-settings.json"
+	fi
+}
+
+main
