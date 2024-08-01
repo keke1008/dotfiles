@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-install_xdg_based_config "dunst"
+declare_xdg_config_link

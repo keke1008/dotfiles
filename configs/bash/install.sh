@@ -1,3 +1,4 @@
 #!/bin/sh -eu
 
-install_home_config "bash" ".bashrc" ".bash_profile"
+declare_home_config_link ".bashrc"
+declare_home_config_link ".bash_profile"

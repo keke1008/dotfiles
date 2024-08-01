@@ -4,6 +4,18 @@
 . "${DOTPATH}/scripts/lib/config_directory.sh"
 . "${DOTPATH}/scripts/lib/install.sh"
 
+declare_config_link() {
+	stash_and_link "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
+}
+
+declare_xdg_config_link() {
+	stash_and_link_xdg_based_config "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
+}
+
+declare_home_config_link() {
+	stash_and_link_home_config "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
+}
+
 main() {
 	local config_dirnames
 	config_dirnames="$(enumerate_config_dirname "$@")"
@@ -14,6 +26,7 @@ main() {
 	local config_dirname
 	# shellcheck disable=SC2167
 	for config_dirname in $config_dirnames; do
+		DOTFILES_INSTALL_CONFIG_NAME="${config_dirname}"
 		create_original_home "${config_dirname}"
 
 		# shellcheck disable=SC1090

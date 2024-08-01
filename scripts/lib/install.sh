@@ -87,13 +87,14 @@ stash_and_link() {
 #  	stashed: The path to the stashed file in the original home directory
 #  		(relative path from the original configuration directory)
 unlink_and_restore() {
-	if [ $# -ne 3 ]; then
+	if [ $# -ne 3 ] && [ $# -ne 4 ]; then
 		abort "Usage: unlink_and_restore <name> <dst> <src> [stashed]"
 	fi
 
 	local name="$1"
 	local dst="$2"
-	local stashed="${3}"
+	local src="$3"
+	local stashed="${4:-${src}}"
 
 	# unlink
 	if [ -e "${dst}" ]; then
@@ -106,15 +107,15 @@ unlink_and_restore() {
 	fi
 }
 
-# Install the configuration file to the XDG_CONFIG_HOME
+# Stash the original file and create a symbolic link to the configuration file in the XDG configuration directory
 #
 # Arguments:
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #       (relative path from the configuration directory)
-install_xdg_based_config() {
+stash_and_link_xdg_based_config() {
 	if [ $# -ne 1 ] && [ $# -ne 2 ]; then
-		abort "Usage: install_xdg_config <name> [src]"
+		abort "Usage: stash_and_link_xdg_config <name> [src]"
 	fi
 
 	local name="$1"
@@ -123,15 +124,15 @@ install_xdg_based_config() {
 	stash_and_link "${name}" "${XDG_CONFIG_HOME}/${src}" "${src}"
 }
 
-# Restore the original file and uninstall the configuration file from the XDG_CONFIG_HOME
+# Restore the original file and uninstall the configuration file from the XDG configuration directory
 #
 # Arguments:
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #       (relative path from the configuration directory)
-restore_xdg_based_config() {
+unlink_and_restore_xdg_based_config() {
 	if [ $# -ne 1 ] && [ $# -ne 2 ]; then
-		abort "Usage: restore_xdg_config <name> [src]"
+		abort "Usage: restore_and_unlink_xdg_config <name> [src]"
 	fi
 
 	local name="$1"
@@ -140,24 +141,21 @@ restore_xdg_based_config() {
 	unlink_and_restore "${name}" "${XDG_CONFIG_HOME}/${src}" "${src}"
 }
 
-# Install the configuration file to the home directory
+# Stash the original file and create a symbolic link to the configuration file in the home directory
 #
 # Arguments:
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #    	(relative path from the configuration directory)
-install_home_config() {
-	if [ $# -lt 2 ]; then
-		abort "Usage: install_home_config <name> <src>..."
+stash_and_link_home_config() {
+	if [ $# -ne 2 ]; then
+		abort "Usage: stash_and_link_home_config <name> <src>"
 	fi
 
 	local name="$1"
-	shift
+	local src="$2"
 
-	local src
-	for src in "$@"; do
-		stash_and_link "${name}" "${HOME}/${src}" "${src}"
-	done
+	stash_and_link "${name}" "${HOME}/${src}" "${src}"
 }
 
 # Restore the original file and uninstall the configuration file from the home directory
@@ -166,16 +164,13 @@ install_home_config() {
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #    	(relative path from the configuration directory)
-restore_home_config() {
-	if [ $# -lt 2 ]; then
-		abort "Usage: restore_home_config <name> <src>..."
+unlink_and_restore_home_config() {
+	if [ $# -ne 2 ]; then
+		abort "Usage: restore_and_unlink_home_config <name> <src>"
 	fi
 
 	local name="$1"
-	shift
+	local src="$2"
 
-	local src
-	for src in "$@"; do
-		unlink_and_restore "${name}" "${HOME}/${src}" "${src}"
-	done
+	unlink_and_restore "${name}" "${HOME}/${src}" "${src}"
 }

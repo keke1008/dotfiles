@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-install_home_config "tmux" ".tmux.conf"
+declare_home_config_link ".tmux.conf"

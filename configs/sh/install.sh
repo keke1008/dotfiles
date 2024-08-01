@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-install_home_config "sh" ".profile"
+declare_home_config_link ".profile"

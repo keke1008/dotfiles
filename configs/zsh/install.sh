@@ -1,3 +1,4 @@
 #!/bin/sh -eu
 
-install_home_config "zsh" ".zshrc" ".zprofile"
+declare_home_config_link ".zshrc"
+declare_home_config_link ".zprofile"

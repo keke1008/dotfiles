@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-install_xdg_based_config "chromium" "chromium-flags.conf"
+declare_xdg_config_link "chromium-flags.conf"

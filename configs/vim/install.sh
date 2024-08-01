@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-install_home_config "vim" ".vimrc"
+declare_home_config_link ".vimrc"

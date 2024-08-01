@@ -1,3 +1,3 @@
 #!/bin/sh -eu
 
-install_xdg_based_config "sway"
+declare_xdg_config_link
