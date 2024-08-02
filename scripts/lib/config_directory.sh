@@ -9,6 +9,20 @@ config_dirname_to_path() {
 	echo "${DOTPATH}/configs/${1}"
 }
 
+map_config_dirname_to_file_path() {
+	if [ $# -ne 1 ]; then
+		echo "Usage: map_config_dirname_to_file_path <filename>" >&2
+		return 1
+	fi
+
+	local filename="${1}"
+
+	local dir
+	while read -r dir; do
+		echo "$(config_dirname_to_path "${dir}")/${filename}"
+	done
+}
+
 enumerate_config_dirname() {
 	local dir_paths
 	if [ $# -eq 0 ]; then
