@@ -17,7 +17,7 @@ declare_home_config_link() {
 }
 
 main() {
-	DOTFILES_INSTALL_MODE="restore"
+	export DOTFILES_INSTALL_MODE="restore"
 
 	local config_dirnames
 	config_dirnames="$(enumerate_config_dirname "$@")"

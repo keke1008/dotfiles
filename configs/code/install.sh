@@ -1,8 +1,6 @@
 #!/bin/sh -eu
 
 main() {
-	local src_dir="${DOTPATH}/configs/code"
-
 	if [ "$(uname)" = "Darwin" ]; then
 		local code_base_dir="${HOME}/Library/Application Support"
 	else
