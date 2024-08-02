@@ -24,3 +24,14 @@ jobs:
 
       - name: Run restoration
         run: ./dot restore
+
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bats
+        uses: bats-core/bats-action@2.0.0
+
+      - name: Run tests
+        run: ./dot test
