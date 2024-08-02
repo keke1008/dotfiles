@@ -2,7 +2,6 @@
 
 main() {
 	mkdir -p "${XDG_CONFIG_HOME}/fish"
-	# ln -snfv "$DOTPATH/configs/fish/config.fish" "$FISH_CONFIG_DIR"
 	declare_config_link "${XDG_CONFIG_HOME}/fish/config.fish" "config.fish"
 
 	local dir

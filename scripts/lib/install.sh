@@ -72,6 +72,7 @@ stash_and_link() {
 			return
 		fi
 
+		mkdir -p "$(dirname "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}")"
 		mv "${dst}" "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
 	fi
 
