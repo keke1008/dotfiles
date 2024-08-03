@@ -1,10 +1,10 @@
-FROM ubuntu:latest
+FROM archlinux:latest
 
-RUN apt-get update && \
-    apt-get install -y bats
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm bats
 
-ARG USER=user
-RUN useradd -m "$USER"
-WORKDIR /home/$USER
+ARG USERNAME=user
+RUN useradd -m "${USERNAME}"
+USER "${USERNAME}"
 
-CMD ["./dotfiles/dot", "test"]
+CMD ["/dotfiles/dot", "test"]

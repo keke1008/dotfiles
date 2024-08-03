@@ -19,5 +19,6 @@ cd ./dotfiles
 ## Testings
 
 ```sh
-docker compose up --no-log-prefix && docker compose down
+docker build . -t dotfiles-test
+docker run -t --rm --user "$(id -u):$(id -g)" -v .:/dotfiles dotfiles-test
 ```
