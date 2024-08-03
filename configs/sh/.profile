@@ -1,3 +1,4 @@
+# Bootstrap
 if [ -r "$HOME/.dotpath" ] && DOTPATH=$(cat "$HOME/.dotpath"); then
 	export DOTPATH
 else
@@ -5,6 +6,18 @@ else
 	return 1
 fi
 eval "$("${DOTPATH}/dot" shellenv)"
+
+# Avoid recursive loading
+if [ -n "${DOTFILES_DOT_PROFILE_LOADING:-}" ]; then
+	return 0
+fi
+
+# Load original profile if exists
+if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.profile" ]; then
+	export DOTFILES_DOT_PROFILE_LOADING=1
+	. "${DOTFILES_ORIGINAL_HOME}/sh/.profile"
+	unset DOTFILES_DOT_PROFILE_LOADING
+fi
 
 if GPG_TTY=$(tty); then
 	export GPG_TTY

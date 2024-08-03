@@ -1,5 +1,15 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+if [ -n "${DOTFILES_DOT_BASHRC_LOADING:-}" ]; then
+	return 0
+fi
+
+if [ -r "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc" ]; then
+	export DOTFILES_DOT_BASHRC_LOADING=1
+	. "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc"
+	unset DOTFILES_DOT_BASHRC_LOADING
+fi
+
 # If not running interactively, don't do anything
 case $- in
 *i*) ;;
