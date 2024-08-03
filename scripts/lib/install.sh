@@ -10,34 +10,34 @@ create_original_home() {
 	mkdir -p "${DOTFILES_ORGINAL_HOME}/${name}"
 }
 
-is_stashed() {
+is_installed() {
 	if [ $# -ne 1 ]; then
-		abort "Usage: is_stashed <name>"
+		abort "Usage: is_installed <name>"
 	fi
 
 	local name="$1"
 
-	[ -e "${DOTFILES_ORGINAL_HOME}/${name}/.stashed" ]
+	[ -e "${DOTFILES_ORGINAL_HOME}/${name}/.installed" ]
 }
 
-mark_stashed() {
+mark_installed() {
 	if [ $# -ne 1 ]; then
-		abort "Usage: mark_stashed <name>"
+		abort "Usage: mark_installed <name>"
 	fi
 
 	local name="$1"
 
-	touch "${DOTFILES_ORGINAL_HOME}/${name}/.stashed"
+	touch "${DOTFILES_ORGINAL_HOME}/${name}/.installed"
 }
 
-mark_unstashed() {
+mark_uninstalled() {
 	if [ $# -ne 1 ]; then
-		abort "Usage: mark_unstashed <name>"
+		abort "Usage: mark_uninstalled <name>"
 	fi
 
 	local name="$1"
 
-	if is_stashed "${name}"; then
+	if is_installed "${name}"; then
 		rm "${DOTFILES_ORGINAL_HOME}/${name}/.stashed"
 	fi
 }
@@ -62,7 +62,7 @@ stash_and_link() {
 	local stashed="${4:-${src}}"
 
 	# stash
-	if ! is_stashed "${name}" && [ -e "${dst}" ]; then
+	if ! is_installed "${name}" && [ -e "${dst}" ]; then
 		if [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
 			abort "The stashed file already exists: ${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
 		fi
@@ -103,7 +103,7 @@ unlink_and_restore() {
 	fi
 
 	# restore
-	if is_stashed "${name}" && [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
+	if is_installed "${name}" && [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
 		mv "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" "${dst}"
 	fi
 }
