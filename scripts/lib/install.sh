@@ -7,7 +7,7 @@ create_original_home() {
 
 	local name="$1"
 
-	mkdir -p "${DOTFILES_ORGINAL_HOME}/${name}"
+	mkdir -p "${DOTFILES_ORIGINAL_HOME}/${name}"
 }
 
 is_installed() {
@@ -17,7 +17,7 @@ is_installed() {
 
 	local name="$1"
 
-	[ -e "${DOTFILES_ORGINAL_HOME}/${name}/.installed" ]
+	[ -e "${DOTFILES_ORIGINAL_HOME}/${name}/.installed" ]
 }
 
 mark_installed() {
@@ -27,7 +27,7 @@ mark_installed() {
 
 	local name="$1"
 
-	touch "${DOTFILES_ORGINAL_HOME}/${name}/.installed"
+	touch "${DOTFILES_ORIGINAL_HOME}/${name}/.installed"
 }
 
 mark_uninstalled() {
@@ -38,7 +38,7 @@ mark_uninstalled() {
 	local name="$1"
 
 	if is_installed "${name}"; then
-		rm "${DOTFILES_ORGINAL_HOME}/${name}/.stashed"
+		rm "${DOTFILES_ORIGINAL_HOME}/${name}/.stashed"
 	fi
 }
 
@@ -63,8 +63,8 @@ stash_and_link() {
 
 	# stash
 	if ! is_installed "${name}" && [ -e "${dst}" ]; then
-		if [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
-			abort "The stashed file already exists: ${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
+		if [ -e "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}" ]; then
+			abort "The stashed file already exists: ${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}"
 		fi
 
 		# Check if the destination is already linked to the configuration file
@@ -72,8 +72,8 @@ stash_and_link() {
 			return
 		fi
 
-		mkdir -p "$(dirname "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}")"
-		mv "${dst}" "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}"
+		mkdir -p "$(dirname "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}")"
+		mv "${dst}" "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}"
 	fi
 
 	# link
@@ -103,8 +103,8 @@ unlink_and_restore() {
 	fi
 
 	# restore
-	if is_installed "${name}" && [ -e "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" ]; then
-		mv "${DOTFILES_ORGINAL_HOME}/${name}/${stashed}" "${dst}"
+	if is_installed "${name}" && [ -e "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}" ]; then
+		mv "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}" "${dst}"
 	fi
 }
 
