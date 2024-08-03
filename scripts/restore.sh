@@ -36,7 +36,7 @@ main() {
 			continue
 		fi
 
-		mark_unstashed "${config_dirname}"
+		mark_installed "${config_dirname}"
 	done
 }
 
