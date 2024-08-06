@@ -36,7 +36,7 @@ main() {
 			continue
 		fi
 
-		mark_installed "${config_dirname}"
+		mark_uninstalled "${config_dirname}"
 	done
 }
 

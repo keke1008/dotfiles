@@ -38,7 +38,7 @@ mark_uninstalled() {
 	local name="$1"
 
 	if is_installed "${name}"; then
-		rm "${DOTFILES_ORIGINAL_HOME}/${name}/.stashed"
+		rm "${DOTFILES_ORIGINAL_HOME}/${name}/.installed"
 	fi
 }
 
