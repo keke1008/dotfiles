@@ -37,8 +37,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 })
 
 vim.g.mapleader = " "
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
 vim.keymap.set("s", "<BS>", "<BS>i")
 vim.keymap.set("n", "+", ",")
@@ -47,6 +45,20 @@ vim.keymap.set("n", "]c", "<CMD>cn<CR>")
 vim.keymap.set("n", "[b", "<CMD>bp<CR>")
 vim.keymap.set("n", "]b", "<CMD>bn<CR>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set({ "n", "x" }, "j", function()
+    if vim.v.count == 0 then
+        return "gj"
+    else
+        return "j"
+    end
+end, { desc = "Down", expr = true })
+vim.keymap.set({ "n", "x" }, "k", function()
+    if vim.v.count == 0 then
+        return "gk"
+    else
+        return "k"
+    end
+end, { desc = "Up", expr = true })
 
 vim.diagnostic.config({ severity_sort = true })
 
