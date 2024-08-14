@@ -12,6 +12,8 @@ return {
             "rouge8/neotest-rust",
             "nvim-neotest/neotest-go",
             { "leoluz/nvim-dap-go", dependencies = { "mfussenegger/nvim-dap" }, config = true },
+            "olimorris/neotest-rspec",
+            { "suketa/nvim-dap-ruby", dependencies = { "mfussenegger/nvim-dap" }, config = true },
         },
         cmd = "Neotest",
         keys = function()
@@ -77,6 +79,7 @@ return {
                     require("neotest-python"),
                     require("neotest-rust"),
                     require("neotest-go"),
+                    require("neotest-rspec"),
                 },
             }
         end,
