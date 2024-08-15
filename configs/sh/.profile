@@ -22,7 +22,11 @@ fi
 if GPG_TTY=$(tty); then
 	export GPG_TTY
 fi
+export XMODIFIERS=@im=fcitx
+# https://qiita.com/aratetsu_sp2/items/6bd89e5959ba54ede391
+export GTK_IM_MODULE=fcitx
 export GTK_THEME=Adwaita:dark
+export QT_IM_MODULE=fcitx
 export QT_QPA_PLATFORMTHEME=qt5ct
 
 # https://www.electronjs.org/docs/latest/api/environment-variables#electron_ozone_platform_hint-linux
