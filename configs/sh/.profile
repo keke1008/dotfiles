@@ -25,6 +25,10 @@ fi
 export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME=qt5ct
 
+# https://www.electronjs.org/docs/latest/api/environment-variables#electron_ozone_platform_hint-linux
+# Selects the preferred platform backend used on Linux. The default one is x11. auto selects Wayland if possible, X11 otherwise.
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+
 append_path() {
 	case ":$PATH:" in
 	*:"$1":*) ;;
