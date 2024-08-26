@@ -60,6 +60,12 @@
     rba = rebase --abort
     rbc = rebase --continue
 
+    rv = revert
+    rva = revert --abort
+    rvc = revert --continue
+    rvm = revert --mainline
+    rvs = revert --skip
+
     s = status
     su = status -u
 
