@@ -9,6 +9,9 @@
 [init]
     defaultBranch = main
 
+[core]
+	quotepath = off
+
 [alias]
     a = add
     aa = add -A
