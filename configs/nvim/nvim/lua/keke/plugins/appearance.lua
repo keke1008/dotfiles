@@ -77,6 +77,7 @@ return {
             { "{B", "<CMD>BufferMovePrevious<CR>", mode = { "n", "x" } },
             { "}B", "<CMD>BufferMoveNext<CR>", mode = { "n", "x" } },
             { "<leader>bb", "<CMD>BufferClose<CR>", mode = { "n", "x" } },
+            { "<leader>B", "<CMD>BufferClose<CR>", mode = { "n", "x" } },
             { "<leader>bD", "<CMD>BufferCloseBuffersRight<CR>", mode = { "n", "x" } },
             { "<leader>bU", "<CMD>BufferCloseBuffersLeft<CR>", mode = { "n", "x" } },
             { "<leader>bo", "<CMD>BufferCloseAllButVisible<CR>", mode = { "n", "x" } },
