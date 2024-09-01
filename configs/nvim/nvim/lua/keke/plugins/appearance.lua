@@ -131,27 +131,33 @@ return {
     {
         "folke/tokyonight.nvim",
         init = function() vim.cmd.colorscheme("tokyonight") end,
-        opts = {
-            style = "night",
-            transparent = true,
-            styles = {
-                sidebars = "transparent",
-                floats = "transparent",
-            },
-            on_colors = function(colors)
-                colors.border = colors.blue7
-                colors.bg_statusline = colors.none
-            end,
-            on_highlights = function(highlights, colors)
-                -- barbar.nvim
-                highlights["BufferTabpageFill"].bg = colors.none
-                highlights["BufferCurrentSign"].fg = colors.info
-                highlights["BufferVisibleSign"].fg = colors.blue7
-                highlights["BufferInactiveSign"].fg = colors.blue7
+        config = function()
+            require("tokyonight").setup({
+                style = "night",
+                transparent = true,
+                styles = {
+                    sidebars = "transparent",
+                    floats = "transparent",
+                },
+                on_colors = function(colors)
+                    colors.border = colors.blue7
+                    colors.bg_statusline = colors.none
+                end,
+                on_highlights = function(highlights, colors)
+                    highlights["LineNr"].fg = colors.dark3
+                    highlights["LineNrAbove"].fg = colors.dark3
+                    highlights["LineNrBelow"].fg = colors.dark3
 
-                -- indent-blankline.nvim
-                highlights["IblScope"].fg = colors.blue0
-            end,
-        },
+                    -- barbar.nvim
+                    highlights["BufferTabpageFill"].bg = colors.none
+                    highlights["BufferCurrentSign"].fg = colors.info
+                    highlights["BufferVisibleSign"].fg = colors.blue7
+                    highlights["BufferInactiveSign"].fg = colors.blue7
+
+                    -- indent-blankline.nvim
+                    highlights["IblScope"].fg = colors.blue0
+                end,
+            })
+        end,
     },
 }
