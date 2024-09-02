@@ -48,24 +48,28 @@ shopt -s checkwinsize
 stty werase undef
 bind '\C-w:unix-filename-rubout'
 ctrl_k_pushd() {
-    if [ "$PWD" != "/" ]; then
-        pushd .. >/dev/null
-    fi
+	if [ "$PWD" != "/" ]; then
+		pushd .. >/dev/null
+	fi
 }
 ctrl_j_popd() {
-    if [ "$(dirs -v | wc -l)" -gt 1 ]; then
-        popd >/dev/null
-    fi
+	if [ "$(dirs -v | wc -l)" -gt 1 ]; then
+		popd >/dev/null
+	fi
 }
 bind '"\C-k":"\C-a ctrl_k_pushd \C-m"'
 bind '"\C-j":"\C-a ctrl_j_popd \C-m"'
 
 # direnv
 if command -v "direnv" >/dev/null; then
-    eval "$(direnv hook bash)"
+	eval "$(direnv hook bash)"
 fi
 
-PS1='\[\e[32m\]\u\[\e[32m\]@\[\e[32m\]\h \[\e[34m\]\w \[\e[35m\]exit: $?, jobs: \j \[\e[36m\]$(git branch 2>/dev/null | grep '"'"'*'"'"' | colrm 1 2 | xargs -I {} echo "({})")\n\[\e[38;5;242m\]\$ \[\e[0m\]'
+if command -v "starship" >/dev/null; then
+	eval "$(starship init bash)"
+else
+	PS1='\[\e[32m\]\u\[\e[32m\]@\[\e[32m\]\h \[\e[34m\]\w \[\e[35m\]exit: $?, jobs: \j \[\e[36m\]$(git branch 2>/dev/null | grep '"'"'*'"'"' | colrm 1 2 | xargs -I {} echo "({})")\n\[\e[38;5;242m\]\$ \[\e[0m\]'
+fi
 
 local_rc="${DOTFILES_LOCAL_HOME}/bash/local_rc.sh"
 if [ -r "${local_rc}" ]; then
