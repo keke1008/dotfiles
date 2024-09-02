@@ -25,9 +25,12 @@ local function generate_random_id(bytes)
     return id
 end
 
+local vaults = get_vault_path()
+
 return {
     "epwalsh/obsidian.nvim",
     version = "*",
+    cond = #vaults ~= 0,
     ft = "markdown",
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -44,7 +47,7 @@ return {
     },
     config = function()
         require("obsidian").setup({
-            workspaces = get_vault_path(),
+            workspaces = vaults,
             preferred_link_style = "markdown",
             notes_subdir = "notes",
             completion = {
