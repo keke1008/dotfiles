@@ -1,14 +1,13 @@
 format = """
  \
-$shlvl\
 $username\
 $hostname\
 $directory\
-[](blue)\
 $git_branch\
 $git_status\
 $git_state\
-[](blue)\
+$jobs\
+[ ](blue)\
 $aws\
 $c\
 $docker_context\
@@ -22,9 +21,16 @@ $ruby\
 $rust\
 \n$character"""
 
+[character]
+success_symbol = '[❯](bold blue)'
+
+[username]
+style_user = 'blue'
+format = '[$user]($style)'
+
 [hostname]
-ssh_symbol = " "
-format = '[$ssh_symbol$hostname ](bold dimmed blue)'
+ssh_symbol = " "
+format = '[$ssh_symbol](blue) [ ](blue)'
 
 [directory]
 read_only = " 󰌾"
@@ -32,58 +38,63 @@ style = 'blue'
 repo_root_style = 'bold blue'
 before_repo_root_style = 'blue'
 truncation_length = 0
-format = '[ $path$read_only ](blue)'
+format = '[$path$read_only]($style)'
+repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style)'
 
 [git_branch]
 symbol = ""
-format = '[ $symbol $branch](fg:blue)'
+format = ' [](blue) [$symbol $branch](blue)'
 
 [git_status]
-format = '[ $all_status$ahead_behind](fg:blue)'
+format = '[$all_status$ahead_behind](blue)'
 
 [git_state]
-format = '[ $state ($progress_current/$progress_total)](blue)'
+format = '[$state ($progress_current/$progress_total)](blue)'
+
+[jobs]
+style = 'blue'
+format = ' [ $symbol$number]($style)'
 
 [aws]
-symbol = "  "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [c]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [docker_context]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [golang]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [haskell]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [lua]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [nodejs]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [package]
-symbol = "󰏗 "
-format = '[ $symbol ](blue)'
+symbol = "󰏗"
+format = '[ $symbol](blue)'
 
 [python]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [ruby]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
 
 [rust]
-symbol = " "
-format = '[ $symbol ](blue)'
+symbol = ""
+format = '[ $symbol](blue)'
