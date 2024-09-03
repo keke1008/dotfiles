@@ -70,15 +70,18 @@ if type -q direnv
     eval (direnv hook fish)
 end
 
-
-
-# bobthefish
-set -g theme_nerd_fonts yes
-set -g theme_newline_cursor yes
-set -g theme_newline_prompt '$ '
-set -g theme_show_exit_status yes
-set -g theme_display_ruby no # This setting makes powerline fast
-set -g theme_display_go no # This setting makes powerline fast
+# prompt
+if type -q starship
+    starship init fish | source
+else
+    # bobthefish
+    set -g theme_nerd_fonts yes
+    set -g theme_newline_cursor yes
+    set -g theme_newline_prompt '$ '
+    set -g theme_show_exit_status yes
+    set -g theme_display_ruby no # This setting makes powerline fast
+    set -g theme_display_go no # This setting makes powerline fast
+end
 
 set local_config "$DOTFILES_LOCAL_HOME/fish/local_config.fish"
 if [ -e $local_config ]
