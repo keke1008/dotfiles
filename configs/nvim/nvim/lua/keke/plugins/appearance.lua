@@ -30,27 +30,34 @@ return {
                 noice_status = {
                     noice.api.status.mode.get,
                     cond = noice.api.status.mode.has,
-                    color = { fg = "#ff9e64" },
+                    -- color = { fg = "#ff9e64" },
                 }
             end
 
             require("lualine").setup({
                 options = {
                     icons_enabled = true,
-                    theme = "tokyonight",
+                    theme = "blue",
                     component_separators = { left = "", right = "" },
-                    section_separators = { left = "", right = "" },
+                    section_separators = { left = "", right = "" },
                     disabled_filetypes = {},
-                    always_divide_middle = true,
+                    -- always_divide_middle = true,
                     global_status = true,
                 },
                 sections = {
-                    lualine_a = { "mode" },
-                    lualine_b = { "branch", "diff", "diagnostics" },
-                    lualine_c = { "filename", noice_status },
-                    lualine_x = { "encoding", "fileformat", "filetype" },
-                    lualine_y = { "progress" },
-                    lualine_z = { "location" },
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = {
+                        "mode",
+                        { "diff", separator = { left = "", right = "" } },
+                        "branch",
+                        { "diagnostics", separator = { left = "", right = "" } },
+                        "filename",
+                        noice_status,
+                    },
+                    lualine_x = { "encoding", "fileformat", "filetype", "location" },
+                    lualine_y = {},
+                    lualine_z = {},
                 },
                 inactive_sections = {
                     lualine_a = {},
