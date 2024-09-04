@@ -15,10 +15,10 @@ $golang\
 $haskell\
 $lua\
 $nodejs\
-$package\
 $python\
 $ruby\
 $rust\
+$package\
 \n$character"""
 
 [character]
@@ -46,6 +46,7 @@ symbol = ""
 format = ' [](blue) [$symbol $branch](blue)'
 
 [git_status]
+deleted = 'x'
 format = '[$all_status$ahead_behind](blue)'
 
 [git_state]
