@@ -62,12 +62,13 @@ def main():
             "u": pointing_button("button2"),
             "i": mouse_key(vertical_wheel=50),
             "o": mouse_key(vertical_wheel=-50),
-            "h": mouse_key(x=-1500),
-            "j": mouse_key(y=1500),
-            "k": mouse_key(y=-1500),
-            "l": mouse_key(x=1500),
+            "h": mouse_key(x=-1000),
+            "j": mouse_key(y=1000),
+            "k": mouse_key(y=-1000),
+            "l": mouse_key(x=1000),
+            "q": mouse_key(speed_multiplier=6),
             "w": mouse_key(speed_multiplier=3),
-            "e": mouse_key(speed_multiplier=0.2),
+            "e": mouse_key(speed_multiplier=0.3),
         },
     )
 
