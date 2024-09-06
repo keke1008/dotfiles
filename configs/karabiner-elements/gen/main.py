@@ -22,6 +22,7 @@ def main():
     k.register(
         {
             mod(optional=())("international1"): ("international3"),
+            "japanese_pc_katakana": "right_command",
         },
     )
 
