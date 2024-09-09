@@ -167,4 +167,17 @@ return {
             })
         end,
     },
+    {
+        "pocco81/true-zen.nvim",
+        keys = {
+            { "\\tza", "<CMD>TZAtaraxis<CR>" },
+            { "\\tzf", "<CMD>TZFocus<CR>" },
+            { "\\tzr", "<CMD>TZMinimalist<CR>" },
+        },
+        opts = {
+            integrations = {
+                lualine = true,
+            },
+        },
+    },
 }
