@@ -25,6 +25,55 @@ local function generate_random_id(bytes)
     return id
 end
 
+local function create_child_page()
+    local client = require("obsidian").get_client()
+    local current_note = client:current_note()
+    if not current_note then
+        return
+    end
+    if #current_note.aliases == 0 then
+        vim.notify("Current note has no aliases", vim.log.levels.ERROR)
+        return
+    end
+    local current_note_link = client:format_link(current_note, { label = current_note.aliases[1] })
+
+    local title = vim.fn.input("Child Title: ")
+    if not title or title == "" then
+        return
+    end
+
+    local note = client:create_note({
+        title = title,
+        no_write = true,
+    })
+    note:add_field("links", { current_note_link })
+
+    client:open_note(note, { sync = true })
+    client:write_note_to_buffer(note)
+end
+
+local function create_sibling_page()
+    local client = require("obsidian").get_client()
+    local current_note = client:current_note()
+    if not current_note then
+        return
+    end
+
+    local title = vim.fn.input("Sibling Title: ")
+    if not title or title == "" then
+        return
+    end
+
+    local note = client:create_note({
+        title = title,
+        no_write = true,
+    })
+    note:add_field("links", current_note.metadata.links)
+
+    client:open_note(note, { sync = true })
+    client:write_note_to_buffer(note)
+end
+
 local vaults = get_vault_path()
 
 return {
@@ -39,6 +88,8 @@ return {
     keys = {
         { "<leader>ob", "<CMD>ObsidianBacklinks<CR>" },
         { "<leader>on", "<CMD>ObsidianNew<CR>" },
+        { "<leader>oc", create_child_page },
+        { "<leader>os", create_sibling_page },
         { "<leader>oo", "<CMD>ObsidianOpen<CR>" },
         { "<leader>of", "<CMD>ObsidianSearch<CR>" },
         { "<leader>ow", "<CMD>ObsidianWorkspace<CR>" },

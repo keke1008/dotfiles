@@ -211,7 +211,7 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-bindsym $mod+Control+s exec systemctl suspend
+bindsym $mod+Control+q exec systemctl suspend
 
 #
 # Status Bar:
