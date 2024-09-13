@@ -240,4 +240,9 @@ return {
             end, { desc = "Install sniprun" })
         end,
     },
+    {
+        "ruifm/gitlinker.nvim",
+        config = true,
+        keys = { "<leader>gy", mode = { "n", "x" } }
+    }
 }
