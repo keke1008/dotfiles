@@ -47,18 +47,6 @@ shopt -s checkwinsize
 # mapping
 stty werase undef
 bind '\C-w:unix-filename-rubout'
-ctrl_k_pushd() {
-	if [ "$PWD" != "/" ]; then
-		pushd .. >/dev/null
-	fi
-}
-ctrl_j_popd() {
-	if [ "$(dirs -v | wc -l)" -gt 1 ]; then
-		popd >/dev/null
-	fi
-}
-bind '"\C-k":"\C-a ctrl_k_pushd \C-m"'
-bind '"\C-j":"\C-a ctrl_j_popd \C-m"'
 
 # direnv
 if command -v "direnv" >/dev/null; then
