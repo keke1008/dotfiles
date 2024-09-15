@@ -163,8 +163,34 @@ return {
 
                     -- indent-blankline.nvim
                     highlights["IblScope"].fg = colors.blue0
+
+                    -- below guicursor option
+                    highlights["KekeCursorNormal"] = {
+                        fg = colors.bg,
+                        bg = colors.fg,
+                    }
+                    highlights["KekeCursorInsert"] = {
+                        fg = colors.bg,
+                        bg = colors.blue,
+                    }
+                    highlights["KekeCursorVisual"] = {
+                        fg = colors.bg,
+                        bg = colors.purple,
+                    }
+                    highlights["KekeCursorReplace"] = {
+                        fg = colors.bg,
+                        bg = colors.red,
+                    }
                 end,
             })
+
+            local guicursor = {
+                "n-c:block-KekeCursorNormal",
+                "i-ci-ve:ver25-KekeCursorInsert",
+                "v:block-KekeCursorVisual",
+                "r-cr-o:hor20-KekeCursorReplace",
+            }
+            vim.o.guicursor = table.concat(guicursor, ",")
         end,
     },
     {
