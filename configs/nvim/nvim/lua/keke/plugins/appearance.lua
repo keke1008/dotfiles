@@ -167,7 +167,7 @@ return {
                     -- below guicursor option
                     highlights["KekeCursorNormal"] = {
                         fg = colors.bg,
-                        bg = colors.fg,
+                        bg = colors.blue,
                     }
                     highlights["KekeCursorInsert"] = {
                         fg = colors.bg,
