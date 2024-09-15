@@ -74,6 +74,43 @@ local function create_sibling_page()
     client:write_note_to_buffer(note)
 end
 
+local function copy_current_note_link()
+    local client = require("obsidian").get_client()
+    client:resolve_link_async(nil, function(link)
+        local note = link and link.note or client:current_note()
+        if not note then
+            return
+        end
+
+        if #note.aliases == 0 then
+            vim.notify("Current note has no aliases", vim.log.levels.ERROR)
+            return
+        end
+
+        local link_str = client:format_link(note, { label = note.aliases[1] })
+        vim.schedule(function()
+            vim.fn.setreg("+", link_str)
+            vim.notify("Copied '" .. link_str .. "' to register +", vim.log.levels.INFO)
+        end)
+    end)
+end
+
+local function copy_current_note_path()
+    local client = require("obsidian").get_client()
+    client:resolve_link_async(nil, function(link)
+        local path = link and link.path or client:current_note().path
+        if not path then
+            return
+        end
+
+        local path_str = tostring(client:vault_relative_path(path, { strict = true }))
+        vim.schedule(function()
+            vim.fn.setreg("+", path_str)
+            vim.notify("Copied '" .. path_str .. "' to register +", vim.log.levels.INFO)
+        end)
+    end)
+end
+
 local vaults = get_vault_path()
 
 return {
@@ -88,8 +125,10 @@ return {
     keys = {
         { "<leader>ob", "<CMD>ObsidianBacklinks<CR>" },
         { "<leader>on", "<CMD>ObsidianNew<CR>" },
-        { "<leader>oc", create_child_page },
-        { "<leader>os", create_sibling_page },
+        { "<leader>oc", create_child_page, desc = "Create Child Page" },
+        { "<leader>os", create_sibling_page, desc = "Create Sibling Page" },
+        { "<leader>ol", copy_current_note_link, desc = "Copy Current Note Link" },
+        { "<leader>oL", copy_current_note_path, desc = "Copy Current Note Path" },
         { "<leader>oo", "<CMD>ObsidianOpen<CR>" },
         { "<leader>of", "<CMD>ObsidianSearch<CR>" },
         { "<leader>ow", "<CMD>ObsidianWorkspace<CR>" },
