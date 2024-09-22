@@ -31,6 +31,8 @@ main() {
 		DOTFILES_INSTALL_CONFIG_NAME="${config_dirname}"
 		create_original_home "${config_dirname}"
 
+		log "info" "Installing configuration directory: ${config_dirname}"
+
 		# shellcheck disable=SC1091
 		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
 			log "error" "Failed to install configuration directory: ${config_dirname}"

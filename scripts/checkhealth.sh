@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
 . "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
