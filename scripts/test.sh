@@ -15,6 +15,7 @@ main() {
 			map_config_dirname_to_file_path "test.bats"
 	)"
 
+	# shellcheck disable=SC2086
 	bats $config_dirnames
 }
 

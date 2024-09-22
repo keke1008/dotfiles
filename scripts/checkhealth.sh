@@ -8,9 +8,9 @@ report() {
 		abort "Usage: report level message [detail]"
 	fi
 
-	local level=$1
-	local message=$2
-	local detail=${3:-""}
+	local level="$1"
+	local message="$2"
+	local detail="${3:-""}"
 
 	local color
 	case ${level} in
@@ -21,10 +21,10 @@ report() {
 	*) abort "Invalid level: ${level}" ;;
 	esac
 
-	echo -en "\t$(print_colored "${color}" " ${message}\n")"
+	printf "\t%s\n" "$(print_colored "${color}" " ${message}")"
 
 	if [ -n "${detail}" ] && [ "${level}" != "trace" ]; then
-		echo -e "\t\t${detail}"
+		printf "\t\t%s" "${detail}"
 	fi
 }
 
@@ -33,9 +33,9 @@ report_command_exists() {
 		abort "Usage: report_command_exists level command [detail]"
 	fi
 
-	local level=$1
-	local command=$2
-	local detail=${3:-""}
+	local level="$1"
+	local command="$2"
+	local detail="${3:-""}"
 
 	if command -v "${command}" >/dev/null 2>&1; then
 		report "trace" "Command found: ${command}" "${detail}"
@@ -49,9 +49,9 @@ report_file_readable() {
 		abort "Usage: report_file_readable level file_path [detail]"
 	fi
 
-	local level=$1
-	local file_path=$2
-	local detail=${3:-""}
+	local level="$1"
+	local file_path="$2"
+	local detail="${3:-""}"
 
 	if [ ! -f "${file_path}" ]; then
 		report "${level}" "File does not exist: ${file_path}" "${detail}"
@@ -67,9 +67,9 @@ report_file_executable() {
 		abort "Usage: report_file_executable level file_path [detail]"
 	fi
 
-	local level=$1
-	local file_path=$2
-	local detail=${3:-""}
+	local level="$1"
+	local file_path="$2"
+	local detail="${3:-""}"
 
 	if [ ! -f "${file_path}" ]; then
 		report "${level}" "File does not exist: ${file_path}" "${detail}"
@@ -84,7 +84,7 @@ run_checkhealth_single_config() {
 	if [ $# -ne 1 ]; then
 		abort "Usage: checkhealth_single_config config_dir"
 	fi
-	local config_dir=$1
+	local config_dir="$1"
 
 	local checkhealth_script="${config_dir}/checkhealth.sh"
 	if [ ! -e "${checkhealth_script}" ]; then

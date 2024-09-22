@@ -1,7 +1,7 @@
 # shellcheck shell=sh
 
 abort() {
-	printf "\e[31m[error] ABORTED.\e[0m $*\n"
+	printf "\e[31m[error] ABORTED.\e[0m %s\n" "$*"
 	exit 1
 }
 
@@ -51,8 +51,7 @@ print_colored() {
 	local color="$1"
 	local message="$2"
 
-	local color_id="$(_map_color_id "${color}")"
-	_print_with_color_id "${color_id}" "${message}"
+	_print_with_color_id "$(_map_color_id "${color}")" "${message}"
 }
 
 log() {
