@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-. "${DOTPATH}/scripts/lib/abort.sh"
+. "${DOTPATH}/scripts/lib/log.sh"
 
 print_export_variable_command() {
 	if [ "$#" -ne 1 ]; then

@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-. "${DOTPATH}/scripts/lib/abort.sh"
+. "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
 . "${DOTPATH}/scripts/lib/install.sh"
 
@@ -33,7 +33,7 @@ main() {
 
 		# shellcheck disable=SC1090
 		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
-			echo "Failed to install configuration directory: ${config_dirname}" >&2
+			log "error" "Failed to install configuration directory: ${config_dirname}"
 			continue
 		fi
 

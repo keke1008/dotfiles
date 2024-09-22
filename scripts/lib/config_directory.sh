@@ -1,9 +1,11 @@
 # shellcheck shell=sh
+#
+# requirements:
+#  ./log.sh
 
 config_dirname_to_path() {
 	if [ $# -ne 1 ]; then
-		echo "Usage: config_dirname_to_path <config_dirname>" >&2
-		return 1
+		abort "Usage: config_dirname_to_path <config_dirname>"
 	fi
 
 	echo "${DOTPATH}/configs/${1}"
@@ -11,8 +13,7 @@ config_dirname_to_path() {
 
 map_config_dirname_to_file_path() {
 	if [ $# -ne 1 ]; then
-		echo "Usage: map_config_dirname_to_file_path <filename>" >&2
-		return 1
+		abort "Usage: map_config_dirname_to_file_path <filename>"
 	fi
 
 	local filename="${1}"
@@ -39,8 +40,7 @@ enumerate_config_dirname() {
 		config_dir_path="$(config_dirname_to_path "${config_dirname}")"
 
 		if [ ! -d "${config_dir_path}" ]; then
-			echo "Unknown configuration directory: ${config_dir_path}" >&2
-			return 1
+			abort "Unknown configuration directory: ${config_dir_path}"
 		fi
 
 		echo "${config_dirname}"
@@ -56,7 +56,7 @@ check_file_exists() {
 			local check_file_path
 			check_file_path="$(config_dirname_to_path "${dir}")/${check_filename}"
 			if [ ! -f "${check_file_path}" ]; then
-				echo "File not found: ${check_file_path}" >&2
+				log "info" "File not found: ${check_file_path}" >&2
 				is_all_file_exists=1
 			fi
 		done
@@ -74,7 +74,7 @@ check_file_readable() {
 			local check_file_path
 			check_file_path="$(config_dirname_to_path "${dir}")/${check_filename}"
 			if [ ! -r "${check_file_path}" ]; then
-				echo "File not readable: ${check_file_path}" >&2
+				log "info" "File not readable: ${check_file_path}"
 				is_all_file_readable=1
 			fi
 		done

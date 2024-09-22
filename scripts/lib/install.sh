@@ -1,4 +1,7 @@
 # shellcheck shell=sh
+#
+# requirements:
+#  ./log.sh
 
 create_original_home() {
 	if [ $# -ne 1 ]; then

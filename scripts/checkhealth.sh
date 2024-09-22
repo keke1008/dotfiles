@@ -1,30 +1,7 @@
 #!/bin/bash -eu
 
-. "${DOTPATH}/scripts/lib/abort.sh"
+. "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
-
-print_colored() {
-	if [ $# -ne 2 ]; then
-		abort "Usage: print_colored color text"
-	fi
-
-	local color=$1
-	local text=$2
-
-	local id
-	case ${color} in
-	red) id="31" ;;
-	green) id="32" ;;
-	yellow) id="33" ;;
-	blue) id="34" ;;
-	magenta) id="35" ;;
-	cyan) id="36" ;;
-	white) id="37" ;;
-	*) abort "Invalid color: ${color}" ;;
-	esac
-
-	echo -en "\e[${id}m${text}\e[0m"
-}
 
 report() {
 	if [ $# -ne 2 ] && [ $# -ne 3 ]; then
