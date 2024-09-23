@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
 main() {
 	report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sway/local_config" "Local sway config file"

@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
 if command -v waybar >/dev/null 2>&1; then
 	level="error"

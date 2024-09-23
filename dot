@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -eu
 
 export_and_mkdir() {
 	if [ $# -ne 2 ]; then
@@ -25,15 +25,15 @@ bootstrap() {
 }
 
 execute_script() {
-	subcommand="$1"
-
-	if [ -z "${subcommand}" ]; then
+	if [ $# -eq 0 ]; then
 		echo "Usage: $0 <subcommand> [args...]"
 		abort "Subcommand is required."
 	fi
+
+	local subcommand="$1"
 	shift
 
-	subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
+	local subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
 	if [ -r "${subcommand_source}" ]; then
 		"${subcommand_source}" "$@"
 	else

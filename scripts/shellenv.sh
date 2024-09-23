@@ -7,13 +7,14 @@ print_export_variable_command() {
 		abort "Usage: print_export_variable_command <variable_name>"
 	fi
 
-	key="$1"
+	local key="$1"
+	local value
 	value="$(eval echo "\$${key}")"
 	echo "export ${key}='${value}'"
 }
 
 main() {
-	variables=" \
+	local variables=" \
 		DOTPATH \
 		XDG_CONFIG_HOME \
 		DOTFILES_CONFIG_HOME \
