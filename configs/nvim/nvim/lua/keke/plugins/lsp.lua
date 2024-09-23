@@ -121,7 +121,7 @@ return {
                 ["lua_ls"] = function(_)
                     -- lazydev.nvim
                 end,
-                ["tsserver"] = function(_)
+                ["ts_ls"] = function(_)
                     -- typescript.nvim
                 end,
                 ["rust_analyzer"] = function(_)
