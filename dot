@@ -29,12 +29,12 @@ bootstrap() {
 
 execute_script() {
 	subcommand="$1"
-	shift
 
 	if [ -z "${subcommand}" ]; then
 		echo "Usage: $0 <subcommand> [args...]" >&2
 		abort "Subcommand is required"
 	fi
+	shift
 
 	subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
 	if [ -r "${subcommand_source}" ]; then

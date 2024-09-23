@@ -34,8 +34,7 @@ main() {
 
 		# shellcheck disable=SC1091
 		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
-			echo "Failed to restore configuration directory: ${config_dirname}" >&2
-			continue
+			log "error" "Failed to restore configuration directory: ${config_dirname}"
 		fi
 	done
 }
