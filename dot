@@ -34,7 +34,7 @@ execute_script() {
 	shift
 
 	local subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
-	if [ -r "${subcommand_source}" ]; then
+	if [ -x "${subcommand_source}" ]; then
 		"${subcommand_source}" "$@"
 	else
 		abort "Unknown subcommand: ${subcommand}"
