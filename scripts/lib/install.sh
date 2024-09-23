@@ -61,26 +61,26 @@ stash_and_link() {
 
 	local name="$1"
 	local dst="$2"
-	local src="$3"
-	local stashed="${4:-${src}}"
+	local src="${DOTPATH}/configs/${name}/${3}"
+	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
 	# stash
 	if ! is_installed "${name}" && [ -e "${dst}" ]; then
-		if [ -e "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}" ]; then
-			abort "The stashed file already exists: ${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}"
+		if [ -e "${stashed}" ]; then
+			abort "The stashed file already exists: ${stashed}"
 		fi
 
 		# Check if the destination is already linked to the configuration file
-		if [ "$(readlink -f "${dst}")" = "${DOTPATH}/configs/${name}/${src}" ]; then
+		if [ "$(readlink -f "${dst}")" = "${src}" ]; then
 			return
 		fi
 
-		mkdir -p "$(dirname "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}")"
-		mv "${dst}" "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}"
+		mkdir -p "$(dirname "${stashed}")"}
+		mv "${dst}" "${stashed}"
 	fi
 
 	# link
-	ln -snfv "${DOTPATH}/configs/${name}/${src}" "${dst}"
+	ln -snfv "${src}" "${dst}"
 }
 
 # Unlink the configuration file and restore the original file
@@ -97,8 +97,8 @@ unlink_and_restore() {
 
 	local name="$1"
 	local dst="$2"
-	local src="$3"
-	local stashed="${4:-${src}}"
+	# local src="${DOTPATH}/configs/${name}/${3}"
+	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
 	# unlink
 	if [ -e "${dst}" ]; then
@@ -106,8 +106,8 @@ unlink_and_restore() {
 	fi
 
 	# restore
-	if is_installed "${name}" && [ -e "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}" ]; then
-		mv "${DOTFILES_ORIGINAL_HOME}/${name}/${stashed}" "${dst}"
+	if is_installed "${name}" && [ -e "${stashed}" ]; then
+		mv "${stashed}" "${dst}"
 	fi
 }
 
