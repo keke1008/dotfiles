@@ -24,7 +24,7 @@ report() {
 	printf "\t%s\n" "$(print_colored "${color}" " ${message}")"
 
 	if [ -n "${detail}" ] && [ "${level}" != "trace" ]; then
-		printf "\t\t%s" "${detail}"
+		printf "\t\t%s\n" "${detail}"
 	fi
 }
 
@@ -92,14 +92,13 @@ run_checkhealth_single_config() {
 	fi
 
 	print_colored "cyan" " $(basename "${config_dir}")\n"
-	if [ ! -x "${checkhealth_script}" ]; then
-		print_colored red "\tError: ${checkhealth_script} is not executable\n\n"
+	if [ ! -r "${checkhealth_script}" ]; then
+		print_colored red "\tError: ${checkhealth_script} is not readable\n\n"
 		return
 	fi
 
 	# shellcheck disable=SC1090
-	. "$checkhealth_script"
-	echo
+	. "${checkhealth_script}"
 }
 
 main() {
@@ -107,7 +106,7 @@ main() {
 	config_dirnames=$(enumerate_config_dirname "$@" | filter_file_exists "checkhealth.sh")
 
 	local config_dirname
-	for config_dirname in $config_dirnames; do
+	for config_dirname in ${config_dirnames}; do
 		run_checkhealth_single_config "$(config_dirname_to_path "${config_dirname}")"
 	done
 }
