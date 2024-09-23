@@ -38,8 +38,6 @@ main() {
 			log "error" "Failed to install configuration directory: ${config_dirname}"
 			continue
 		fi
-
-		mark_installed "${config_dirname}"
 	done
 }
 

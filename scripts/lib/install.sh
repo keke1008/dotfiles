@@ -13,38 +13,6 @@ create_original_home() {
 	mkdir -p "${DOTFILES_ORIGINAL_HOME}/${name}"
 }
 
-is_installed() {
-	if [ $# -ne 1 ]; then
-		abort "Usage: is_installed <name>"
-	fi
-
-	local name="$1"
-
-	[ -e "${DOTFILES_ORIGINAL_HOME}/${name}/.installed" ]
-}
-
-mark_installed() {
-	if [ $# -ne 1 ]; then
-		abort "Usage: mark_installed <name>"
-	fi
-
-	local name="$1"
-
-	touch "${DOTFILES_ORIGINAL_HOME}/${name}/.installed"
-}
-
-mark_uninstalled() {
-	if [ $# -ne 1 ]; then
-		abort "Usage: mark_uninstalled <name>"
-	fi
-
-	local name="$1"
-
-	if is_installed "${name}"; then
-		rm "${DOTFILES_ORIGINAL_HOME}/${name}/.installed"
-	fi
-}
-
 # Stash the original file and link the configuration file
 #
 # Arguments:
@@ -64,23 +32,27 @@ stash_and_link() {
 	local src="${DOTPATH}/configs/${name}/${3}"
 	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
+	# Do nothing if the destination is already linked to the configuration file
+	if [ -e "${dst}" ] && [ "$(readlink -f "${dst}")" = "${src}" ]; then
+		return
+	fi
+
+	# Check if the stashed file already exists
+	if [ -e "${stashed}" ]; then
+		log "error" "The stashed file already exists: ${stashed}"
+		return
+	fi
+
 	# stash
-	if ! is_installed "${name}" && [ -e "${dst}" ]; then
-		if [ -e "${stashed}" ]; then
-			abort "The stashed file already exists: ${stashed}"
-		fi
-
-		# Check if the destination is already linked to the configuration file
-		if [ "$(readlink -f "${dst}")" = "${src}" ]; then
-			return
-		fi
-
+	if [ -e "${dst}" ]; then
+		log "info" "Stashing ${dst} to ${stashed}"
 		mkdir -p "$(dirname "${stashed}")"
 		mv "${dst}" "${stashed}"
 	fi
 
 	# link
-	ln -snfv "${src}" "${dst}"
+	log "info" "Linking ${src} to ${dst}"
+	ln -snf "${src}" "${dst}"
 }
 
 # Unlink the configuration file and restore the original file
@@ -97,16 +69,21 @@ unlink_and_restore() {
 
 	local name="$1"
 	local dst="$2"
-	# local src="${DOTPATH}/configs/${name}/${3}"
+	local src="${DOTPATH}/configs/${name}/${3}"
 	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
-	# unlink
-	if [ -e "${dst}" ]; then
-		rm "${dst}"
+	# Do nothing if the destination is not linked to the configuration file
+	if [ ! -e "${dst}" ] || [ "$(readlink -f "${dst}")" != "${src}" ]; then
+		return
 	fi
 
+	# unlink
+	log "info" "Unlinking ${dst}"
+	rm "${dst}"
+
 	# restore
-	if is_installed "${name}" && [ -e "${stashed}" ]; then
+	if [ -e "${stashed}" ]; then
+		log "info" "Restoring ${stashed} to ${dst}"
 		mv "${stashed}" "${dst}"
 	fi
 }

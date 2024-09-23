@@ -37,8 +37,6 @@ main() {
 			echo "Failed to restore configuration directory: ${config_dirname}" >&2
 			continue
 		fi
-
-		mark_uninstalled "${config_dirname}"
 	done
 }
 
