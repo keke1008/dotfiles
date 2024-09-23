@@ -75,7 +75,7 @@ stash_and_link() {
 			return
 		fi
 
-		mkdir -p "$(dirname "${stashed}")"}
+		mkdir -p "$(dirname "${stashed}")"
 		mv "${dst}" "${stashed}"
 	fi
 
