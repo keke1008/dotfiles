@@ -1,10 +1,5 @@
 #!/bin/sh
 
-abort() {
-	echo "Error:" "$@" >&2
-	exit 1
-}
-
 export_and_mkdir() {
 	if [ $# -ne 2 ]; then
 		abort "export_and_mkdir requires exactly 2 arguments"
@@ -16,10 +11,12 @@ export_and_mkdir() {
 
 bootstrap() {
 	if ! DOTPATH="$(cd "$(dirname "$0")" && pwd)"; then
-		abort "Failed to resolve DOTPATH"
+		echo "Failed to resolve DOTPATH" >&2
 	fi
 	export DOTPATH
 	echo "${DOTPATH}" >"${HOME}/.dotpath"
+
+	. "${DOTPATH}/scripts/lib/log.sh"
 
 	export_and_mkdir XDG_CONFIG_HOME "${HOME}/.config"
 	export_and_mkdir DOTFILES_CONFIG_HOME "${XDG_CONFIG_HOME}/dotfiles"
@@ -31,8 +28,8 @@ execute_script() {
 	subcommand="$1"
 
 	if [ -z "${subcommand}" ]; then
-		echo "Usage: $0 <subcommand> [args...]" >&2
-		abort "Subcommand is required"
+		echo "Usage: $0 <subcommand> [args...]"
+		abort "Subcommand is required."
 	fi
 	shift
 

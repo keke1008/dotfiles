@@ -56,7 +56,7 @@ check_file_exists() {
 			local check_file_path
 			check_file_path="$(config_dirname_to_path "${dir}")/${check_filename}"
 			if [ ! -f "${check_file_path}" ]; then
-				log "info" "File not found: ${check_file_path}" >&2
+				log "info" "File not found: ${check_file_path}"
 				is_all_file_exists=1
 			fi
 		done
