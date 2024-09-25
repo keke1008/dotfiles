@@ -37,6 +37,8 @@ main() {
 			log "error" "Failed to restore configuration directory: ${config_dirname}"
 		fi
 	done
+
+	exit_with_stored_code
 }
 
 main "$@"

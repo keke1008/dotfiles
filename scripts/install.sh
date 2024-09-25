@@ -38,6 +38,8 @@ main() {
 			log "error" "Failed to install configuration directory: ${config_dirname}"
 		fi
 	done
+
+	exit_with_stored_code
 }
 
 main "$@"

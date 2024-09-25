@@ -17,6 +17,8 @@ main() {
 
 	# shellcheck disable=SC2086
 	bats $config_dirnames
+
+	exit_with_stored_code
 }
 
 main "$@"

@@ -25,6 +25,8 @@ main() {
 	for var in $variables; do
 		print_export_variable_command "$var"
 	done
+
+	exit_with_stored_code
 }
 
 main

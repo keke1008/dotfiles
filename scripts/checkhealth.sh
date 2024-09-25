@@ -109,6 +109,8 @@ main() {
 	for config_dirname in ${config_dirnames}; do
 		run_checkhealth_single_config "$(config_dirname_to_path "${config_dirname}")"
 	done
+
+	exit_with_stored_code
 }
 
 main "$@"

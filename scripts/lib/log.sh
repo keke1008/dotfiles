@@ -1,8 +1,23 @@
 # shellcheck shell=sh
 
+_DOTFILES_EXIT_CODE=0
+
+set_exit_code() {
+	if [ $# -ne 1 ]; then
+		abort "Usage: set_exit_code code"
+	fi
+
+	_DOTFILES_EXIT_CODE="$1"
+}
+
+exit_with_stored_code() {
+	exit "${_DOTFILES_EXIT_CODE}"
+}
+
 abort() {
 	printf "\e[31m[error] ABORTED.\e[0m %s\n" "$*"
-	exit 1
+	set_exit_code 1
+	exit_with_stored_code
 }
 
 _print_with_color_id() {
@@ -64,4 +79,8 @@ log() {
 
 	print_colored "${level}" "[${level}]"
 	printf " %s\n" "${message}"
+
+	if [ "${level}" = "error" ] && [ "${_DOTFILES_EXIT_CODE}" -eq 0 ]; then
+		_DOTFILES_EXIT_CODE=1
+	fi
 }
