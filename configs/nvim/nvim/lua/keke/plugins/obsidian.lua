@@ -111,6 +111,73 @@ local function copy_current_note_path()
     end)
 end
 
+local function open_parent_note()
+    local async = require("plenary.async")
+    local pickers = require("telescope.pickers")
+    local finders = require("telescope.finders")
+    local conf = require("telescope.config").values
+
+    local client = require("obsidian").get_client()
+    local current_note = client:current_note()
+    if not current_note then
+        return
+    end
+
+    ---@type string[]
+    local parent_links = current_note.metadata.links or {}
+    if #parent_links == 0 then
+        return
+    end
+
+    local resolve_link = async.wrap(client.resolve_link_async, 3)
+    local resolve_link_funcs = vim.tbl_map(function(link)
+        return function()
+            ---@type obsidian.ResolveLinkResult
+            local result = resolve_link(client, link)
+            return result.note
+        end
+    end, parent_links)
+
+    async.void(function()
+        ---@type obsidian.Note[]
+        local parent_notes = vim.tbl_filter(
+            function(v) return v ~= nil end, --
+            vim.tbl_map(
+                function(v) return v[1] end, --
+                async.util.join(resolve_link_funcs)
+            )
+        )
+        if #parent_notes == 0 then
+            return
+        end
+        if #parent_notes == 1 then
+            client:open_note(parent_notes[1])
+            return
+        end
+
+        vim.schedule(function()
+            pickers
+                .new({}, {
+                    prompt_title = "Parent Notes",
+                    finder = finders.new_table({
+                        results = parent_notes,
+                        entry_maker = function(note)
+                            return {
+                                value = note,
+                                display = note.title,
+                                ordinal = note.title,
+                                path = tostring(note.path),
+                            }
+                        end,
+                    }),
+                    sorter = conf.generic_sorter({}),
+                    previewer = conf.file_previewer({}),
+                })
+                :find()
+        end)
+    end)()
+end
+
 local vaults = get_vault_path()
 
 return {
@@ -130,6 +197,7 @@ return {
         { "<leader>ol", copy_current_note_link, desc = "Copy Current Note Link" },
         { "<leader>oL", copy_current_note_path, desc = "Copy Current Note Path" },
         { "<leader>oo", "<CMD>ObsidianOpen<CR>" },
+        { "<leader>op", open_parent_note, desc = "Open Parent Note" },
         { "<leader>of", "<CMD>ObsidianSearch<CR>" },
         { "<leader>ow", "<CMD>ObsidianWorkspace<CR>" },
         { "<leader>o0", "<CMD>ObsidianToday<CR>" },
