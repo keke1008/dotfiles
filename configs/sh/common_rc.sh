@@ -21,11 +21,16 @@ alias kc='kubectl'
 alias be='bundle exec'
 alias bi='bundle install'
 alias tf='terraform'
-alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+
+_LS_COMMAND="ls"
+if command -v "exa" >/dev/null; then
+	_LS_COMMAND="exa"
+fi
+alias ls="${_LS_COMMAND} --color=auto"
+alias ll="${_LS_COMMAND} -alF"
+alias la="${_LS_COMMAND} -A"
+alias l="${_LS_COMMAND} -CF"
 
 if ! command -v "vim" >/dev/null 2>&1; then
 	alias vim='vi'

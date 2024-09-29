@@ -20,6 +20,9 @@ alias kc "kubectl"
 alias be "bundle exec"
 alias bi "bundle install"
 alias tf "terraform"
+if type -q "exa"
+    alias ls "exa --color=auto"
+end
 if not type -q vim
     alias vim "vi"
 end
