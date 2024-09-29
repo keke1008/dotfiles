@@ -5,7 +5,7 @@ case $- in
 esac
 
 if command -v "tmux" >/dev/null && [ -z "$TMUX" ]; then
-	tmux
+	tmux new-session -A
 fi
 
 if [ -z "$DISABLE_EXEC_SHELL" ] && command -v "fish" >/dev/null; then
