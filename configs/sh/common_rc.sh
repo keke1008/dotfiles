@@ -4,14 +4,41 @@ case $- in
 *) return ;;
 esac
 
-if command -v "tmux" >/dev/null && [ -z "$TMUX" ]; then
+check_command_exists() {
+	command -v "$1" >/dev/null
+}
+
+alias_if_exists() {
+	if check_command_exists "$1"; then
+		alias "$2"="${3:-1}"
+	fi
+}
+
+alias_if_exists_or_else() {
+	if check_command_exists "$1"; then
+		alias "$2"="$3"
+	else
+		alias "$2"="$4"
+	fi
+}
+
+unset_all() {
+	unset -f \
+		check_command_exists \
+		alias_if_exists \
+		alias_if_exists_or_else \
+		unset_all
+}
+
+if check_command_exists tmux && [ -z "$TMUX" ]; then
 	tmux new-session -A
 fi
 
-if [ -z "$DISABLE_EXEC_SHELL" ] && command -v "fish" >/dev/null; then
+if [ -z "$DISABLE_EXEC_SHELL" ] && check_command_exists fish; then
 	exec fish
 fi
 
+alias l="ls"
 alias v='${EDITOR}'
 alias g='git'
 alias c='cargo'
@@ -23,37 +50,19 @@ alias bi='bundle install'
 alias tf='terraform'
 alias grep='grep --color=auto'
 
-_LS_COMMAND="ls"
-if command -v "exa" >/dev/null; then
-	_LS_COMMAND="exa"
-fi
-alias ls="${_LS_COMMAND} --color=auto"
-alias ll="${_LS_COMMAND} -alF"
-alias la="${_LS_COMMAND} -A"
-alias l="${_LS_COMMAND} -CF"
+alias_if_exists_or_else exa ls "exa" "ls --color=auto"
+alias_if_exists_or_else exa ll "exa -lh" "ls -lh"
+alias_if_exists_or_else exa la "exa -a" "ls -A"
 
-if ! command -v "vim" >/dev/null 2>&1; then
-	alias vim='vi'
-fi
-if command -v "bat" >/dev/null; then
-	alias cat="bat"
-elif command -v "batcat" >/dev/null; then
-	alias cat="batcat"
-fi
-if command -v "trash-put" >/dev/null; then
-	alias rm="trash-put"
-else
-	alias rm="rm -i"
-fi
+alias_if_exists bat cat
+alias_if_exists batcat cat
+alias_if_exists_or_else trash-put rm "trash-put" "rm -i"
 
-dots=".."
-cd_command="cd .."
-for _ in $(seq 1 9); do
-	dots="$dots."
-	cd_command="$cd_command/.."
-	# shellcheck disable=SC2139
-	alias "$dots"="$cd_command"
-done
+alias "..."="cd ../.."
+alias "...."="cd ../../.."
+alias "....."="cd ../../../.."
+
+unset_all
 
 local_rc="${DOTFILES_LOCAL_HOME}/sh/local_rc.sh"
 if [ -r "$local_rc" ]; then

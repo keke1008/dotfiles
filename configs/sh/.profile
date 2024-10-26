@@ -38,9 +38,7 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 append_path() {
 	case ":$PATH:" in
 	*:"$1":*) ;;
-	*)
-		export PATH="${PATH:+$PATH:}$1"
-		;;
+	*) export PATH="${PATH:+$PATH:}$1" ;;
 	esac
 }
 
@@ -74,23 +72,19 @@ if [ -x "/opt/homebrew/bin/brew" ]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Editor
-if command -v "nvim" >/dev/null; then
-	export EDITOR="nvim"
-else
-	export EDITOR="vim"
-fi
+for EDITOR in "nvim" "vim" "vi"; do
+	if command -v "$EDITOR" >/dev/null; then
+		break
+	fi
+done
+export EDITOR="${EDITOR:-vim}"
 
 # if running on WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
-	append_path "$DOTPATH/bin/wsl/"
-
 	if command -v "wslg.exe" >/dev/null; then
 		export DISPLAY=":0"
-	else
-		if DISPLAY="$(hostname).mshome.net:0.0"; then
-			export DISPLAY
-		fi
+	elif DISPLAY="$(hostname).mshome.net:0.0"; then
+		export DISPLAY
 	fi
 fi
 
