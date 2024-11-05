@@ -10,7 +10,7 @@ check_command_exists() {
 
 alias_if_exists() {
 	if check_command_exists "$1"; then
-		alias "$2"="${3:-1}"
+		alias "$2"="${3:-$1}"
 	fi
 }
 
