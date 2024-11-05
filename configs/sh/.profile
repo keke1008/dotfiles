@@ -1,11 +1,10 @@
-# Bootstrap
+# Bootstrapping
 if [ -r "$HOME/.dotpath" ] && DOTPATH=$(cat "$HOME/.dotpath"); then
-	export DOTPATH
+	eval "$("${DOTPATH}/dot" shellenv)"
 else
 	echo "Error: Failed to get DOTPATH" >&2
 	return 1
 fi
-eval "$("${DOTPATH}/dot" shellenv)"
 
 # Avoid recursive loading
 if [ -n "${DOTFILES_DOT_PROFILE_LOADING:-}" ]; then

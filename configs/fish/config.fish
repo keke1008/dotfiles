@@ -1,3 +1,13 @@
+# Bootstrapping
+if test -r "$HOME/.dotpath"
+    set DOTPATH (cat "$HOME/.dotpath")
+    eval ("$DOTPATH/dot" shellenv)
+else
+    echo "Error: Failed to get DOTPATH" >&2
+    return 1
+end
+
+
 set -x fish_term24bit 1
 
 # Fisher bootstrapping
