@@ -34,30 +34,30 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 . "${DOTPATH}/configs/sh/configs/tokyonight_night.sh"
 
-append_path() {
+prepend_path() {
 	case ":$PATH:" in
 	*:"$1":*) ;;
-	*) export PATH="${PATH:+$PATH:}$1" ;;
+	*) export PATH="$1${PATH:+:$PATH}" ;;
 	esac
 }
 
-append_path_if_exists() {
+prepend_path_if_exists() {
 	if [ -d "$1" ]; then
-		append_path "$1"
+		prepend_path "$1"
 	fi
 }
 
-append_path "$DOTPATH/bin"
+prepend_path "$DOTPATH/bin"
 mkdir -p "$HOME/.local/bin"
-append_path "$HOME/.local/bin"
-append_path_if_exists "$HOME/.cargo/bin"
-append_path_if_exists "$HOME/.deno/bin"
-append_path_if_exists "$HOME/.luarocks/bin"
-append_path_if_exists "$HOME/.go/bin"
-append_path_if_exists "$HOME/.tfenv/bin"
-append_path_if_exists "$HOME/.fly/bin" # fly.io
-append_path_if_exists "/snap/bin"
+prepend_path "$HOME/.local/bin"
+prepend_path_if_exists "/snap/bin"
+prepend_path_if_exists "$HOME/.fly/bin" # fly.io
+prepend_path_if_exists "$HOME/.luarocks/bin"
+prepend_path_if_exists "$HOME/.tfenv/bin"
+prepend_path_if_exists "$HOME/.deno/bin"
+prepend_path_if_exists "$HOME/.cargo/bin"
 
+prepend_path_if_exists "$HOME/.go/bin"
 export GOPATH="$HOME/.go"
 
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
@@ -70,6 +70,12 @@ fi
 if [ -x "/opt/homebrew/bin/brew" ]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+# aqua must be prioritized over other tools
+# https://aquaproj.github.io/docs/reference/use-aqua-with-other-tools/
+export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME}/aquaproj-aqua/aqua.yaml"
+export AQUA_ROOT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua"
+prepend_path_if_exists "${AQUA_ROOT_DIR}/bin"
 
 for EDITOR in "nvim" "vim" "vi"; do
 	if command -v "$EDITOR" >/dev/null; then
