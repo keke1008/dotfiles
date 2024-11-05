@@ -1,9 +1,11 @@
 # Bootstrapping
-if [ -r "$HOME/.dotpath" ] && DOTPATH=$(cat "$HOME/.dotpath"); then
-	eval "$("${DOTPATH}/dot" shellenv)"
-else
-	echo "Error: Failed to get DOTPATH" >&2
-	return 1
+if [ -z "${DOTPATH:-}" ]; then
+	if [ -r "$HOME/.dotpath" ] && DOTPATH=$(cat "$HOME/.dotpath"); then
+		eval "$("${DOTPATH}/dot" shellenv)"
+	else
+		echo "Error: Failed to get DOTPATH" >&2
+		return 1
+	fi
 fi
 
 # Avoid recursive loading
