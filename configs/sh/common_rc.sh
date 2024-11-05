@@ -34,8 +34,9 @@ if check_command_exists tmux && [ -z "$TMUX" ]; then
 	tmux new-session -A
 fi
 
-if [ -z "$DISABLE_EXEC_SHELL" ] && check_command_exists fish; then
-	exec fish
+if [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
+	check_command_exists fish && exec fish
+	check_command_exists zsh && exec zsh
 fi
 
 alias l="ls"

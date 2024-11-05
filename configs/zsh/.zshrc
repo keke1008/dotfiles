@@ -9,7 +9,7 @@ if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc" ]; then
 fi
 
 if [ -r "$DOTPATH/configs/sh/common_rc.sh" ]; then
-    . "$DOTPATH/configs/sh/common_rc.sh"
+    DOTFILES_DISABLE_SUBSTITUTE_SHELL=1 . "$DOTPATH/configs/sh/common_rc.sh"
 fi
 
 HISTFILE=~/.histfile
