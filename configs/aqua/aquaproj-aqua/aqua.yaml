@@ -11,3 +11,9 @@ registries:
     ref: v4.246.1 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: tfutils/tfenv@v3.0.0
+  - name: ogham/exa@v0.10.1
+  - name: sharkdp/bat@v0.24.0
+  - name: neovim/neovim@v0.10.2
+  - name: starship/starship@v1.21.1
+  - name: junegunn/fzf@v0.56.0
+  - name: BurntSushi/ripgrep@14.1.1
