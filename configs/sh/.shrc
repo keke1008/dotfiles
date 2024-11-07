@@ -39,15 +39,12 @@ unset_all() {
 		unset_all
 }
 
-if check_command_exists tmux && [ -z "$TMUX" ]; then
-	tmux new-session -A
-fi
-
 # When loading the original configuration file, DOTFILES_(FILE_NAME)_LOADING is set to prevent an infinite loop.
 # DOTFILES_(FILE_NAME)_LOADING needs to be unset immediately after loading the original file.
 # However, if exec (shell) is executed in the following line, DOTFILES_(FILE_NAME)_LOADING remains unset.
 # Therefore, if DOTFILES_ORIGINAL_LOADING is set, do not execute exec.
 if [ -z "${DOTFILES_ORIGINAL_LOADING}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
+	check_command_exists tmux && [ -z "$TMUX" ] && tmux new-session -A
 	check_command_exists fish && exec fish
 	check_command_exists zsh && exec zsh
 fi
