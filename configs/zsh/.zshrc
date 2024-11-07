@@ -27,16 +27,12 @@ bindkey "^[[3~" delete-char # DELETE
 bindkey "^[[1;5A" history-beginning-search-backward # ctrl + up
 bindkey "^[[1;5B" history-beginning-search-forward # ctrl + down
 ctrl_j_popd() {
-    if [ "$(dirs -v | wc -l)" -le 1 ]; then
-        return
-    fi
+    [ "$(dirs -v | wc -l)" -le 1 ] && return
     popd >>/dev/null
     zle reset-prompt
 }
 ctrl_k_pushd() {
-    if [ "$PWD" = "/" ]; then
-        return
-    fi
+    [ "$PWD" = "/" ] && return
     pushd .. >>/dev/null
     zle reset-prompt
 }
@@ -48,6 +44,10 @@ bindkey "^K" ctrl_k_pushd
 # direnv
 if command -v "direnv" >/dev/null; then
     eval "$(direnv hook zsh)"
+fi
+
+if command -v "fzf" >/dev/null; then
+    eval "$(fzf --zsh)"
 fi
 
 zstyle :compinstall filename "$HOME/.zshrc"
