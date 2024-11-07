@@ -1,12 +1,12 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
-if [ -n "${DOTFILES_DOT_BASHRC_LOADING:-}" ]; then
+# Avoid recursive loading
+if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
 	return 0
 fi
 
 if [ -r "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc" ]; then
-	DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_BASHRC_LOADING=1 \
-		. "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc"
+	DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc"
 fi
 
 # If not running interactively, don't do anything

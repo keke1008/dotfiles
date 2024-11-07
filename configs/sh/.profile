@@ -9,14 +9,13 @@ if [ -z "${DOTPATH:-}" ]; then
 fi
 
 # Avoid recursive loading
-if [ -n "${DOTFILES_DOT_PROFILE_LOADING:-}" ]; then
+if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
 	return 0
 fi
 
 # Load original profile if exists
 if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.profile" ]; then
-	DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_PROFILE_LOADING=1 \
-		. "${DOTFILES_ORIGINAL_HOME}/sh/.profile"
+	DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/sh/.profile"
 fi
 
 if GPG_TTY=$(tty); then

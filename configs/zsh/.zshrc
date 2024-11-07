@@ -1,10 +1,10 @@
-if [ -n "${DOTFILES_DOT_ZSHRC_LOADING:-}" ]; then
+if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
     return 0
 fi
 
+# Avoid recursive loading
 if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc" ]; then
-    DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_ZSHRC_LOADING=1 \
-        . "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc"
+    DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc"
 fi
 
 if [ -r "${HOME}/.shrc" ]; then

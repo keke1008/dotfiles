@@ -1,4 +1,5 @@
-if [ -n "${DOTFILES_DOT_ZPROFILE_LOADING:-}" ]; then
+# Avoid recursive loading
+if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
   return 0
 fi
 
@@ -11,9 +12,7 @@ else
 fi
 
 if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zprofile" ]; then
-  export DOTFILES_DOT_ZPROFILE_LOADING=1
-  . "${DOTFILES_ORIGINAL_HOME}/zsh/.zprofile"
-  unset DOTFILES_DOT_ZPROFILE_LOADING
+  DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/zsh/.zprofile"
 fi
 
 if [ -f ~/.profile ]; then
