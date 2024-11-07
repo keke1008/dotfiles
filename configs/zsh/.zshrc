@@ -40,13 +40,30 @@ zle -N ctrl_k_pushd
 bindkey "^J" ctrl_j_popd
 bindkey "^K" ctrl_k_pushd
 
+if [ ! -d "${XDG_DATA_HOME}/.antidote" ] && command -v "git" >/dev/null; then
+    git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"
+fi
+if [ -d "${XDG_DATA_HOME}/.antidote" ]; then
+    source "${XDG_DATA_HOME}/.antidote/antidote.zsh"
+    antidote load
+else
+    function zsh-defer() {
+        if [ "$1" = "-c" ]; then
+            shift
+            eval "$@"
+        else
+            "$@"
+        fi
+    }
+fi
+
 # direnv
 if command -v "direnv" >/dev/null; then
-    eval "$(direnv hook zsh)"
+    zsh-defer -c 'eval "$(direnv hook zsh)"'
 fi
 
 if command -v "fzf" >/dev/null; then
-    eval "$(fzf --zsh)"
+    zsh-defer -c 'source <(fzf --zsh)'
 fi
 
 zstyle :compinstall filename "$HOME/.zshrc"
