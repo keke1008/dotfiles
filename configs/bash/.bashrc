@@ -5,9 +5,8 @@ if [ -n "${DOTFILES_DOT_BASHRC_LOADING:-}" ]; then
 fi
 
 if [ -r "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc" ]; then
-	export DOTFILES_DOT_BASHRC_LOADING=1
-	. "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc"
-	unset DOTFILES_DOT_BASHRC_LOADING
+	DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_BASHRC_LOADING=1 \
+		. "${DOTFILES_ORIGINAL_HOME}/bash/.bashrc"
 fi
 
 # If not running interactively, don't do anything
@@ -53,8 +52,8 @@ if command -v "direnv" >/dev/null; then
 	eval "$(direnv hook bash)"
 fi
 
-if  command -v "fzf" >/dev/null; then
-    eval "$(fzf --bash)"
+if command -v "fzf" >/dev/null; then
+	eval "$(fzf --bash)"
 fi
 
 if command -v "starship" >/dev/null; then

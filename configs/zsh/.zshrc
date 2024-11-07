@@ -3,9 +3,8 @@ if [ -n "${DOTFILES_DOT_ZSHRC_LOADING:-}" ]; then
 fi
 
 if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc" ]; then
-    export DOTFILES_DOT_ZSHRC_LOADING=1
-    . "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc"
-    unset DOTFILES_DOT_ZSHRC_LOADING
+    DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_ZSHRC_LOADING=1 \
+        . "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc"
 fi
 
 if [ -r "$DOTPATH/configs/sh/common_rc.sh" ]; then

@@ -15,9 +15,8 @@ fi
 
 # Load original profile if exists
 if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.profile" ]; then
-	export DOTFILES_DOT_PROFILE_LOADING=1
-	. "${DOTFILES_ORIGINAL_HOME}/sh/.profile"
-	unset DOTFILES_DOT_PROFILE_LOADING
+	DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_PROFILE_LOADING=1 \
+		. "${DOTFILES_ORIGINAL_HOME}/sh/.profile"
 fi
 
 if GPG_TTY=$(tty); then

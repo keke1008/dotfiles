@@ -11,9 +11,8 @@ else
 fi
 
 if [ -r "${DOTFILES_ORIGINAL_HOME}/bash/.bash_profile" ]; then
-	export DOTFILES_DOT_BASH_PROFILE_LOADING=1
-	. "${DOTFILES_ORIGINAL_HOME}/bash/.bash_profile"
-	unset DOTFILES_DOT_BASH_PROFILE_LOADING
+	DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_BASH_PROFILE_LOADING=1 \
+		. "${DOTFILES_ORIGINAL_HOME}/bash/.bash_profile"
 fi
 
 if [ -f ~/.profile ]; then
