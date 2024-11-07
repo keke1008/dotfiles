@@ -17,3 +17,4 @@ packages:
   - name: starship/starship@v1.21.1
   - name: junegunn/fzf@v0.56.0
   - name: BurntSushi/ripgrep@14.1.1
+  - name: direnv/direnv@v2.35.0

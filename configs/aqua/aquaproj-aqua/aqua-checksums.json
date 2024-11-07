@@ -31,6 +31,31 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/direnv/direnv/v2.35.0/direnv.darwin-amd64",
+      "checksum": "4F9ED9888D22CDDAA54E0B1BB132A90E04703647C2FC318774ACE39E48E66A49",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/direnv/direnv/v2.35.0/direnv.darwin-arm64",
+      "checksum": "EDF7087C1A123F5A77424865A17139FBF776A3A25A2184DA7C2FCA227AD7A704",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/direnv/direnv/v2.35.0/direnv.linux-amd64",
+      "checksum": "55C294F4376397C68B1F659F049FB104DC2ECD0FCB15A15949D7F748E3F70B66",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/direnv/direnv/v2.35.0/direnv.linux-arm64",
+      "checksum": "B7B49853C7C822714A922A53D6DFFDED516F72B9A0324D029975A83662E065C2",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/direnv/direnv/v2.35.0/direnv.windows-amd64.exe",
+      "checksum": "F342C92F3500B71172BA39AD4FAC91774971FBB499985543A558871761282F6D",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/junegunn/fzf/v0.56.0/fzf-0.56.0-darwin_amd64.tar.gz",
       "checksum": "29E54EBF67373A7E1305F833624C7CBCE15A5D0D41BCA1C80777AB7DD82C3DFE",
       "algorithm": "sha256"
