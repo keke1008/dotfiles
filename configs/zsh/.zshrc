@@ -40,6 +40,9 @@ zle -N ctrl_k_pushd
 bindkey "^J" ctrl_j_popd
 bindkey "^K" ctrl_k_pushd
 
+autoload -U select-word-style
+select-word-style bash
+
 if [ ! -d "${XDG_DATA_HOME}/.antidote" ] && command -v "git" >/dev/null; then
     git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"
 fi
@@ -66,7 +69,7 @@ if command -v "fzf" >/dev/null; then
     zsh-defer -c 'source <(fzf --zsh)'
 fi
 
-zstyle :compinstall filename "$HOME/.zshrc"
+zstyle ':completion:*' menu yes select
 autoload -Uz compinit
 compinit
 
