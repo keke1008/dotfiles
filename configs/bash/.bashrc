@@ -15,9 +15,8 @@ case $- in
 *) return ;;
 esac
 
-# Source common rc file
-if [ -r "$DOTPATH/configs/sh/common_rc.sh" ]; then
-	. "$DOTPATH/configs/sh/common_rc.sh"
+if [ -r "${HOME}/.shrc" ]; then
+	. "${HOME}/.shrc"
 fi
 
 # Source global definitions

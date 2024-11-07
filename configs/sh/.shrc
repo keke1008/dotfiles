@@ -4,6 +4,15 @@ case $- in
 *) return ;;
 esac
 
+if [ -n "${DOTFILES_DOT_SHRC_LOADING:-}" ]; then
+	return 0
+fi
+
+if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.shrc" ]; then
+	DOTFILES_ORIGINAL_LOADING=1 DOTFILES_DOT_SHRC_LOADING=1 \
+		. "${DOTFILES_ORIGINAL_HOME}/sh/.shrc"
+fi
+
 check_command_exists() {
 	command -v "$1" >/dev/null
 }

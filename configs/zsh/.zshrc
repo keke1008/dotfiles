@@ -7,8 +7,8 @@ if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc" ]; then
         . "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc"
 fi
 
-if [ -r "$DOTPATH/configs/sh/common_rc.sh" ]; then
-    DOTFILES_DISABLE_SUBSTITUTE_SHELL=1 . "$DOTPATH/configs/sh/common_rc.sh"
+if [ -r "${HOME}/.shrc" ]; then
+    . "${HOME}/.shrc"
 fi
 
 HISTFILE=~/.histfile
