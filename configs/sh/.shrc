@@ -49,6 +49,10 @@ if [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUT
 	check_command_exists zsh && exec zsh
 fi
 
+HISTFILE="${HOME}/.history"
+HISTSIZE=10000
+HISTFILESIZE=10000
+
 alias l="ls"
 alias v='${EDITOR}'
 alias g='git'

@@ -18,10 +18,6 @@ if [ -r "${HOME}/.shrc" ]; then
     DOTFILES_DISABLE_SUBSTITUTE_SHELL=1 . "${HOME}/.shrc"
 fi
 
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-
 bindkey -e
 bindkey "^[[1;5D" backward-word # ctrl + left
 bindkey "^[[1;5C" forward-word # ctrl + right
@@ -49,6 +45,12 @@ bindkey "^K" ctrl_k_pushd
 
 autoload -U select-word-style
 select-word-style bash
+
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
 
 if [ ! -d "${XDG_DATA_HOME}/.antidote" ] && command -v "git" >/dev/null; then
     git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"
