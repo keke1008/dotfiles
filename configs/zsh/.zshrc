@@ -43,14 +43,27 @@ zle -N ctrl_k_pushd
 bindkey "^J" ctrl_j_popd
 bindkey "^K" ctrl_k_pushd
 
-autoload -U select-word-style
+autoload -Uz select-word-style
 select-word-style bash
 
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_SAVE_NO_DUPS
+setopt auto_cd
+setopt auto_list
+setopt auto_menu
+
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_find_no_dups
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' list-colors \
+    'no=00;37' 'fi=00;37' 'di=00;34' 'ln=01;36' \
+    'or=01;31' 'ex=01;32' 'ma=100;1'
+
+autoload -Uz compinit
+compinit
 
 if [ ! -d "${XDG_DATA_HOME}/.antidote" ] && command -v "git" >/dev/null; then
     git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"
@@ -77,10 +90,6 @@ fi
 if command -v "fzf" >/dev/null; then
     zsh-defer -c 'source <(fzf --zsh)'
 fi
-
-zstyle ':completion:*' menu yes select
-autoload -Uz compinit
-compinit
 
 if [ -f ~/.p10k.zsh ]; then
     source ~/.p10k.zsh
