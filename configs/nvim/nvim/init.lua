@@ -124,4 +124,12 @@ if vim.g.vscode then
     require("keke.vscode")
 end
 
+vim.filetype.add({
+    filename = {
+        [".shrc"] = "sh",
+        [".bashrc"] = "bash",
+        [".bash_profile"] = "bash",
+    },
+})
+
 require("keke.lazy")
