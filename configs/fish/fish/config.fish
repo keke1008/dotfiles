@@ -86,21 +86,6 @@ alias "....."="cd ../../../.."
 # colorscheme
 fish_config theme choose tokyonight_night
 
-fish_hybrid_key_bindings
-
-function ctrl_j_popd
-    test (dirs | string split ' ' | count) -le 1 && return
-    popd > /dev/null
-    commandline -f repaint
-end
-function ctrl_k_pushd
-    test $PWD = "/" && return
-    pushd .. > /dev/null
-    commandline -f repaint
-end
-bind \cj -M insert 'ctrl_j_popd'
-bind \ck -M insert 'ctrl_k_pushd'
-
 if type -q direnv
     eval (direnv hook fish)
 end
@@ -112,6 +97,13 @@ end
 if type -q zoxide
     zoxide init fish | source
 end
+
+fish_hybrid_key_bindings
+bind \cr -M default 'redo' # overwrite fzf keybinding
+bind \cj -M default '_popd_binding'
+bind \cj -M insert '_popd_binding'
+bind \ck -M default '_pushd_binding'
+bind \ck -M insert '_pushd_binding'
 
 set fish_greeting
 
