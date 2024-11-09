@@ -15,7 +15,7 @@ if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zshrc" ]; then
 fi
 
 if [ -r "${HOME}/.shrc" ]; then
-    DOTFILES_DISABLE_SUBSTITUTE_SHELL=1 . "${HOME}/.shrc"
+    . "${HOME}/.shrc"
 fi
 
 bindkey -e

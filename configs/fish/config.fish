@@ -7,6 +7,13 @@ else
     return 1
 end
 
+if status --is-login && not set -q DOTFILES_FISH_PROFILE_LOADED
+    DOTFILES_FISH_PROFILE_LOADED=1 exec sh -c "source $HOME/.profile; exec fish"
+end
+
+if status --is-interactive && not set -q DOTFILES_SHRC_LOADED
+    DOTFILES_SHRC_LOADED=1 exec sh -c "source $HOME/.shrc; exec fish"
+end
 
 set -x fish_term24bit 1
 
