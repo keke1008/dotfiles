@@ -19,7 +19,7 @@ if status --is-login && not set -q DOTFILES_FISH_PROFILE_LOADED
 end
 
 if status --is-interactive && not set -q DOTFILES_FISH_SHRC_LOADED
-    DOTFILES_FISH_SHRC_LOADED=1 exec sh -c "source $HOME/.shrc; exec fish"
+    DOTFILES_FISH_SHRC_LOADED=1 sh -c "source $HOME/.shrc"
 end
 
 # Fisher bootstrapping
