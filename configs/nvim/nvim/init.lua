@@ -31,9 +31,13 @@ vim.o.incsearch = true
 vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-    pattern = { "*.go", "*.sh", "*.asm" },
-    callback = function() vim.bo.expandtab = false end,
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "go", "sh", "bash", "zsh", "asm" },
+    callback = function(args)
+        vim.api.nvim_set_option_value("expandtab", false, {
+            buf = args.bufnr,
+        })
+    end,
 })
 
 vim.g.mapleader = " "

@@ -45,31 +45,6 @@ return {
                 desc = "Setup LSP settings for buffer",
                 callback = function(args)
                     local bufnr = args.buf
-                    local opts = { buffer = bufnr, silent = true }
-
-                    local function format()
-                        local null_ls_client = vim.lsp.get_clients({
-                            name = "null-ls",
-                            buffer = bufnr,
-                            method = "textDocument/formatting",
-                        })[1]
-                        if null_ls_client then
-                            vim.lsp.buf.format({ id = null_ls_client.id })
-                        else
-                            vim.lsp.buf.format({})
-                        end
-                    end
-
-                    map.add_group("<leader>l", "Lsp", bufnr)
-                    vim.keymap.set("n", "<leader>lf", format, map.add_desc(opts, "Format"))
-                    vim.keymap.set("n", "<leader>lc", vim.lsp.codelens.run, map.add_desc(opts, "Run codelens"))
-
-                    vim.api.nvim_create_autocmd("BufWritePre", {
-                        group = vim.api.nvim_create_augroup("keke_lsp_format_bufwritepre_" .. bufnr, {}),
-                        desc = "Format on save",
-                        buffer = bufnr,
-                        callback = format,
-                    })
 
                     local function refresh_codelens()
                         local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
