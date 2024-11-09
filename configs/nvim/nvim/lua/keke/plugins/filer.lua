@@ -89,20 +89,35 @@ return {
             end
         end,
         cmd = "Telescope",
-        keys = {
-            { "<leader>fb", "<CMD>Telescope buffers<CR>", mode = "n" },
-            { "<leader>ff", "<CMD>Telescope find_files<CR>", mode = "n" },
-            {
-                "<leader>fF",
-                function() require("telescope.builtin").find_files({ hidden = true }) end,
-                mode = "n",
-                desc = "find hidden files",
-            },
-            { "<leader>fg", "<CMD>Telescope git_files<CR>", mode = "n" },
-            { "<leader>fh", "<CMD>Telescope help_tags<CR>", mode = "n" },
-            { "<leader>fl", "<CMD>Telescope live_grep<CR>", mode = "n" },
-            { "<leader>fm", "<CMD>Telescope marks<CR>", mode = "n" },
-        },
+        keys = function()
+            local function telescope(name, opts)
+                return function()
+                    local builtins = require("telescope.builtin")
+                    builtins[name](opts)
+                end
+            end
+
+            return {
+                { "<leader>fb", "<CMD>Telescope buffers<CR>", mode = "n" },
+                { "<leader>ff", "<CMD>Telescope find_files<CR>", mode = "n" },
+                { "<leader>fF", telescope("find_files", { hidden = true }), mode = "n", desc = "find hidden files" },
+                { "<leader>fh", "<CMD>Telescope help_tags<CR>", mode = "n" },
+                { "<leader>fl", "<CMD>Telescope live_grep<CR>", mode = "n" },
+                { "<leader>fm", "<CMD>Telescope marks<CR>", mode = "n" },
+                { "<leader>fgf", "<CMD>Telescope git_files<CR>", mode = "n" },
+                { "<leader>fgc", "<CMD>Telescope git_commits<CR>", mode = "n" },
+                { "<leader>fgC", "<CMD>Telescope git_bcommits<CR>", mode = "n", desc = "commits for current buffer" },
+                { "<leader>fgb", "<CMD>Telescope git_branches<CR>", mode = "n" },
+                { "<leader>fgs", "<CMD>Telescope git_status<CR>", mode = "n" },
+                { "<leader>fgh", "<CMD>Telescope git_stash<CR>", mode = "n" },
+                {
+                    "<leader>fL",
+                    telescope("live_grep", { additional_args = { "--hidden" } }),
+                    mode = "n",
+                    desc = "live grep hidden files",
+                },
+            }
+        end,
         config = function()
             local telescope = require("telescope")
             local actions = require("telescope.actions")
