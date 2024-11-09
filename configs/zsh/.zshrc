@@ -91,6 +91,10 @@ if command -v "fzf" >/dev/null; then
     zsh-defer -c 'source <(fzf --zsh)'
 fi
 
+if command -v "zoxide" >/dev/null; then
+    zsh-defer -c 'eval "$(zoxide init zsh)"'
+fi
+
 if [ -f ~/.p10k.zsh ]; then
     source ~/.p10k.zsh
 elif command -v "starship" >/dev/null; then

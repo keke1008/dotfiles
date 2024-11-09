@@ -94,12 +94,16 @@ end
 bind \cj 'ctrl_j_popd'
 bind \ck 'ctrl_k_pushd'
 
+if type -q direnv
+    eval (direnv hook fish)
+end
+
 if type -q fzf
     fzf --fish | source
 end
 
-if type -q direnv
-    eval (direnv hook fish)
+if type -q zoxide
+    zoxide init fish | source
 end
 
 # prompt

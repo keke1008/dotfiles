@@ -18,3 +18,4 @@ packages:
   - name: junegunn/fzf@v0.56.0
   - name: BurntSushi/ripgrep@14.1.1
   - name: direnv/direnv@v2.35.0
+  - name: ajeetdsouza/zoxide@v0.9.6

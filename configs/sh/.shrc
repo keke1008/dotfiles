@@ -58,7 +58,7 @@ HISTSIZE=10000
 HISTFILESIZE=10000
 
 alias l="ls"
-alias v='${EDITOR}'
+alias v='$EDITOR'
 alias g='git'
 alias c='cargo'
 alias d='docker'
