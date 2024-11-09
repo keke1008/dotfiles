@@ -1,8 +1,8 @@
 function _pushd_binding
-    if test $PWD = "/"
+    if test $PWD = /
         return
     end
 
-    pushd .. > /dev/null
+    pushd .. >/dev/null
     commandline -f repaint
 end

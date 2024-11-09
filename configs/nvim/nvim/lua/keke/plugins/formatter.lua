@@ -26,6 +26,7 @@ return {
                 css = { "prettierd", "prettier" },
                 ruby = { "rubocop" },
                 python = { "isort", "black", stop_after_first = false },
+                lua = { "stylua" },
                 sh = { "shfmt" },
                 bash = { "shfmt" },
                 zsh = { "shfmt" },

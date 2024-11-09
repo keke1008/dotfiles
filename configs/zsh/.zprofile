@@ -1,6 +1,6 @@
 # Avoid recursive loading
 if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
-  return 0
+	return 0
 fi
 
 # Bootstrapping
@@ -12,9 +12,9 @@ else
 fi
 
 if [ -r "${DOTFILES_ORIGINAL_HOME}/zsh/.zprofile" ]; then
-  DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/zsh/.zprofile"
+	DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/zsh/.zprofile"
 fi
 
 if [ -f ~/.profile ]; then
-  . "$HOME/.profile"
+	. "$HOME/.profile"
 fi

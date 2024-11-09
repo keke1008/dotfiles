@@ -3,6 +3,6 @@ function _popd_binding
         return
     end
 
-    popd > /dev/null
+    popd >/dev/null
     commandline -f repaint
 end

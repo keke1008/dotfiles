@@ -71,13 +71,13 @@ alias bi='bundle install'
 alias tf='terraform'
 alias grep='grep --color=auto'
 
-alias_if_exists_or_else exa ls "exa" "ls --color=auto"
+alias_if_exists_or_else exa ls exa "ls --color=auto"
 alias_if_exists_or_else exa ll "exa -lh" "ls -lh"
 alias_if_exists_or_else exa la "exa -a" "ls -A"
 
 alias_if_exists bat cat
 alias_if_exists batcat cat
-alias_if_exists_or_else trash-put rm "trash-put" "rm -i"
+alias_if_exists_or_else trash-put rm trash-put "rm -i"
 
 alias "..."="cd ../.."
 alias "...."="cd ../../.."
@@ -99,11 +99,11 @@ if type -q zoxide
 end
 
 fish_hybrid_key_bindings
-bind \cr -M default 'redo' # overwrite fzf keybinding
-bind \cj -M default '_popd_binding'
-bind \cj -M insert '_popd_binding'
-bind \ck -M default '_pushd_binding'
-bind \ck -M insert '_pushd_binding'
+bind \cr -M default redo # overwrite fzf keybinding
+bind \cj -M default _popd_binding
+bind \cj -M insert _popd_binding
+bind \ck -M default _pushd_binding
+bind \ck -M insert _pushd_binding
 
 set fish_greeting
 
