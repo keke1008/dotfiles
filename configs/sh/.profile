@@ -32,6 +32,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 # Selects the preferred platform backend used on Linux. The default one is x11. auto selects Wayland if possible, X11 otherwise.
 export ELECTRON_OZONE_PLATFORM_HINT=auto
 
+export ENV="${HOME}/.shrc"
 . "${DOTPATH}/configs/sh/configs/tokyonight_night.sh"
 
 prepend_path() {
