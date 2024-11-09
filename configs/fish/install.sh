@@ -3,6 +3,7 @@
 main() {
 	mkdir -p "${XDG_CONFIG_HOME}/fish"
 	declare_config_link "${XDG_CONFIG_HOME}/fish/config.fish" "config.fish"
+	declare_config_link "${XDG_CONFIG_HOME}/fish/fish_plugins" "fish_plugins"
 
 	local dir
 	for dir in "functions" "themes"; do

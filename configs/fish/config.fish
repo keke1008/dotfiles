@@ -29,14 +29,16 @@ end
 set -x fish_term24bit 1
 
 # Fisher bootstrapping
-if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
-    set -x FISHER_BOOTSTRAPPING true
-    echo "Fisher is not installed. Installing Fisher..."
+set -x fisher_path "$XDG_DATA_HOME/fisher"
+set -px fish_function_path "$fisher_path/functions"
+set -px fish_complete_path "$fisher_path/completions"
+mkdir -p "$fisher_path"
+if not type -q fisher && not set -q DOTFILES_FISHER_BOOTSTRAPPING
+    set -x DOTFILES_FISHER_BOOTSTRAPPING true
+    echo "Fisher is not installed. Installing..."
 
     curl -sL https://git.io/fisher | source
-    fisher install \
-        jorgebucaran/fisher \
-        oh-my-fish/theme-bobthefish
+    fisher update
 end
 
 function alias_if_exists
