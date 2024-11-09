@@ -1,17 +1,28 @@
+# Avoid recursive loading
+if set -q DOTFILES_ORIGINAL_LOADING
+    return 0
+end
+
 # Bootstrapping
-if test -r "$HOME/.dotpath"
-    set DOTPATH (cat "$HOME/.dotpath")
-    eval ("$DOTPATH/dot" shellenv)
-else
-    echo "Error: Failed to get DOTPATH" >&2
-    return 1
+if not set -q DOTPATH
+    if test -r "$HOME/.dotpath"
+        set DOTPATH (cat "$HOME/.dotpath")
+        eval ("$DOTPATH/dot" shellenv)
+    else
+        echo "Error: Failed to get DOTPATH" >&2
+        return 1
+    end
 end
 
 if status --is-login && not set -q DOTFILES_FISH_PROFILE_LOADED
     DOTFILES_FISH_PROFILE_LOADED=1 exec sh -c "source $HOME/.profile; exec fish"
 end
 
-if status --is-interactive && not set -q DOTFILES_SHRC_LOADED
+if not status --is-interactive
+    return
+end
+
+if not set -q DOTFILES_SHRC_LOADED
     DOTFILES_SHRC_LOADED=1 exec sh -c "source $HOME/.shrc; exec fish"
 end
 
@@ -28,64 +39,65 @@ if not type -q fisher && not set -q FISHER_BOOTSTRAPPING
         oh-my-fish/theme-bobthefish
 end
 
-alias v "$EDITOR"
-alias g "git"
-alias c "cargo"
-alias d "docker"
-alias dc "docker compose"
-alias kc "kubectl"
-alias be "bundle exec"
-alias bi "bundle install"
-alias tf "terraform"
-if type -q "exa"
-    alias ls "exa --color=auto"
-end
-if not type -q vim
-    alias vim "vi"
-end
-if type -q bat
-    alias cat "bat"
-else if type -q batcat
-    alias cat "batcat"
-end
-if type -q trash-put
-    alias rm "trash-put"
-else
-    alias rm "rm -i"
+function alias_if_exists
+    set -q argv[3] || set argv[3] $argv[1]
+    if type -q $argv[1]
+        alias $argv[2] $argv[3]
+    end
 end
 
-for repeat in (seq 3 10)
-    set -l cd_parents_name (string repeat -n $repeat '.')
-    set -l cd_parents_path (string repeat -n (math $repeat - 1) '../')
-
-    alias $cd_parents_name "cd $cd_parents_path"
+function alias_if_exists_or_else
+    if type -q $argv[1]
+        alias $argv[2] $argv[3]
+    else
+        alias $argv[2] $argv[4]
+    end
 end
+
+alias l="ls"
+alias v='$EDITOR'
+alias g='git'
+alias c='cargo'
+alias d='docker'
+alias dc='docker compose'
+alias kc='kubectl'
+alias be='bundle exec'
+alias bi='bundle install'
+alias tf='terraform'
+alias grep='grep --color=auto'
+
+alias_if_exists_or_else exa ls "exa" "ls --color=auto"
+alias_if_exists_or_else exa ll "exa -lh" "ls -lh"
+alias_if_exists_or_else exa la "exa -a" "ls -A"
+
+alias_if_exists bat cat
+alias_if_exists batcat cat
+alias_if_exists_or_else trash-put rm "trash-put" "rm -i"
+
+alias "..."="cd ../.."
+alias "...."="cd ../../.."
+alias "....."="cd ../../../.."
 
 # colorscheme
 fish_config theme choose tokyonight_night
 
-# key bindings
-if type -q fzf_key_bindings
-    fzf_key_bindings
-end
 function ctrl_j_popd
-    if test (count (string split ' ' (dirs))) -le 1
-        return
-    end
+    test (dirs | string split ' ' | count) -le 1 && return
     popd > /dev/null
     commandline -f repaint
 end
 function ctrl_k_pushd
-    if test $PWD = "/"
-        return
-    end
+    test $PWD = "/" && return
     pushd .. > /dev/null
     commandline -f repaint
 end
 bind \cj 'ctrl_j_popd'
 bind \ck 'ctrl_k_pushd'
 
-# direnv
+if type -q fzf
+    fzf --fish | source
+end
+
 if type -q direnv
     eval (direnv hook fish)
 end

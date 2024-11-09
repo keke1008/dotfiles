@@ -1,3 +1,8 @@
+# Avoid recursive loading
+if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
+	return 0
+fi
+
 # Bootstrapping
 if [ -z "${DOTPATH:-}" ]; then
 	if [ -r "$HOME/.dotpath" ] && DOTPATH=$(cat "$HOME/.dotpath"); then
@@ -6,11 +11,6 @@ if [ -z "${DOTPATH:-}" ]; then
 		echo "Error: Failed to get DOTPATH" >&2
 		return 1
 	fi
-fi
-
-# Avoid recursive loading
-if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
-	return 0
 fi
 
 # Load original profile if exists
