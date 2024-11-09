@@ -18,20 +18,14 @@ if status --is-login && not set -q DOTFILES_FISH_PROFILE_LOADED
     DOTFILES_FISH_PROFILE_LOADED=1 exec sh -c "source $HOME/.profile; exec fish"
 end
 
-if not status --is-interactive
-    return
+if status --is-interactive && not set -q DOTFILES_FISH_SHRC_LOADED
+    DOTFILES_FISH_SHRC_LOADED=1 exec sh -c "source $HOME/.shrc; exec fish"
 end
-
-if not set -q DOTFILES_SHRC_LOADED
-    DOTFILES_SHRC_LOADED=1 exec sh -c "source $HOME/.shrc; exec fish"
-end
-
-set -x fish_term24bit 1
 
 # Fisher bootstrapping
 set -x fisher_path "$XDG_DATA_HOME/fisher"
-set -px fish_function_path "$fisher_path/functions"
-set -px fish_complete_path "$fisher_path/completions"
+set -p fish_function_path "$fisher_path/functions"
+set -p fish_complete_path "$fisher_path/completions"
 mkdir -p "$fisher_path"
 if not type -q fisher && not set -q DOTFILES_FISHER_BOOTSTRAPPING
     set -x DOTFILES_FISHER_BOOTSTRAPPING true
@@ -40,6 +34,15 @@ if not type -q fisher && not set -q DOTFILES_FISHER_BOOTSTRAPPING
     curl -sL https://git.io/fisher | source
     fisher update
 end
+for file in $fisher_path/conf.d/*.fish
+    source $file
+end
+
+if not status --is-interactive
+    return
+end
+
+set -x fish_term24bit 1
 
 function alias_if_exists
     set -q argv[3] || set argv[3] $argv[1]
@@ -83,6 +86,8 @@ alias "....."="cd ../../../.."
 # colorscheme
 fish_config theme choose tokyonight_night
 
+fish_hybrid_key_bindings
+
 function ctrl_j_popd
     test (dirs | string split ' ' | count) -le 1 && return
     popd > /dev/null
@@ -93,8 +98,8 @@ function ctrl_k_pushd
     pushd .. > /dev/null
     commandline -f repaint
 end
-bind \cj 'ctrl_j_popd'
-bind \ck 'ctrl_k_pushd'
+bind \cj -M insert 'ctrl_j_popd'
+bind \ck -M insert 'ctrl_k_pushd'
 
 if type -q direnv
     eval (direnv hook fish)
@@ -108,18 +113,7 @@ if type -q zoxide
     zoxide init fish | source
 end
 
-# prompt
-if type -q starship
-    starship init fish | source
-else
-    # bobthefish
-    set -g theme_nerd_fonts yes
-    set -g theme_newline_cursor yes
-    set -g theme_newline_prompt '$ '
-    set -g theme_show_exit_status yes
-    set -g theme_display_ruby no # This setting makes powerline fast
-    set -g theme_display_go no # This setting makes powerline fast
-end
+set fish_greeting
 
 set local_config "$DOTFILES_LOCAL_HOME/fish/local_config.fish"
 if [ -e $local_config ]
