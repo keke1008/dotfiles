@@ -110,3 +110,7 @@ set local_config "$DOTFILES_LOCAL_HOME/fish/local_config.fish"
 if [ -e $local_config ]
     source $local_config
 end
+
+# Unset the variable here to enable shell substitution, so that even if tmux is invoked again
+# after the tmux session is terminated, shell substitution will be performed.
+set -e DOTFILES_DISABLE_SUBSTITUTE_SHELL
