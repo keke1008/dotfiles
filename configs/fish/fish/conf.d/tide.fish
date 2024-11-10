@@ -22,8 +22,8 @@ set -g tide_left_prompt_suffix
 
 # right prompt
 set -g tide_right_prompt_frame_enabled false
-set -g tide_right_prompt_items empty status cmd_duration context direnv node python rustc java php pulumi \
-    ruby go gcloud kubectl distrobox toolbox terraform aws nix_shell crystal elixir zig
+set -g tide_right_prompt_items empty status cmd_duration node python rustc java php pulumi \
+    ruby go gcloud kubectl distrobox toolbox terraform aws nix_shell crystal elixir zig direnv context
 set -g tide_right_prompt_prefix
 set -g tide_right_prompt_separator_diff_color \ue0b3
 set -g tide_right_prompt_separator_same_color \ue0b3
