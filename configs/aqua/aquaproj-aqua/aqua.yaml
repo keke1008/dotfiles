@@ -19,3 +19,4 @@ packages:
   - name: BurntSushi/ripgrep@14.1.1
   - name: direnv/direnv@v2.35.0
   - name: ajeetdsouza/zoxide@v0.9.6
+  - name: aws/aws-cli@2.19.4
