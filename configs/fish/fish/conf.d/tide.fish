@@ -54,13 +54,14 @@ set -g tide_git_color_stash brgreen
 set -g tide_git_color_untracked brblue
 set -g tide_git_color_upstream brgreen
 set -g tide_git_icon \uf418
-set -g tide_git_truncation_length
+set -g tide_git_truncation_length 24
 set -g tide_git_truncation_strategy l
 
 # jobs
 set -g tide_jobs_bg_color
 set -g tide_jobs_color blue
 set -g tide_jobs_icon \uf013
+set -g tide_jobs_number_threshold 0
 
 # pwd
 set -g tide_pwd_bg_color
@@ -87,6 +88,7 @@ set -g tide_context_bg_color
 set -g tide_context_color_default blue
 set -g tide_context_color_root blue
 set -g tide_context_color_ssh blue
+set -g tide_context_hostname_parts 1
 
 # cmd_duration
 set -g tide_cmd_duration_bg_color
