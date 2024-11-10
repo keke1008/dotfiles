@@ -1,3 +1,6 @@
+# DO NOT USE FISH AS A LOGIN SHELL.
+# MY FISH CONFIGURATION IS NOT DESIGNED TO BE USED AS A LOGIN SHELL.
+
 # Avoid recursive loading
 if set -q DOTFILES_ORIGINAL_LOADING
     return 0
@@ -16,10 +19,6 @@ end
 
 if status --is-login && not set -q DOTFILES_FISH_PROFILE_LOADED
     DOTFILES_FISH_PROFILE_LOADED=1 exec sh -c "source $HOME/.profile; exec fish"
-end
-
-if status --is-interactive && not set -q DOTFILES_FISH_SHRC_LOADED
-    DOTFILES_FISH_SHRC_LOADED=1 sh -c "source $HOME/.shrc"
 end
 
 # Fisher bootstrapping

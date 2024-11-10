@@ -43,14 +43,13 @@ unset_all() {
 # `DOTFILES_ORIGINAL_LOADING` needs to be unset immediately after loading the original file.
 # However, if `exec (shell)` is executed in the following line, `DOTFILES_ORIGINAL_LOADING` remains unset.
 # Therefore, if DOTFILES_ORIGINAL_LOADING is set, do not execute `exec (shell)`.
-if [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
+if [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
 	check_command_exists tmux && [ -z "$TMUX" ] && tmux new-session -A
 
-	if [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
-		export DOTFILES_DISABLE_SUBSTITUTE_SHELL=1
-		check_command_exists fish && exec fish
-		check_command_exists zsh && exec zsh
-	fi
+	export DOTFILES_DISABLE_SUBSTITUTE_SHELL=1
+	for shell in fish zsh bash; do
+		check_command_exists "$shell" && exec "$shell"
+	done
 fi
 
 HISTFILE="${HOME}/.history"
