@@ -21,3 +21,5 @@ packages:
   - name: ajeetdsouza/zoxide@v0.9.6
   - name: aws/aws-cli@2.19.4
   - name: kubernetes/kubectl@v1.31.2
+  - name: ahmetb/kubectx@v0.9.5
+  - name: stern/stern@v1.31.0

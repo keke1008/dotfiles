@@ -31,6 +31,31 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/ahmetb/kubectx/v0.9.5/kubectx_v0.9.5_darwin_arm64.tar.gz",
+      "checksum": "1EA0DFF5C6E7EBBE77B9E689C8B4CA17E8406B36FEA88BFC221FEFC25AE71A60",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/ahmetb/kubectx/v0.9.5/kubectx_v0.9.5_darwin_x86_64.tar.gz",
+      "checksum": "38A724102338542503169158D262E502F12485976A49D0FBC555293A9B39782B",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/ahmetb/kubectx/v0.9.5/kubectx_v0.9.5_linux_arm64.tar.gz",
+      "checksum": "40A69C3156984CFFB2766E729C8D756AA8D8C0926EF697AE8BE12BD25161CD35",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/ahmetb/kubectx/v0.9.5/kubectx_v0.9.5_linux_x86_64.tar.gz",
+      "checksum": "A2247FFD23E79F89ABDD0E8173379D7172511F02A3F63C9936D3824E0DD60648",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/ahmetb/kubectx/v0.9.5/kubectx_v0.9.5_windows_x86_64.zip",
+      "checksum": "CFFF77B5C59ED37E0AFF39B16EFFB2C4CC47CCB96D58999A0FE5C6E2FA3C0013",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/ajeetdsouza/zoxide/v0.9.6/zoxide-0.9.6-aarch64-apple-darwin.tar.gz",
       "checksum": "B0B6DDB238DFF0CD787C1210F69AB1179544F56C165CFF112131DB78625EA6C4",
       "algorithm": "sha256"
@@ -193,6 +218,36 @@
     {
       "id": "github_release/github.com/starship/starship/v1.21.1/starship-x86_64-unknown-linux-musl.tar.gz",
       "checksum": "744E21EB2E61B85B0C11378520EBB9E94218DE965BCA5B8C2266F6C3E23FF5BE",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_darwin_amd64.tar.gz",
+      "checksum": "50E2EEB34AC13DDEB8AE6E2231ECD4A6CEF09E769E874E3F370AE10384ECDA96",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_darwin_arm64.tar.gz",
+      "checksum": "54EF3B32E5CBBD7877E280A65AAD3E400C9B8E880CA3C130B9ACCF8BEB26ABD4",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_linux_amd64.tar.gz",
+      "checksum": "C156C50F3CA2AE12C43F56198CBADCE3C6334C020ECCB265562A3CE57A73B7E3",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_linux_arm64.tar.gz",
+      "checksum": "7246FC7B72AA86D8F62F75807385FB6A47983E4BE4205BD8D48E115A62F13274",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_windows_amd64.tar.gz",
+      "checksum": "633A3B60EA269A36742D483F15843851EA0D324B30202C816BE049BF183EAA1E",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_windows_arm64.tar.gz",
+      "checksum": "C89DCAFAF780B88B6FA9EFD89755C970F3717AA28D6BC63AAF32C9B35FEF3E56",
       "algorithm": "sha256"
     },
     {
