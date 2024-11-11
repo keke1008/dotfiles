@@ -211,6 +211,36 @@
       "algorithm": "sha256"
     },
     {
+      "id": "http/dl.k8s.io/v1.31.2/bin/darwin/amd64/kubectl",
+      "checksum": "6693EBDABA8D1EB1469C60B3EB9E9FDEE1C49E01A56AF517342192D4EE5A35B3",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/dl.k8s.io/v1.31.2/bin/darwin/arm64/kubectl",
+      "checksum": "0792D570D20FC495EA64BAEC26CD6BDE961434B900038F2952F3334501872E80",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/dl.k8s.io/v1.31.2/bin/linux/amd64/kubectl",
+      "checksum": "399E9D1995DA80B64D2EF3606C1A239018660D8B35209FBA3F7B0BC11C631C68",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/dl.k8s.io/v1.31.2/bin/linux/arm64/kubectl",
+      "checksum": "BB9FD6E5A92C2E2378954A2F1A8B4CCB2E8BA5A3635F870C3F306A53B359F971",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/dl.k8s.io/v1.31.2/bin/windows/amd64/kubectl.exe",
+      "checksum": "F5B5832B7D2581E195833FCBF3DCF458DDC551EE0602CCC51DE55A56EC7A1116",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "http/dl.k8s.io/v1.31.2/bin/windows/arm64/kubectl.exe",
+      "checksum": "0827F48DF9F9FA017E94F97A2A0AA49C24F4BFE648513CEA18F57F2FCA3D5315",
+      "algorithm": "sha256"
+    },
+    {
       "id": "registries/github_content/github.com/aquaproj/aqua-registry/v4.246.1/registry.yaml",
       "checksum": "77C0B7AC5D4B02E83865D4A10318594365C567A8F3F2C10A5418C7B4142D16823046C40B538EF3D2ABF292D2887F366D0B3822F8939A3C665BD83128938A9D18",
       "algorithm": "sha512"

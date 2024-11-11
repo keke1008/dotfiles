@@ -20,3 +20,4 @@ packages:
   - name: direnv/direnv@v2.35.0
   - name: ajeetdsouza/zoxide@v0.9.6
   - name: aws/aws-cli@2.19.4
+  - name: kubernetes/kubectl@v1.31.2
