@@ -23,3 +23,4 @@ packages:
   - name: kubernetes/kubectl@v1.31.2
   - name: ahmetb/kubectx@v0.9.5
   - name: stern/stern@v1.31.0
+  - name: nektos/act@v0.2.69

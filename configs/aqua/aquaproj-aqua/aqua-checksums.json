@@ -141,6 +141,36 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/nektos/act/v0.2.69/act_Darwin_arm64.tar.gz",
+      "checksum": "3CCECA3D423FE828034209808DF2B02CFDDAFC5EA4CA83BB48CF93E6FEFAE575",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nektos/act/v0.2.69/act_Darwin_x86_64.tar.gz",
+      "checksum": "24344F9BFE3299FC3261BE1729D0D3173BF1D3F1160048B7EEEEF4CF4BCEAF40",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nektos/act/v0.2.69/act_Linux_arm64.tar.gz",
+      "checksum": "CFEBB48227F2D5AB30F4F74C79AA078548287F6A05577C922C790211B9D15E1C",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nektos/act/v0.2.69/act_Linux_x86_64.tar.gz",
+      "checksum": "9F34E2138B102FA5A4225880197B24700B118B49FE83FBFB3AA35CF5F878A3C9",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nektos/act/v0.2.69/act_Windows_arm64.zip",
+      "checksum": "D5E9813798B4E97F5F80DB5A4EBFBAF2AB781C2E16CBE267DD15E3B861539C82",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nektos/act/v0.2.69/act_Windows_x86_64.zip",
+      "checksum": "45F87ECCA67F8EC6EAEB5606FAD523695C771EDF82B2257562E9EE324F726D48",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/neovim/neovim/v0.10.2/nvim-linux64.tar.gz",
       "checksum": "9F696E635D503B844E4E78E88A22BCF512A78F288BF471379AFC3D0004E15217",
       "algorithm": "sha256"
