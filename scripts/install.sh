@@ -2,6 +2,7 @@
 
 . "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
+. "${DOTPATH}/scripts/lib/migration.sh"
 . "${DOTPATH}/scripts/lib/install.sh"
 
 declare_config_link() {
@@ -17,6 +18,11 @@ declare_home_config_link() {
 }
 
 main() {
+	if ! migrate_dotfiles; then
+		log "error" "Failed to run migration. Exiting installation"
+		exit 1
+	fi
+
 	export DOTFILES_INSTALL_MODE="install"
 
 	local config_dirnames
