@@ -2,8 +2,14 @@
 
 . "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
+. "${DOTPATH}/scripts/lib/migration.sh"
 
 main() {
+	if ! is_latest_version; then
+		log "error" "Please migrate to the latest version first"
+		exit 1
+	fi
+
 	if ! command -v bats >/dev/null; then
 		abort "bats is not installed"
 	fi

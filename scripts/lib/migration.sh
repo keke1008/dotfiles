@@ -7,6 +7,18 @@ get_current_version() {
 	fi
 }
 
+is_latest_version() {
+	local current_version
+	if ! current_version=$(get_current_version); then
+		log "error" "Failed to get current version"
+		return 1
+	fi
+
+	local next_version="$((current_version + 1))"
+	local migration_file="${DOTPATH}/scripts/lib/migrations/${next_version}.sh"
+	[ ! -f "${migration_file}" ]
+}
+
 migrate_dotfiles() {
 	local current_version
 	if ! current_version=$(get_current_version); then
