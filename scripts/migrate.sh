@@ -3,4 +3,4 @@
 . "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/migration.sh"
 
-migrate
+migrate_dotfiles

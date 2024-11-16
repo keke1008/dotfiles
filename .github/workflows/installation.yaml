@@ -19,6 +19,9 @@ jobs:
       - name: Print shell
         run: realpath /bin/sh
 
+      - name: Run migration
+        run: yes | ./dot migrate
+
       - name: Run installation
         run: ./dot install
 
@@ -32,6 +35,9 @@ jobs:
 
       - name: Setup Bats
         uses: bats-core/bats-action@2.0.0
+
+      - name: Run migration
+        run: yes | ./dot migrate
 
       - name: Run tests
         run: ./dot test

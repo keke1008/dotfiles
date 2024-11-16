@@ -33,7 +33,7 @@ migrate_dotfiles() {
 		fi
 
 		log "info" "Running migration script: ${migration_file}"
-		if ! source "${migration_file}"; then
+		if ! . "${migration_file}"; then
 			log "error" "Failed to run migration script: ${migration_file}"
 			return 1
 		fi
