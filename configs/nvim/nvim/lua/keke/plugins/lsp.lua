@@ -71,6 +71,23 @@ return {
             "neovim/nvim-lspconfig",
             "hrsh7th/cmp-nvim-lsp",
         },
+        init = function()
+            vim.api.nvim_create_autocmd("BufRead", {
+                group = vim.api.nvim_create_augroup("keke_mason_lspconfig_notes_ls", {}),
+                pattern = "*.md",
+                desc = "Setup LSP server for buffer",
+                callback = function(e)
+                    local root_pattern = require("lspconfig.util").root_pattern
+                    vim.lsp.start({
+                        name = "notes-ls",
+                        cmd = { "notes-ls" },
+                        root_dir = root_pattern(".git", ".vault")(vim.fn.expand("%:p")),
+                    }, {
+                        bufnr = e.buf,
+                    })
+                end,
+            })
+        end,
         event = "VeryLazy",
         config = function()
             local mason_lspconfig = require("mason-lspconfig")
