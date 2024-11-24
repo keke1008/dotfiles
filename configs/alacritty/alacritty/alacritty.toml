@@ -1,3 +1,4 @@
+[general]
 import = [
     "~/.config/dotfiles/local/alacritty/local_config.toml",
     "~/.config/alacritty/tokyonight_night.toml",
