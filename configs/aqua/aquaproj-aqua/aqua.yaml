@@ -26,3 +26,6 @@ packages:
   - name: nektos/act@v0.2.69
   - name: astral-sh/uv@0.5.5
   - name: oberblastmeister/trashy@v2.0.0
+  - name: sharkdp/fd@v10.2.0
+  - name: dandavison/delta@0.18.2
+  - name: dalance/procs@v0.14.8
