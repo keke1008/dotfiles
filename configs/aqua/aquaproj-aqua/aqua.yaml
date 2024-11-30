@@ -24,3 +24,5 @@ packages:
   - name: ahmetb/kubectx@v0.9.5
   - name: stern/stern@v1.31.0
   - name: nektos/act@v0.2.69
+  - name: astral-sh/uv@0.5.5
+  - name: oberblastmeister/trashy@v2.0.0
