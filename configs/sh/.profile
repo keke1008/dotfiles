@@ -33,7 +33,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 export ENV="${HOME}/.shrc"
-. "${DOTPATH}/configs/sh/configs/tokyonight_night.sh"
+. "${DOTFILES_CONFIG_HOME}/sh/tokyonight_night.sh"
 
 prepend_path() {
 	case ":$PATH:" in

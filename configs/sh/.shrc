@@ -13,42 +13,16 @@ if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.shrc" ]; then
 	DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/sh/.shrc"
 fi
 
-check_command_exists() {
-	command -v "$1" >/dev/null
-}
-
-alias_if_exists() {
-	if check_command_exists "$1"; then
-		alias "$2"="${3:-$1}"
-	fi
-}
-
-alias_if_exists_or_else() {
-	if check_command_exists "$1"; then
-		alias "$2"="$3"
-	else
-		alias "$2"="$4"
-	fi
-}
-
-unset_all() {
-	unset -f \
-		check_command_exists \
-		alias_if_exists \
-		alias_if_exists_or_else \
-		unset_all
-}
-
 # When loading the original configuration file, `DOTFILES_ORIGINAL_LOADING` is set to prevent an infinite loop.
 # `DOTFILES_ORIGINAL_LOADING` needs to be unset immediately after loading the original file.
 # However, if `exec (shell)` is executed in the following line, `DOTFILES_ORIGINAL_LOADING` remains unset.
 # Therefore, if DOTFILES_ORIGINAL_LOADING is set, do not execute `exec (shell)`.
 if [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
-	check_command_exists tmux && [ -z "$TMUX" ] && tmux new-session -A
+	command -v tmux >/dev/null && [ -z "$TMUX" ] && tmux new-session -A
 
 	export DOTFILES_DISABLE_SUBSTITUTE_SHELL=1
 	for shell in fish zsh bash; do
-		check_command_exists "$shell" && exec "$shell"
+		command -v "$shell" >/dev/null && exec "$shell"
 	done
 fi
 
@@ -56,32 +30,19 @@ HISTFILE="${HOME}/.history"
 HISTSIZE=10000
 HISTFILESIZE=10000
 
-alias l="ls"
-alias v='$EDITOR'
-alias g='git'
-alias c='cargo'
-alias d='docker'
-alias dc='docker compose'
-alias kc='kubectl'
-alias kx='kubectx'
-alias be='bundle exec'
-alias bi='bundle install'
-alias tf='terraform'
-alias grep='grep --color=auto'
+alias_if_exists() {
+	local alias="$1"                  # 'foo=bar --baz'
+	local definition="${alias#*=}"    # 'bar --baz'
+	local command="${definition%% *}" # 'bar'
 
-alias_if_exists_or_else exa ls "exa" "ls --color=auto"
-alias_if_exists_or_else exa ll "exa -lh" "ls -lh"
-alias_if_exists_or_else exa la "exa -a" "ls -A"
+	if command -v "$command" >/dev/null; then
+		alias "$alias"
+	fi
+}
 
-alias_if_exists bat cat
-alias_if_exists batcat cat
-alias_if_exists_or_else trash-put rm "trash-put" "rm -i"
+. "${DOTFILES_CONFIG_HOME}/sh/.aliases"
 
-alias "..."="cd ../.."
-alias "...."="cd ../../.."
-alias "....."="cd ../../../.."
-
-unset_all
+unset -f alias_if_exists
 
 local_rc="${DOTFILES_LOCAL_HOME}/sh/local_rc.sh"
 if [ -r "$local_rc" ]; then

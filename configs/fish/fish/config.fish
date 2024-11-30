@@ -44,44 +44,18 @@ end
 set -x fish_term24bit 1
 
 function alias_if_exists
-    set -q argv[3] || set argv[3] $argv[1]
-    if type -q $argv[1]
-        alias $argv[2] $argv[3]
+    set alias $argv[1] # 'foo=bar --baz'
+    set definition (string split -m 1 '=' $alias)[2] # 'bar --baz'
+    set command (string match -r '[^ ]+' $definition) # 'bar'
+
+    if type -q $command
+        alias $alias
     end
 end
 
-function alias_if_exists_or_else
-    if type -q $argv[1]
-        alias $argv[2] $argv[3]
-    else
-        alias $argv[2] $argv[4]
-    end
-end
+source $DOTFILES_CONFIG_HOME/sh/.aliases
 
-alias l="ls"
-alias v='$EDITOR'
-alias g='git'
-alias c='cargo'
-alias d='docker'
-alias dc='docker compose'
-alias kc='kubectl'
-alias kx='kubectx'
-alias be='bundle exec'
-alias bi='bundle install'
-alias tf='terraform'
-alias grep='grep --color=auto'
-
-alias_if_exists_or_else exa ls exa "ls --color=auto"
-alias_if_exists_or_else exa ll "exa -lh" "ls -lh"
-alias_if_exists_or_else exa la "exa -a" "ls -A"
-
-alias_if_exists bat cat
-alias_if_exists batcat cat
-alias_if_exists_or_else trash-put rm trash-put "rm -i"
-
-alias "..."="cd ../.."
-alias "...."="cd ../../.."
-alias "....."="cd ../../../.."
+functions -e alias_if_exists
 
 # colorscheme
 fish_config theme choose tokyonight_night

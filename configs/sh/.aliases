@@ -1,0 +1,36 @@
+#!/bin/sh
+
+alias v='$EDITOR'
+alias g='git'
+alias c='cargo'
+alias d='docker'
+alias dc='docker compose'
+alias kc='kubectl'
+alias kx='kubectx'
+alias be='bundle exec'
+alias bi='bundle install'
+alias tf='terraform'
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias grep='grep --color=auto'
+
+alias l='ls'
+alias ls='ls --color=auto'
+alias ll='ls -lh'
+alias la='ls -A'
+alias_if_exists l='exa'
+alias_if_exists ls='exa --color=auto'
+alias_if_exists ll='exa -lh'
+alias_if_exists la='exa -a'
+
+alias_if_exists cat='bat'
+alias_if_exists cat='batcat'
+
+alias rm='rm -i'
+alias_if_exists rm='trash-put'
+alias_if_exists rm='trash put'
+
+alias '...'='cd ../..'
+alias '....'='cd ../../..'
+alias '.....'='cd ../../../..'
