@@ -1,5 +1,4 @@
 local drawer = require("drawer")
-local map = require("keke.utils.mapping")
 
 local lsp_setup_config = (function()
     local default_config = nil

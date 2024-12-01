@@ -1,5 +1,3 @@
-_G.is_in_terminal = (not vim.g.vscode) and not vim.g.started_by_firenvim
-
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.cursorline = true
