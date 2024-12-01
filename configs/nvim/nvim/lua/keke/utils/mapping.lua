@@ -5,7 +5,9 @@ local second_leader = "\\"
 -- second leader key
 ---@param key string
 ---@return string
-function M.l2(key) return second_leader .. key end
+function M.l2(key)
+    return second_leader .. key
+end
 
 ---@param opts table
 ---@param desc string

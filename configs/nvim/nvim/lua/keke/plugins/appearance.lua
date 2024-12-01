@@ -104,7 +104,9 @@ return {
             { "<leader>b8", "<CMD>BufferGoto 8<CR>", mode = { "n", "x" } },
             { "<leader>b9", "<CMD>BufferGoto 9<CR>", mode = { "n", "x" } },
         },
-        init = function() vim.g.barbar_auto_setup = false end,
+        init = function()
+            vim.g.barbar_auto_setup = false
+        end,
         opts = {
             animation = false,
         },
@@ -137,7 +139,9 @@ return {
     },
     {
         "folke/tokyonight.nvim",
-        init = function() vim.cmd.colorscheme("tokyonight") end,
+        init = function()
+            vim.cmd.colorscheme("tokyonight")
+        end,
         config = function()
             require("tokyonight").setup({
                 style = "night",

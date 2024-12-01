@@ -20,8 +20,12 @@ return {
             local lspkind = require("lspkind")
             local compare_under_score = require("cmp-under-comparator").under
 
-            local luasnip_jump_prev = function() return luasnip.jump(-1) end
-            local luasnip_jump_next = function() return luasnip.jump(1) end
+            local luasnip_jump_prev = function()
+                return luasnip.jump(-1)
+            end
+            local luasnip_jump_next = function()
+                return luasnip.jump(1)
+            end
 
             vim.keymap.set("n", "<C-j>", luasnip_jump_next, { desc = "luasnip jump next" })
             vim.keymap.set("n", "<C-k>", luasnip_jump_prev, { desc = "luasnip jump prev" })
@@ -50,7 +54,9 @@ return {
 
             cmp.setup({
                 snippet = {
-                    expand = function(args) luasnip.lsp_expand(args.body) end,
+                    expand = function(args)
+                        luasnip.lsp_expand(args.body)
+                    end,
                 },
                 sources = (function()
                     local sources = cmp.config.sources({

@@ -11,7 +11,13 @@ return {
         },
         cmd = { "NvimTree" },
         keys = {
-            { drawer.with_prefix_key("e"), function() drawer.open(drawer_name) end, desc = "open filer" },
+            {
+                drawer.with_prefix_key("e"),
+                function()
+                    drawer.open(drawer_name)
+                end,
+                desc = "open filer",
+            },
         },
         init = function()
             drawer.register({

@@ -96,7 +96,9 @@ return {
 
             mason_lspconfig.setup()
             mason_lspconfig.setup_handlers({
-                function(server_name) lspconfig[server_name].setup(lsp_setup_config()) end,
+                function(server_name)
+                    lspconfig[server_name].setup(lsp_setup_config())
+                end,
                 ["denols"] = function(_)
                     lspconfig.denols.setup(lsp_setup_config({
                         root_dir = root_pattern("deno.json", "deno.jsonc"),
@@ -135,7 +137,14 @@ return {
         end,
         cmd = "Trouble",
         keys = {
-            { drawer.with_prefix_key("t"), function() drawer.open("trouble") end, mode = "n", desc = "Trouble" },
+            {
+                drawer.with_prefix_key("t"),
+                function()
+                    drawer.open("trouble")
+                end,
+                mode = "n",
+                desc = "Trouble",
+            },
         },
         opts = {
             action_keys = {

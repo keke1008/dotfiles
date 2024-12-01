@@ -35,7 +35,14 @@ return {
                 { "<leader>do", "<CMD>DapStepOver<CR>", mode = "n" },
                 { "<leader>dp", "<CMD>DapStepOut<CR>", mode = "n" },
                 { "<leader>dq", "<CMD>DapTerminate<CR>", mode = "n" },
-                { "<leader>dl", function() require("dap").run_last() end, mode = "n", desc = "Run last debug session" },
+                {
+                    "<leader>dl",
+                    function()
+                        require("dap").run_last()
+                    end,
+                    mode = "n",
+                    desc = "Run last debug session",
+                },
             }
         end,
         config = function()
@@ -46,7 +53,9 @@ return {
                 return coroutine.create(function(dap_run_co)
                     vim.ui.input(
                         { prompt = "Path to executable", default = vim.fn.getcwd() .. "/", completion = "file" },
-                        function(path) coroutine.resume(dap_run_co, path) end
+                        function(path)
+                            coroutine.resume(dap_run_co, path)
+                        end
                     )
                 end)
             end
@@ -92,12 +101,20 @@ return {
                 { name = "DapLogPoint", text = " ", texthl = "DebugBreakpointSign" },
             })
 
-            dap.listeners.after.event_initialized["dapui_config"] = function() drawer.push("dap") end
-            dap.listeners.before.event_terminated["dapui_config"] = function() drawer.close_by_name("dap") end
-            dap.listeners.before.event_exited["dapui_config"] = function() drawer.close_by_name("dap") end
+            dap.listeners.after.event_initialized["dapui_config"] = function()
+                drawer.push("dap")
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                drawer.close_by_name("dap")
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                drawer.close_by_name("dap")
+            end
 
             -- load virtual-text plugin
-            dap.listeners.before.initialize["dap-virtual-text"] = function() require("nvim-dap-virtual-text") end
+            dap.listeners.before.initialize["dap-virtual-text"] = function()
+                require("nvim-dap-virtual-text")
+            end
         end,
     },
     {
@@ -117,20 +134,28 @@ return {
             drawer.register({
                 name = "dap",
                 positions = { "left", "bottom" },
-                open = function() require("dapui").open() end,
-                close = function() require("dapui").close() end,
+                open = function()
+                    require("dapui").open()
+                end,
+                close = function()
+                    require("dapui").close()
+                end,
             })
         end,
         keys = {
             {
                 drawer.with_prefix_key("d"),
-                function() drawer.open("dap") end,
+                function()
+                    drawer.open("dap")
+                end,
                 mode = "n",
                 desc = "open dap",
             },
             {
                 "<leader>dk",
-                function() require("dapui").eval() end,
+                function()
+                    require("dapui").eval()
+                end,
                 mode = "n",
                 desc = "Debug eval",
             },

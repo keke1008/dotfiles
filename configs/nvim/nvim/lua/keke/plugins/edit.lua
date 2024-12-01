@@ -36,15 +36,14 @@ return {
         keys = function()
             local function leap_tabpage()
                 require("leap").leap({
-                    target_windows = vim.tbl_filter(
-                        function(win) return vim.api.nvim_win_get_config(win).focusable end,
-                        vim.api.nvim_tabpage_list_wins(0)
-                    ),
+                    target_windows = vim.tbl_filter(function(win)
+                        return vim.api.nvim_win_get_config(win).focusable
+                    end, vim.api.nvim_tabpage_list_wins(0)),
                 })
             end
             return {
-                { ",",     leap_tabpage, mode = { "n", "x", "o" }, desc = "leap tabpage" },
-                { "<C-l>", leap_tabpage, mode = { "i", "s" },      desc = "leap tabpage" },
+                { ",", leap_tabpage, mode = { "n", "x", "o" }, desc = "leap tabpage" },
+                { "<C-l>", leap_tabpage, mode = { "i", "s" }, desc = "leap tabpage" },
             }
         end,
     },
@@ -72,8 +71,8 @@ return {
     {
         "haya14busa/vim-asterisk",
         keys = {
-            { "*",  "<Plug>(asterisk-z*)",  mode = { "n", "x" } },
-            { "#",  "<Plug>(asterisk-z#)",  mode = { "n", "x" } },
+            { "*", "<Plug>(asterisk-z*)", mode = { "n", "x" } },
+            { "#", "<Plug>(asterisk-z#)", mode = { "n", "x" } },
             { "g*", "<Plug>(asterisk-gz*)", mode = { "n", "x" } },
             { "g#", "<Plug>(asterisk-gz#)", mode = { "n", "x" } },
         },
@@ -83,13 +82,15 @@ return {
         cond = true,
         keys = function()
             local function substitute(command)
-                return function() require("substitute")[command]() end
+                return function()
+                    require("substitute")[command]()
+                end
             end
             return {
-                { map.l2("su"),  substitute("operator"), mode = { "n" }, desc = "substitute" },
-                { map.l2("suu"), substitute("line"),     mode = { "n" }, desc = "substitute line" },
-                { map.l2("sU"),  substitute("eol"),      mode = { "n" }, desc = "substitute eol" },
-                { map.l2("su"),  substitute("visual"),   mode = { "x" }, desc = "substitute" },
+                { map.l2("su"), substitute("operator"), mode = { "n" }, desc = "substitute" },
+                { map.l2("suu"), substitute("line"), mode = { "n" }, desc = "substitute line" },
+                { map.l2("sU"), substitute("eol"), mode = { "n" }, desc = "substitute eol" },
+                { map.l2("su"), substitute("visual"), mode = { "x" }, desc = "substitute" },
             }
         end,
         config = true,
@@ -106,20 +107,28 @@ return {
             })
         end,
         keys = {
-            { drawer.with_prefix_key("u"), function() drawer.open("undotree") end, desc = "open undotree" },
+            {
+                drawer.with_prefix_key("u"),
+                function()
+                    drawer.open("undotree")
+                end,
+                desc = "open undotree",
+            },
         },
     },
     {
         "potamides/pantran.nvim",
         cmd = "Pantran",
         keys = function()
-            local function motion_translate() require("pantran").motion_translate({ mode = "hover" }) end
+            local function motion_translate()
+                require("pantran").motion_translate({ mode = "hover" })
+            end
             return {
-                { map.l2("tr"),  motion_translate,   mode = { "n" }, desc = "translate" },
-                { map.l2("trr"), map.l2("tr_"),      mode = { "n" }, desc = "translate line" },
-                { map.l2("tR"),  map.l2("tr$"),      mode = { "n" }, desc = "translate eol" },
+                { map.l2("tr"), motion_translate, mode = { "n" }, desc = "translate" },
+                { map.l2("trr"), map.l2("tr_"), mode = { "n" }, desc = "translate line" },
+                { map.l2("tR"), map.l2("tr$"), mode = { "n" }, desc = "translate eol" },
                 { map.l2("tro"), "<CMD>Pantran<CR>", mode = { "n" }, desc = "open pantran" },
-                { map.l2("tr"),  motion_translate,   mode = { "x" }, desc = "translate" },
+                { map.l2("tr"), motion_translate, mode = { "x" }, desc = "translate" },
             }
         end,
         opts = function()
@@ -167,9 +176,9 @@ return {
             local session_manager = require("session_manager")
             local config = require("session_manager.config")
             session_manager.setup({
-                autoload_mode = config.AutoloadMode.CurrentDir
+                autoload_mode = config.AutoloadMode.CurrentDir,
             })
-        end
+        end,
     },
     {
         "stevearc/overseer.nvim",
@@ -183,8 +192,14 @@ return {
             })
         end,
         keys = {
-            { drawer.with_prefix_key("o"), function() drawer.open("overseer") end, desc = "open overseer" },
-            { map.l2("ovr"),               "<CMD>OverseerRun<CR>",                 mode = { "n" } },
+            {
+                drawer.with_prefix_key("o"),
+                function()
+                    drawer.open("overseer")
+                end,
+                desc = "open overseer",
+            },
+            { map.l2("ovr"), "<CMD>OverseerRun<CR>", mode = { "n" } },
             {
                 map.l2("ovl"),
                 function()
@@ -207,11 +222,9 @@ return {
         ft = "markdown",
         cmd = "MarkdownPreview",
         config = function()
-            vim.api.nvim_create_user_command(
-                "MarkdownPreviewInstall",
-                function() vim.fn["mkdp#util#install"]() end,
-                { desc = "Install markdown-preview.nvim" }
-            )
+            vim.api.nvim_create_user_command("MarkdownPreviewInstall", function()
+                vim.fn["mkdp#util#install"]()
+            end, { desc = "Install markdown-preview.nvim" })
         end,
     },
     {
@@ -219,11 +232,9 @@ return {
         lazy = not vim.g.started_by_firenvim,
         cond = vim.g.started_by_firenvim,
         config = function()
-            vim.api.nvim_create_user_command(
-                "FirenvimInstall",
-                function() vim.fn["firenvim#install"](0) end,
-                { desc = "Install firenvim" }
-            )
+            vim.api.nvim_create_user_command("FirenvimInstall", function()
+                vim.fn["firenvim#install"](0)
+            end, { desc = "Install firenvim" })
         end,
     },
     {
@@ -243,6 +254,6 @@ return {
     {
         "ruifm/gitlinker.nvim",
         config = true,
-        keys = { "<leader>gy", mode = { "n", "x" } }
-    }
+        keys = { "<leader>gy", mode = { "n", "x" } },
+    },
 }

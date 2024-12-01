@@ -18,7 +18,9 @@ return {
         cmd = "Neotest",
         keys = function()
             local function with(f)
-                return function() f(require("neotest").run) end
+                return function()
+                    f(require("neotest").run)
+                end
             end
 
             local function debug_go(method)
@@ -37,13 +39,17 @@ return {
             return {
                 {
                     "<leader>tt",
-                    with(function(run) run.run() end),
+                    with(function(run)
+                        run.run()
+                    end),
                     mode = "n",
                     desc = "nearest test",
                 },
                 {
                     "<leader>tf",
-                    with(function(run) run.run(vim.fn.expand("%")) end),
+                    with(function(run)
+                        run.run(vim.fn.expand("%"))
+                    end),
                     mode = "n",
                     desc = "current file",
                 },
@@ -67,8 +73,12 @@ return {
                     mode = "n",
                     desc = "last",
                 },
-                { "<leader>ts", with(function(run) run.stop() end), mode = "n", desc = "stop" },
-                { "<leader>ta", with(function(run) run.attach() end), mode = "n", desc = "attach" },
+                { "<leader>ts", with(function(run)
+                    run.stop()
+                end), mode = "n", desc = "stop" },
+                { "<leader>ta", with(function(run)
+                    run.attach()
+                end), mode = "n", desc = "attach" },
             }
         end,
         opts = function()

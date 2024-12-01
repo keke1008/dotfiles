@@ -141,9 +141,13 @@ local function open_parent_note()
     async.void(function()
         ---@type obsidian.Note[]
         local parent_notes = vim.tbl_filter(
-            function(v) return v ~= nil end, --
+            function(v)
+                return v ~= nil
+            end, --
             vim.tbl_map(
-                function(v) return v[1] end, --
+                function(v)
+                    return v[1]
+                end, --
                 async.util.join(resolve_link_funcs)
             )
         )

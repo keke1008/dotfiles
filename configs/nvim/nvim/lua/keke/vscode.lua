@@ -4,7 +4,9 @@ vim.notify = vscode.notify
 vim.g.clipboard = vim.g.vscode_clipboard
 
 local function run_action(cmd, opts)
-    return function() vscode.action(cmd, opts) end
+    return function()
+        vscode.action(cmd, opts)
+    end
 end
 
 vim.keymap.set("i", "<C-w>", run_action("deleteWordLeft"))

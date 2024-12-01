@@ -13,10 +13,18 @@ return {
         },
         keys = function()
             local function open_with_layout(layout)
-                return function() require("CopilotChat").toggle({ layout = layout }) end
+                return function()
+                    require("CopilotChat").toggle({ layout = layout })
+                end
             end
             return {
-                { "<leader>cr", function() require("CopilotChat").reset() end, desc = "reset chat" },
+                {
+                    "<leader>cr",
+                    function()
+                        require("CopilotChat").reset()
+                    end,
+                    desc = "reset chat",
+                },
                 { "<leader>c", "<CMD>CopilotChat<CR>", mode = { "x" }, desc = "open chat" },
                 { "<leader>cv", open_with_layout("vertical"), desc = "CopilotChat open vertical" },
                 { "<leader>ch", open_with_layout("horizontal"), desc = "CopilotChat open horizontal" },
@@ -24,7 +32,9 @@ return {
                 { "<leader>co", open_with_layout("replace"), desc = "CopilotChat open replace" },
                 {
                     "<leader>cc",
-                    function() require("CopilotChat").toggle({ selection = require("CopilotChat.select").line }) end,
+                    function()
+                        require("CopilotChat").toggle({ selection = require("CopilotChat.select").line })
+                    end,
                     desc = "CopilotChat open line",
                 },
             }

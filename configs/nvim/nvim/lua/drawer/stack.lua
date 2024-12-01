@@ -22,12 +22,18 @@ function UniqueDrawerNameStack:push(name)
 end
 
 ---@return drawer.DrawerName | nil
-function UniqueDrawerNameStack:pop() return table.remove(self.stack) end
+function UniqueDrawerNameStack:pop()
+    return table.remove(self.stack)
+end
 
 ---@return drawer.DrawerName | nil
-function UniqueDrawerNameStack:peek() return self.stack[#self.stack] end
+function UniqueDrawerNameStack:peek()
+    return self.stack[#self.stack]
+end
 
-function UniqueDrawerNameStack:clear() self.stack = {} end
+function UniqueDrawerNameStack:clear()
+    self.stack = {}
+end
 
 return {
     UniqueDrawerNameStack = UniqueDrawerNameStack,
