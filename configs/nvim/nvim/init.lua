@@ -19,7 +19,7 @@ vim.o.hidden = true
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.o.smartindent = true
-vim.o.completeopt = "menuone,noinsert"
+vim.o.completeopt = "menuone"
 vim.o.shortmess = vim.o.shortmess .. "c"
 vim.o.updatetime = 300
 vim.o.timeoutlen = 500

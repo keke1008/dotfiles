@@ -36,10 +36,10 @@ return {
                 end
             end
 
-            local remap_complete_or = function(action)
+            local remap_complete_or = function(action, arg)
                 return function()
                     if cmp.visible() then
-                        action()
+                        action(arg)
                     else
                         cmp.complete()
                     end
@@ -64,15 +64,23 @@ return {
                     return sources
                 end)(),
                 completion = {
-                    completeopt = "menuone",
+                    completeopt = "menu,menuone",
                 },
                 mapping = {
                     ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), remap_mode),
                     ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), remap_mode),
                     ["<C-j>"] = cmp.mapping(try_remap(luasnip_jump_next), remap_mode),
                     ["<C-k>"] = cmp.mapping(try_remap(luasnip_jump_prev), remap_mode),
-                    ["<C-p>"] = cmp.mapping(remap_complete_or(cmp.select_prev_item), remap_mode),
-                    ["<C-n>"] = cmp.mapping(remap_complete_or(cmp.select_next_item), remap_mode),
+                    ["<C-p>"] = cmp.mapping(
+                        -- Prevents completion from terminating with the expansion of the snippet
+                        -- when a completion candidate is selected, as in the `call` snippet of rust-analyzer.
+                        remap_complete_or(cmp.select_prev_item, { behavior = cmp.SelectBehavior.Select }),
+                        remap_mode
+                    ),
+                    ["<C-n>"] = cmp.mapping(
+                        remap_complete_or(cmp.select_next_item, { behavior = cmp.SelectBehavior.Select }),
+                        remap_mode
+                    ),
                     ["<CR>"] = cmp.mapping(try_remap(cmp.confirm), { "i", "s" }),
                     ["<C-e>"] = cmp.mapping(function()
                         cmp.abort()
@@ -91,6 +99,7 @@ return {
                             return kind
                         end
                     end)(),
+                    expandable_indicator = true,
                 },
                 window = {
                     completion = cmp.config.window.bordered({
