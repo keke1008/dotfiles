@@ -256,6 +256,31 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/nushell/nushell/0.100.0/nu-0.100.0-aarch64-apple-darwin.tar.gz",
+      "checksum": "A00A75DE2BA71031C9946DF966C124127ED3C3EC9A495FD24CA69E9615189A38",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nushell/nushell/0.100.0/nu-0.100.0-aarch64-unknown-linux-gnu.tar.gz",
+      "checksum": "12F9B74C18E8F3D58ACDAB1E7A1C84C547A60BE2E426D075BF7C42296C2EA9E2",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nushell/nushell/0.100.0/nu-0.100.0-x86_64-apple-darwin.tar.gz",
+      "checksum": "441D683766657292D1620485C47D9E3FD9243CF1E7BC5086C6C2C204F84ADF91",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nushell/nushell/0.100.0/nu-0.100.0-x86_64-pc-windows-msvc.zip",
+      "checksum": "8A9A24C2917F4F70B7884DF647A446E642D604D0B64EF6B78BABA7E10973C47D",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/nushell/nushell/0.100.0/nu-0.100.0-x86_64-unknown-linux-musl.tar.gz",
+      "checksum": "EB6D3D1D1B4CAA01FF31D7CFAB0C3D0DFE3AE40D1F8D8E19B40B3A2EE03D3131",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/oberblastmeister/trashy/v2.0.0/trash-x86_64-pc-windows-msvc.exe",
       "checksum": "B4FE6577613C624C874E8D1E4FF941694989242B569C99A723D12A4F5CFD11F6",
       "algorithm": "sha256"

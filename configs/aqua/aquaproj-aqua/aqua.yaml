@@ -29,3 +29,4 @@ packages:
   - name: sharkdp/fd@v10.2.0
   - name: dandavison/delta@0.18.2
   - name: dalance/procs@v0.14.8
+  - name: nushell/nushell@0.100.0
