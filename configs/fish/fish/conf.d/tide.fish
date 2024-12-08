@@ -8,7 +8,7 @@ end
 set -g tide_prompt_add_newline_before false
 set -g tide_prompt_color_frame_and_connection brblack
 set -g tide_prompt_color_separator_same_color blue
-set -g tide_prompt_icon_connection \u2500
+set -g tide_prompt_icon_connection \u00b7
 set -g tide_prompt_pad_items true
 set -g tide_prompt_transient_enabled false
 
@@ -22,8 +22,9 @@ set -g tide_left_prompt_suffix
 
 # right prompt
 set -g tide_right_prompt_frame_enabled false
-set -g tide_right_prompt_items empty status cmd_duration node python rustc java php pulumi \
-    ruby go gcloud kubectl distrobox toolbox terraform aws nix_shell crystal elixir zig direnv context
+set -g tide_right_prompt_items empty status cmd_duration
+# node python rustc java php pulumi ruby go gcloud kubectl distrobox \
+# toolbox terraform aws nix_shell crystal elixir zig direnv context
 set -g tide_right_prompt_prefix
 set -g tide_right_prompt_separator_diff_color \ue0b3
 set -g tide_right_prompt_separator_same_color \ue0b3
