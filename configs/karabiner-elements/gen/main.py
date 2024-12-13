@@ -57,27 +57,22 @@ def main():
     lmod_sync = make_sync(lmod)
     k.register({"japanese_eisuu": lmod_sync, "japanese_pc_nfer": lmod_sync})
 
-    scroll = var("scroll")
-    scroll_sync = make_sync(scroll)
     k.register(
         conditions=[lmod.equals(True)],
         manipulators={
-            "f": scroll_sync,
             "r": pointing_button("button1"),
             "u": pointing_button("button2"),
-            "i": mouse_key(vertical_wheel=50),
-            "o": mouse_key(vertical_wheel=-50),
             "q": mouse_key(speed_multiplier=6),
             "w": mouse_key(speed_multiplier=3),
             "e": mouse_key(speed_multiplier=0.3),
-            when(scroll.equals(False))("h"): mouse_key(x=-1000),
-            when(scroll.equals(False))("j"): mouse_key(y=1000),
-            when(scroll.equals(False))("k"): mouse_key(y=-1000),
-            when(scroll.equals(False))("l"): mouse_key(x=1000),
-            when(scroll.equals(True))("h"): mouse_key(horizontal_wheel=50),
-            when(scroll.equals(True))("j"): mouse_key(vertical_wheel=50),
-            when(scroll.equals(True))("k"): mouse_key(vertical_wheel=-50),
-            when(scroll.equals(True))("l"): mouse_key(horizontal_wheel=-50),
+            "h": mouse_key(x=-1000),
+            "j": mouse_key(y=1000),
+            "k": mouse_key(y=-1000),
+            "l": mouse_key(x=1000),
+            "u": mouse_key(horizontal_wheel=75),
+            "i": mouse_key(vertical_wheel=75),
+            "o": mouse_key(vertical_wheel=-75),
+            "p": mouse_key(horizontal_wheel=-75),
         },
     )
 
