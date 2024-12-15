@@ -42,7 +42,7 @@ def when(*conditions: ConditionSetLike):
     return wrapper
 
 
-class _MouseKey(TypedDict, total=False):
+class _MouseKeyOption(TypedDict, total=False):
     x: int | float
     y: int | float
     vertical_wheel: int | float
@@ -50,8 +50,9 @@ class _MouseKey(TypedDict, total=False):
     speed_multiplier: int | float
 
 
-def mouse_key(**values: Unpack[_MouseKey]):
-    return ToEventEntry(json.from_like({"mouse_key": dict(**values)}))
+def mouse_key(**kwargs: Unpack[_MouseKeyOption]):
+    options: json.JsonLike = dict(**kwargs)  # type: ignore
+    return ToEventEntry(json.from_like({"mouse_key": options}))
 
 
 def pointing_button(button: str):

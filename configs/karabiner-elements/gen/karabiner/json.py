@@ -11,11 +11,11 @@ def stringify(json: Json) -> str:
         case str() | bool() | int() | float() | None:
             return stdlib_json.dumps(json)
         case tuple(items):
-            items = ",".join(map(stringify, items))
-            return "[" + items + "]"
+            items_str = ",".join(map(stringify, items))
+            return "[" + items_str + "]"
         case frozenset(entires):
-            entires = ",".join(f"{stringify(k)}:{stringify(v)}" for k, v in entires)
-            return "{" + entires + "}"
+            entires_str = ",".join(f"{stringify(k)}:{stringify(v)}" for k, v in entires)
+            return "{" + entires_str + "}"
         case unreachable:
             assert_never(unreachable)
 

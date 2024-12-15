@@ -44,11 +44,15 @@ class Karabiner:
         self._description = description
         self._manipulators = defaultdict(lambda: defaultdict(list))
 
-    def register(self, manipulators: dict[FromClauseLike, ToClauseLike], conditions: ConditionSetLike = []):
+    def register(
+        self,
+        manipulators: dict[FromClauseLike, ToClauseLike],
+        conditions: ConditionSetLike = [],
+    ):
         conditions = ConditionSet.from_like(conditions)
-        for from_clause, to_clause in manipulators.items():
-            from_clause = _into_from_clause(from_clause)
-            to_clause = _into_to_clause(to_clause)
+        for from_clause_like, to_clause_like in manipulators.items():
+            from_clause = _into_from_clause(from_clause_like)
+            to_clause = _into_to_clause(to_clause_like)
             cond = conditions.merge(from_clause.condition)
             for to in to_clause:
                 manipulator = self._manipulators[from_clause.value, cond.merge(to.condition)]

@@ -50,7 +50,7 @@ class FrontmostApplicationCondition:
     def to_json(self) -> json.Json:
         return json.from_like(
             {
-                "type": "frontmost_application_if" if not self.invert else "frontmost_application_unless",
+                "type": ("frontmost_application_if" if not self.invert else "frontmost_application_unless"),
                 "bundle_identifiers": [*self.bundle_identifiers],
             }
         )

@@ -27,7 +27,7 @@ class FromKeyCode:
                 "key_code": self.key_code,
                 "modifiers": {
                     "mandatory": [*self.mandatory_modifiers],
-                    "optional": [*self.optional_modifiers] if self.optional_modifiers is not None else ["any"],
+                    "optional": ([*self.optional_modifiers] if self.optional_modifiers is not None else ["any"]),
                 },
             }
         )
