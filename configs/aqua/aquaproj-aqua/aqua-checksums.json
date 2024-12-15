@@ -111,6 +111,31 @@
       "algorithm": "sha256"
     },
     {
+      "id": "github_release/github.com/astral-sh/uv/0.5.9/uv-aarch64-apple-darwin.tar.gz",
+      "checksum": "66D352728D0EFE9ECC65F7E9EE419FCE139E3AB99ADDC08527E8CEBBB405D382",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/astral-sh/uv/0.5.9/uv-aarch64-unknown-linux-musl.tar.gz",
+      "checksum": "EC5598AE9DABA48F7A12B2F12533C6AA683049E6A822835794CEA136F63ABD31",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/astral-sh/uv/0.5.9/uv-x86_64-apple-darwin.tar.gz",
+      "checksum": "F4B4311CD2C2928AADEE6B4E85AEC2C6DB7D779D4F9009EB4733BC8B2F20DBB5",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/astral-sh/uv/0.5.9/uv-x86_64-pc-windows-msvc.zip",
+      "checksum": "8CB608CDF23B79F4F598969B72890DB657C5ADDAB312890C37AB20B9B57C501F",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/astral-sh/uv/0.5.9/uv-x86_64-unknown-linux-musl.tar.gz",
+      "checksum": "F97FFE29C03F01BB19A948EB8EB1E27CEFBBF83B8DD54057DA0247A664A303AC",
+      "algorithm": "sha256"
+    },
+    {
       "id": "github_release/github.com/dalance/procs/v0.14.8/procs-v0.14.8-x86_64-linux.zip",
       "checksum": "F573C1762922A107E7C18F7AE6ECA2447DDE22BF1A580C2612B0C5FCEF495F11",
       "algorithm": "sha256"
@@ -398,6 +423,26 @@
     {
       "id": "github_release/github.com/stern/stern/v1.31.0/stern_1.31.0_windows_arm64.tar.gz",
       "checksum": "C89DCAFAF780B88B6FA9EFD89755C970F3717AA28D6BC63AAF32C9B35FEF3E56",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/zellij-org/zellij/v0.41.2/zellij-aarch64-apple-darwin.tar.gz",
+      "checksum": "B4CB9F9B66053BC88A0FF86001A077E06AA77A2F8C74C82C1300B7CEFA9ED575",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/zellij-org/zellij/v0.41.2/zellij-aarch64-unknown-linux-musl.tar.gz",
+      "checksum": "1D6ACE4ED4831B5CDF7BE87E2D40E1A85FE4A022372814C1B8F08E5B71C58583",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/zellij-org/zellij/v0.41.2/zellij-x86_64-apple-darwin.tar.gz",
+      "checksum": "EF28CF8BECA946DD8BE1BF6131265C7B1F16078480A4A656B2580BBDB1B64C81",
+      "algorithm": "sha256"
+    },
+    {
+      "id": "github_release/github.com/zellij-org/zellij/v0.41.2/zellij-x86_64-unknown-linux-musl.tar.gz",
+      "checksum": "B1C321A817D8A5BAF55C2798F6AC7495BBA925D686D9877E9604A50784BF6C78",
       "algorithm": "sha256"
     },
     {
