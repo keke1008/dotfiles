@@ -56,20 +56,23 @@ def main():
     lmod = var("lmod")
     lmod_sync = make_sync(lmod)
     k.register({"japanese_eisuu": lmod_sync, "japanese_pc_nfer": lmod_sync})
+
     k.register(
         conditions=[lmod.equals(True)],
         manipulators={
             "r": pointing_button("button1"),
             "u": pointing_button("button2"),
-            "i": mouse_key(vertical_wheel=50),
-            "o": mouse_key(vertical_wheel=-50),
+            "q": mouse_key(speed_multiplier=6),
+            "w": mouse_key(speed_multiplier=3),
+            "e": mouse_key(speed_multiplier=0.3),
             "h": mouse_key(x=-1000),
             "j": mouse_key(y=1000),
             "k": mouse_key(y=-1000),
             "l": mouse_key(x=1000),
-            "q": mouse_key(speed_multiplier=6),
-            "w": mouse_key(speed_multiplier=3),
-            "e": mouse_key(speed_multiplier=0.3),
+            "u": mouse_key(horizontal_wheel=75),
+            "i": mouse_key(vertical_wheel=75),
+            "o": mouse_key(vertical_wheel=-75),
+            "p": mouse_key(horizontal_wheel=-75),
         },
     )
 
