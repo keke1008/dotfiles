@@ -17,6 +17,14 @@ declare_home_config_link() {
 	stash_and_link_home_config "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
 }
 
+declare_local_bin_link() {
+	link_local_bin "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
+}
+
+declare_local_bin_dir_link() {
+	link_local_bin_dir "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
+}
+
 main() {
 	if ! migrate_dotfiles; then
 		log "error" "Failed to run migration. Exiting installation"

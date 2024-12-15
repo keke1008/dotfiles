@@ -6,11 +6,22 @@
     email = 49900846+keke1008@users.noreply.github.com
     name = keke1008
 
+[core]
+	quotepath = off
+	pager = dotfiles-git-diff-tool
+
+[interactive]
+	diffFilter = dotfiles-git-diff-tool dotfiles-marker-diff-filter
+
 [init]
     defaultBranch = main
 
-[core]
-	quotepath = off
+[pull]
+	rebase = false
+
+[delta]
+	navigate = true
+	dark = true
 
 [alias]
     a = add
@@ -83,8 +94,7 @@
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
-[pull]
-	rebase = false
+
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

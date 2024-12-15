@@ -1,0 +1,24 @@
+#!/bin/sh -eu
+
+main() {
+	local diff_cmd
+	local diff_args=""
+	if command -v "delta" >/dev/null 2>&1; then
+		diff_cmd="delta"
+		diff_args="--line-numbers"
+	else
+		diff_cmd="less"
+		diff_args="-RFX"
+	fi
+
+	if [ "${1:-}" = "dotfiles-marker-diff-filter" ]; then
+		shift
+		if [ "${diff_cmd}" = "delta" ]; then
+			diff_args="${diff_args} --color-only"
+		fi
+	fi
+
+	exec "${diff_cmd}" ${diff_args} "$@"
+}
+
+main "$@"

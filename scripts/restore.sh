@@ -17,6 +17,14 @@ declare_home_config_link() {
 	unlink_and_restore_home_config "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
 }
 
+declare_local_bin_link() {
+	unlink_local_bin "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
+}
+
+declare_local_bin_dir_link() {
+	unlink_local_bin_dir "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
+}
+
 main() {
 	if ! migrate_dotfiles; then
 		log "error" "Failed to run migration. Exiting installation"
