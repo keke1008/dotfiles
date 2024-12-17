@@ -61,7 +61,7 @@ def main():
         conditions=[lmod.equals(True)],
         manipulators={
             "r": pointing_button("button1"),
-            "u": pointing_button("button2"),
+            "t": pointing_button("button2"),
             "q": mouse_key(speed_multiplier=6),
             "w": mouse_key(speed_multiplier=3),
             "e": mouse_key(speed_multiplier=0.3),
