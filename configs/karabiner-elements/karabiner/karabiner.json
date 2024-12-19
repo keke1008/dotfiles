@@ -366,7 +366,7 @@
                                 "to": [
                                     {
                                         "key_code": "spacebar",
-                                        "modifiers": ["control", "option"]
+                                        "modifiers": ["option", "control"]
                                     }
                                 ],
                                 "type": "basic"
@@ -512,7 +512,7 @@
                                     },
                                     {
                                         "key_code": "spacebar",
-                                        "modifiers": ["control", "option"]
+                                        "modifiers": ["option", "control"]
                                     }
                                 ],
                                 "type": "basic"
@@ -580,39 +580,6 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "f",
-                                    "modifiers": {
-                                        "mandatory": [],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "set_variable": {
-                                            "name": "scroll",
-                                            "value": true
-                                        }
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "set_variable": {
-                                            "name": "scroll",
-                                            "value": false
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "lmod",
-                                        "type": "variable_if",
-                                        "value": true
-                                    }
-                                ],
-                                "from": {
                                     "key_code": "r",
                                     "modifiers": {
                                         "mandatory": [],
@@ -631,49 +598,13 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "u",
+                                    "key_code": "t",
                                     "modifiers": {
                                         "mandatory": [],
                                         "optional": ["any"]
                                     }
                                 },
                                 "to": [{ "pointing_button": "button2" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "lmod",
-                                        "type": "variable_if",
-                                        "value": true
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "i",
-                                    "modifiers": {
-                                        "mandatory": [],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "mouse_key": { "vertical_wheel": 50 } }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "name": "lmod",
-                                        "type": "variable_if",
-                                        "value": true
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "o",
-                                    "modifiers": {
-                                        "mandatory": [],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "mouse_key": { "vertical_wheel": -50 } }],
                                 "type": "basic"
                             },
                             {
@@ -733,11 +664,6 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": false
-                                    },
-                                    {
                                         "name": "lmod",
                                         "type": "variable_if",
                                         "value": true
@@ -755,11 +681,6 @@
                             },
                             {
                                 "conditions": [
-                                    {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": false
-                                    },
                                     {
                                         "name": "lmod",
                                         "type": "variable_if",
@@ -779,11 +700,6 @@
                             {
                                 "conditions": [
                                     {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": false
-                                    },
-                                    {
                                         "name": "lmod",
                                         "type": "variable_if",
                                         "value": true
@@ -801,11 +717,6 @@
                             },
                             {
                                 "conditions": [
-                                    {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": false
-                                    },
                                     {
                                         "name": "lmod",
                                         "type": "variable_if",
@@ -828,21 +739,16 @@
                                         "name": "lmod",
                                         "type": "variable_if",
                                         "value": true
-                                    },
-                                    {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": true
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "h",
+                                    "key_code": "u",
                                     "modifiers": {
                                         "mandatory": [],
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "horizontal_wheel": 50 } }],
+                                "to": [{ "mouse_key": { "horizontal_wheel": 75 } }],
                                 "type": "basic"
                             },
                             {
@@ -851,21 +757,16 @@
                                         "name": "lmod",
                                         "type": "variable_if",
                                         "value": true
-                                    },
-                                    {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": true
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "j",
+                                    "key_code": "i",
                                     "modifiers": {
                                         "mandatory": [],
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "vertical_wheel": 50 } }],
+                                "to": [{ "mouse_key": { "vertical_wheel": 75 } }],
                                 "type": "basic"
                             },
                             {
@@ -874,21 +775,16 @@
                                         "name": "lmod",
                                         "type": "variable_if",
                                         "value": true
-                                    },
-                                    {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": true
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "k",
+                                    "key_code": "o",
                                     "modifiers": {
                                         "mandatory": [],
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "vertical_wheel": -50 } }],
+                                "to": [{ "mouse_key": { "vertical_wheel": -75 } }],
                                 "type": "basic"
                             },
                             {
@@ -897,21 +793,16 @@
                                         "name": "lmod",
                                         "type": "variable_if",
                                         "value": true
-                                    },
-                                    {
-                                        "name": "scroll",
-                                        "type": "variable_if",
-                                        "value": true
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "l",
+                                    "key_code": "p",
                                     "modifiers": {
                                         "mandatory": [],
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "horizontal_wheel": -50 } }],
+                                "to": [{ "mouse_key": { "horizontal_wheel": -75 } }],
                                 "type": "basic"
                             },
                             {
