@@ -6,3 +6,9 @@
 
 # neoconf.nvim
 .neoconf.json
+
+# direnv
+.envrc
+
+# common env file
+.env
