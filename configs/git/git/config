@@ -5,6 +5,7 @@
 [user]
     email = 49900846+keke1008@users.noreply.github.com
     name = keke1008
+    signingkey = B9F35B3E127FCEC4
 
 [core]
 	quotepath = off
@@ -15,6 +16,9 @@
 
 [init]
     defaultBranch = main
+
+[commit]
+    gpgsign = true
 
 [pull]
 	rebase = false
