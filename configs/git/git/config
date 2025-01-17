@@ -92,6 +92,9 @@
     sid = switch --detach
 
     sh = stash
+    sha = stash apply
+    shd = stash drop
+    shl = stash list
     shu = stash -u
     shp = stash pop
 
