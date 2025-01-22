@@ -8,27 +8,27 @@ checksum:
     - all
 registries:
   - type: standard
-    ref: v4.246.1 # renovate: depName=aquaproj/aqua-registry
+    ref: v4.298.0 # renovate: depName=aquaproj/aqua-registry
 packages:
   - name: tfutils/tfenv@v3.0.0
   - name: ogham/exa@v0.10.1
-  - name: sharkdp/bat@v0.24.0
-  - name: neovim/neovim@v0.10.2
-  - name: starship/starship@v1.21.1
-  - name: junegunn/fzf@v0.56.0
+  - name: sharkdp/bat@v0.25.0
+  - name: neovim/neovim@v0.10.3
+  - name: starship/starship@v1.22.1
+  - name: junegunn/fzf@v0.58.0
   - name: BurntSushi/ripgrep@14.1.1
   - name: direnv/direnv@v2.35.0
   - name: ajeetdsouza/zoxide@v0.9.6
-  - name: aws/aws-cli@2.19.4
-  - name: kubernetes/kubectl@v1.31.2
+  - name: aws/aws-cli@2.23.3
+  - name: kubernetes/kubectl@v1.32.1
   - name: ahmetb/kubectx@v0.9.5
-  - name: stern/stern@v1.31.0
-  - name: nektos/act@v0.2.69
-  - name: astral-sh/uv@0.5.5
+  - name: stern/stern@v1.32.0
+  - name: nektos/act@v0.2.71
+  - name: astral-sh/uv@0.5.22
   - name: oberblastmeister/trashy@v2.0.0
   - name: sharkdp/fd@v10.2.0
   - name: dandavison/delta@0.18.2
-  - name: dalance/procs@v0.14.8
-  - name: nushell/nushell@0.100.0
+  - name: dalance/procs@v0.14.9
+  - name: nushell/nushell@0.101.0
   - name: zellij-org/zellij@v0.41.2
-  - name: astral-sh/uv@0.5.9
+  - name: astral-sh/uv@0.5.22
