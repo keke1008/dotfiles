@@ -30,6 +30,30 @@ local lsp_setup_config = (function()
     end
 end)()
 
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("keke_lsp_keymap_lsp_attach", {}),
+    desc = "Configure LSP keymaps",
+    callback = function(args)
+        local bufnr = args.buf
+        local opts = { buffer = bufnr, silent = true }
+
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
+        vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
+        vim.keymap.set("n", "<leader>ld", "<CMD>Lspsaga peek_definition<CR>", opts)
+        vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
+        vim.keymap.set("n", "<leader>ll", vim.lsp.codelens.run, opts)
+        vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
+        vim.keymap.set("n", "<leader>li", vim.lsp.buf.incoming_calls, opts)
+        vim.keymap.set("n", "<leader>lo", vim.lsp.buf.outgoing_calls, opts)
+    end,
+})
+
 return {
     {
         "neovim/nvim-lspconfig",
@@ -158,46 +182,25 @@ return {
         "nvimdev/lspsaga.nvim",
         cmd = "Lspsaga",
         init = function()
-            vim.api.nvim_create_autocmd("LspAttach", {
-                group = vim.api.nvim_create_augroup("keke_lspsaga_lsp_attach", {}),
-                desc = "Lspsaga buffer local configs",
+            vim.api.nvim_create_autocmd("FileType", {
+                group = vim.api.nvim_create_augroup("keke_lspsaga_setting", {}),
+                pattern = "sagarename",
+                desc = "Setup Lspsaga rename buffer",
                 callback = function(args)
-                    local bufnr = args.buf
-                    local opts = { buffer = bufnr, silent = true }
-
-                    vim.keymap.set("n", "gd", "<CMD>Lspsaga goto_definition<CR>", opts)
-                    vim.keymap.set("n", "gr", "<CMD>Lspsaga finder<CR>", opts)
-                    vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
-                    vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
-                    vim.keymap.set("n", "K", "<CMD>lua vim.lsp.buf.hover()<CR>", opts)
-                    vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
-                    vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
-                    vim.keymap.set("n", "<leader>le", "<CMD>Lspsaga show_cursor_diagnostics<CR>", opts)
-                    vim.keymap.set("n", "<leader>lp", "<CMD>Lspsaga peek_definition<CR>", opts)
-                    vim.keymap.set("n", "<leader>li", "<CMD>Lspsaga incoming_calls<CR>", opts)
-                    vim.keymap.set("n", "<leader>lo", "<CMD>Lspsaga outgoing_calls<CR>", opts)
+                    for _, key in ipairs({ "<Esc>", "q" }) do
+                        vim.keymap.set("n", key, vim.cmd.quit, { buffer = args.buf })
+                    end
                 end,
             })
         end,
         opts = {
-            ui = {
-                border = "rounded",
-            },
-            lightbulb = {
-                enable = false,
-            },
-            finder = {
-                open = "e",
-                vsplit = "v",
-                split = "i",
-                tabe = "t",
-                quit = "<ESC>",
-            },
-            definition = {
-                edit = "<leader>:e",
-                vsplit = "<leader>:v",
-                split = "<leader>:s",
-                tabe = "<leader>:t",
+            ui = { border = "rounded" },
+            lightbulb = { enable = false },
+            diagnostic = { jump_num_shortcut = false },
+            code_action = {
+                keys = {
+                    quit = { "<Esc>", "q" },
+                },
             },
             outline = {
                 keys = {

@@ -78,32 +78,51 @@ return {
             "nvim-tree/nvim-web-devicons",
         },
         event = "UIEnter",
-        keys = {
-            { "[b", "<CMD>BufferPrev<CR>", mode = { "n", "x" } },
-            { "]b", "<CMD>BufferNext<CR>", mode = { "n", "x" } },
-            { "{B", "<CMD>BufferMovePrevious<CR>", mode = { "n", "x" } },
-            { "}B", "<CMD>BufferMoveNext<CR>", mode = { "n", "x" } },
-            { "<leader>bb", "<CMD>BufferClose<CR>", mode = { "n", "x" } },
-            { "<leader>B", "<CMD>BufferClose<CR>", mode = { "n", "x" } },
-            { "<leader>bD", "<CMD>BufferCloseBuffersRight<CR>", mode = { "n", "x" } },
-            { "<leader>bU", "<CMD>BufferCloseBuffersLeft<CR>", mode = { "n", "x" } },
-            { "<leader>bo", "<CMD>BufferCloseAllButVisible<CR>", mode = { "n", "x" } },
-            { "<leader>bO", "<CMD>BufferCloseAllButCurrentOrPinned<CR>", mode = { "n", "x" } },
-            { "<leader>bP", "<CMD>BufferCloseAllButPinned<CR>", mode = { "n", "x" } },
-            { "<leader>bp", "<CMD>BufferPin<CR>", mode = { "n", "x" } },
-            { "<leader>bf", "<CMD>BufferPick<CR>", mode = { "n", "x" } },
-            { "<leader>b^", "<CMD>BufferFirst<CR>", mode = { "n", "x" } },
-            { "<leader>b$", "<CMD>BufferLast<CR>", mode = { "n", "x" } },
-            { "<leader>b1", "<CMD>BufferGoto 1<CR>", mode = { "n", "x" } },
-            { "<leader>b2", "<CMD>BufferGoto 2<CR>", mode = { "n", "x" } },
-            { "<leader>b3", "<CMD>BufferGoto 3<CR>", mode = { "n", "x" } },
-            { "<leader>b4", "<CMD>BufferGoto 4<CR>", mode = { "n", "x" } },
-            { "<leader>b5", "<CMD>BufferGoto 5<CR>", mode = { "n", "x" } },
-            { "<leader>b6", "<CMD>BufferGoto 6<CR>", mode = { "n", "x" } },
-            { "<leader>b7", "<CMD>BufferGoto 7<CR>", mode = { "n", "x" } },
-            { "<leader>b8", "<CMD>BufferGoto 8<CR>", mode = { "n", "x" } },
-            { "<leader>b9", "<CMD>BufferGoto 9<CR>", mode = { "n", "x" } },
-        },
+        keys = function()
+            local function multi_win_exists()
+                return #vim.api.nvim_list_wins() > 1
+            end
+
+            local function with_quit(cmd)
+                return function()
+                    vim.cmd(cmd)
+                    if multi_win_exists() then
+                        vim.cmd.quit()
+                    end
+                end
+            end
+
+            local function with_only(cmd)
+                return function()
+                    vim.cmd(cmd)
+                    if multi_win_exists() then
+                        vim.cmd.only()
+                    end
+                end
+            end
+
+            local mode = { "n", "x" }
+
+            return {
+                { "[b", "<CMD>BufferPrev<CR>", mode = mode },
+                { "]b", "<CMD>BufferNext<CR>", mode = mode },
+                { "{B", "<CMD>BufferMovePrevious<CR>", mode = mode },
+                { "}B", "<CMD>BufferMoveNext<CR>", mode = mode },
+                { "<leader>bb", "<CMD>BufferClose<CR>", mode = mode },
+                { "<leader>B", with_quit("BufferClose"), mode = mode },
+                { "<leader>bD", "<CMD>BufferCloseBuffersRight<CR>", mode = mode },
+                { "<leader>bU", "<CMD>BufferCloseBuffersLeft<CR>", mode = mode },
+                { "<leader>bo", "<CMD>BufferCloseAllButVisible<CR>", mode = mode },
+                { "<leader>bo", with_only("BufferCloseAllButVisible"), mode = mode },
+                { "<leader>bO", "<CMD>BufferCloseAllButCurrentOrPinned<CR>", mode = mode },
+                { "<leader>bO", with_only("BufferCloseAllButCurrentOrPinned"), mode = mode },
+                { "<leader>bP", "<CMD>BufferCloseAllButPinned<CR>", mode = mode },
+                { "<leader>bp", "<CMD>BufferPin<CR>", mode = mode },
+                { "<leader>bf", "<CMD>BufferPick<CR>", mode = mode },
+                { "<leader>b^", "<CMD>BufferFirst<CR>", mode = mode },
+                { "<leader>b$", "<CMD>BufferLast<CR>", mode = mode },
+            }
+        end,
         init = function()
             vim.g.barbar_auto_setup = false
         end,

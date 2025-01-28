@@ -238,8 +238,13 @@ return {
         end,
     },
     {
-        "itchyny/vim-qfedit",
-        event = "QuickFixCmdPre",
+        "kevinhwang91/nvim-bqf",
+        ft = { "qf" },
+        opts = {
+            preview = {
+                winblend = 0,
+            },
+        },
     },
     {
         "michaelb/sniprun",
@@ -255,5 +260,10 @@ return {
         "ruifm/gitlinker.nvim",
         config = true,
         keys = { "<leader>gy", mode = { "n", "x" } },
+    },
+    {
+        "uga-rosa/ccc.nvim",
+        event = "BufEnter",
+        opts = { highlighter = { auto_enable = true } },
     },
 }
