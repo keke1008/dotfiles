@@ -1,0 +1,77 @@
+#!/bin/sh
+
+set -euo pipefail
+
+EXEC_PATH="${PATH}"
+
+append_path() {
+	if [ -z "$1" ]; then
+		echo "Missing path" >&2
+		return 1
+	fi
+
+	local path="$1"
+
+	case ":${PATH}:" in
+	*:"${path}":*) ;;
+	*)
+		EXEC_PATH="${path}:${EXEC_PATH}"
+		echo "Added path: ${path}"
+		;;
+	esac
+}
+
+executable() {
+	if [ -z "$1" ]; then
+		echo "Missing executable" >&2
+		return 1
+	fi
+
+	local executable="$1"
+
+	command -v "$executable" >/dev/null
+}
+
+search_package_bin_dir() {
+	if [ -z "$1" ]; then
+		echo "Missing directory" >&2
+		return 1
+	fi
+
+	local dir="$1"
+
+	if [ ! -d "${dir}" ]; then
+		echo "Directory does not exist: ${dir}" >&2
+		return 1
+	fi
+
+	if [ -f "${dir}/package.json" ] && executable "npm"; then
+		local path
+		if path="$(npm root)/.bin"; then
+			append_path "${path}"
+		fi
+	fi
+
+	if [ -f "${dir}/Gemfile" ] && executable "bundle"; then
+		local path
+		if path="$(bundle exec ruby -e 'puts Gem.bindir')"; then
+			append_path "${path}"
+		fi
+	fi
+}
+
+main() {
+	local command="${1:-${SHELL:-sh}}"
+
+	local dir
+	dir="$(pwd)"
+
+	while [ "${dir}" != "/" ]; do
+		search_package_bin_dir "${dir}"
+		dir="$(dirname "${dir}")"
+	done
+
+	PATH="${EXEC_PATH}" exec "${command}"
+}
+
+main "$@"
