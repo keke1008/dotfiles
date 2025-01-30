@@ -1,9 +1,18 @@
 local drawer = require("drawer")
 
+vim.fn.sign_define({
+    { name = "DapStopped", text = " ", texthl = "DebugStopSign", linehl = "DebugStopLine" },
+    { name = "DapBreakpoint", text = " ", texthl = "DebugBreakpointSign" },
+    { name = "DapBreakpointRejected", text = " ", texthl = "DebugBreakpointSign" },
+    { name = "DapBreakpointCondition", text = " ", texthl = "DebugBreakpointSign" },
+    { name = "DapLogPoint", text = " ", texthl = "DebugBreakpointSign" },
+})
+
 return {
     {
         "jay-babu/mason-nvim-dap.nvim",
         dependencies = {
+            -- `mason.nvim` must be installed before `mason-nvim-dap.nvim`
             "williamboman/mason.nvim",
             "mfussenegger/nvim-dap",
         },
@@ -47,7 +56,6 @@ return {
         end,
         config = function()
             local dap = require("dap")
-            local colors = require("tokyonight.colors").setup()
 
             local function prompt_executable()
                 return coroutine.create(function(dap_run_co)
@@ -60,22 +68,22 @@ return {
                 end)
             end
 
-            local function append_configuration(lang, config)
-                dap.configurations[lang] = dap.configurations[lang] or {}
-                table.insert(dap.configurations[lang], config)
+            local function append_configuration(langs, config)
+                langs = type(langs) == "table" and langs or { langs }
+                for _, lang in ipairs(langs) do
+                    dap.configurations[lang] = dap.configurations[lang] or {}
+                    table.insert(dap.configurations[lang], config)
+                end
             end
 
-            local codelldb_configuration = {
+            append_configuration({ "c", "cpp", "rust" }, {
                 name = "Launch executable file with codelldb",
                 type = "codelldb",
                 request = "launch",
                 program = prompt_executable,
                 cwd = "${workspaceFolder}",
                 stopOnEntry = false,
-            }
-            append_configuration("c", codelldb_configuration)
-            append_configuration("cpp", codelldb_configuration)
-            append_configuration("rust", codelldb_configuration)
+            })
             append_configuration("typescript", {
                 name = "tsx",
                 type = "pwa-node",
@@ -87,18 +95,6 @@ return {
                 protocol = "inspector",
                 console = "integratedTerminal",
                 skipFiles = { "<node_internals>/**" },
-            })
-
-            vim.api.nvim_set_hl(0, "DebugStopLine", { bg = colors.blue0 })
-            vim.api.nvim_set_hl(0, "DebugStopSign", { fg = colors.blue })
-            vim.api.nvim_set_hl(0, "DebugBreakpointSign", { fg = colors.red })
-
-            vim.fn.sign_define({
-                { name = "DapStopped", text = " ", texthl = "DebugStopSign", linehl = "DebugStopLine" },
-                { name = "DapBreakpoint", text = " ", texthl = "DebugBreakpointSign" },
-                { name = "DapBreakpointRejected", text = " ", texthl = "DebugBreakpointSign" },
-                { name = "DapBreakpointCondition", text = " ", texthl = "DebugBreakpointSign" },
-                { name = "DapLogPoint", text = " ", texthl = "DebugBreakpointSign" },
             })
 
             dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -119,15 +115,11 @@ return {
     },
     {
         "theHamsta/nvim-dap-virtual-text",
-        dependencies = {
-            "jay-babu/mason-nvim-dap.nvim",
-        },
         config = true,
     },
     {
         "rcarriga/nvim-dap-ui",
         dependencies = {
-            "jay-babu/mason-nvim-dap.nvim",
             "nvim-neotest/nvim-nio",
         },
         init = function()

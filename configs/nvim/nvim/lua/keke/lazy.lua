@@ -39,4 +39,7 @@ require("lazy").setup("keke.plugins", {
             },
         },
     },
+    ui = {
+        border = "rounded",
+    },
 })

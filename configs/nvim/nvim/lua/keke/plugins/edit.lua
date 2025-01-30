@@ -228,14 +228,8 @@ return {
         end,
     },
     {
-        "glacambre/firenvim",
-        lazy = not vim.g.started_by_firenvim,
-        cond = vim.g.started_by_firenvim,
-        config = function()
-            vim.api.nvim_create_user_command("FirenvimInstall", function()
-                vim.fn["firenvim#install"](0)
-            end, { desc = "Install firenvim" })
-        end,
+        "itchyny/vim-qfedit",
+        event = "QuickFixCmdPre",
     },
     {
         "kevinhwang91/nvim-bqf",
@@ -255,11 +249,6 @@ return {
                 vim.fn.system({ "sh", path })
             end, { desc = "Install sniprun" })
         end,
-    },
-    {
-        "ruifm/gitlinker.nvim",
-        config = true,
-        keys = { "<leader>gy", mode = { "n", "x" } },
     },
     {
         "uga-rosa/ccc.nvim",

@@ -252,57 +252,33 @@ return {
     },
     {
         "p00f/clangd_extensions.nvim",
-        dependencies = { "williamboman/mason.nvim" },
         ft = { "c", "cpp" },
     },
     {
         "mfussenegger/nvim-jdtls",
-        dependencies = { "williamboman/mason.nvim" },
         ft = "java",
     },
     {
-        "jose-elias-alvarez/typescript.nvim",
-        dependencies = {
-            "neovim/nvim-lspconfig",
-            "williamboman/mason.nvim",
-        },
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
         config = function()
             local util = require("lspconfig.util")
-            local typescript = require("typescript")
-
             local is_deno_project = util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd())
             if is_deno_project then
                 return
             end
 
-            typescript.setup({
-                server = lsp_setup_config({
-                    root_dir = util.find_package_json_ancestor,
-                    on_attach = function(_, bufnr)
-                        vim.keymap.set(
-                            "n",
-                            "<leader>lm",
-                            "<CMD>TypescriptAddMissingImports<CR>",
-                            { buffer = bufnr, silent = true }
-                        )
-                        vim.keymap.set(
-                            "n",
-                            "<leader>lR",
-                            "<CMD>TypescriptRenameFile<CR>",
-                            { buffer = bufnr, silent = true }
-                        )
-                    end,
-                }),
+            require("typescript-tools").setup({
+                on_attach = function(bufnr)
+                    vim.keymap.set("n", "<leader>lD", "<CMD>TSToolsGoToSourceDefinition<CR>", { buffer = bufnr })
+                end,
             })
         end,
     },
     {
         "akinsho/flutter-tools.nvim",
-        dependencies = {
-            "williamboman/mason.nvim",
-            "nvim-lua/plenary.nvim",
-        },
+        dependencies = { "nvim-lua/plenary.nvim" },
         ft = "dart",
         config = function()
             local flutter_tools = require("flutter-tools")
