@@ -1,6 +1,4 @@
-#!/bin/sh
-
-set -euo pipefail
+#!/bin/sh -eu
 
 EXEC_PATH="${PATH}"
 
@@ -39,6 +37,7 @@ search_package_bin_dir() {
 	fi
 
 	local dir="$1"
+	cd "${dir}" || return 1
 
 	if [ ! -d "${dir}" ]; then
 		echo "Directory does not exist: ${dir}" >&2
@@ -58,19 +57,35 @@ search_package_bin_dir() {
 			append_path "${path}"
 		fi
 	fi
+
+	local venv_name
+	for venv_name in .venv venv; do
+		if [ -f "${dir}/${venv_name}/bin/activate" ]; then
+			append_path "${dir}/${venv_name}/bin"
+		fi
+	done
+
+	if [ -f "${dir}/pyproject.toml" ] && executable "poetry"; then
+		local path
+		if path="$(poetry env info --path 2>/dev/null)"; then
+			append_path "${path}"
+		fi
+	fi
 }
 
 main() {
 	local command="${1:-${SHELL:-sh}}"
 
-	local dir
-	dir="$(pwd)"
+	local cwd
+	cwd="$(pwd)"
+	local dir="${cwd}"
 
 	while [ "${dir}" != "/" ]; do
 		search_package_bin_dir "${dir}"
 		dir="$(dirname "${dir}")"
 	done
 
+	cd "${cwd}" || return 1
 	PATH="${EXEC_PATH}" exec "${command}"
 }
 
