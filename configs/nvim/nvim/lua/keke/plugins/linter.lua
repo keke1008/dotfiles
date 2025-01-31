@@ -4,7 +4,7 @@ return {
         vim.api.nvim_create_autocmd("BufWritePost", {
             group = vim.api.nvim_create_augroup("keke_nvim_lint", {}),
             callback = function()
-                require("lint").try_lint()
+                require("lint").try_lint({ ignore_errors = true })
             end,
         })
     end,
