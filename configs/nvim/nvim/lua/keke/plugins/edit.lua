@@ -255,4 +255,7 @@ return {
         event = "BufEnter",
         opts = { highlighter = { auto_enable = true } },
     },
+    {
+        "nvimtools/hydra.nvim",
+    },
 }

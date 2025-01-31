@@ -208,4 +208,41 @@ return {
             },
         },
     },
+    {
+        "sindrets/winshift.nvim",
+        commands = { "WinShift" },
+        keys = { { "<C-w>" } },
+        config = function()
+            local winshift = require("winshift")
+            winshift.setup({
+                keymaps = { disable_defaults = true },
+            })
+
+            local Hydra = require("hydra")
+            Hydra({
+                name = "window",
+                mode = "n",
+                body = "<C-w><C-w>",
+                hint = "Window",
+                heads = {
+                    { "+", "10<C-w>+" },
+                    { "-", "10<C-w>-" },
+                    { ">", "10<C-w>>" },
+                    { "<", "10<C-w><" },
+                    { "h", "<C-w>h" },
+                    { "j", "<C-w>j" },
+                    { "k", "<C-w>k" },
+                    { "l", "<C-w>l" },
+                    { "H", "<CMD>WinShift left<CR>" },
+                    { "J", "<CMD>WinShift down<CR>" },
+                    { "K", "<CMD>WinShift up<CR>" },
+                    { "L", "<CMD>WinShift right<CR>" },
+                    { "<C-H>", "<CMD>WinShift far_left<CR>" },
+                    { "<C-J>", "<CMD>WinShift far_down<CR>" },
+                    { "<C-K>", "<CMD>WinShift far_up<CR>" },
+                    { "<C-L>", "<CMD>WinShift far_right<CR>" },
+                },
+            })
+        end,
+    },
 }
