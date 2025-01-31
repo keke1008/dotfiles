@@ -270,7 +270,7 @@ return {
             end
 
             require("typescript-tools").setup({
-                on_attach = function(bufnr)
+                on_attach = function(_, bufnr)
                     vim.keymap.set("n", "<leader>lD", "<CMD>TSToolsGoToSourceDefinition<CR>", { buffer = bufnr })
                 end,
             })
