@@ -144,12 +144,21 @@ return {
                 },
                 on_colors = function(colors)
                     colors.border = colors.blue7
+                    colors.border_highlight = colors.blue
                     colors.bg_statusline = colors.none
                 end,
                 on_highlights = function(highlights, colors)
                     highlights["LineNr"].fg = colors.dark3
                     highlights["LineNrAbove"].fg = colors.dark3
                     highlights["LineNrBelow"].fg = colors.dark3
+
+                    -- noice.nvim
+                    highlights["NoiceCmdlineIcon"] = { fg = colors.blue }
+                    highlights["NoiceCmdlineIconLua"] = { fg = colors.blue }
+                    highlights["NoiceCmdlinePopupTitle"] = { fg = colors.blue }
+                    highlights["NoiceCmdlinePopupTitleLua"] = { fg = colors.blue }
+                    highlights["NoiceCmdlinePopupBorder"] = { fg = colors.blue }
+                    highlights["NoiceCmdlinePopupBorderLua"] = { fg = colors.blue }
 
                     -- nvim-dap
                     highlights["DebugStopLine"] = { bg = colors.blue0 }

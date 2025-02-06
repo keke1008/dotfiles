@@ -81,16 +81,5 @@ return {
                 },
             },
         })
-
-        local highlights = {
-            "NormalSB",
-            "NormalFloat",
-            "DiagnosticVirtualTextInfo",
-            "DiagnosticVirtualTextWarn",
-            "DiagnosticVirtualTextError",
-        }
-        for _, hi in ipairs(highlights) do
-            vim.cmd.hi(hi .. " guibg=NONE ctermbg=NONE")
-        end
     end,
 }
