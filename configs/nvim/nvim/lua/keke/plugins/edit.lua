@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local map = require("keke.utils.mapping")
 local drawer = require("drawer")
 
@@ -158,7 +159,24 @@ return {
         version = "*",
         cmd = "ToggleTerm",
         keys = {
-            { map.l2("te"), "<CMD>ToggleTerm<CR>", mode = { "n" }, desc = "toggle terminal" },
+            {
+                map.l2("te"),
+                function()
+                    local terminals = require("toggleterm.terminal")
+
+                    local float_or_hidden_term = vim.iter(terminals.get_all(true))
+                        :filter(function(term)
+                            return term:is_float() or not term:is_open()
+                        end)
+                        :next()
+                    if float_or_hidden_term == nil then
+                        terminals.Terminal:new():open()
+                    else
+                        float_or_hidden_term:toggle()
+                    end
+                end,
+                desc = "Toggle Terminal",
+            },
         },
         opts = {
             direction = "float",
@@ -234,11 +252,19 @@ return {
     {
         "kevinhwang91/nvim-bqf",
         ft = { "qf" },
-        opts = {
-            preview = {
-                winblend = 0,
-            },
-        },
+        config = function()
+            require("bqf").setup({
+                preview = {
+                    winblend = 0,
+                },
+            })
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "qf",
+                callback = function(opts)
+                    vim.keymap.set("n", "q", "<CMD>cclose<CR>", { buffer = opts.buf })
+                end,
+            })
+        end,
     },
     {
         "michaelb/sniprun",
