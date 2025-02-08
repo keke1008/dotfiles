@@ -204,17 +204,18 @@ return {
         end,
     },
     {
-        "pocco81/true-zen.nvim",
-        keys = {
-            { "\\tza", "<CMD>TZAtaraxis<CR>" },
-            { "\\tzf", "<CMD>TZFocus<CR>" },
-            { "\\tzr", "<CMD>TZMinimalist<CR>" },
-        },
-        opts = {
-            integrations = {
-                lualine = true,
-            },
-        },
+        "shortcuts/no-neck-pain.nvim",
+        event = "VimEnter",
+        config = function()
+            local no_neck_pain = require("no-neck-pain")
+            no_neck_pain.setup({
+                width = 120,
+            })
+
+            -- Enable it manually, as an error occurs in Session Manager when it is enabled automatically.
+            -- see https://github.com/olimorris/persisted.nvim/issues/129
+            no_neck_pain.enable()
+        end,
     },
     {
         "sindrets/winshift.nvim",
