@@ -23,7 +23,7 @@ bootstrap() {
 	export_and_mkdir XDG_DATA_HOME "${HOME}/.local/share"
 	export_and_mkdir DOTFILES_CONFIG_HOME "${DOTPATH}/configs"
 	export_and_mkdir DOTFILES_DATA_HOME "${XDG_DATA_HOME}/dotfiles"
-	export_and_mkdir DOTFILES_LOCAL_HOME "${XDG_CONFIG_HOME}/dotfiles//local"
+	export_and_mkdir DOTFILES_LOCAL_HOME "${XDG_CONFIG_HOME}/dotfiles/local"
 	export_and_mkdir DOTFILES_ORIGINAL_HOME "${XDG_CONFIG_HOME}/dotfiles/original"
 }
 
