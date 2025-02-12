@@ -31,6 +31,7 @@ return {
                 bash = { "shfmt" },
                 zsh = { "shfmt" },
                 fish = { "fish_indent" },
+                nix = { "nixfmt" },
             },
             default_format_opts = {
                 lsp_format = "fallback",
