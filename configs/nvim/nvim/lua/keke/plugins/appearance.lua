@@ -206,6 +206,7 @@ return {
     {
         "shortcuts/no-neck-pain.nvim",
         event = "VimEnter",
+        keys = { { "<Space>sn", "<CMD>NoNeckPain<CR>" } },
         config = function()
             local no_neck_pain = require("no-neck-pain")
             no_neck_pain.setup({
