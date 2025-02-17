@@ -284,4 +284,9 @@ return {
     {
         "nvimtools/hydra.nvim",
     },
+    {
+        "NMAC427/guess-indent.nvim",
+        lazy = false,
+        config = true,
+    }
 }
