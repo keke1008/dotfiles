@@ -224,8 +224,15 @@ bar {
     swaybar_command waybar
 }
 
-default_border none
 gaps inner 10
+
+client.focused          #7aa2f7 #c0caf544 #c0caf5 #7aa2f7 #7aa2f7
+client.focused_inactive #414868 #41486888 #c0caf5 #414868 #414868
+client.unfocused        #414868 #15161e88 #c0caf5 #414868 #414868
+client.urgent           #f7768e #f7768e88 #c0caf5 #f7768e #f7768e
+
+titlebar_border_thickness 2
+default_border normal 2
 
 include /etc/sway/config.d/*
 include ~/.config/dotfiles/local/sway/local_config
