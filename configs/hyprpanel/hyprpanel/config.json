@@ -1,7 +1,7 @@
 {
   "bar.customModules.updates.pollingInterval": 1440000,
   "bar.layouts": {
-    "0": {
+    "*": {
       "left": [
         "dashboard",
         "workspaces"
@@ -18,11 +18,6 @@
         "systray",
         "notifications"
       ]
-    },
-    "*": {
-      "left": [],
-      "middle": [],
-      "right": []
     }
   },
   "bar.launcher.icon": "󰕮",
