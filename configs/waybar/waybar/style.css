@@ -1,17 +1,20 @@
-@define-color foreground #aaaaaa;
-@define-color selected-bg rgba(100, 100, 100, 0.5);
-@define-color warning #ffcc00;
-@define-color critical #ff4444;
-@define-color critical-bg rgba(235, 77, 75, 0.3);
-@define-color inactive #666666;
+@define-color foreground #c0caf5;
+@define-color selected-bg rgba(192, 202, 245, 0.25);
+@define-color hovered-bg rgba(192, 202, 245, 0.15);
+@define-color info #7aa2f7;
+@define-color info-bg rgba(122, 162, 247, 0.5);
+@define-color warning #e0af68;
+@define-color warning-bg rgba(224, 175, 104, 0.25);
+@define-color critical #f7768e;
+@define-color critical-bg rgba(247, 118, 142, 0.4);
+/* @define-color inactive #414868; */
+/* @define-color inactive-bg rgba(65, 72, 104, 0.7); */
 
 * {
     color: @foreground;
     border-radius: 0;
     box-shadow: none;
-}
-
-window, tooltip {
+    font-family: monospace;
     font-size: 16px;
 }
 
@@ -25,26 +28,49 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-label.module {
-    padding: 0 10px;
+.modules-left > widget > .module {
+    margin-right: 4px;
+    padding: 0 4px;
+    border-bottom: 2px solid @foreground;
+}
+
+.modules-right > widget > .module {
+    margin-left: 4px;
+    padding: 0 4px;
+    border-bottom: 2px solid @foreground;
+}
+ 
+#cpu.warning,
+#memory.warning {
+    background-color: @warning-bg;
+    border-bottom: 2px solid @warning;
+}
+
+#workspaces button.urgent,
+#cpu.critical,
+#memory.critical, 
+#network.disconnected {
+    background-color: @critical-bg;
+    border-bottom: 2px solid @critical;
+}
+
+#privacy,
+#mode,
+#scratchpad {
+    background-color: @info-bg;
+    border-bottom: 2px solid @info;
 }
 
 #workspaces {
-    margin: 0 4px;
-}
-
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 0;
-}
-
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces {
-    margin-right: 0;
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
 }
 
 #workspaces button {
-    padding: 0 5px;
+    margin-right: 4px;
+    padding: 0 4px;
+    border-bottom: 2px solid @foreground;
     transition-property: background-color;
     transition-duration: .1s;
 }
@@ -52,79 +78,7 @@ label.module {
 #workspaces button.focused {
     background-color: @selected-bg;
 }
-
-#workspaces button.urgent {
-    background-color: @critical-bg;
-}
-
-#mode {
-    background-color: @selected-bg;
-}
-
-.modules-right {
-    font-size: 20px;
-}
-
-.critical {
-    color: @critical
-}
-
-.warning {
-    color: @warning
-}
-
-#privacy {
-    background-color: @selected-bg;
-}
-
-#privacy-item {
-    padding: 0 5px;
-}
-
-#pulseaudio-slider {
-    padding-right: 0;
-}
-
-#pulseaudio-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-}
-
-#pulseaudio-slider trough {
-    min-height: 5px;
-    min-width: 80px;
-    border-radius: 5px;
-    border: 1px solid @foreground;
-    background-color: transparent;
-}
-
-#pulseaudio-slider highlight {
-    border-radius: 5px;
-    border: none;
-    background-color: @foreground;
-}
-
-#pulseaudio {
-    padding-left: 4px;
-}
-
-#idle_inhibitor.deactivated {
-    color: @inactive;
-}
-
-#network.disconnected {
-    color: @critical;
-}
-
-#keyboard-state label:not(.locked) {
-    opacity: 0;
-    font-size: 0;
-}
-
-#keyboard-state label.locked {
-    padding: 0 5px;
-    color: @foreground;
+ 
+#workspaces button:hover {
+    background: @hovered-bg;
 }
