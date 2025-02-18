@@ -53,17 +53,24 @@ window#waybar.hidden {
     border-bottom: none;
 }
 
+.module:hover,
+#workspaces button:hover,
+#privacy-item {
+    background: @hovered-bg;
+}
+
+.modules-center > widget > .module:hover,
+#workspaces:hover,
+#privacy:hover {
+    background: none;
+}
+
 #workspaces button.focused {
     background-color: @selected-bg;
 }
 
 #idle_inhibitor.activated {
     background: linear-gradient(transparent, @selected-bg 20%);
-}
-
-
-#workspaces button:hover {
-    background: @hovered-bg;
 }
 
 #mode,
