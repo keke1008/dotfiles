@@ -13,8 +13,8 @@
     "modules-right": [
         "mpd",
         "privacy",
-        "pulseaudio",
         "idle_inhibitor",
+        "pulseaudio",
         "network",
         "cpu",
         "memory",

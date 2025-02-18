@@ -20,65 +20,73 @@
 
 window#waybar {
     background: transparent;
-    transition-property: background-color;
-    transition-duration: .5s;
 }
 
 window#waybar.hidden {
     opacity: 0.2;
 }
 
-.modules-left > widget > .module {
+.module,
+#workspaces button,
+#privacy-item {
+    transition-property: background, border-bottom-color;
+    transition-duration: .3s;
+    padding: 0 4px;
+    border-bottom: 2px solid @foreground;
+}
+
+.modules-left > widget > .module,
+#workspaces button {
     margin-right: 4px;
-    padding: 0 4px;
-    border-bottom: 2px solid @foreground;
 }
 
-.modules-right > widget > .module {
+.modules-right > widget > .module,
+#privacy-item {
     margin-left: 4px;
-    padding: 0 4px;
-    border-bottom: 2px solid @foreground;
-}
- 
-#cpu.warning,
-#memory.warning {
-    background-color: @warning-bg;
-    border-bottom: 2px solid @warning;
 }
 
-#workspaces button.urgent,
-#cpu.critical,
-#memory.critical, 
-#network.disconnected {
-    background-color: @critical-bg;
-    border-bottom: 2px solid @critical;
-}
-
-#privacy,
-#mode,
-#scratchpad {
-    background-color: @info-bg;
-    border-bottom: 2px solid @info;
-}
-
-#workspaces {
+.modules-center > widget > .module,
+#workspaces,
+#privacy {
     margin: 0;
     padding: 0;
     border-bottom: none;
 }
 
-#workspaces button {
-    margin-right: 4px;
-    padding: 0 4px;
-    border-bottom: 2px solid @foreground;
-    transition-property: background-color;
-    transition-duration: .1s;
-}
-
 #workspaces button.focused {
     background-color: @selected-bg;
 }
- 
+
+#idle_inhibitor.activated {
+    background: linear-gradient(transparent, @selected-bg 20%);
+}
+
+
 #workspaces button:hover {
     background: @hovered-bg;
+}
+
+#mode,
+#scratchpad {
+    background-color: @info-bg;
+    border-bottom-color: @info;
+}
+
+#privacy-item {
+    background: linear-gradient(transparent, @info-bg 20%);
+    border-bottom-color: @info;
+}
+
+#cpu.warning,
+#memory.warning {
+    background: linear-gradient(transparent, @warning-bg 20%);
+    border-bottom-color: @warning;
+}
+
+#workspaces button.urgent,
+#cpu.critical,
+#memory.critical,
+#network.disconnected {
+    background: linear-gradient(transparent, @critical-bg 20%);
+    border-bottom-color: @critical;
 }
