@@ -4,6 +4,7 @@ vim.o.cursorline = true
 vim.o.cursorcolumn = true
 vim.o.signcolumn = "yes"
 vim.o.scrolloff = 5
+vim.o.fillchars = "eob: "
 
 vim.o.cmdheight = 2
 vim.o.laststatus = 3
