@@ -11,6 +11,7 @@ return {
             "MunifTanjim/nui.nvim",
             "rcarriga/nvim-notify",
         },
+        lazy = false,
         keys = function()
             return {
                 {
