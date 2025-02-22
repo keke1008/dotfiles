@@ -31,8 +31,8 @@ local lsp_setup_config = (function()
 end)()
 
 vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("keke_lsp_keymap_lsp_attach", {}),
-    desc = "Configure LSP keymaps",
+    group = vim.api.nvim_create_augroup("keke_lsp_attach_common_setting", {}),
+    desc = "Configure LSP settings",
     callback = function(args)
         local bufnr = args.buf
         local opts = { buffer = bufnr, silent = true }
@@ -51,6 +51,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
         vim.keymap.set("n", "<leader>li", vim.lsp.buf.incoming_calls, opts)
         vim.keymap.set("n", "<leader>lo", vim.lsp.buf.outgoing_calls, opts)
+
+        local function refresh_codelens()
+            local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
+            if #client > 0 then
+                vim.lsp.codelens.refresh({ bufnr = bufnr })
+            end
+        end
+
+        vim.api.nvim_create_autocmd("InsertLeave", {
+            group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, {}),
+            desc = "Refresh codelens",
+            buffer = bufnr,
+            callback = refresh_codelens,
+        })
+        refresh_codelens()
     end,
 })
 
@@ -58,49 +73,41 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+
             -- `require("neoconf").setup()` should be run **BEFORE** setting up
             -- any lsp server with lspconfig
             { "folke/neoconf.nvim", config = true },
         },
         config = function()
-            vim.api.nvim_create_autocmd("LspAttach", {
-                group = vim.api.nvim_create_augroup("keke_lsp_setting_lsp_attach", {}),
-                desc = "Setup LSP settings for buffer",
-                callback = function(args)
-                    local bufnr = args.buf
+            local lspconfig = require("lspconfig")
+            local root_pattern = require("lspconfig.util").root_pattern
 
-                    local function refresh_codelens()
-                        local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
-                        if #client > 0 then
-                            vim.lsp.codelens.refresh({ bufnr = bufnr })
-                        end
-                    end
-
-                    vim.api.nvim_create_autocmd("InsertLeave", {
-                        group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, {}),
-                        desc = "Refresh codelens",
-                        buffer = bufnr,
-                        callback = refresh_codelens,
-                    })
-                    refresh_codelens()
+            lspconfig.clangd.setup(lsp_setup_config({
+                on_attach = function(_, bufnr)
+                    local opts = { buffer = bufnr, silent = true }
+                    vim.keymap.set("n", "<leader>ls", "<CMD>ClangdSwitchSourceHeader<CR>", opts)
                 end,
-            })
-        end,
-    },
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = {
-            "williamboman/mason.nvim",
-            "neovim/nvim-lspconfig",
-            "hrsh7th/cmp-nvim-lsp",
-        },
-        init = function()
+            }))
+            lspconfig.denols.setup(lsp_setup_config({
+                root_dir = root_pattern("deno.json", "deno.jsonc"),
+            }))
+            lspconfig.jsonls.setup({})
+            -- lspconfig.lua_ls.setup({}) lazydev.nvim
+            lspconfig.nil_ls.setup({})
+            lspconfig.pyright.setup({})
+            lspconfig.ruby_lsp.setup({})
+            lspconfig.rubocop.setup({})
+            -- lspconfig.rust_analyzer.setup({}) rustaceanvim
+            lspconfig.taplo.setup({})
+            -- lspconfig.ts_ls.setup({}) typescript.nvim
+            lspconfig.yamlls.setup({})
+
             vim.api.nvim_create_autocmd("BufRead", {
-                group = vim.api.nvim_create_augroup("keke_mason_lspconfig_notes_ls", {}),
+                group = vim.api.nvim_create_augroup("keke_lspconfig_notes_ls", {}),
                 pattern = "*.md",
-                desc = "Setup LSP server for buffer",
+                desc = "Setup notes-ls LSP server for buffer",
                 callback = function(e)
-                    local root_pattern = require("lspconfig.util").root_pattern
                     vim.lsp.start({
                         name = "notes-ls",
                         cmd = { "notes-ls" },
@@ -108,41 +115,6 @@ return {
                     }, {
                         bufnr = e.buf,
                     })
-                end,
-            })
-        end,
-        event = "VeryLazy",
-        config = function()
-            local mason_lspconfig = require("mason-lspconfig")
-            local lspconfig = require("lspconfig")
-            local root_pattern = require("lspconfig.util").root_pattern
-
-            mason_lspconfig.setup()
-            mason_lspconfig.setup_handlers({
-                function(server_name)
-                    lspconfig[server_name].setup(lsp_setup_config())
-                end,
-                ["denols"] = function(_)
-                    lspconfig.denols.setup(lsp_setup_config({
-                        root_dir = root_pattern("deno.json", "deno.jsonc"),
-                    }))
-                end,
-                ["clangd"] = function(_)
-                    lspconfig.clangd.setup(lsp_setup_config({
-                        on_attach = function(_, bufnr)
-                            local opts = { buffer = bufnr, silent = true }
-                            vim.keymap.set("n", "<leader>ls", "<CMD>ClangdSwitchSourceHeader<CR>", opts)
-                        end,
-                    }))
-                end,
-                ["lua_ls"] = function(_)
-                    -- lazydev.nvim
-                end,
-                ["ts_ls"] = function(_)
-                    -- typescript.nvim
-                end,
-                ["rust_analyzer"] = function(_)
-                    -- rustaceanvim
                 end,
             })
         end,

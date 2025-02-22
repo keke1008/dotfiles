@@ -14,7 +14,7 @@ set -g tide_prompt_transient_enabled false
 
 # left prompt
 set -g tide_left_prompt_frame_enabled false
-set -g tide_left_prompt_items pwd git jobs empty newline character
+set -g tide_left_prompt_items nix_shell pwd git jobs empty newline character
 set -g tide_left_prompt_prefix
 set -g tide_left_prompt_separator_diff_color \ue0b1
 set -g tide_left_prompt_separator_same_color \ue0b1
