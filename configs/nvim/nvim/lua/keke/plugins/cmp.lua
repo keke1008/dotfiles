@@ -11,7 +11,6 @@ return {
             "hrsh7th/cmp-path",
             "onsails/lspkind.nvim",
             "lukas-reineke/cmp-under-comparator",
-            "folke/lazydev.nvim",
         },
         config = function()
             local cmp = require("cmp")

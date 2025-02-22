@@ -1,32 +1,37 @@
 local drawer = require("drawer")
 
+---@return fun(overrides?: table): table
 local lsp_setup_config = (function()
-    local default_config = nil
+    ---@type table | nil
+    local cached_default_config = nil
 
-    local function init_default_config()
-        if default_config ~= nil then
-            return
+    ---@return table
+    local function default_config()
+        if cached_default_config ~= nil then
+            return cached_default_config
         end
 
-        local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-        if not ok then
-            vim.notify("com_nvim_lsp is not loaded", vim.log.levels.ERROR)
-            return
-        end
+        local cmp_capabilities = (function()
+            local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            if not ok then
+                vim.notify("cmp_nvim_lsp is not loaded", vim.log.levels.WARN)
+                return {}
+            end
+
+            return cmp_nvim_lsp.default_capabilities()
+        end)()
 
         local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-        local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
-        default_config = {
+        cached_default_config = {
             capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities),
         }
+        return cached_default_config
     end
 
     ---@param overrides table | nil
-    ----@return table
+    ---@return table
     return function(overrides)
-        overrides = overrides or {}
-        init_default_config()
-        return vim.tbl_deep_extend("force", default_config, overrides)
+        return vim.tbl_deep_extend("force", default_config(), overrides or {})
     end
 end)()
 
@@ -35,8 +40,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Configure LSP settings",
     callback = function(args)
         local bufnr = args.buf
-        local opts = { buffer = bufnr, silent = true }
 
+        local opts = { buffer = bufnr, silent = true }
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
@@ -79,6 +84,7 @@ return {
             -- any lsp server with lspconfig
             { "folke/neoconf.nvim", config = true },
         },
+        event = { "BufRead" },
         config = function()
             local lspconfig = require("lspconfig")
             local root_pattern = require("lspconfig.util").root_pattern
@@ -92,16 +98,16 @@ return {
             lspconfig.denols.setup(lsp_setup_config({
                 root_dir = root_pattern("deno.json", "deno.jsonc"),
             }))
-            lspconfig.jsonls.setup({})
-            -- lspconfig.lua_ls.setup({}) lazydev.nvim
-            lspconfig.nil_ls.setup({})
-            lspconfig.pyright.setup({})
-            lspconfig.ruby_lsp.setup({})
-            lspconfig.rubocop.setup({})
-            -- lspconfig.rust_analyzer.setup({}) rustaceanvim
-            lspconfig.taplo.setup({})
-            -- lspconfig.ts_ls.setup({}) typescript.nvim
-            lspconfig.yamlls.setup({})
+            lspconfig.jsonls.setup(lsp_setup_config())
+            -- lspconfig.lua_ls.setup(lsp_setup_config()) lazydev.nvim
+            lspconfig.nil_ls.setup(lsp_setup_config())
+            lspconfig.pyright.setup(lsp_setup_config())
+            lspconfig.ruby_lsp.setup(lsp_setup_config())
+            lspconfig.rubocop.setup(lsp_setup_config())
+            -- lspconfig.rust_analyzer.setup(lsp_setup_config()) rustaceanvim
+            lspconfig.taplo.setup(lsp_setup_config())
+            -- lspconfig.ts_ls.setup(lsp_setup_config()) typescript.nvim
+            lspconfig.yamlls.setup(lsp_setup_config())
 
             vim.api.nvim_create_autocmd("BufRead", {
                 group = vim.api.nvim_create_augroup("keke_lspconfig_notes_ls", {}),
@@ -190,7 +196,6 @@ return {
             { "folke/neoconf.nvim", optional = true },
         },
         ft = "lua",
-        event = "VeryLazy",
         config = function()
             local lazydev = require("lazydev")
             local lspconfig = require("lspconfig")
