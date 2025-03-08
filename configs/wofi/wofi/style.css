@@ -1,0 +1,39 @@
+@define-color normal-fg #c0caf5;
+@define-color normal-bg   rgba(26, 27, 38, 0.9);
+@define-color selected-bg rgba(40, 52, 87, 0.9);
+@define-color accent-fg #7aa2f7;
+
+window {
+    font-family: monospace;
+    background-color: @normal-bg;
+    border: 2px @selected-bg solid;
+}
+
+#outer-box {
+    background-color: transparent;
+    margin: 4px;
+}
+
+#input {
+    background-color: transparent;
+    border-radius: 1;
+    border-bottom: 2px @accent-fg solid;
+    margin-bottom: 4px;
+}
+
+#inner-box {
+    background-color: transparent;
+}
+
+#entry {
+    border: 1px transparent solid;
+}
+
+#entry:selected {
+    background-color: @selected-bg;
+    border-color: @accent-fg;
+}
+
+#text {
+    color: @normal-fg;
+}
