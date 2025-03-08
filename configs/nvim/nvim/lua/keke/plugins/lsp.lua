@@ -112,11 +112,11 @@ return {
             vim.api.nvim_create_autocmd("BufRead", {
                 group = vim.api.nvim_create_augroup("keke_lspconfig_notes_ls", {}),
                 pattern = "*.md",
-                desc = "Setup notes-ls LSP server for buffer",
+                desc = "Setup notes LSP server for buffer",
                 callback = function(e)
                     vim.lsp.start({
-                        name = "notes-ls",
-                        cmd = { "notes-ls" },
+                        name = "notes",
+                        cmd = { "notes_cli", "lsp" },
                         root_dir = root_pattern(".git", ".vault")(vim.fn.expand("%:p")),
                     }, {
                         bufnr = e.buf,
