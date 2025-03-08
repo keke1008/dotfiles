@@ -65,28 +65,21 @@ window#waybar.hidden {
     background: none;
 }
 
-#workspaces button.focused {
+#workspaces button.focused,
+#idle_inhibitor.activated {
     background-color: @selected-bg;
 }
 
-#idle_inhibitor.activated {
-    background: linear-gradient(transparent, @selected-bg 20%);
-}
-
 #mode,
-#scratchpad {
-    background-color: @info-bg;
-    border-bottom-color: @info;
-}
-
+#scratchpad,
 #privacy-item {
-    background: linear-gradient(transparent, @info-bg 20%);
+    background-color: @info-bg;
     border-bottom-color: @info;
 }
 
 #cpu.warning,
 #memory.warning {
-    background: linear-gradient(transparent, @warning-bg 20%);
+    background: @warning-bg;
     border-bottom-color: @warning;
 }
 
@@ -94,6 +87,6 @@ window#waybar.hidden {
 #cpu.critical,
 #memory.critical,
 #network.disconnected {
-    background: linear-gradient(transparent, @critical-bg 20%);
+    background: @critical-bg;
     border-bottom-color: @critical;
 }
