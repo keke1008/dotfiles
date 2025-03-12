@@ -209,8 +209,15 @@ return {
         keys = { { "<Space>sn", "<CMD>NoNeckPain<CR>" } },
         config = function()
             local no_neck_pain = require("no-neck-pain")
+
+            local width = 120
+            local extra_width = 200
+            if vim.go.columns >= extra_width then
+                width = extra_width
+            end
+
             no_neck_pain.setup({
-                width = 120,
+                width = width,
             })
 
             -- Enable it manually, as an error occurs in Session Manager when it is enabled automatically.
