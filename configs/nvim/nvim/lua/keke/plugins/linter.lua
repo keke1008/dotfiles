@@ -15,6 +15,7 @@ return {
             python = { "mypy" },
             sh = { "shellcheck" },
             markdown = { "markdownlint" },
+            tf = { "tflint" }
         }
     end,
 }

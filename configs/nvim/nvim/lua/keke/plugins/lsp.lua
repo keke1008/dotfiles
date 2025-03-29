@@ -106,6 +106,7 @@ return {
             lspconfig.rubocop.setup(lsp_setup_config())
             -- lspconfig.rust_analyzer.setup(lsp_setup_config()) rustaceanvim
             lspconfig.taplo.setup(lsp_setup_config())
+            lspconfig.terraformls.setup(lsp_setup_config())
             -- lspconfig.ts_ls.setup(lsp_setup_config()) typescript.nvim
             lspconfig.yamlls.setup(lsp_setup_config())
 
