@@ -81,6 +81,8 @@ bind \ck -M insert _pushd_binding
 
 set fish_greeting
 
+complete --command aws --no-files --arguments '(_aws_complete)'
+
 set local_config "$DOTFILES_LOCAL_HOME/fish/local_config.fish"
 if [ -e $local_config ]
     source $local_config
