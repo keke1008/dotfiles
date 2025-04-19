@@ -13,18 +13,43 @@ if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.shrc" ]; then
 	DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/sh/.shrc"
 fi
 
+command_specified() {
+	case "$-" in
+		*c*) return 0;;
+		*s*) return 0;;
+		*) return 1;;
+	esac
+}
+
+is_login_shell() {
+	case "$0" in
+		-*) return 0;;
+		*) return 1;;
+	esac
+}
+
 # When loading the original configuration file, `DOTFILES_ORIGINAL_LOADING` is set to prevent an infinite loop.
 # `DOTFILES_ORIGINAL_LOADING` needs to be unset immediately after loading the original file.
 # However, if `exec (shell)` is executed in the following line, `DOTFILES_ORIGINAL_LOADING` remains unset.
 # Therefore, if DOTFILES_ORIGINAL_LOADING is set, do not execute `exec (shell)`.
-if [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
+if ! command_specified && [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
 	command -v tmux >/dev/null && [ -z "$TMUX" ] && tmux new-session -A
 
 	export DOTFILES_DISABLE_SUBSTITUTE_SHELL=1
 	for shell in fish zsh bash; do
-		command -v "$shell" >/dev/null && exec "$shell"
+		if ! command -v "$shell" >/dev/null; then
+			continue
+		fi
+
+		if is_login_shell; then
+			exec "$shell" -l
+		else
+			exec "$shell"
+		fi
 	done
 fi
+
+unset -f command_specified is_login_shell
 
 HISTFILE="${HOME}/.history"
 HISTSIZE=10000
