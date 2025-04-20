@@ -13,6 +13,7 @@ alias tf='terraform'
 
 alias cp='cp -i'
 alias mv='mv -i'
+alias rm='rm -i'
 alias grep='grep --color=auto'
 
 alias l='ls'
@@ -26,10 +27,6 @@ alias_if_exists la='eza -a'
 
 alias_if_exists cat='bat'
 alias_if_exists cat='batcat'
-
-alias rm='rm -i'
-alias_if_exists rm='trash-put'
-alias_if_exists rm='trash put'
 
 alias '...'='cd ../..'
 alias '....'='cd ../../..'
