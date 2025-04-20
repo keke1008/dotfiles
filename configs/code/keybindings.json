@@ -14,12 +14,231 @@
         "command": "workbench.action.previousEditorInGroup"
     },
     {
+        "key": "[ b",
+        "command": "workbench.action.previousEditorInGroup",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "] b",
+        "command": "workbench.action.nextEditorInGroup",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
         "key": "ctrl+escape",
         "command": "workbench.action.focusActiveEditorGroup"
     },
     {
-        "key": "ctrl+w ctrl+q",
-        "command": "workbench.action.closeActiveEditor",
-        "when": "!terminalFocus && (!editorFocus || neovim.mode == 'normal')"
+        "key": "ctrl+q",
+        "command": "-workbench.action.quit"
     },
+    {
+        "key": "ctrl+f",
+        "command": "-actions.find",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "-workbench.action.terminal.focusFind",
+        "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocusInAny && terminalHasBeenCreated || terminalFocusInAny && terminalProcessSupported"
+    },
+    {
+        "key": "escape",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && (findWidgetVisible || markersNavigationVisible || dirtyDiffVisible)",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "closeMarkersNavigation",
+                "closeFindWidget",
+                "closeDirtyDiff",
+            ]
+        }
+    },
+    {
+        "key": "escape",
+        "command": "workbench.action.files.save",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && !(findWidgetVisible || markersNavigationVisible || dirtyDiffVisible)"
+    },
+    {
+        "key": "space space",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'",
+        "command": "runCommands",
+        "args": {
+            "commands": [
+                "closeMarkersNavigation",
+                "closeFindWidget",
+                "closeDirtyDiff",
+                "notifications.hideToasts",
+            ]
+        }
+    },
+    {
+        "key": "/",
+        "command": "actions.find",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "n",
+        "command": "editor.action.nextMatchFindAction",
+        "when": "editorTextFocus && !vim.command && (vim.mode == 'Normal' || vim.mode == 'Visual' || vim.mode == 'VisualLine' || vim.mode == 'VisualBlock')"
+    },
+    {
+        "key": "shift+n",
+        "command": "editor.action.previousMatchFindAction",
+        "when": "editorTextFocus && !vim.command && (vim.mode == 'Normal' || vim.mode == 'Visual' || vim.mode == 'VisualLine' || vim.mode == 'VisualBlock')"
+    },
+    // window focus
+    {
+        "key": "space f f",
+        "command": "workbench.action.quickOpen",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    // languages
+    {
+        "key": "[ e",
+        "command": "editor.action.marker.nextInFiles",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "] e",
+        "command": "editor.action.marker.prevInFiles",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "shift+k",
+        "command": "editor.action.showHover",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    // {
+    //     "key": "g d",
+    //     "command": "editor.action.revealDefinition",
+    //     "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    // },
+    {
+        "key": "space g d",
+        "command": "editor.action.goToDeclaration",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space g t",
+        "command": "editor.action.goToTypeDefinition",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space g r",
+        "command": "editor.action.goToReferences",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space g i",
+        "command": "editor.action.goToImplementation",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space l d",
+        "command": "typescript.goToSourceDefinition",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space l a",
+        "command": "editor.action.codeAction",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space l r",
+        "command": "editor.action.rename",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    //debugger
+    {
+        "key": "space d b",
+        "command": "editor.debug.action.toggleBreakpoint",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space d c",
+        "command": "workbench.action.debug.start",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'inactive'"
+    },
+    {
+        "key": "space d q",
+        "command": "workbench.action.debug.stop",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState != 'inactive'"
+    },
+    {
+        "key": "space d k",
+        "command": "editor.debug.action.showDebugHover",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "i",
+        "command": "workbench.action.debug.stepInto",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "space d i",
+        "command": "workbench.action.debug.stepInto",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "o",
+        "command": "workbench.action.debug.stepOver",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "space d o",
+        "command": "workbench.action.debug.stepOver",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "p",
+        "command": "workbench.action.debug.stepOut",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "space d p",
+        "command": "workbench.action.debug.stepOut",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "c",
+        "command": "workbench.action.debug.continue",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    {
+        "key": "space d c",
+        "command": "workbench.action.debug.continue",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal' && debugState == 'stopped'"
+    },
+    // testing
+    {
+        "key": "space t t",
+        "command": "testing.runAtCursor",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space t f",
+        "command": "testing.runCurrentFile",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'",
+    },
+    {
+        "key": "space t d",
+        "command": "testing.debugAtCursor",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "space t l",
+        "command": "testing.reRunLastRun",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    // vcs
+    {
+        "key": "[ g",
+        "command": "editor.action.dirtydiff.previous",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "] g",
+        "command": "editor.action.dirtydiff.next",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    }
 ]

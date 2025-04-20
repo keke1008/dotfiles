@@ -1,7 +1,53 @@
-
 {
+    "editor.fontFamily": "'UDEV Gothic 35NF', Menlo, Monaco, 'Courier New', monospace",
+    "editor.formatOnSave": true,
+    "editor.lineNumbers": "relative",
+    "editor.minimap.enabled": false,
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+            "args": [
+                "-l"
+            ]
+        },
+        "zsh": {
+            "path": "zsh"
+        },
+        "fish": {
+            "path": "fish"
+        },
+        "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+        },
+        "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+        }
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "vim.useSystemClipboard": true,
+    "vim.smartRelativeLine": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "g",
+                "d"
+            ],
+            "commands": [
+                "editor.action.revealDefinition"
+            ],
+        },
+    ],
     "remote.extensionKind": {
-        "asvetliakov.vscode-neovim": ["workspace"]
+        "asvetliakov.vscode-neovim": [
+            "workspace"
+        ]
     },
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
@@ -19,7 +65,7 @@
         "r",
         "t",
         "u",
-        "w",
+        "w"
     ],
     "vscode-neovim.ctrlKeysForNormalMode": [
         "a",
@@ -53,34 +99,6 @@
         "up",
         "down",
         "backspace",
-        "delete",
+        "delete"
     ],
-    "editor.fontFamily": "'UDEV Gothic 35NF', Menlo, Monaco, 'Courier New', monospace",
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "terminal.integrated.profiles.linux": {
-        "bash": {
-            "path": "bash",
-            "icon": "terminal-bash",
-            "args": ["-l"]
-        },
-        "zsh": {
-            "path": "zsh"
-        },
-        "fish": {
-            "path": "fish"
-        },
-        "tmux": {
-            "path": "tmux",
-            "icon": "terminal-tmux"
-        },
-        "pwsh": {
-            "path": "pwsh",
-            "icon": "terminal-powershell"
-        }
-    },
-    "github.copilot.editor.enableAutoCompletions": true,
-    "editor.formatOnSave": true,
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    }
 }
