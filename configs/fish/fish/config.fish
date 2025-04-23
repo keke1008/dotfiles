@@ -17,10 +17,6 @@ if not set -q DOTPATH
     end
 end
 
-if status --is-login && not set -q DOTFILES_FISH_PROFILE_LOADED
-    DOTFILES_FISH_PROFILE_LOADED=1 exec sh -c "source $HOME/.profile; exec fish"
-end
-
 # Fisher bootstrapping
 set -x fisher_path "$XDG_DATA_HOME/fisher"
 set -p fish_function_path "$fisher_path/functions"
