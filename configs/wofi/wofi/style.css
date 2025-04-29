@@ -18,7 +18,8 @@ window {
     background-color: transparent;
     border-radius: 1;
     border-bottom: 2px @accent-fg solid;
-    margin-bottom: 4px;
+    /* margin-bottom: 4px; */
+    margin: -9999px;
 }
 
 #inner-box {
@@ -32,6 +33,10 @@ window {
 #entry:selected {
     background-color: @selected-bg;
     border-color: @accent-fg;
+}
+
+#expander-box {
+    background-color: transparent;
 }
 
 #text {

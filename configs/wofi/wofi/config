@@ -1,0 +1,7 @@
+hide_search=true
+allow_images=true
+image_size=24
+
+key_up=Ctrl-p
+key_down=Ctrl-n
+key_expand=space
