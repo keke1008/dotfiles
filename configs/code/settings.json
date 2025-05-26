@@ -3,7 +3,7 @@
     "editor.formatOnSave": true,
     "editor.lineNumbers": "relative",
     "editor.minimap.enabled": false,
-    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.linux": "fish",
     "terminal.integrated.profiles.linux": {
         "bash": {
             "path": "bash",
@@ -41,7 +41,23 @@
             ],
             "commands": [
                 "editor.action.revealDefinition"
+            ]
+        },
+        {
+            "before": [
+                "u"
             ],
+            "commands": [
+                "undo"
+            ]
+        },
+        {
+            "before": [
+                "<C-r>"
+            ],
+            "commands": [
+                "redo"
+            ]
         },
     ],
     "remote.extensionKind": {
@@ -101,4 +117,6 @@
         "backspace",
         "delete"
     ],
+    "database-client.autoSync": true,
+    "editor.stickyScroll.defaultModel": "indentationModel",
 }
