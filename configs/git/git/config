@@ -98,6 +98,12 @@
     shu = stash -u
     shp = stash pop
 
+    w = worktree
+    wa = worktree add
+    wl = worktree list
+    wr = worktree remove
+    wm = worktree move
+
 [credential "https://github.com"]
 	helper = 
 	helper = !gh auth git-credential
