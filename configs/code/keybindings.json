@@ -86,6 +86,16 @@
         "command": "editor.action.previousMatchFindAction",
         "when": "editorTextFocus && !vim.command && (vim.mode == 'Normal' || vim.mode == 'Visual' || vim.mode == 'VisualLine' || vim.mode == 'VisualBlock')"
     },
+    {
+        "key": "ctrl+i",
+        "command": "workbench.action.navigateForward",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
+    {
+        "key": "ctrl+o",
+        "command": "workbench.action.navigateBack",
+        "when": "editorTextFocus && !vim.command && vim.mode == 'Normal'"
+    },
     // window focus
     {
         "key": "space f f",

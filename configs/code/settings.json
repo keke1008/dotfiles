@@ -118,5 +118,6 @@
         "delete"
     ],
     "database-client.autoSync": true,
-    "editor.stickyScroll.defaultModel": "indentationModel",
+    "editor.stickyScroll.maxLineCount": 10,
+    "editor.stickyScroll.defaultModel": "foldingProviderModel",
 }
