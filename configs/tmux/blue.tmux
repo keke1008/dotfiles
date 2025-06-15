@@ -42,5 +42,14 @@ set -g popup-border-style "fg=#{@blue}"
 set -g copy-mode-match-style "fg=#{@blue},bg=#{@blue_dark}"
 set -g copy-mode-current-match-style "fg=#{@black},bg=#{@blue}"
 
-set -g @prefix_highlight_output_prefix "#[fg=#{@yellow}]#[bg=#{@default}]"
 set -g @prefix_highlight_prefix_prompt 'PREFIX'
+set -g @prefix_highlight_fg "#{@yellow}"
+set -g @prefix_highlight_bg "#{@default}"
+
+set -g @prefix_highlight_show_sync_mode 'on'
+set -g @prefix_highlight_sync_prompt 'SYNC'
+set -g @prefix_highlight_sync_mode_attr "fg=#{@red},bg=#{@default},bold"
+
+set -g @prefix_highlight_show_copy_mode 'on'
+set -g @prefix_highlight_copy_prompt 'COPY'
+set -g @prefix_highlight_copy_mode_attr "fg=#{@yellow},bg=#{@default}"
