@@ -120,4 +120,5 @@
     "database-client.autoSync": true,
     "editor.stickyScroll.maxLineCount": 10,
     "editor.stickyScroll.defaultModel": "foldingProviderModel",
+    "files.insertFinalNewline": true,
 }
