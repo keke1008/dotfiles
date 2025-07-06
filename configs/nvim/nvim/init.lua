@@ -31,7 +31,7 @@ vim.o.expandtab = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = { "go", "sh", "bash", "zsh", "asm" },
+    pattern = { "go", "sh", "bash", "zsh", "asm", "nix" },
     callback = function(args)
         vim.api.nvim_set_option_value("expandtab", false, {
             buf = args.bufnr,
