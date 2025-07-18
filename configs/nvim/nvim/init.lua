@@ -78,19 +78,25 @@ vim.keymap.set("n", drawer.with_prefix_key("hb"), function()
 end, { desc = "close bottom drawer" })
 vim.keymap.set("n", drawer.with_prefix_key("H"), drawer.close_all, { desc = "close all drawers" })
 
-vim.fn.sign_define({
-    { name = "DiagnosticSignError", text = "", texthl = "DiagnosticSignError" },
-    { name = "DiagnosticSignWarn", text = "", texthl = "DiagnosticSignWarn" },
-    { name = "DiagnosticSignInformation", text = "", texthl = "DiagnosticSignInformation" },
-    { name = "DiagnosticSignHint", text = "", texthl = "DiagnosticSignHint" },
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "󰅚",
+            [vim.diagnostic.severity.WARN] = "󰀪",
+            [vim.diagnostic.severity.INFO] = "󰋽",
+            [vim.diagnostic.severity.HINT] = "󰌶",
+
+        },
+    }
 })
+
 
 -- Set clipboard configs manually
 require("keke.clipboard")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
-        vim.highlight.on_yank({ timeout = 200 })
+        vim.hl.on_yank({ timeout = 200 })
     end,
 })
 
