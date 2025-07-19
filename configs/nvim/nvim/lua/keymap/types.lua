@@ -1,0 +1,16 @@
+---@alias keymap.Mode "n" | "i" | "v" | "x" | "s" | "c" | "t" | "o" | "l" | "r"
+---@alias keymap.Key string
+---@alias keymap.Buffer integer | "global"
+---@alias keymap.Action string | fun()
+---@alias keymap.KeymapOptions {
+---     remap?: boolean,
+---     nowait?: boolean,
+---     silent?: boolean,
+---     desc?: string,
+---     expr?: boolean,
+---     unique?: boolean,
+---}
+---@alias keymap.Keymap table<keymap.Mode, table<keymap.Key, table<keymap.Buffer, { action: keymap.Action, options: keymap.KeymapOptions }>>>
+---@alias keymap.KeymapIdentifier { mode: keymap.Mode, key: keymap.Key }
+---@alias keymap.KeymapIdentifierSet table<keymap.Mode, table<keymap.Key, true>>
+---@alias keymap.KeymapUpdate { removed: keymap.Keymap, updated: keymap.Keymap }
