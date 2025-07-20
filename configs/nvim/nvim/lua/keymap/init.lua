@@ -8,7 +8,19 @@ local apply_keymap_update = require("keymap.applier").apply_keymap_update
 local M = {
     _resolver = KeymapResolver.new(),
     _state = KeymapState.new(),
+    _buffers = {}
 }
+
+function M.setup()
+    vim.api.nvim_create_autocmd("BufDelete", {
+        callback = function(args)
+            local buffer = args.buf
+            for _, buffers in ipairs(M._buffers) do
+                buffers:remove(buffer)
+            end
+        end
+    })
+end
 
 ---@param signal_id keymap.SignalId
 function M._on_signal_emitted(signal_id)
@@ -53,6 +65,7 @@ function M.new_buffer_group()
     buffers:on_change(function()
         M._on_signal_emitted(buffers:signal_id())
     end)
+    table.insert(M._buffers, buffers)
     return buffers
 end
 
@@ -62,6 +75,7 @@ function M.new_global_buffer_group()
     buffers:on_change(function()
         M._on_signal_emitted(buffers:signal_id())
     end)
+    table.insert(M._buffers, buffers)
     return buffers
 end
 
