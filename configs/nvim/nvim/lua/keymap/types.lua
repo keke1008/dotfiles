@@ -9,6 +9,7 @@
 ---     desc?: string,
 ---     expr?: boolean,
 ---     unique?: boolean,
+---     replace_keycodes?: boolean,
 ---}
 ---@alias keymap.Keymap table<keymap.Mode, table<keymap.Key, table<keymap.Buffer, { action: keymap.Action, options: keymap.KeymapOptions }>>>
 ---@alias keymap.KeymapIdentifier { mode: keymap.Mode, key: keymap.Key }

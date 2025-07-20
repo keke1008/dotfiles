@@ -7,10 +7,16 @@ local KeymapMediator = require("keymap.mediator").KeymapMediator
 
 local M = {
     _mediator = KeymapMediator.new(KeymapResolver.new(), KeymapState.new()),
-    _buffers = {}
+    ---@type keymap.BufferGroup[]
+    _buffers = {},
+    ---@type keymap.BufferGroup
+    _global_buffer = nil,
 }
 
 function M.setup()
+    M._global_buffer = M.new_buffer_group()
+    M._global_buffer:add("global")
+
     local autogroup = vim.api.nvim_create_augroup("d542d61bf91f.keymap", {})
     vim.api.nvim_create_autocmd("BufDelete", {
         group = autogroup,
@@ -45,11 +51,27 @@ function M.setup()
         })
 end
 
+---@alias keymap.RegisterEntry {
+---    when: keymap.Condition,
+---    action: keymap.Action,
+---    buffers: keymap.BufferGroup?,
+---    options: keymap.KeymapOptions?,
+---}
+
 ---@param mode keymap.Mode
 ---@param key keymap.Key
----@param entries keymap.KeymapEntry[]
+---@param entries keymap.RegisterEntry[]
 function M.register(mode, key, entries)
-    M._mediator:register(mode, key, entries)
+    ---@type keymap.KeymapEntry[]
+    local keymap_entries = vim.tbl_map(function(entry)
+        return {
+            condition = entry.when,
+            action = entry.action,
+            buffers = entry.buffers or M.new_global_buffer_group(),
+            options = entry.options or {},
+        }
+    end, entries)
+    M._mediator:register(mode, key, keymap_entries)
 end
 
 ---@param predicate fun(): boolean
@@ -78,10 +100,11 @@ end
 
 ---@return keymap.BufferGroup
 function M.new_global_buffer_group()
-    local buffers = BufferGroup.global()
-    M._mediator:register_signal(buffers)
-    table.insert(M._buffers, buffers)
-    return buffers
+    if M._global_buffer ~= nil then
+        error("Please call `require('keymap').setup()` before creating a global buffer group.")
+    end
+
+    return M._global_buffer
 end
 
 function M.refresh()

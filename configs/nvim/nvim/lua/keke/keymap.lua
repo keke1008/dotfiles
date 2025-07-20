@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 keymap.register("n", "x", {
     {
-        condition = condition,
+        when = condition,
         buffers = buffers,
         action = "ix<Esc>",
         options = { silent = true },
