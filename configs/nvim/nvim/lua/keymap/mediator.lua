@@ -3,7 +3,8 @@ local apply_keymap_update = require("keymap.applier").apply_keymap_update
 ---@class keymap.KeymapMediator
 ---@field private _resolver keymap.KeymapResolver
 ---@field private _state keymap.KeymapState
----@field private _enable_signal_handling boolean
+---@field private _enable_batch_signal_handling boolean
+---@field private _pending_signals table<keymap.SignalId, true>
 local KeymapMediator = {}
 KeymapMediator.__index = KeymapMediator
 
@@ -14,14 +15,19 @@ function KeymapMediator.new(resolver, state)
     local self = {
         _resolver = resolver,
         _state = state,
-        _enable_signal_handling = true,
+        _enable_batch_signal_handling = false,
+        _pending_signals = {},
     }
     return setmetatable(self, KeymapMediator)
 end
 
 ---@param signal_ids keymap.SignalId[]
 function KeymapMediator:handle_signal(signal_ids)
-    if not self._enable_signal_handling then
+    if self._enable_batch_signal_handling then
+        for _, signal_id in ipairs(signal_ids) do
+            self._pending_signals[signal_id] = true
+        end
+
         return
     end
 
@@ -39,12 +45,17 @@ end
 ---@generic T
 ---@param f fun(): T
 ---@return T
-function KeymapMediator:without_signal_handling(f)
-    local previous_state = self._enable_signal_handling
-    self._enable_signal_handling = false
+---@overload fun(self: keymap.KeymapMediator, f: fun())
+function KeymapMediator:with_batch_signal_handling(f)
+    local previous_state = self._enable_batch_signal_handling
+    self._enable_batch_signal_handling = true
 
     local ok, result = pcall(f)
-    self._enable_signal_handling = previous_state
+    self._enable_batch_signal_handling = previous_state
+    if not self._enable_batch_signal_handling then
+        self:handle_signal(vim.tbl_keys(self._pending_signals))
+        self._pending_signals = {}
+    end
 
     if not ok then
         error(result)
@@ -62,12 +73,13 @@ end
 
 ---@param mode keymap.Mode
 ---@param key keymap.Key
----@parm entries keymap.KeymapEntries
+---@param entries keymap.KeymapEntry[]
 function KeymapMediator:register(mode, key, entries)
-    for _, entry in ipairs(entries) do
-        self._resolver:add({ mode = mode, key = key }, entry)
-        entry.condition:notify_changed()
-    end
+    self:with_batch_signal_handling(function()
+        for _, entry in ipairs(entries) do
+            self._resolver:add({ mode = mode, key = key }, entry)
+        end
+    end)
 end
 
 return {
