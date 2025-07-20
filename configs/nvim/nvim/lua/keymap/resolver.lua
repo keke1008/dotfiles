@@ -85,9 +85,10 @@ function KeymapResolver:add(identifier, entry)
     self._signal_relations[entry.buffers:signal_id()][mode][key] = true
 end
 
+---@private
 ---@param signal_ids keymap.SignalId[]
----@return keymap.KeymapIdentifierSet, keymap.Keymap
-function KeymapResolver:resolve(signal_ids)
+---@return keymap.KeymapIdentifierSet
+function KeymapResolver:_affected_identifiers(signal_ids)
     ---@type table<keymap.SignalId, boolean>
     local unique_signal_ids = {}
     for _, signal_id in ipairs(signal_ids) do
@@ -101,8 +102,16 @@ function KeymapResolver:resolve(signal_ids)
         types.merge_keymap_identifier_sets(affected_identifiers, identifiers or {})
     end
 
+    return affected_identifiers
+end
+
+---@private
+---@param affected_identifiers keymap.KeymapIdentifierSet
+---@return keymap.Keymap
+function KeymapResolver:_resolve_by_affected_identifiers(affected_identifiers)
     ---@type keymap.Keymap
     local resolved_keymaps = {}
+
     for mode, keys in pairs(affected_identifiers) do
         if self._resolvers[mode] == nil then
             goto continue
@@ -119,7 +128,20 @@ function KeymapResolver:resolve(signal_ids)
         ::continue::
     end
 
+    return resolved_keymaps
+end
+
+---@param signal_ids keymap.SignalId[]
+---@return keymap.KeymapIdentifierSet, keymap.Keymap
+function KeymapResolver:resolve(signal_ids)
+    local affected_identifiers = self:_affected_identifiers(signal_ids)
+    local resolved_keymaps = self:_resolve_by_affected_identifiers(affected_identifiers)
     return affected_identifiers, resolved_keymaps
+end
+
+---@return keymap.KeymapIdentifierSet, keymap.Keymap
+function KeymapResolver:resolve_all()
+    return self:resolve(vim.tbl_keys(self._signal_relations))
 end
 
 return {

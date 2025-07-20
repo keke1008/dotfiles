@@ -11,7 +11,9 @@ local M = {
 }
 
 function M.setup()
+    local autogroup = vim.api.nvim_create_augroup("d542d61bf91f.keymap", {})
     vim.api.nvim_create_autocmd("BufDelete", {
+        group = autogroup,
         callback = function(args)
             local buffer = args.buf
             for _, buffers in ipairs(M._buffers) do
@@ -19,6 +21,28 @@ function M.setup()
             end
         end
     })
+
+    local subcommands = {
+        refresh = M.refresh
+    }
+
+    vim.api.nvim_create_user_command(
+        "Keymap",
+        function(args)
+            local subcommand = args.fargs[1]
+            local handler = subcommands[subcommand]
+            if handler then
+                handler()
+            else
+                vim.notify("Unknown keymap subcommand: " .. subcommand, vim.log.levels.ERROR)
+            end
+        end, {
+            desc = "Refresh keymaps",
+            nargs = '+',
+            complete = function()
+                return vim.tbl_keys(subcommands)
+            end
+        })
 end
 
 ---@param mode keymap.Mode
@@ -58,6 +82,10 @@ function M.new_global_buffer_group()
     M._mediator:register_signal(buffers)
     table.insert(M._buffers, buffers)
     return buffers
+end
+
+function M.refresh()
+    M._mediator:refresh()
 end
 
 return M

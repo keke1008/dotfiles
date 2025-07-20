@@ -1,5 +1,7 @@
 local keymap = require("keymap")
 
+keymap.setup()
+
 local condition = keymap.new_stateful_condition()
 vim.uv.new_timer():start(1000, 1000, vim.schedule_wrap(function()
     condition:update(not condition:enabled())

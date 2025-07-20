@@ -30,6 +30,12 @@ function KeymapMediator:handle_signal(signal_ids)
     apply_keymap_update(update)
 end
 
+function KeymapMediator:refresh()
+    local affected_identifiers, partial_keymaps = self._resolver:resolve_all()
+    local update = self._state:update(affected_identifiers, partial_keymaps)
+    apply_keymap_update(update)
+end
+
 ---@generic T
 ---@param f fun(): T
 ---@return T
