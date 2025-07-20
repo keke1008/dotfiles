@@ -2,7 +2,7 @@ local types = require("keymap.types")
 
 ---@alias keymap.KeymapEntry {
 ---    condition: keymap.Condition,
----    buffers: keymap.BufferGroup,
+---    buffers: keymap.BufferSet,
 ---    action: keymap.Action,
 ---    options: keymap.KeymapOptions,
 ---}
@@ -31,11 +31,11 @@ function SingleKeyResolver:resolve()
     local resolved = {}
 
     for _, entry in ipairs(self._entries) do
-        if not entry.condition:enabled() then
+        if not entry.condition:is_enabled() then
             goto continue
         end
 
-        for _, buffer in ipairs(entry.buffers:buffers()) do
+        for _, buffer in ipairs(entry.buffers:list()) do
             if resolved[buffer] == nil then
                 resolved[buffer] = {
                     action = entry.action,

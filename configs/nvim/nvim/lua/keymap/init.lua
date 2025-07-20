@@ -2,7 +2,7 @@ local KeymapResolver = require("keymap.resolver").KeymapResolver
 local CallbackCondition = require("keymap.reactive.condition").CallbackCondition
 local StatefulCondition = require("keymap.reactive.condition").StatefulCondition
 local FixedCondition = require("keymap.reactive.condition").FixedCondition
-local BufferGroup = require("keymap.reactive.buffer_group").BufferGroup
+local BufferSet = require("keymap.reactive.buffer_set").BufferSet
 local KeymapState = require("keymap.state").KeymapState
 local KeymapMediator = require("keymap.mediator").KeymapMediator
 
@@ -12,7 +12,7 @@ local M = {
     StatefulCondition = StatefulCondition,
     CallbackCondition = CallbackCondition,
     FixedCondition = FixedCondition,
-    BufferGroup = BufferGroup,
+    BufferSet = BufferSet,
 }
 
 function M.setup()
@@ -21,7 +21,7 @@ function M.setup()
         group = autogroup,
         callback = function(args)
             local buffer = args.buf
-            M._mediator:handle_buffer_remove(buffer)
+            M._mediator:handle_buffer_deletion(buffer)
         end
     })
 
@@ -51,7 +51,7 @@ end
 ---@alias keymap.RegisterEntry {
 ---    action: keymap.Action,
 ---    when?: keymap.Condition,
----    buffers?: keymap.BufferGroup,
+---    buffers?: keymap.BufferSet,
 ---    options?: keymap.KeymapOptions,
 ---}
 
@@ -64,7 +64,7 @@ function M.register(mode, key, entries)
         return {
             action = entry.action,
             condition = entry.when or FixedCondition.new(true),
-            buffers = entry.buffers or BufferGroup.global(),
+            buffers = entry.buffers or BufferSet.global(),
             options = entry.options or {},
         }
     end, entries)

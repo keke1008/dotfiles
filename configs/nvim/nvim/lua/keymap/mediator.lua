@@ -24,7 +24,7 @@ function KeymapMediator.new(resolver, state)
 end
 
 ---@param signal_ids keymap.SignalId[]
-function KeymapMediator:handle_signal(signal_ids)
+function KeymapMediator:handle_signals(signal_ids)
     if self._enable_batch_signal_handling then
         for _, signal_id in ipairs(signal_ids) do
             self._pending_signals[signal_id] = true
@@ -55,7 +55,7 @@ function KeymapMediator:with_batch_signal_handling(f)
     local ok, result = pcall(f)
     self._enable_batch_signal_handling = previous_state
     if not self._enable_batch_signal_handling then
-        self:handle_signal(vim.tbl_keys(self._pending_signals))
+        self:handle_signals(vim.tbl_keys(self._pending_signals))
         self._pending_signals = {}
     end
 
@@ -76,7 +76,7 @@ function KeymapMediator:listen_signal(reactive)
     self._listening_reactives[signal_id] = reactive
 
     reactive:signal():listen(function()
-        self:handle_signal({ signal_id })
+        self:handle_signals({ signal_id })
     end)
 
     reactive:signal():emit()
@@ -100,10 +100,10 @@ function KeymapMediator:register(mode, key, entries)
 end
 
 ---@param buffer keymap.Buffer
-function KeymapMediator:handle_buffer_remove(buffer)
+function KeymapMediator:handle_buffer_deletion(buffer)
     self:with_batch_signal_handling(function()
         for _, reactive in pairs(self._listening_reactives) do
-            if reactive.type == "BufferGroup" then
+            if reactive.type == "BufferSet" then
                 reactive:remove(buffer)
             end
         end

@@ -4,10 +4,10 @@ keymap.setup()
 
 local condition = keymap.StatefulCondition.new(true)
 vim.uv.new_timer():start(1000, 1000, vim.schedule_wrap(function()
-    condition:update(not condition:enabled())
+    condition:update(not condition:is_enabled())
 end))
 
-local buffers = keymap.BufferGroup.new()
+local buffers = keymap.BufferSet.new()
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "lua",
     callback = function(args)

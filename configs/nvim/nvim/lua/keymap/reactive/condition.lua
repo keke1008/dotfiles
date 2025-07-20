@@ -22,8 +22,8 @@ function Condition:signal()
 end
 
 ---@return boolean
-function Condition:enabled()
-    error("Condition:enabled() must be implemented by subclasses")
+function Condition:is_enabled()
+    error("Condition:is_enabled() must be implemented by subclasses")
 end
 
 ---@class keymap.CallbackCondition: keymap.Condition
@@ -41,7 +41,7 @@ function CallbackCondition.new(predicate)
 end
 
 ---@return boolean
-function CallbackCondition:enabled()
+function CallbackCondition:is_enabled()
     return self._predicate()
 end
 
@@ -60,7 +60,7 @@ function StatefulCondition.new(initial)
 end
 
 ---@return boolean
-function StatefulCondition:enabled()
+function StatefulCondition:is_enabled()
     return self._enabled
 end
 

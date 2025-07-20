@@ -1,35 +1,35 @@
 local Signal = require("keymap.reactive.signal").Signal
 
----@class keymap.BufferGroup
----@field type "BufferGroup"
+---@class keymap.BufferSet
+---@field type "BufferSet"
 ---@field private _signal keymap.Signal
 ---@field private _buffers table<keymap.Buffer, true>
-local BufferGroup = {
-    type = "BufferGroup",
+local BufferSet = {
+    type = "BufferSet",
 }
-BufferGroup.__index = BufferGroup
+BufferSet.__index = BufferSet
 
----@return keymap.BufferGroup
-function BufferGroup.new()
+---@return keymap.BufferSet
+function BufferSet.new()
     local self = {
         _signal = Signal.new(),
         _buffers = {},
     }
-    return setmetatable(self, BufferGroup)
+    return setmetatable(self, BufferSet)
 end
 
 ---@return keymap.Signal
-function BufferGroup:signal()
+function BufferSet:signal()
     return self._signal
 end
 
----@return keymap.BufferGroup
-function BufferGroup.global()
-    return BufferGroup._GLOBAL
+---@return keymap.BufferSet
+function BufferSet.global()
+    return BufferSet._GLOBAL
 end
 
 ---@param buffer keymap.Buffer
-function BufferGroup:add(buffer)
+function BufferSet:add(buffer)
     if not self._buffers[buffer] then
         self._buffers[buffer] = true
         self:signal():emit()
@@ -37,7 +37,7 @@ function BufferGroup:add(buffer)
 end
 
 ---@param buffer keymap.Buffer
-function BufferGroup:remove(buffer)
+function BufferSet:remove(buffer)
     if self._buffers[buffer] then
         self._buffers[buffer] = nil
         self:signal():emit()
@@ -45,14 +45,14 @@ function BufferGroup:remove(buffer)
 end
 
 ---@return keymap.Buffer[]
-function BufferGroup:buffers()
+function BufferSet:list()
     return vim.tbl_keys(self._buffers)
 end
 
 ---@private
-BufferGroup._GLOBAL = BufferGroup.new()
-BufferGroup._GLOBAL:add("global")
+BufferSet._GLOBAL = BufferSet.new()
+BufferSet._GLOBAL:add("global")
 
 return {
-    BufferGroup = BufferGroup,
+    BufferSet = BufferSet,
 }
