@@ -24,3 +24,10 @@ keymap.register("n", "x", {
         options = { silent = true },
     },
 })
+
+keymap.register("n", "X", {
+    {
+        action = "iX<Esc>",
+        options = { silent = true },
+    }
+})

@@ -17,9 +17,7 @@ end
 
 ---@return keymap.BufferGroup
 function BufferGroup.global()
-    local group = BufferGroup.new()
-    group:add("global")
-    return group
+    return BufferGroup._GLOBAL
 end
 
 ---@return keymap.SignalId
@@ -52,6 +50,10 @@ end
 function BufferGroup:buffers()
     return vim.tbl_keys(self._buffers)
 end
+
+---@private
+BufferGroup._GLOBAL = BufferGroup.new()
+BufferGroup._GLOBAL:add("global")
 
 return {
     BufferGroup = BufferGroup,

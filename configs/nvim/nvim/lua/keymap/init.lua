@@ -53,10 +53,10 @@ function M.setup()
 end
 
 ---@alias keymap.RegisterEntry {
----    when: keymap.Condition,
 ---    action: keymap.Action,
----    buffers: keymap.BufferGroup?,
----    options: keymap.KeymapOptions?,
+---    when?: keymap.Condition,
+---    buffers?: keymap.BufferGroup,
+---    options?: keymap.KeymapOptions,
 ---}
 
 ---@param mode keymap.Mode
@@ -69,8 +69,8 @@ function M.register(mode, key, entries)
         M._buffers[buffers:signal_id()] = buffers
 
         return {
-            condition = entry.when,
             action = entry.action,
+            condition = entry.when or FixedCondition.new(true),
             buffers = buffers,
             options = entry.options or {},
         }

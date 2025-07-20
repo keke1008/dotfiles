@@ -92,16 +92,18 @@ function FixedCondition._new(enabled)
     return setmetatable(self, FixedCondition)
 end
 
-FixedCondition.True = FixedCondition._new(true)
-FixedCondition.False = FixedCondition._new(false)
+---@private
+FixedCondition._TRUE = FixedCondition._new(true)
+---@private
+FixedCondition._FALSE = FixedCondition._new(false)
 
 ---@param enabled boolean
 ---@return keymap.FixedCondition
 function FixedCondition.new(enabled)
     if enabled then
-        return FixedCondition.True
+        return FixedCondition._TRUE
     else
-        return FixedCondition.False
+        return FixedCondition._FALSE
     end
 end
 
