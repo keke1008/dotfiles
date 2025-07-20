@@ -19,13 +19,13 @@ function KeymapMediator.new(resolver, state)
     return setmetatable(self, KeymapMediator)
 end
 
----@param signal_id keymap.SignalId
-function KeymapMediator:handle_signal(signal_id)
+---@param signal_ids keymap.SignalId[]
+function KeymapMediator:handle_signal(signal_ids)
     if not self._enable_signal_handling then
         return
     end
 
-    local affected_identifiers, partial_keymaps = self._resolver:resolve(signal_id)
+    local affected_identifiers, partial_keymaps = self._resolver:resolve(signal_ids)
     local update = self._state:update(affected_identifiers, partial_keymaps)
     apply_keymap_update(update)
 end
@@ -50,7 +50,7 @@ end
 ---@param signal keymap.Condition | keymap.BufferGroup
 function KeymapMediator:register_signal(signal)
     signal:on_change(function()
-        self:handle_signal(signal:signal_id())
+        self:handle_signal({ signal:signal_id() })
     end)
 end
 

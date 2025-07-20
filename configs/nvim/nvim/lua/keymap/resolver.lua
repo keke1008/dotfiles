@@ -1,3 +1,5 @@
+local types = require("keymap.types")
+
 ---@alias keymap.KeymapEntry {
 ---    condition: keymap.Condition,
 ---    buffers: keymap.BufferGroup,
@@ -83,12 +85,20 @@ function KeymapResolver:add(identifier, entry)
     self._signal_relations[entry.buffers:signal_id()][mode][key] = true
 end
 
----@param changed_condition_id keymap.SignalId
+---@param signal_ids keymap.SignalId[]
 ---@return keymap.KeymapIdentifierSet, keymap.Keymap
-function KeymapResolver:resolve(changed_condition_id)
-    local affected_identifiers = self._signal_relations[changed_condition_id]
-    if affected_identifiers == nil then
-        return {}, {}
+function KeymapResolver:resolve(signal_ids)
+    ---@type table<keymap.SignalId, boolean>
+    local unique_signal_ids = {}
+    for _, signal_id in ipairs(signal_ids) do
+        unique_signal_ids[signal_id] = true
+    end
+
+    ---@type keymap.KeymapIdentifierSet
+    local affected_identifiers = {}
+    for signal_id in pairs(unique_signal_ids) do
+        local identifiers = self._signal_relations[signal_id]
+        types.merge_keymap_identifier_sets(affected_identifiers, identifiers or {})
     end
 
     ---@type keymap.Keymap
