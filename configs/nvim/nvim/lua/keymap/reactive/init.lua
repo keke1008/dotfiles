@@ -1,0 +1,1 @@
+---@alias keymap.Reactive keymap.Condition | keymap.BufferGroup

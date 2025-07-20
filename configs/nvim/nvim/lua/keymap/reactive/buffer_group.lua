@@ -1,18 +1,26 @@
 local Signal = require("keymap.reactive.signal").Signal
 
 ---@class keymap.BufferGroup
----@field private _buffers table<keymap.Buffer, true>
+---@field type "BufferGroup"
 ---@field private _signal keymap.Signal
-local BufferGroup = {}
+---@field private _buffers table<keymap.Buffer, true>
+local BufferGroup = {
+    type = "BufferGroup",
+}
 BufferGroup.__index = BufferGroup
 
 ---@return keymap.BufferGroup
 function BufferGroup.new()
     local self = {
+        _signal = Signal.new(),
         _buffers = {},
-        _signal = Signal:new(),
     }
     return setmetatable(self, BufferGroup)
+end
+
+---@return keymap.Signal
+function BufferGroup:signal()
+    return self._signal
 end
 
 ---@return keymap.BufferGroup
@@ -20,21 +28,11 @@ function BufferGroup.global()
     return BufferGroup._GLOBAL
 end
 
----@return keymap.SignalId
-function BufferGroup:signal_id()
-    return self._signal:id()
-end
-
----@param listener fun()
-function BufferGroup:on_change(listener)
-    self._signal:listen(listener)
-end
-
 ---@param buffer keymap.Buffer
 function BufferGroup:add(buffer)
     if not self._buffers[buffer] then
         self._buffers[buffer] = true
-        self._signal:emit()
+        self:signal():emit()
     end
 end
 
@@ -42,7 +40,7 @@ end
 function BufferGroup:remove(buffer)
     if self._buffers[buffer] then
         self._buffers[buffer] = nil
-        self._signal:emit()
+        self:signal():emit()
     end
 end
 

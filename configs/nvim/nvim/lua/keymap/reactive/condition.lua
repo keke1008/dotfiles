@@ -1,35 +1,29 @@
 local Signal = require("keymap.reactive.signal").Signal
 
 ---@class keymap.Condition
+---@field type "Condition"
 ---@field private _signal keymap.Signal
-local Condition = {}
+local Condition = {
+    type = "Condition",
+}
 Condition.__index = Condition
 
 ---@return keymap.Condition
 function Condition.new()
     local self = {
-        _signal = Signal.new()
+        _signal = Signal.new(),
     }
     return setmetatable(self, Condition)
 end
 
----@return keymap.SignalId
-function Condition:signal_id()
-    return self._signal:id()
+---@return keymap.Signal
+function Condition:signal()
+    return self._signal
 end
 
 ---@return boolean
 function Condition:enabled()
     error("Condition:enabled() must be implemented by subclasses")
-end
-
----@param listener fun()
-function Condition:on_change(listener)
-    self._signal:listen(listener)
-end
-
-function Condition:notify_changed()
-    self._signal:emit()
 end
 
 ---@class keymap.CallbackCondition: keymap.Condition
@@ -74,7 +68,7 @@ end
 function StatefulCondition:update(enabled)
     if self._enabled ~= enabled then
         self._enabled = enabled
-        self:notify_changed()
+        self:signal():emit()
     end
 end
 

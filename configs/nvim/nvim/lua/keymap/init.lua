@@ -66,7 +66,7 @@ function M.register(mode, key, entries)
     ---@type keymap.KeymapEntry[]
     local keymap_entries = vim.tbl_map(function(entry)
         local buffers = entry.buffers or BufferGroup.global()
-        M._buffers[buffers:signal_id()] = buffers
+        M._buffers[buffers:signal():id()] = buffers
 
         return {
             action = entry.action,

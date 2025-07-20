@@ -81,8 +81,8 @@ function KeymapResolver:add(identifier, entry)
     self._resolvers[mode][key]:add(entry)
 
     -- Update relations
-    self._signal_relations[entry.condition:signal_id()][mode][key] = true
-    self._signal_relations[entry.buffers:signal_id()][mode][key] = true
+    self._signal_relations[entry.condition:signal():id()][mode][key] = true
+    self._signal_relations[entry.buffers:signal():id()][mode][key] = true
 end
 
 ---@private
