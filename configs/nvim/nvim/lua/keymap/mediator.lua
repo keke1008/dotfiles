@@ -99,6 +99,17 @@ function KeymapMediator:register(mode, key, entries)
     end)
 end
 
+---@param buffer keymap.Buffer
+function KeymapMediator:handle_buffer_remove(buffer)
+    self:with_batch_signal_handling(function()
+        for _, reactive in pairs(self._listening_reactives) do
+            if reactive.type == "BufferGroup" then
+                reactive:remove(buffer)
+            end
+        end
+    end)
+end
+
 return {
     KeymapMediator = KeymapMediator,
 }

@@ -8,8 +8,6 @@ local KeymapMediator = require("keymap.mediator").KeymapMediator
 
 local M = {
     _mediator = KeymapMediator.new(KeymapResolver.new(), KeymapState.new()),
-    ---@type table<keymap.SignalId, keymap.BufferGroup>
-    _buffers = {},
 
     StatefulCondition = StatefulCondition,
     CallbackCondition = CallbackCondition,
@@ -23,9 +21,7 @@ function M.setup()
         group = autogroup,
         callback = function(args)
             local buffer = args.buf
-            for _, buffers in pairs(M._buffers) do
-                buffers:remove(buffer)
-            end
+            M._mediator:handle_buffer_remove(buffer)
         end
     })
 
@@ -65,13 +61,10 @@ end
 function M.register(mode, key, entries)
     ---@type keymap.KeymapEntry[]
     local keymap_entries = vim.tbl_map(function(entry)
-        local buffers = entry.buffers or BufferGroup.global()
-        M._buffers[buffers:signal():id()] = buffers
-
         return {
             action = entry.action,
             condition = entry.when or FixedCondition.new(true),
-            buffers = buffers,
+            buffers = entry.buffers or BufferGroup.global(),
             options = entry.options or {},
         }
     end, entries)
