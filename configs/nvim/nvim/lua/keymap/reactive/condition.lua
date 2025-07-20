@@ -107,5 +107,6 @@ end
 
 return {
     CallbackCondition = CallbackCondition,
-    StatefulCondition = StatefulCondition
+    StatefulCondition = StatefulCondition,
+    FixedCondition = FixedCondition,
 }

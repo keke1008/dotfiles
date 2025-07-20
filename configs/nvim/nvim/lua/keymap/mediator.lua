@@ -3,6 +3,7 @@ local apply_keymap_update = require("keymap.applier").apply_keymap_update
 ---@class keymap.KeymapMediator
 ---@field private _resolver keymap.KeymapResolver
 ---@field private _state keymap.KeymapState
+---@field private _listening_signals table<keymap.SignalId, true>
 ---@field private _enable_batch_signal_handling boolean
 ---@field private _pending_signals table<keymap.SignalId, true>
 local KeymapMediator = {}
@@ -15,6 +16,7 @@ function KeymapMediator.new(resolver, state)
     local self = {
         _resolver = resolver,
         _state = state,
+        _listening_signals = {},
         _enable_batch_signal_handling = false,
         _pending_signals = {},
     }
@@ -64,10 +66,17 @@ function KeymapMediator:with_batch_signal_handling(f)
     return result
 end
 
+---@private
 ---@param signal keymap.Condition | keymap.BufferGroup
-function KeymapMediator:register_signal(signal)
+function KeymapMediator:listen_signal(signal)
+    local signal_id = signal:signal_id()
+    if self._listening_signals[signal_id] then
+        return
+    end
+    self._listening_signals[signal_id] = true
+
     signal:on_change(function()
-        self:handle_signal({ signal:signal_id() })
+        self:handle_signal({ signal_id })
     end)
 end
 
@@ -78,6 +87,12 @@ function KeymapMediator:register(mode, key, entries)
     self:with_batch_signal_handling(function()
         for _, entry in ipairs(entries) do
             self._resolver:add({ mode = mode, key = key }, entry)
+
+            ---@type (keymap.Condition | keymap.BufferGroup)[]
+            local signals = { entry.condition, entry.buffers }
+            for _, signal in ipairs(signals) do
+                self:listen_signal(signal)
+            end
         end
     end)
 end
