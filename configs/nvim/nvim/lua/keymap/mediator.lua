@@ -78,6 +78,8 @@ function KeymapMediator:listen_signal(reactive)
     reactive:signal():listen(function()
         self:handle_signal({ signal_id })
     end)
+
+    reactive:signal():emit()
 end
 
 ---@param mode keymap.Mode
