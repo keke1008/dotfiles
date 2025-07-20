@@ -57,11 +57,11 @@ local StatefulCondition = {}
 setmetatable(StatefulCondition, Condition)
 StatefulCondition.__index = StatefulCondition
 
----@param default boolean?
+---@param initial boolean?
 ---@return keymap.StatefulCondition
-function StatefulCondition.new(default)
+function StatefulCondition.new(initial)
     local self = Condition.new() --[[@as keymap.StatefulCondition]]
-    self._enabled = default or false
+    self._enabled = initial or false
     return setmetatable(self, StatefulCondition)
 end
 
@@ -75,6 +75,33 @@ function StatefulCondition:update(enabled)
     if self._enabled ~= enabled then
         self._enabled = enabled
         self:notify_changed()
+    end
+end
+
+---@class keymap.FixedCondition: keymap.StatefulCondition
+---@field private _enabled boolean
+local FixedCondition = {}
+setmetatable(FixedCondition, StatefulCondition)
+FixedCondition.__index = FixedCondition
+
+---@private
+---@param enabled boolean
+---@return keymap.FixedCondition
+function FixedCondition._new(enabled)
+    local self = StatefulCondition.new(enabled) --[[@as keymap.FixedCondition]]
+    return setmetatable(self, FixedCondition)
+end
+
+FixedCondition.True = FixedCondition._new(true)
+FixedCondition.False = FixedCondition._new(false)
+
+---@param enabled boolean
+---@return keymap.FixedCondition
+function FixedCondition.new(enabled)
+    if enabled then
+        return FixedCondition.True
+    else
+        return FixedCondition.False
     end
 end
 
