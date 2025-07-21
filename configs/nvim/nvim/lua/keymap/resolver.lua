@@ -12,7 +12,6 @@ local types = require("keymap.types")
 local SingleKeyResolver = {}
 SingleKeyResolver.__index = SingleKeyResolver
 
-
 ---@return keymap.SingleKeyResolver
 function SingleKeyResolver.new()
     local self = {

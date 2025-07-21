@@ -33,8 +33,10 @@ function KeymapState:update(affected_identifiers, partial_keymaps)
                 if new_keymap[current_buffer] == nil then
                     -- The keymap entry is removed
                     update.removed[mode][key][current_buffer] = current_entry
-                elseif current_entry.action ~= new_keymap[current_buffer].action or
-                    not vim.deep_equal(current_entry.options, new_keymap[current_buffer].options) then
+                elseif
+                    current_entry.action ~= new_keymap[current_buffer].action
+                    or not vim.deep_equal(current_entry.options, new_keymap[current_buffer].options)
+                then
                     -- The keymap entry is updated
                     update.updated[mode][key][current_buffer] = new_keymap[current_buffer]
                 end

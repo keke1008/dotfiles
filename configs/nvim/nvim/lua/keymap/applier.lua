@@ -17,7 +17,6 @@ local function get_all_buffers()
     return buffers
 end
 
-
 ---@param update keymap.KeymapUpdate
 local function apply_keymap_update(update)
     local all_buffers = get_all_buffers()

@@ -3,9 +3,13 @@ local keymap = require("keymap")
 keymap.setup()
 
 local condition = keymap.StatefulCondition.new(true)
-vim.uv.new_timer():start(1000, 1000, vim.schedule_wrap(function()
-    condition:update(not condition:is_enabled())
-end))
+vim.uv.new_timer():start(
+    1000,
+    1000,
+    vim.schedule_wrap(function()
+        condition:update(not condition:is_enabled())
+    end)
+)
 
 local buffers = keymap.BufferSet.new()
 vim.api.nvim_create_autocmd("FileType", {
@@ -29,5 +33,5 @@ keymap.register("n", "X", {
     {
         action = "iX<Esc>",
         options = { silent = true },
-    }
+    },
 })

@@ -22,30 +22,28 @@ function M.setup()
         callback = function(args)
             local buffer = args.buf
             M._mediator:handle_buffer_deletion(buffer)
-        end
+        end,
     })
 
     local subcommands = {
-        refresh = M.refresh
+        refresh = M.refresh,
     }
 
-    vim.api.nvim_create_user_command(
-        "Keymap",
-        function(args)
-            local subcommand = args.fargs[1]
-            local handler = subcommands[subcommand]
-            if handler then
-                handler()
-            else
-                vim.notify("Unknown keymap subcommand: " .. subcommand, vim.log.levels.ERROR)
-            end
-        end, {
-            desc = "Refresh keymaps",
-            nargs = '+',
-            complete = function()
-                return vim.tbl_keys(subcommands)
-            end
-        })
+    vim.api.nvim_create_user_command("Keymap", function(args)
+        local subcommand = args.fargs[1]
+        local handler = subcommands[subcommand]
+        if handler then
+            handler()
+        else
+            vim.notify("Unknown keymap subcommand: " .. subcommand, vim.log.levels.ERROR)
+        end
+    end, {
+        desc = "Refresh keymaps",
+        nargs = "+",
+        complete = function()
+            return vim.tbl_keys(subcommands)
+        end,
+    })
 end
 
 ---@alias keymap.RegisterEntry {

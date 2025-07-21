@@ -37,5 +37,5 @@ function Signal:emit()
 end
 
 return {
-    Signal = Signal
+    Signal = Signal,
 }
