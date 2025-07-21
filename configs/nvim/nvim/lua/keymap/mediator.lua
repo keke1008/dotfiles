@@ -78,8 +78,6 @@ function KeymapMediator:listen_signal(reactive)
     reactive:signal():listen(function()
         self:handle_signals({ signal_id })
     end)
-
-    reactive:signal():emit()
 end
 
 ---@param mode keymap.Mode
@@ -94,6 +92,7 @@ function KeymapMediator:register(mode, key, entries)
             local reactives = { entry.condition, entry.buffers }
             for _, reactive in ipairs(reactives) do
                 self:listen_signal(reactive)
+                reactive:signal():emit()
             end
         end
     end)

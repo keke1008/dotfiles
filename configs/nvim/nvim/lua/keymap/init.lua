@@ -53,12 +53,21 @@ end
 ---    options?: keymap.KeymapOptions,
 ---}
 
----@param mode keymap.Mode
+---@param modes keymap.Mode | keymap.Mode[]
 ---@param key keymap.Key
 ---@param entries keymap.RegisterEntry[]
-function M.register(mode, key, entries)
+function M.register(modes, key, entries)
+    vim.validate("modes", modes, { "string", "table" })
+    vim.validate("key", key, "string")
+    vim.validate("entries", entries, "table")
+
     ---@type keymap.KeymapEntry[]
     local keymap_entries = vim.tbl_map(function(entry)
+        vim.validate("action", entry.action, "function")
+        vim.validate("when", entry.when, { "table" }, true)
+        vim.validate("buffers", entry.buffers, { "table" }, true)
+        vim.validate("options", entry.options, { "table" }, true)
+
         return {
             action = entry.action,
             condition = entry.when or FixedCondition.new(true),
@@ -66,7 +75,14 @@ function M.register(mode, key, entries)
             options = entry.options or {},
         }
     end, entries)
-    M._mediator:register(mode, key, keymap_entries)
+
+    ---@type keymap.Mode[]
+    modes = type(modes) == "table" and modes or { modes }
+    M._mediator:with_batch_signal_handling(function()
+        for _, mode in ipairs(modes) do
+            M._mediator:register(mode, key, keymap_entries)
+        end
+    end)
 end
 
 function M.refresh()
