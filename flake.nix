@@ -12,12 +12,17 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        packages.default = pkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            bash-language-server
             lua-language-server
             luajitPackages.luacheck
+            nil
             selene
+            shellcheck
+            shfmt
             stylua
+            taplo
           ];
         };
       }
