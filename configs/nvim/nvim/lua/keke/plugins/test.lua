@@ -73,22 +73,12 @@ return {
                     mode = "n",
                     desc = "last",
                 },
-                {
-                    "<leader>ts",
-                    with(function(run)
-                        run.stop()
-                    end),
-                    mode = "n",
-                    desc = "stop",
-                },
-                {
-                    "<leader>ta",
-                    with(function(run)
-                        run.attach()
-                    end),
-                    mode = "n",
-                    desc = "attach",
-                },
+                { "<leader>ts", with(function(run)
+                    run.stop()
+                end), mode = "n", desc = "stop" },
+                { "<leader>ta", with(function(run)
+                    run.attach()
+                end), mode = "n", desc = "attach" },
             }
         end,
         opts = function()

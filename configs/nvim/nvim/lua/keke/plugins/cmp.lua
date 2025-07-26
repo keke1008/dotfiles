@@ -1,7 +1,3 @@
-local keymap = require("keke.keymap")
-local cmp_visible = keymap.lib.StatefulCondition.new(true)
-keymap.helper.cmp_visible = cmp_visible
-
 return {
     {
         "hrsh7th/nvim-cmp",
@@ -23,13 +19,37 @@ return {
             local lspkind = require("lspkind")
             local compare_under_score = require("cmp-under-comparator").under
 
-            cmp_visible:update(cmp.visible())
-            cmp.event:on("menu_opened", function()
-                cmp_visible:update(true)
-            end)
-            cmp.event:on("menu_closed", function()
-                cmp_visible:update(false)
-            end)
+            local luasnip_jump_prev = function()
+                return luasnip.jump(-1)
+            end
+            local luasnip_jump_next = function()
+                return luasnip.jump(1)
+            end
+
+            vim.keymap.set("n", "<C-j>", luasnip_jump_next, { desc = "luasnip jump next" })
+            vim.keymap.set("n", "<C-k>", luasnip_jump_prev, { desc = "luasnip jump prev" })
+
+            ---@param action fun()
+            ---@return function
+            local try_remap = function(action)
+                return function(fallback)
+                    if not action() then
+                        fallback()
+                    end
+                end
+            end
+
+            local remap_complete_or = function(action, arg)
+                return function()
+                    if cmp.visible() then
+                        action(arg)
+                    else
+                        cmp.complete()
+                    end
+                end
+            end
+
+            local remap_mode = { "i", "s", "c" }
 
             cmp.setup({
                 snippet = {
@@ -51,7 +71,27 @@ return {
                 completion = {
                     completeopt = "menu,menuone",
                 },
-                mapping = {},
+                mapping = {
+                    ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), remap_mode),
+                    ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), remap_mode),
+                    ["<C-j>"] = cmp.mapping(try_remap(luasnip_jump_next), remap_mode),
+                    ["<C-k>"] = cmp.mapping(try_remap(luasnip_jump_prev), remap_mode),
+                    ["<C-p>"] = cmp.mapping(
+                        -- Prevents completion from terminating with the expansion of the snippet
+                        -- when a completion candidate is selected, as in the `call` snippet of rust-analyzer.
+                        remap_complete_or(cmp.select_prev_item, { behavior = cmp.SelectBehavior.Select }),
+                        remap_mode
+                    ),
+                    ["<C-n>"] = cmp.mapping(
+                        remap_complete_or(cmp.select_next_item, { behavior = cmp.SelectBehavior.Select }),
+                        remap_mode
+                    ),
+                    ["<CR>"] = cmp.mapping(try_remap(cmp.confirm), { "i", "s" }),
+                    ["<C-e>"] = cmp.mapping(function()
+                        cmp.abort()
+                        vim.api.nvim_input("<CR>")
+                    end, remap_mode),
+                },
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
                     format = (function()
@@ -93,7 +133,9 @@ return {
             })
 
             cmp.setup.cmdline(":", {
-                mapping = {},
+                mapping = {
+                    ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
+                },
                 sources = {
                     { name = "cmdline" },
                     { name = "path" },
@@ -101,7 +143,9 @@ return {
             })
 
             cmp.setup.cmdline("/", {
-                mapping = {},
+                mapping = {
+                    ["<Tab>"] = cmp.mapping(try_remap(cmp.confirm), { "c" }),
+                },
                 sources = {
                     { name = "buffer" },
                 },

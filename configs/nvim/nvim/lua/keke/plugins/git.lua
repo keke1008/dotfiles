@@ -1,16 +1,21 @@
-local keymap = require("keke.keymap")
-local git_buffers = keymap.lib.BufferSet.new()
-keymap.helper.git_buffers = git_buffers
-
 return {
     {
 
         "lewis6991/gitsigns.nvim",
         event = "UIEnter",
-        cmd = "Gitsigns",
         opts = {
             on_attach = function(bufnr)
-                git_buffers:add(bufnr)
+                local opts = { buffer = bufnr }
+                vim.keymap.set({ "n", "x", "o" }, "[g", "<CMD>Gitsigns prev_hunk<CR>", opts)
+                vim.keymap.set({ "n", "x", "o" }, "]g", "<CMD>Gitsigns next_hunk<CR>", opts)
+                vim.keymap.set("n", "<leader>gs", "<CMD>Gitsigns stage_hunk<CR>", opts)
+                vim.keymap.set("n", "<leader>gr", "<CMD>Gitsigns reset_hunk<CR>", opts)
+                vim.keymap.set("n", "<leader>gu", "<CMD>Gitsigns undo_stage_hunk<CR>", opts)
+                vim.keymap.set("n", "<leader>gS", "<CMD>Gitsigns stage_buffer<CR>", opts)
+                vim.keymap.set("n", "<leader>gR", "<CMD>Gitsigns reset_buffer<CR>", opts)
+                vim.keymap.set("n", "<leader>gp", "<CMD>Gitsigns preview_hunk<CR>", opts)
+                vim.keymap.set("n", "<leader>gd", "<CMD>Gitsigns diffthis<CR>", opts)
+                vim.keymap.set("n", "<leader>gb", "<CMD>Gitsigns blame_line<CR>", opts)
             end,
         },
     },
@@ -32,6 +37,6 @@ return {
     {
         "ruifm/gitlinker.nvim",
         keys = { "<leader>gy", mode = { "n", "x" } },
-        config = true,
+        config = true
     },
 }
