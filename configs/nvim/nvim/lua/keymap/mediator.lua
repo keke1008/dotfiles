@@ -80,22 +80,32 @@ function KeymapMediator:listen_signal(reactive)
     end)
 end
 
----@param mode keymap.Mode
----@param key keymap.Key
----@param entries keymap.KeymapEntry[]
-function KeymapMediator:register(mode, key, entries)
-    self:with_batch_signal_handling(function()
-        for _, entry in ipairs(entries) do
-            self._resolver:add({ mode = mode, key = key }, entry)
+---@class keymap.KeymapTable
+---@field mode keymap.Mode
+---@field key keymap.Key
+---@field action keymap.Action
+---@field condition keymap.Condition
+---@field buffers keymap.BufferSet
+---@field options keymap.KeymapOptions
 
-            ---@type keymap.Reactive[]
-            local reactives = { entry.condition, entry.buffers }
-            for _, reactive in ipairs(reactives) do
-                self:listen_signal(reactive)
-                reactive:signal():emit()
-            end
-        end
-    end)
+---@param keymap keymap.KeymapTable
+function KeymapMediator:add_keymap(keymap)
+    ---@type keymap.KeymapEntry
+    local entry = {
+        action = keymap.action,
+        condition = keymap.condition,
+        buffers = keymap.buffers,
+        options = keymap.options,
+    }
+
+    self._resolver:add({ mode = keymap.mode, key = keymap.key }, entry)
+
+    ---@type keymap.Reactive[]
+    local reactives = { keymap.condition, keymap.buffers }
+    for _, reactive in ipairs(reactives) do
+        self:listen_signal(reactive)
+        reactive:signal():emit()
+    end
 end
 
 ---@param buffer keymap.Buffer

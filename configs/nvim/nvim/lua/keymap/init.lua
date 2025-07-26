@@ -5,6 +5,8 @@ local FixedCondition = require("keymap.reactive.condition").FixedCondition
 local BufferSet = require("keymap.reactive.buffer_set").BufferSet
 local KeymapState = require("keymap.state").KeymapState
 local KeymapMediator = require("keymap.mediator").KeymapMediator
+local validate = require("keymap.validate")
+local types = require("keymap.types")
 
 local M = {
     _mediator = KeymapMediator.new(KeymapResolver.new(), KeymapState.new()),
@@ -46,43 +48,74 @@ function M.setup()
     })
 end
 
----@alias keymap.RegisterEntry {
----    action: keymap.Action,
----    when?: keymap.Condition,
----    buffers?: keymap.BufferSet,
----    options?: keymap.KeymapOptions,
----}
+---@class keymap.KeymapContext
+---@field mode? keymap.Mode | keymap.Mode[]
+---@field key? keymap.Key | keymap.Key[]
+---@field action? keymap.Action
+---@field when? keymap.Condition
+---@field buffers? keymap.BufferSet
+---@field options? keymap.KeymapOptions
+---@field module? keymap.Module[]
 
----@param modes keymap.Mode | keymap.Mode[]
----@param key keymap.Key
----@param entries keymap.RegisterEntry[]
-function M.register(modes, key, entries)
-    vim.validate("modes", modes, { "string", "table" })
-    vim.validate("key", key, "string")
-    vim.validate("entries", entries, "table")
+---@class keymap.KeymapSpec: keymap.KeymapOptions
+---@field mode? keymap.Mode | keymap.Mode[]
+---@field key? keymap.Key | keymap.Key[]
+---@field action? keymap.Action
+---@field when? keymap.Condition
+---@field buffers? keymap.BufferSet
+---@field module? keymap.Module | keymap.Module[]
+---@field [integer] keymap.KeymapSpec
 
-    ---@type keymap.KeymapEntry[]
-    local keymap_entries = vim.tbl_map(function(entry)
-        vim.validate("action", entry.action, "function")
-        vim.validate("when", entry.when, { "table" }, true)
-        vim.validate("buffers", entry.buffers, { "table" }, true)
-        vim.validate("options", entry.options, { "table" }, true)
-
-        return {
-            action = entry.action,
-            condition = entry.when or FixedCondition.new(true),
-            buffers = entry.buffers or BufferSet.global(),
-            options = entry.options or {},
-        }
-    end, entries)
-
-    ---@type keymap.Mode[]
-    modes = type(modes) == "table" and modes or { modes }
+---@param spec keymap.KeymapSpec
+function M.add(spec)
     M._mediator:with_batch_signal_handling(function()
-        for _, mode in ipairs(modes) do
-            M._mediator:register(mode, key, keymap_entries)
-        end
+        M._add_internal({}, spec)
     end)
+end
+
+---@private
+---@param ctx keymap.KeymapContext
+---@param spec keymap.KeymapSpec
+function M._add_internal(ctx, spec)
+    vim.validate("spec", spec, { "table" })
+
+    local is_ctx = spec[1] ~= nil
+    if is_ctx then
+        local c = vim.deepcopy(ctx)
+        for k, v in pairs(spec) do
+            if type(k) == "string" then
+                c[k] = v
+            end
+        end
+
+        for k, v in pairs(spec) do
+            if type(k) == "number" then
+                M._add_internal(c, v)
+            end
+        end
+
+        return
+    end
+
+    local modes = validate.modes(spec.mode or ctx.mode)
+    local keys = validate.keys(spec.key or ctx.key)
+    local action = validate.action(spec.action or ctx.action)
+    local when = validate.condition(spec.when or ctx.when or FixedCondition.new(true))
+    local buffers = validate.buffer_set(spec.buffers or ctx.buffers or BufferSet.global())
+    local options = vim.tbl_extend("keep", validate.options(spec), ctx.options or {})
+
+    for _, mode in ipairs(modes) do
+        for _, key in ipairs(keys) do
+            M._mediator:add_keymap({
+                mode = mode,
+                key = key,
+                action = action,
+                condition = when,
+                buffers = buffers,
+                options = options,
+            })
+        end
+    end
 end
 
 function M.refresh()
