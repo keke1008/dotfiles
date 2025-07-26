@@ -1,5 +1,12 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.uv.fs_stat(lazypath) then
+
+local M = {}
+
+function M.is_installed()
+    return vim.uv.fs_stat(lazypath) ~= nil
+end
+
+function M.bootstrap()
     vim.fn.system({
         "git",
         "clone",
@@ -9,45 +16,53 @@ if not vim.uv.fs_stat(lazypath) then
         lazypath,
     })
 end
-vim.opt.rtp:prepend(lazypath)
 
----@see https://github.com/willothy/flatten.nvim/blob/c986f98bc1d1e2365dfb2e97dda58ca5d0ae24ae/README.md#installation1
-if os.getenv("NVIM") ~= nil then
-    require("lazy").setup({
-        { "willothy/flatten.nvim", config = true },
-    })
-    return
-end
+function M.load()
+    if not M.is_installed() then
+        return
+    end
 
-require("lazy").setup("keke.plugins", {
-    defaults = {
-        lazy = true,
-        cond = require("keke.utils.is_in_terminal"),
-    },
-    performance = {
-        rtp = {
-            disabled_plugins = {
-                "2html_plugin",
-                "gzip",
-                "man",
-                "matchit",
-                "matchparen",
-                "netrw",
-                "netrwPlugin",
-                "remote_plugins",
-                "shada_plugin",
-                "spellfile_plugin",
-                "tar",
-                "vimball",
-                "vimballPlugin",
-                "tarPlugin",
-                "tutor_mode_plugin",
-                "zip",
-                "zipPlugin",
+    vim.opt.rtp:prepend(lazypath)
+    ---@see https://github.com/willothy/flatten.nvim/blob/c986f98bc1d1e2365dfb2e97dda58ca5d0ae24ae/README.md#installation1
+    if os.getenv("NVIM") ~= nil then
+        require("lazy").setup({
+            { "willothy/flatten.nvim", config = true },
+        })
+        return
+    end
+
+    require("lazy").setup("keke.plugins", {
+        defaults = {
+            lazy = true,
+            cond = require("keke.utils.is_in_terminal"),
+        },
+        performance = {
+            rtp = {
+                disabled_plugins = {
+                    "2html_plugin",
+                    "gzip",
+                    "man",
+                    "matchit",
+                    "matchparen",
+                    "netrw",
+                    "netrwPlugin",
+                    "remote_plugins",
+                    "shada_plugin",
+                    "spellfile_plugin",
+                    "tar",
+                    "vimball",
+                    "vimballPlugin",
+                    "tarPlugin",
+                    "tutor_mode_plugin",
+                    "zip",
+                    "zipPlugin",
+                },
             },
         },
-    },
-    ui = {
-        border = "rounded",
-    },
-})
+        ui = {
+            border = "rounded",
+        },
+    })
+end
+
+return M
