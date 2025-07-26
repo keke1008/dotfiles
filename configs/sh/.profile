@@ -35,6 +35,22 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 export ENV="${HOME}/.shrc"
 . "${DOTFILES_CONFIG_HOME}/sh/tokyonight_night.sh"
 
+for EDITOR in "nvim" "vim" "vi"; do
+	if command -v "$EDITOR" >/dev/null; then
+		break
+	fi
+done
+export EDITOR="${EDITOR:-vim}"
+
+# if running on WSL
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+	if command -v "wslg.exe" >/dev/null; then
+		export DISPLAY=":0"
+	elif DISPLAY="$(hostname).mshome.net:0.0"; then
+		export DISPLAY
+	fi
+fi
+
 prepend_path() {
 	case ":$PATH:" in
 	*:"$1":*) ;;
@@ -48,9 +64,6 @@ prepend_path_if_exists() {
 	fi
 }
 
-prepend_path "$DOTPATH/bin"
-mkdir -p "$HOME/.local/bin"
-prepend_path "$HOME/.local/bin"
 prepend_path_if_exists "/snap/bin"
 prepend_path_if_exists "$HOME/.fly/bin" # fly.io
 prepend_path_if_exists "$HOME/.luarocks/bin"
@@ -83,21 +96,9 @@ export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME}/aquaproj-aqua/aqua.yaml"
 export AQUA_ROOT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua"
 prepend_path_if_exists "${AQUA_ROOT_DIR}/bin"
 
-for EDITOR in "nvim" "vim" "vi"; do
-	if command -v "$EDITOR" >/dev/null; then
-		break
-	fi
-done
-export EDITOR="${EDITOR:-vim}"
-
-# if running on WSL
-if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
-	if command -v "wslg.exe" >/dev/null; then
-		export DISPLAY=":0"
-	elif DISPLAY="$(hostname).mshome.net:0.0"; then
-		export DISPLAY
-	fi
-fi
+mkdir -p "$HOME/.local/bin"
+prepend_path "$HOME/.local/bin"
+prepend_path "$DOTPATH/bin"
 
 # Source local profile
 LOCAL_PROFILE="${DOTFILES_LOCAL_HOME}/sh/local_profile.sh"
