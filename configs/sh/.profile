@@ -57,6 +57,7 @@ prepend_path_if_exists "$HOME/.luarocks/bin"
 prepend_path_if_exists "$HOME/.tfenv/bin"
 prepend_path_if_exists "$HOME/.deno/bin"
 prepend_path_if_exists "$HOME/.cargo/bin"
+prepend_path_if_exists "$HOME/.claude/local"
 
 prepend_path_if_exists "$HOME/.go/bin"
 export GOPATH="$HOME/.go"
