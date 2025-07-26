@@ -4,8 +4,6 @@ local M = {}
 ---@alias keymap.Key string
 ---@alias keymap.Buffer integer | "global"
 ---@alias keymap.Action string | fun()
----@alias keymap.Module string
----@alias keymap.ModuleSet table<keymap.Module, true>
 
 ---@class keymap.KeymapOptions
 ---@field remap? boolean,

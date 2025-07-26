@@ -134,4 +134,4 @@ vim.filetype.add({
 
 require("keke.lazy")
 
-require("keke.keymap")
+require("keke.keymap").init()

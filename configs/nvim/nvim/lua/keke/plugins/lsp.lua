@@ -1,4 +1,8 @@
 local drawer = require("drawer")
+local keymap = require("keke.keymap")
+
+local lsp_attached_buffers = keymap.lib.BufferSet.new()
+keymap.helper.lsp_attached_buffers = lsp_attached_buffers
 
 ---@return fun(overrides?: table): table
 local lsp_setup_config = (function()
@@ -40,22 +44,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Configure LSP settings",
     callback = function(args)
         local bufnr = args.buf
-
-        local opts = { buffer = bufnr, silent = true }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
-        vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
-        vim.keymap.set("n", "<leader>ld", "<CMD>Lspsaga peek_definition<CR>", opts)
-        vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
-        vim.keymap.set("n", "<leader>ll", vim.lsp.codelens.run, opts)
-        vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
-        vim.keymap.set("n", "<leader>li", vim.lsp.buf.incoming_calls, opts)
-        vim.keymap.set("n", "<leader>lo", vim.lsp.buf.outgoing_calls, opts)
+        lsp_attached_buffers:add(bufnr)
 
         local function refresh_codelens()
             local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })

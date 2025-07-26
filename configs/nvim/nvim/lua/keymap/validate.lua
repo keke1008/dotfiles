@@ -41,10 +41,28 @@ function M.keys(value)
 end
 
 ---@param value any
+---@return keymap.Key[] | nil
+function M.keys_nillable(value)
+    if value == nil then
+        return nil
+    end
+    return M.keys(value)
+end
+
+---@param value any
 ---@return keymap.Action
 function M.action(value)
     vim.validate("value", value, { "string", "function" })
     return value
+end
+
+---@param value any
+---@return keymap.Action | nil
+function M.action_nillable(value)
+    if value == nil then
+        return nil
+    end
+    return M.action(value)
 end
 
 ---@param value any
@@ -58,19 +76,6 @@ end
 ---@return keymap.Condition
 function M.condition(value)
     vim.validate("value", value, "table")
-    return value
-end
-
----@param value any
----@return keymap.Module[]
-function M.modules(value)
-    vim.validate("value", value, { "string", "table" })
-    if type(value) == "string" then
-        return { value }
-    end
-    for _, module in ipairs(value) do
-        vim.validate("module", module, "string")
-    end
     return value
 end
 

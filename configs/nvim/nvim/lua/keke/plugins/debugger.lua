@@ -1,4 +1,7 @@
 local drawer = require("drawer")
+local keymap = require("keke.keymap")
+local dap_stopping = keymap.lib.StatefulCondition.new(false)
+keymap.helper.dap_stopping = dap_stopping
 
 vim.fn.sign_define({
     { name = "DapStopped", text = " ", texthl = "DebugStopSign", linehl = "DebugStopLine" },
@@ -8,29 +11,6 @@ vim.fn.sign_define({
     { name = "DapLogPoint", text = " ", texthl = "DebugBreakpointSign" },
 })
 
-local function set_conditional_braekpoint()
-    vim.ui.input({ prompt = "Condition: " }, function(condition)
-        if condition then
-            require("dap").set_breakpoint(condition)
-        end
-    end)
-end
-
-local function run_last_debug_session()
-    require("dap").run_last()
-end
-
-local DEBUG_KEYMAP = {
-    { "b", "<CMD>DapToggleBreakpoint<CR>", mode = "n" },
-    { "v", set_conditional_braekpoint, mode = "n", desc = "Set condition breakpoint" },
-    { "c", "<CMD>DapContinue<CR>", mode = "n" },
-    { "i", "<CMD>DapStepInto<CR>", mode = "n" },
-    { "o", "<CMD>DapStepOver<CR>", mode = "n" },
-    { "p", "<CMD>DapStepOut<CR>", mode = "n" },
-    { "q", "<CMD>DapTerminate<CR>", mode = "n" },
-    { "l", run_last_debug_session, mode = "n", desc = "Run last debug session" },
-}
-
 return {
     {
         "jay-babu/mason-nvim-dap.nvim",
@@ -39,7 +19,6 @@ return {
             "williamboman/mason.nvim",
             "mfussenegger/nvim-dap",
         },
-        event = { "BufReadPre", "BufNewFile" },
         opts = {
             handlers = {},
         },
@@ -48,28 +27,31 @@ return {
         "mfussenegger/nvim-dap",
         dependencies = {
             { "mxsdev/nvim-dap-vscode-js", opts = { adapters = { "pwa-node" } } },
+            "jay-babu/mason-nvim-dap.nvim",
         },
-        cmd = "Dap",
-        keys = vim.iter(DEBUG_KEYMAP)
-            :map(function(e)
-                local lhs = "<leader>d" .. e[1]
-                return vim.tbl_extend("force", e, { lhs })
-            end)
-            :totable(),
         config = function()
             local dap = require("dap")
-            local Hydra = require("hydra")
+            dap.listeners.after.event_stopped["keymap"] = function()
+                dap_stopping:update(true)
+            end
+            dap.listeners.after.event_continued["keymap"] = function()
+                dap_stopping:update(false)
+            end
 
-            local keymap = Hydra({
-                name = "Debugger",
-                mode = "n",
-                body = "<leader>d",
-                heads = DEBUG_KEYMAP,
-                hint = "Debug",
-                config = {
-                    color = "pink",
-                },
-            })
+            dap.listeners.after.event_initialized["dap-hook"] = function()
+                drawer.push("dap")
+            end
+            dap.listeners.before.event_terminated["dap-hook"] = function()
+                drawer.close_by_name("dap")
+            end
+            dap.listeners.before.event_exited["dap-hook"] = function()
+                drawer.close_by_name("dap")
+            end
+
+            -- load virtual-text plugin
+            dap.listeners.before.initialize["dap-virtual-text"] = function()
+                require("nvim-dap-virtual-text")
+            end
 
             local function prompt_executable()
                 return coroutine.create(function(dap_run_co)
@@ -110,24 +92,6 @@ return {
                 console = "integratedTerminal",
                 skipFiles = { "<node_internals>/**" },
             })
-
-            dap.listeners.after.event_initialized["dap-hook"] = function()
-                drawer.push("dap")
-                keymap:activate()
-            end
-            dap.listeners.before.event_terminated["dap-hook"] = function()
-                drawer.close_by_name("dap")
-                keymap:exit()
-            end
-            dap.listeners.before.event_exited["dap-hook"] = function()
-                drawer.close_by_name("dap")
-                keymap:exit()
-            end
-
-            -- load virtual-text plugin
-            dap.listeners.before.initialize["dap-virtual-text"] = function()
-                require("nvim-dap-virtual-text")
-            end
         end,
     },
     {
@@ -159,14 +123,6 @@ return {
                 end,
                 mode = "n",
                 desc = "open dap",
-            },
-            {
-                "<leader>dk",
-                function()
-                    require("dapui").eval()
-                end,
-                mode = "n",
-                desc = "Debug eval",
             },
         },
         config = true,
