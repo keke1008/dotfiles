@@ -34,17 +34,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
 
-      - name: Start develop environment
-        run: nix develop '#tools'
-
       - name: Run migration
         run: yes | ./dot migrate
 
       - name: Run installation
         run: ./dot install
 
+      - name: Start develop environment
+        run: nix develop '#tools'
+
       - name: Run initialize script
-        run: ./dot init
+        run: nix develop '#tools' -c ./dot init
 
   run-test:
     runs-on: ubuntu-latest
