@@ -26,9 +26,11 @@
               taplo
             ];
           };
-          tools = pkgs.mkShell {
+          initialize = pkgs.mkShell {
             packages = with pkgs; [
+              curl
               fish
+              git
               neovim
               tmux
               zsh

@@ -41,7 +41,7 @@ jobs:
         run: ./dot install
 
       - name: Run initialize script
-        run: nix develop '#tools' -c ./dot init
+        run: nix develop '#initialize' -c ./dot init
 
   run-test:
     runs-on: ubuntu-latest
