@@ -16,10 +16,21 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 log "info" "Installing TPM"
-git clone "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"
+if ! git clone "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm"; then
+	log "error" "Failed to install TPM"
+	return
+fi
+
+log "info" "Loading TPM"
+if ! "$HOME/.tmux/plugins/tpm/tpm"; then
+	log "error" "Failed to load TPM"
+	return
+fi
 
 log "info" "Installing TPM plugins"
-"$HOME/.tmux/plugins/tpm/tpm"
-"$HOME/.tmux/plugins/tpm/bin/install_plugins"
+if ! "$HOME/.tmux/plugins/tpm/bin/install_plugins"; then
+	log "error" "Failed to install TPM plugins"
+	return
+fi
 
 log "info" "TPM installation complete"

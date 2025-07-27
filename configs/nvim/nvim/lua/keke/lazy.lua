@@ -6,15 +6,30 @@ function M.is_installed()
     return vim.uv.fs_stat(lazypath) ~= nil
 end
 
-function M.bootstrap()
-    vim.fn.system({
+function M.exit_with_is_installed()
+    if M.is_installed() then
+        vim.cmd("quit")
+    else
+        vim.cmd("cquit")
+    end
+end
+
+function M.exit_with_bootstrap()
+    local result = vim.system({
         "git",
         "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable", -- latest stable release
         lazypath,
-    })
+    }):wait(30 * 1000)
+
+    if result.code == 0 then
+        vim.cmd("quit")
+    else
+        print(result.stderr)
+        vim.cmd("cquit")
+    end
 end
 
 function M.load()

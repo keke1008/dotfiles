@@ -16,12 +16,15 @@ if ! command -v git >/dev/null 2>&1; then
 fi
 
 log info "Installing Antidote"
-git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"
+if ! git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"; then
+	log error "Failed to install Antidote"
+	return
+fi
 
 log info "Installing Antidote plugins"
-cat <<EOS | zsh
-source "${XDG_DATA_HOME}/.antidote/antidote.zsh"
-antidote load
-EOS
+if ! zsh -c 'source "${XDG_DATA_HOME}/.antidote/antidote.zsh" && antidote load'; then
+	log error "Failed to install Antidote plugins"
+	return
+fi
 
-log info "Antidote installation complete"
+log info "Antidote plugins installed successfully"

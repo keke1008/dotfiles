@@ -11,9 +11,15 @@ if fish -c "type -q fisher"; then
 fi
 
 log "info" "Installing Fisher"
-fish -c "curl -sL https://git.io/fisher | source"
+if ! fish -c "curl -sL https://git.io/fisher | source"; then
+	log "error" "Failed to install Fisher"
+	return
+fi
 
 log "info" "Installing Fisher plugins"
-fish -c "fisher update"
+if ! fish -c "fisher update"; then
+	log "error" "Failed to install Fisher plugins"
+	return
+fi
 
 log "info" "Fisher installation complete"
