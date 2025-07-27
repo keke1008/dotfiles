@@ -15,7 +15,7 @@ run_single() {
 
 	# shellcheck disable=SC1090
 	if ! . "${init_script}"; then
-		abort "Failed to run init script: ${init_script}"
+		set_exit_code 1
 	fi
 }
 
@@ -36,6 +36,8 @@ main() {
 		log "info" "Running init script for: ${config_dirname}"
 		run_single "$(config_dirname_to_path "${config_dirname}")"
 	done
+
+	exit_with_stored_code
 }
 
 main "$@"

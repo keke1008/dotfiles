@@ -2,7 +2,7 @@
 
 if ! command -v fish >/dev/null 2>&1; then
 	log "error" "Fish shell is not installed."
-	return
+	return 1
 fi
 
 if fish -c "type -q fisher"; then
@@ -13,13 +13,13 @@ fi
 log "info" "Installing Fisher"
 if ! fish -c "curl -sL https://git.io/fisher | source"; then
 	log "error" "Failed to install Fisher"
-	return
+	return 1
 fi
 
 log "info" "Installing Fisher plugins"
 if ! fish -c "fisher update"; then
 	log "error" "Failed to install Fisher plugins"
-	return
+	return 1
 fi
 
 log "info" "Fisher installation complete"
