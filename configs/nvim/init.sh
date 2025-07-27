@@ -5,9 +5,8 @@ if ! command -v nvim >/dev/null 2>&1; then
 	return
 fi
 
-if "$(nvim --headless -c '=require("keke.lazy").exit_with_is_installed()')"; then
+if nvim --headless -c '=require("keke.lazy").exit_with_is_installed()'; then
 	log "info" "Neovim plugin manager is already installed."
-	return
 fi
 
 if ! command -v git >/dev/null 2>&1; then

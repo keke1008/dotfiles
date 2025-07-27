@@ -40,9 +40,6 @@ jobs:
       - name: Run installation
         run: ./dot install
 
-      - name: Start develop environment
-        run: nix develop '#tools'
-
       - name: Run initialize script
         run: nix develop '#tools' -c ./dot init
 
