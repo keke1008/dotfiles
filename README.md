@@ -10,6 +10,7 @@
 git clone https://github.com/keke1008/dotfiles.git
 cd ./dotfiles
 ./dot install
+./dot init
 ```
 
 ## Uninstallation
