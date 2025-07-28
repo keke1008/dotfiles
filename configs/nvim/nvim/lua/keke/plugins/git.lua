@@ -37,6 +37,6 @@ return {
     {
         "ruifm/gitlinker.nvim",
         keys = { "<leader>gy", mode = { "n", "x" } },
-        config = true,
+        config = true
     },
 }

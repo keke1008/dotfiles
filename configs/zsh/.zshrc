@@ -65,9 +65,6 @@ zstyle ':completion:*' list-colors \
 autoload -Uz compinit
 compinit
 
-if [ ! -d "${XDG_DATA_HOME}/.antidote" ] && command -v "git" >/dev/null; then
-	git clone https://github.com/mattmc3/antidote "${XDG_DATA_HOME}/.antidote"
-fi
 if [ -d "${XDG_DATA_HOME}/.antidote" ]; then
 	source "${XDG_DATA_HOME}/.antidote/antidote.zsh"
 	antidote load
@@ -95,7 +92,7 @@ if command -v "zoxide" >/dev/null; then
 	zsh-defer -c 'eval "$(zoxide init zsh)"'
 fi
 
-if [ -f ~/.p10k.zsh ]; then
+if [ -d "${XDG_DATA_HOME}/.antidote" ] && [ -f ~/.p10k.zsh ]; then
 	source ~/.p10k.zsh
 elif command -v "starship" >/dev/null; then
 	eval "$(starship init zsh)"

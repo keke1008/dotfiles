@@ -28,6 +28,21 @@ jobs:
       - name: Run restoration
         run: ./dot restore
 
+  run-initialize-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+
+      - name: Run migration
+        run: yes | ./dot migrate
+
+      - name: Run installation
+        run: ./dot install
+
+      - name: Run initialize script
+        run: nix develop '#initialize' -c ./dot init
+
   run-test:
     runs-on: ubuntu-latest
     steps:

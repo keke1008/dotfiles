@@ -85,9 +85,11 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.WARN] = "󰀪",
             [vim.diagnostic.severity.INFO] = "󰋽",
             [vim.diagnostic.severity.HINT] = "󰌶",
+
         },
-    },
+    }
 })
+
 
 -- Set clipboard configs manually
 require("keke.clipboard")
@@ -132,6 +134,4 @@ vim.filetype.add({
     },
 })
 
-require("keke.lazy")
-
-require("keke.keymap")
+require("keke.lazy").load()

@@ -9,6 +9,7 @@
 
 # direnv
 .envrc
+.direnv
 
 # common env file
 .env

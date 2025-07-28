@@ -17,18 +17,11 @@ if not set -q DOTPATH
     end
 end
 
-# Fisher bootstrapping
+# Load fisher
 set -x fisher_path "$XDG_DATA_HOME/fisher"
 set -p fish_function_path "$fisher_path/functions"
 set -p fish_complete_path "$fisher_path/completions"
 mkdir -p "$fisher_path"
-if not type -q fisher && not set -q DOTFILES_FISHER_BOOTSTRAPPING
-    set -x DOTFILES_FISHER_BOOTSTRAPPING true
-    echo "Fisher is not installed. Installing..."
-
-    curl -sL https://git.io/fisher | source
-    fisher update
-end
 for file in $fisher_path/conf.d/*.fish
     source $file
 end
