@@ -1,41 +1,6 @@
 ---@diagnostic disable: missing-fields
 local drawer = require("drawer")
 
----@return fun(overrides?: table): table
-local lsp_setup_config = (function()
-    ---@type table | nil
-    local cached_default_config = nil
-
-    ---@return table
-    local function default_config()
-        if cached_default_config ~= nil then
-            return cached_default_config
-        end
-
-        local cmp_capabilities = (function()
-            local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-            if not ok then
-                vim.notify("cmp_nvim_lsp is not loaded", vim.log.levels.WARN)
-                return {}
-            end
-
-            return cmp_nvim_lsp.default_capabilities()
-        end)()
-
-        local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-        cached_default_config = {
-            capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities),
-        }
-        return cached_default_config
-    end
-
-    ---@param overrides table | nil
-    ---@return table
-    return function(overrides)
-        return vim.tbl_deep_extend("force", default_config(), overrides or {})
-    end
-end)()
-
 local function lsp_default_configuration()
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -48,8 +13,15 @@ local function lsp_default_configuration()
     }
 end
 
+---@param bufnr integer
+local function refresh_codelens(bufnr)
+    local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
+    if #client > 0 then
+        vim.lsp.codelens.refresh({ bufnr = bufnr })
+    end
+end
+
 vim.api.nvim_create_autocmd("LspAttach", {
-    group = vim.api.nvim_create_augroup("keke_lsp_attach_common_setting", {}),
     desc = "Configure LSP settings",
     callback = function(args)
         local bufnr = args.buf
@@ -70,20 +42,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>li", vim.lsp.buf.incoming_calls, opts)
         vim.keymap.set("n", "<leader>lo", vim.lsp.buf.outgoing_calls, opts)
 
-        local function refresh_codelens()
-            local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
-            if #client > 0 then
-                vim.lsp.codelens.refresh({ bufnr = bufnr })
-            end
-        end
-
+        refresh_codelens(bufnr)
         vim.api.nvim_create_autocmd("InsertLeave", {
-            group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, {}),
+            group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, { clear = true }),
             desc = "Refresh codelens",
             buffer = bufnr,
-            callback = refresh_codelens,
+            callback = function()
+                refresh_codelens(bufnr)
+            end,
         })
-        refresh_codelens()
     end,
 })
 
