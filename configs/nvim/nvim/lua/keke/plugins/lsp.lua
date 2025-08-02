@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local drawer = require("drawer")
 
 ---@return fun(overrides?: table): table
@@ -34,6 +35,18 @@ local lsp_setup_config = (function()
         return vim.tbl_deep_extend("force", default_config(), overrides or {})
     end
 end)()
+
+local function lsp_default_configuration()
+    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+    local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
+    local default_capabilities = vim.lsp.protocol.make_client_capabilities()
+    local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities)
+
+    return {
+        capabilities = capabilities,
+    }
+end
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("keke_lsp_attach_common_setting", {}),
@@ -77,54 +90,59 @@ vim.api.nvim_create_autocmd("LspAttach", {
 return {
     {
         "neovim/nvim-lspconfig",
+        lazy = false,
         dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-
             -- `require("neoconf").setup()` should be run **BEFORE** setting up
             -- any lsp server with lspconfig
             { "folke/neoconf.nvim", config = true },
         },
-        event = { "BufRead" },
         config = function()
-            local lspconfig = require("lspconfig")
-            local root_pattern = require("lspconfig.util").root_pattern
+            local lsp = require("keke.utils.lsp")
 
-            lspconfig.clangd.setup(lsp_setup_config({
-                on_attach = function(_, bufnr)
-                    local opts = { buffer = bufnr, silent = true }
-                    vim.keymap.set("n", "<leader>ls", "<CMD>ClangdSwitchSourceHeader<CR>", opts)
-                end,
-            }))
-            lspconfig.denols.setup(lsp_setup_config({
-                root_dir = root_pattern("deno.json", "deno.jsonc"),
-            }))
-            lspconfig.jsonls.setup(lsp_setup_config())
-            -- lspconfig.lua_ls.setup(lsp_setup_config()) lazydev.nvim
-            lspconfig.nil_ls.setup(lsp_setup_config())
-            lspconfig.pyright.setup(lsp_setup_config())
-            lspconfig.ruby_lsp.setup(lsp_setup_config())
-            lspconfig.rubocop.setup(lsp_setup_config())
-            -- lspconfig.rust_analyzer.setup(lsp_setup_config()) rustaceanvim
-            lspconfig.taplo.setup(lsp_setup_config())
-            lspconfig.terraformls.setup(lsp_setup_config())
-            -- lspconfig.ts_ls.setup(lsp_setup_config()) typescript.nvim
-            lspconfig.yamlls.setup(lsp_setup_config())
+            vim.lsp.config("*", lsp_default_configuration())
+            vim.lsp.config("notes_ls", {
+                cmd = { "notes_cli", "lsp" },
+                root_dir = lsp.root_dir({ ".vault" }),
+                filetypes = { "markdown" },
+            })
 
-            vim.api.nvim_create_autocmd("BufRead", {
-                group = vim.api.nvim_create_augroup("keke_lspconfig_notes_ls", {}),
-                pattern = "*.md",
-                desc = "Setup notes LSP server for buffer",
-                callback = function(e)
-                    vim.lsp.start({
-                        name = "notes",
-                        cmd = { "notes_cli", "lsp" },
-                        root_dir = root_pattern(".git", ".vault")(vim.fn.expand("%:p")),
-                    }, {
-                        bufnr = e.buf,
-                    })
-                end,
+            vim.lsp.enable({
+                "clangd",
+                "denols",
+                "jsonls",
+                "lua_ls",
+                "nil_ls",
+                "notes_ls",
+                "pyright",
+                "rubocop",
+                "ruby_lsp",
+                "taplo",
+                "terraformls",
+                "yamlls",
+                -- "rust_analyzer", -- rustaceanvim
+                -- "ts_ls", -- typescript.nvim
             })
         end,
+    },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        config = true,
+    },
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^6",
+        ft = "rust",
+    },
+    {
+        "p00f/clangd_extensions.nvim",
+        ft = { "c", "cpp" },
+    },
+    {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+        config = true,
     },
     {
         "folke/trouble.nvim",
@@ -190,85 +208,5 @@ return {
                 enable = false,
             },
         },
-    },
-    {
-        "folke/lazydev.nvim",
-        dependencies = {
-            { "folke/neoconf.nvim", optional = true },
-        },
-        ft = "lua",
-        config = function()
-            local lazydev = require("lazydev")
-            local lspconfig = require("lspconfig")
-
-            lazydev.setup()
-            lspconfig.lua_ls.setup(lsp_setup_config())
-        end,
-    },
-    {
-        "mrcjkb/rustaceanvim",
-        dependencies = {
-            "nvim-lspconfig",
-        },
-        version = "^4",
-        ft = "rust",
-        init = function()
-            vim.g.rustaceanvim = function()
-                return {
-                    server = {
-                        on_attach = function(_, bufnr)
-                            local opts = { buffer = bufnr }
-                            vim.keymap.set("n", "<leader>lP", "<CMD>RustLsp parentModule<CR>", opts)
-                            vim.keymap.set("n", "<leader>lD", "<CMD>RustLsp renderDiagnostic<CR>", opts)
-                            vim.keymap.set("n", "<leader>lE", "<CMD>RustLsp explainError<CR>", opts)
-                        end,
-                        capabilities = lsp_setup_config().capabilities,
-                    },
-                }
-            end
-        end,
-    },
-    {
-        "p00f/clangd_extensions.nvim",
-        ft = { "c", "cpp" },
-    },
-    {
-        "mfussenegger/nvim-jdtls",
-        ft = "java",
-    },
-    {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-        config = function()
-            local util = require("lspconfig.util")
-            local is_deno_project = util.root_pattern("deno.json", "deno.jsonc")(vim.fn.getcwd())
-            if is_deno_project then
-                return
-            end
-
-            require("typescript-tools").setup({
-                on_attach = function(_, bufnr)
-                    vim.keymap.set("n", "<leader>lD", "<CMD>TSToolsGoToSourceDefinition<CR>", { buffer = bufnr })
-                end,
-            })
-        end,
-    },
-    {
-        "akinsho/flutter-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        ft = "dart",
-        config = function()
-            local flutter_tools = require("flutter-tools")
-
-            flutter_tools.setup({
-                flutter_lookup_cmd = vim.fn.executable("asdf") and "asdf where flutter",
-            })
-
-            local ok, telescope = pcall(require, "telescope")
-            if ok then
-                telescope.load_extension("flutter")
-            end
-        end,
     },
 }
