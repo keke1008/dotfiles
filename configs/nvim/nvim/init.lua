@@ -34,10 +34,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = { "go", "sh", "bash", "zsh", "asm", "nix" },
     callback = function(args)
         vim.api.nvim_set_option_value("expandtab", false, {
-            buf = args.bufnr,
+            buf = args.buf,
         })
     end,
 })
+
+vim.o.winborder = "rounded"
+vim.g.health = { style = "float" }
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
@@ -85,11 +88,9 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.WARN] = "󰀪",
             [vim.diagnostic.severity.INFO] = "󰋽",
             [vim.diagnostic.severity.HINT] = "󰌶",
-
         },
-    }
+    },
 })
-
 
 -- Set clipboard configs manually
 require("keke.clipboard")
