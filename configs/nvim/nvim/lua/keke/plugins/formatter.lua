@@ -24,7 +24,8 @@ return {
                 yaml = { "prettierd", "prettier" },
                 markdown = { "prettierd", "prettier" },
                 css = { "prettierd", "prettier" },
-                ruby = { "rubocop" },
+                -- LSP is preferred because ruby-lsp has the ability to select the formatter
+                ruby = { "rubocop", lsp_format = "first" },
                 python = { "isort", "black", stop_after_first = false },
                 lua = { "stylua" },
                 sh = { "shfmt" },
@@ -32,7 +33,7 @@ return {
                 zsh = { "shfmt" },
                 fish = { "fish_indent" },
                 nix = { "nixfmt" },
-                tf = { "terraform_fmt" }
+                tf = { "terraform_fmt" },
             },
             default_format_opts = {
                 lsp_format = "fallback",
