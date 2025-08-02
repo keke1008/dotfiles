@@ -13,3 +13,6 @@
 
 # common env file
 .env
+
+# claude code
+**/.claude/settings.local.json
