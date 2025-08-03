@@ -20,17 +20,6 @@ local function run_last_debug_session()
     require("dap").run_last()
 end
 
-local DEBUG_KEYMAP = {
-    { "b", "<CMD>DapToggleBreakpoint<CR>", mode = "n" },
-    { "v", set_conditional_braekpoint, mode = "n", desc = "Set condition breakpoint" },
-    { "c", "<CMD>DapContinue<CR>", mode = "n" },
-    { "i", "<CMD>DapStepInto<CR>", mode = "n" },
-    { "o", "<CMD>DapStepOver<CR>", mode = "n" },
-    { "p", "<CMD>DapStepOut<CR>", mode = "n" },
-    { "q", "<CMD>DapTerminate<CR>", mode = "n" },
-    { "l", run_last_debug_session, mode = "n", desc = "Run last debug session" },
-}
-
 return {
     {
         "jay-babu/mason-nvim-dap.nvim",
@@ -50,26 +39,19 @@ return {
             { "mxsdev/nvim-dap-vscode-js", opts = { adapters = { "pwa-node" } } },
         },
         cmd = "Dap",
-        keys = vim.iter(DEBUG_KEYMAP)
-            :map(function(e)
-                local lhs = "<leader>d" .. e[1]
-                return vim.tbl_extend("force", e, { lhs })
-            end)
-            :totable(),
+        keys = {
+            { "<leader>db", "<CMD>DapToggleBreakpoint<CR>", mode = "n" },
+            { "<leader>dv", set_conditional_braekpoint, mode = "n", desc = "Set condition breakpoint" },
+            { "<leader>dc", "<CMD>DapContinue<CR>", mode = "n" },
+            { "<leader>di", "<CMD>DapStepInto<CR>", mode = "n" },
+            { "<leader>do", "<CMD>DapStepOver<CR>", mode = "n" },
+            { "<leader>dp", "<CMD>DapStepOut<CR>", mode = "n" },
+            { "<leader>dl", run_last_debug_session, mode = "n", desc = "Run last debug session" },
+            { "<leader>dq", "<CMD>DapDisconnect<CR>", mode = "n" },
+        },
         config = function()
             local dap = require("dap")
             local Hydra = require("hydra")
-
-            local keymap = Hydra({
-                name = "Debugger",
-                mode = "n",
-                body = "<leader>d",
-                heads = DEBUG_KEYMAP,
-                hint = "Debug",
-                config = {
-                    color = "pink",
-                },
-            })
 
             dap.adapters.rdbg = function(callback, config)
                 if config.request ~= "launch" then
@@ -178,18 +160,36 @@ return {
                 cwd = "${workspaceFolder}",
             })
 
+            local keymap = Hydra({
+                name = "Debugger",
+                mode = "n",
+                hint = "Debug",
+                config = { color = "pink" },
+                heads = {
+                    { "c", "<CMD>DapContinue<CR>" },
+                    { "i", "<CMD>DapStepInto<CR>" },
+                    { "o", "<CMD>DapStepOver<CR>" },
+                    { "p", "<CMD>DapStepOut<CR>" },
+                },
+            })
+
+            local function close()
+                drawer.close_by_name("dap")
+                keymap:exit()
+            end
             dap.listeners.after.event_initialized["dap-hook"] = function()
                 drawer.push("dap")
+            end
+            dap.listeners.after.event_stopped["keymap"] = function()
                 keymap:activate()
             end
-            dap.listeners.before.event_terminated["dap-hook"] = function()
-                drawer.close_by_name("dap")
+            dap.listeners.before.event_continued["keymap"] = function()
                 keymap:exit()
             end
-            dap.listeners.before.event_exited["dap-hook"] = function()
-                drawer.close_by_name("dap")
-                keymap:exit()
-            end
+            dap.listeners.before.event_terminated["dap-hook"] = close
+            dap.listeners.before.event_exited["dap-hook"] = close
+            dap.listeners.before.terminate["dap-hook"] = close
+            dap.listeners.before.disconnect["dap-hook"] = close
 
             -- load virtual-text plugin
             dap.listeners.before.initialize["dap-virtual-text"] = function()
