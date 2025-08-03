@@ -17,7 +17,7 @@ return {
                 {
                     "<leader><leader>",
                     function()
-                        require("notify").dismiss({})
+                        require("notify").dismiss({ pending = true, silent = true })
                         vim.cmd("noh")
                     end,
                     mode = "n",

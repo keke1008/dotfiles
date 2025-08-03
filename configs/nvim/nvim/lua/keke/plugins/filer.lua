@@ -7,7 +7,6 @@ return {
         "nvim-tree/nvim-tree.lua",
         dependencies = {
             "nvim-tree/nvim-web-devicons",
-            "stevearc/oil.nvim",
         },
         cmd = { "NvimTree" },
         keys = {
@@ -61,25 +60,8 @@ return {
                 vim.keymap.set("n", "d", nvim_tree_api.fs.remove, map.add_desc(opts, "remove"))
                 vim.keymap.set("n", "y", nvim_tree_api.fs.copy.node, map.add_desc(opts, "copy"))
                 vim.keymap.set("n", "p", nvim_tree_api.fs.paste, map.add_desc(opts, "paste"))
-                vim.keymap.set("n", "o", function()
-                    local node = nvim_tree_api.tree.get_node_under_cursor()
-                    if node.name == ".." then
-                        vim.cmd.Oil("..")
-                    elseif node.type == "directory" then
-                        vim.cmd.Oil(node.absolute_path)
-                    elseif node.type == "file" then
-                        vim.cmd.Oil(string.match(node.absolute_path, "^(.+/).+$"))
-                    else
-                        vim.notify("Directory not found", "warn")
-                    end
-                end, map.add_desc(opts, "launch oil"))
             end,
         },
-    },
-    {
-        "stevearc/oil.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = true,
     },
     {
         "nvim-telescope/telescope.nvim",

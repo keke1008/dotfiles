@@ -118,43 +118,6 @@ return {
         },
     },
     {
-        "potamides/pantran.nvim",
-        cmd = "Pantran",
-        keys = function()
-            local function motion_translate()
-                require("pantran").motion_translate({ mode = "hover" })
-            end
-            return {
-                { map.l2("tr"), motion_translate, mode = { "n" }, desc = "translate" },
-                { map.l2("trr"), map.l2("tr_"), mode = { "n" }, desc = "translate line" },
-                { map.l2("tR"), map.l2("tr$"), mode = { "n" }, desc = "translate eol" },
-                { map.l2("tro"), "<CMD>Pantran<CR>", mode = { "n" }, desc = "open pantran" },
-                { map.l2("tr"), motion_translate, mode = { "x" }, desc = "translate" },
-            }
-        end,
-        opts = function()
-            local actions = require("pantran.ui.actions")
-            return {
-                default_engine = "google",
-                controls = {
-                    mappings = {
-                        edit = {
-                            n = { ["<C-s>"] = actions.switch_languages },
-                            i = { ["<C-s>"] = actions.switch_languages },
-                        },
-                    },
-                },
-                engines = {
-                    google = { fallback = { default_target = "ja" } },
-                },
-                window = {
-                    window_config = { border = "rounded" },
-                    options = { winhighlight = "" },
-                },
-            }
-        end,
-    },
-    {
         "akinsho/toggleterm.nvim",
         version = "*",
         cmd = "ToggleTerm",
@@ -288,5 +251,5 @@ return {
         "NMAC427/guess-indent.nvim",
         lazy = false,
         config = true,
-    }
+    },
 }

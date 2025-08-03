@@ -64,15 +64,7 @@ return {
             { "folke/neoconf.nvim", config = true },
         },
         config = function()
-            local lsp = require("keke.utils.lsp")
-
             vim.lsp.config("*", lsp_default_configuration())
-            vim.lsp.config("notes_ls", {
-                cmd = { "notes_cli", "lsp" },
-                root_dir = lsp.root_dir({ ".vault" }),
-                filetypes = { "markdown" },
-            })
-
             vim.lsp.enable({
                 "clangd",
                 "denols",
@@ -158,7 +150,6 @@ return {
             })
         end,
         opts = {
-            ui = { border = "rounded" },
             lightbulb = { enable = false },
             diagnostic = { jump_num_shortcut = false },
             code_action = {
