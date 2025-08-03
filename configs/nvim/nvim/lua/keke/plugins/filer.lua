@@ -86,24 +86,35 @@ return {
             end
 
             return {
+                { "<leader>fr", "<CMD>Telescope resume<CR>", mode = "n" },
                 { "<leader>fb", "<CMD>Telescope buffers<CR>", mode = "n" },
-                { "<leader>ff", "<CMD>Telescope find_files<CR>", mode = "n" },
-                { "<leader>fF", telescope("find_files", { hidden = true }), mode = "n", desc = "find hidden files" },
+                { "<leader>ff", telescope("find_files", { hidden = true }), mode = "n", desc = "Telescope find_files" },
+                {
+                    "<leader>fF",
+                    telescope("find_files", { hidden = true, no_ignore = true, no_ignore_parent = true }),
+                    mode = "n",
+                    desc = "Telescope find_files (with hidden files)",
+                },
                 { "<leader>fh", "<CMD>Telescope help_tags<CR>", mode = "n" },
                 { "<leader>fl", "<CMD>Telescope live_grep<CR>", mode = "n" },
-                { "<leader>fm", "<CMD>Telescope marks<CR>", mode = "n" },
-                { "<leader>fgf", "<CMD>Telescope git_files<CR>", mode = "n" },
-                { "<leader>fgc", "<CMD>Telescope git_commits<CR>", mode = "n" },
-                { "<leader>fgC", "<CMD>Telescope git_bcommits<CR>", mode = "n", desc = "commits for current buffer" },
-                { "<leader>fgb", "<CMD>Telescope git_branches<CR>", mode = "n" },
-                { "<leader>fgs", "<CMD>Telescope git_status<CR>", mode = "n" },
-                { "<leader>fgh", "<CMD>Telescope git_stash<CR>", mode = "n" },
                 {
                     "<leader>fL",
                     telescope("live_grep", { additional_args = { "--hidden" } }),
                     mode = "n",
-                    desc = "live grep hidden files",
+                    desc = "Telescope live_grep (with hidden files)",
                 },
+                { "<leader>fm", "<CMD>Telescope marks<CR>", mode = "n" },
+                { "<leader>fgf", "<CMD>Telescope git_files<CR>", mode = "n" },
+                { "<leader>fgc", "<CMD>Telescope git_commits<CR>", mode = "n" },
+                {
+                    "<leader>fgC",
+                    "<CMD>Telescope git_bcommits<CR>",
+                    mode = "n",
+                    desc = "Telescope commits for current buffer",
+                },
+                { "<leader>fgb", "<CMD>Telescope git_branches<CR>", mode = "n" },
+                { "<leader>fgs", "<CMD>Telescope git_status<CR>", mode = "n" },
+                { "<leader>fgh", "<CMD>Telescope git_stash<CR>", mode = "n" },
             }
         end,
         config = function()
@@ -117,6 +128,7 @@ return {
                         i = {
                             ["<C-b>"] = actions.preview_scrolling_up,
                             ["<C-f>"] = actions.preview_scrolling_down,
+                            ["<C-u>"] = false,
                         },
                     },
                 },
