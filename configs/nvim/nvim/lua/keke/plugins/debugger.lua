@@ -71,15 +71,58 @@ return {
                 },
             })
 
-            local function prompt_executable()
-                return coroutine.create(function(dap_run_co)
-                    vim.ui.input(
-                        { prompt = "Path to executable", default = vim.fn.getcwd() .. "/", completion = "file" },
-                        function(path)
-                            coroutine.resume(dap_run_co, path)
-                        end
+            dap.adapters.rdbg = function(callback, config)
+                if config.request ~= "launch" then
+                    vim.notify(
+                        "adapter `rdbg` only supports 'launch' type",
+                        vim.log.levels.ERROR,
+                        { title = "nvim-dap" }
                     )
-                end)
+                    return
+                end
+
+                local port = vim.env.RUBY_DEBUG_PORT or tostring(math.random(49152, 65535))
+
+                callback({
+                    type = "server",
+                    port = port,
+                    executable = {
+                        command = "rdbg",
+                        args = {
+                            "--open",
+                            "--port",
+                            port,
+                            "--stop-at-load",
+                            "--command",
+                            "--",
+                            config.command,
+                            unpack(config.args),
+                        },
+                    },
+                    localfs = true,
+                })
+            end
+
+            -- Tips:
+            -- Rails does not require `debug` gem, so we need to require it manually
+            -- to use `rdbg` adapter with Rails applications.
+            -- Like `RUBYOPT="-r debug/open" RUBY_DEBUG_OPEN=true RUBY_DEBUG_PORT=12345 bundle exec rails s`.
+            -- https://github.com/rails/rails/pull/51692
+            dap.adapters.rdbg_remote = function(callback, config)
+                if config.request ~= "attach" then
+                    vim.notify(
+                        "adapter `rdbg_remote` only supports 'attach' type",
+                        vim.log.levels.ERROR,
+                        { title = "nvim-dap" }
+                    )
+                    return
+                end
+
+                callback({
+                    type = "server",
+                    port = tonumber(vim.env.RUBY_DEBUG_PORT) or 12345,
+                    localfs = true,
+                })
             end
 
             local function append_configuration(langs, config)
@@ -94,7 +137,7 @@ return {
                 name = "Launch executable file with codelldb",
                 type = "codelldb",
                 request = "launch",
-                program = prompt_executable,
+                program = "${command:pickFile}",
                 cwd = "${workspaceFolder}",
                 stopOnEntry = false,
             })
@@ -102,13 +145,37 @@ return {
                 name = "tsx",
                 type = "pwa-node",
                 request = "launch",
-                program = prompt_executable,
+                program = "${command:pickFile}",
                 cwd = "${workspaceFolder}",
                 runtimeExecutable = "${workspaceFolder}/node_modules/.bin/tsx",
                 sourceMaps = true,
                 protocol = "inspector",
                 console = "integratedTerminal",
                 skipFiles = { "<node_internals>/**" },
+            })
+            append_configuration("ruby", {
+                name = "[nvim] Attach rdbg",
+                type = "rdbg_remote",
+                request = "attach",
+                localfs = true,
+            })
+            append_configuration("ruby", {
+                name = "[nvim] Debug Current Ruby File",
+                type = "rdbg",
+                request = "launch",
+                command = "ruby",
+                args = { "${file}" },
+                cwd = "${workspaceFolder}",
+            })
+            append_configuration("ruby", {
+                name = "[nvim] Debug rspec under the cursor",
+                type = "rdbg",
+                request = "launch",
+                command = "rspec",
+                args = function()
+                    return { "${file}:" .. vim.fn.line(".") }
+                end,
+                cwd = "${workspaceFolder}",
             })
 
             dap.listeners.after.event_initialized["dap-hook"] = function()
