@@ -1,10 +1,26 @@
+# shellcheck shell=sh
+
+VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
+MIGRATION_SCRIPTS_DIR="${DOTPATH}/scripts/lib/migrations"
+
 get_current_version() {
-	local version_lock_file="${XDG_DATA_HOME}/dotfiles/version.lock"
-	if [ -f "${version_lock_file}" ]; then
-		cat "${version_lock_file}"
-	else
-		echo 0
+	local version_lock_file="${VERSION_LOCK_FILE}"
+	if ! [ -f "${version_lock_file}" ]; then
+		log "info" "No version lock file found"
+		return 1
 	fi
+
+	cat "${version_lock_file}"
+}
+
+get_latest_version() {
+	local latest_version
+	if ! latest_version="$(find "${MIGRATION_SCRIPTS_DIR}" -type f -name '*.sh' | wc -l)" || [ "${latest_version}" -eq 0 ]; then
+		log "error" "Failed to find any migration scripts"
+		return 1
+	fi
+
+	echo "${latest_version}"
 }
 
 is_latest_version() {
@@ -14,21 +30,37 @@ is_latest_version() {
 		return 1
 	fi
 
-	local next_version="$((current_version + 1))"
-	local migration_file="${DOTPATH}/scripts/lib/migrations/${next_version}.sh"
-	[ ! -f "${migration_file}" ]
+	local latest_version
+	if ! latest_version=$(get_latest_version); then
+		log "error" "Failed to get latest version"
+		return 1
+	fi
+
+	[ "${current_version}" -eq "${latest_version}" ]
+}
+
+write_version_lock() {
+	if [ "$#" -ne 1 ]; then
+		log "error" "write_version_lock requires exactly one argument"
+		return 1
+	fi
+
+	local version="$1"
+
+	echo "${version}" >"${VERSION_LOCK_FILE}"
 }
 
 migrate_dotfiles() {
 	local current_version
 	if ! current_version=$(get_current_version); then
-		log "error" "Failed to get current version"
-		return 1
+		log "info" "version lock file not found, initializing with skipping migrations"
+		write_version_lock "$(get_latest_version)"
+		return 0
 	fi
 	log "info" "current version: ${current_version}"
 
 	for version in $(seq $((current_version + 1)) 99999); do
-		local migration_file="${DOTPATH}/scripts/lib/migrations/${version}.sh"
+		local migration_file="${MIGRATION_SCRIPTS_DIR}/${version}.sh"
 		[ ! -f "${migration_file}" ] && break
 
 		log "info" "Migration script found: ${migration_file}"
@@ -36,7 +68,7 @@ migrate_dotfiles() {
 		cat "${migration_file}"
 		echo '```'
 
-		echo -n "Would you like to run this migration script? [y/N] "
+		printf 'Would you like to run this migration script? [y/N] '
 		local answer
 		read -r answer
 		if [ "${answer}" != "y" ]; then
@@ -45,13 +77,13 @@ migrate_dotfiles() {
 		fi
 
 		log "info" "Running migration script: ${migration_file}"
+		# shellcheck disable=SC1090
 		if ! . "${migration_file}"; then
 			log "error" "Failed to run migration script: ${migration_file}"
 			return 1
 		fi
 		log "info" "Migration script ran successfully: ${migration_file}"
 
-		echo "${version}" >"${XDG_DATA_HOME}/dotfiles/version.lock"
-		log "info" "Updated version to ${version}"
+		write_version_lock "${version}"
 	done
 }
