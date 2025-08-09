@@ -1,6 +1,7 @@
 #!/bin/sh -eu
 
 . "${DOTPATH}/scripts/lib/log.sh"
+. "${DOTPATH}/scripts/lib/link_reproducible.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
 . "${DOTPATH}/scripts/lib/migration.sh"
 . "${DOTPATH}/scripts/lib/install.sh"

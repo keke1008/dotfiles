@@ -2,6 +2,7 @@
 #
 # requirements:
 #  ./log.sh
+#  ./link_reproducible.sh
 
 create_original_home() {
 	if [ $# -ne 1 ]; then
@@ -33,7 +34,7 @@ stash_and_link() {
 	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
 	# Do nothing if the destination is already linked to the configuration file
-	if [ -e "${dst}" ] && [ "$(readlink -f "${dst}")" = "${src}" ]; then
+	if paths_point_to_same "${dst}" "${src}"; then
 		return
 	fi
 
@@ -51,8 +52,7 @@ stash_and_link() {
 	fi
 
 	# link
-	log "info" "Linking ${src} to ${dst}"
-	ln -snf "${src}" "${dst}"
+	link_reproducible "${src}" "${dst}"
 }
 
 # Unlink the configuration file and restore the original file
@@ -72,14 +72,8 @@ unlink_and_restore() {
 	local src="${DOTPATH}/configs/${name}/${3}"
 	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
-	# Do nothing if the destination is not linked to the configuration file
-	if [ ! -e "${dst}" ] || [ "$(readlink -f "${dst}")" != "${src}" ]; then
-		return
-	fi
-
 	# unlink
-	log "info" "Unlinking ${dst}"
-	rm "${dst}"
+	unlink_reproducible "${src}" "${dst}"
 
 	# restore
 	if [ -e "${stashed}" ]; then
@@ -171,27 +165,13 @@ link_local_bin() {
 	local src="${DOTPATH}/configs/${name}/${2}"
 	local dst="${HOME}/.local/bin/$(basename "${src}")"
 
-	# Do nothing if the destination is already linked to the configuration file
-	if [ -e "${dst}" ] && [ "$(readlink -f "${dst}")" = "${src}" ]; then
-		return
-	fi
-
-	# Error if the destination already exists
-	if [ -e "${dst}" ]; then
-		log "error" "The destination already exists: $(readlink -f "${dst}")"
-		return
-	fi
-
 	# Error if the source file is not executable
 	if [ ! -x "${src}" ]; then
 		log "error" "The source file is not executable: ${src}"
 		return
 	fi
 
-	# link
-	log "info" "Linking ${src} to ${dst}"
-	mkdir -p "$(dirname "${dst}")"
-	ln -snf "${src}" "${dst}"
+	link_reproducible "${src}" "${dst}"
 }
 
 # Unlink the executable file from the local bin directory
@@ -209,14 +189,7 @@ unlink_local_bin() {
 	local src="${DOTPATH}/configs/${name}/${2}"
 	local dst="${HOME}/.local/bin/$(basename "${src}")"
 
-	# Do nothing if the destination is not linked to the configuration file
-	if [ ! -e "${dst}" ] || [ "$(readlink -f "${dst}")" != "${src}" ]; then
-		return
-	fi
-
-	# unlink
-	log "info" "Unlinking ${dst}"
-	rm "${dst}"
+	unlink_reproducible "${src}" "${dst}"
 }
 
 # Create symbolic links to the executable files in the local bin directory
