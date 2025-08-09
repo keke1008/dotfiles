@@ -131,9 +131,8 @@ else
 	add-zsh-hook precmd create_prompt
 fi
 
-local_rc="${DOTFILES_LOCAL_HOME}/zsh/local_rc.sh"
-if [ -r "${local_rc}" ]; then
-	. "${local_rc}"
+if [ -r "${DOTFILES_LOCAL_HOME}/zsh/.zshrc" ]; then
+	. "${DOTFILES_LOCAL_HOME}/zsh/.zshrc"
 fi
 
 # Unset the variable here to enable shell substitution, so that even if tmux is invoked again

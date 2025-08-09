@@ -115,4 +115,4 @@ mode "RESIZE" {
 }
 
 include /etc/sway/config.d/*
-include ~/.config/dotfiles/local/sway/local_config
+include ~/.config/dotfiles/local/sway/config

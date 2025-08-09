@@ -97,7 +97,6 @@ prepend_path "$HOME/.local/bin"
 prepend_path "$DOTPATH/bin"
 
 # Source local profile
-LOCAL_PROFILE="${DOTFILES_LOCAL_HOME}/sh/local_profile.sh"
-if [ -r "$LOCAL_PROFILE" ]; then
-	. "$LOCAL_PROFILE"
+if [ -r "${DOTFILES_LOCAL_HOME}/sh/.profile" ]; then
+	. "${DOTFILES_LOCAL_HOME}/sh/.profile"
 fi

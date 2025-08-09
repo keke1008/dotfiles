@@ -61,9 +61,8 @@ else
 	PS1='\[\e[32m\]\u\[\e[32m\]@\[\e[32m\]\h \[\e[34m\]\w \[\e[35m\]exit: $?, jobs: \j \[\e[36m\]$(git branch 2>/dev/null | grep '"'"'*'"'"' | colrm 1 2 | xargs -I {} echo "({})")\n\[\e[38;5;242m\]\$ \[\e[0m\]'
 fi
 
-local_rc="${DOTFILES_LOCAL_HOME}/bash/local_rc.sh"
-if [ -r "${local_rc}" ]; then
-	. "${local_rc}"
+if [ -r "${DOTFILES_LOCAL_HOME}/bash/.bashrc" ]; then
+	. "${DOTFILES_LOCAL_HOME}/bash/.bashrc"
 fi
 
 # Unset the variable here to enable shell substitution, so that even if tmux is invoked again

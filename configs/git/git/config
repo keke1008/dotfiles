@@ -114,4 +114,4 @@
 	smudge = git-lfs smudge -- %f
 
 [include]
-    path = ~/.config/dotfiles/local/git/local_config
+    path = ~/.config/dotfiles/local/git/config

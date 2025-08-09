@@ -15,16 +15,16 @@ fi
 
 command_specified() {
 	case "$-" in
-		*c*) return 0;;
-		*s*) return 0;;
-		*) return 1;;
+	*c*) return 0 ;;
+	*s*) return 0 ;;
+	*) return 1 ;;
 	esac
 }
 
 is_login_shell() {
 	case "$0" in
-		-*) return 0;;
-		*) return 1;;
+	-*) return 0 ;;
+	*) return 1 ;;
 	esac
 }
 
@@ -69,7 +69,6 @@ alias_if_exists() {
 
 unset -f alias_if_exists
 
-local_rc="${DOTFILES_LOCAL_HOME}/sh/local_rc.sh"
-if [ -r "$local_rc" ]; then
-	. "$local_rc"
+if [ -r "${DOTFILES_LOCAL_HOME}/sh/.shrc" ]; then
+	. "${DOTFILES_LOCAL_HOME}/sh/.shrc"
 fi

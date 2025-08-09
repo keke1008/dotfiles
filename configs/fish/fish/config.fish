@@ -72,9 +72,8 @@ set fish_greeting
 
 complete --command aws --no-files --arguments '(_aws_complete)'
 
-set local_config "$DOTFILES_LOCAL_HOME/fish/local_config.fish"
-if [ -e $local_config ]
-    source $local_config
+if [ -e $DOTFILES_LOCAL_HOME/fish/config.fish ]
+    source $DOTFILES_LOCAL_HOME/fish/config.fish
 end
 
 # Unset the variable here to enable shell substitution, so that even if tmux is invoked again

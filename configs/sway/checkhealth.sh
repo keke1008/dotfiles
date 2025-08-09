@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
 main() {
-	report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sway/local_config" "Local sway config file"
+	report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sway/config" "Local sway config file"
 
 	if command -v sway >/dev/null 2>&1; then
 		local level_error="error"
