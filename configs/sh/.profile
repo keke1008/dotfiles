@@ -82,15 +82,13 @@ if [ -x "/opt/homebrew/bin/brew" ]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-if [ -r "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
-	. "$HOME/.nix-profile/etc/profile.d/nix.sh"
-fi
-
-# aqua must be prioritized over other tools
-# https://aquaproj.github.io/docs/reference/use-aqua-with-other-tools/
 export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME}/aquaproj-aqua/aqua.yaml"
 export AQUA_ROOT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua"
 prepend_path_if_exists "${AQUA_ROOT_DIR}/bin"
+
+if [ -r "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
+	. "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
 
 mkdir -p "$HOME/.local/bin"
 prepend_path "$HOME/.local/bin"
