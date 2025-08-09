@@ -76,11 +76,7 @@ prepend_path_if_exists "$HOME/.go/bin"
 export GOPATH="$HOME/.go"
 
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
-if [ -r "$HOME/.asdf/asdf.sh" ]; then
-	. "$HOME/.asdf/asdf.sh"
-elif [ -r "/opt/asdf-vm/asdf.sh" ]; then # installed by pacman
-	. "/opt/asdf-vm/asdf.sh"
-fi
+prepend_path_if_exists "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
 
 if [ -x "/opt/homebrew/bin/brew" ]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
