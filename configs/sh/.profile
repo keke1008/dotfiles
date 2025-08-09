@@ -33,14 +33,6 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export ELECTRON_OZONE_PLATFORM_HINT=auto
 
 export ENV="${HOME}/.shrc"
-. "${DOTFILES_CONFIG_HOME}/sh/tokyonight_night.sh"
-
-for EDITOR in "nvim" "vim" "vi"; do
-	if command -v "$EDITOR" >/dev/null; then
-		break
-	fi
-done
-export EDITOR="${EDITOR:-vim}"
 
 # if running on WSL
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
@@ -93,6 +85,14 @@ fi
 mkdir -p "$HOME/.local/bin"
 prepend_path "$HOME/.local/bin"
 prepend_path "$DOTPATH/bin"
+
+for EDITOR in "nvim" "vim" "vi"; do
+	if command -v "$EDITOR" >/dev/null; then
+		export EDITOR="${EDITOR:-vim}"
+		break
+	fi
+done
+. "${DOTFILES_CONFIG_HOME}/sh/tokyonight_night.sh"
 
 # Source local profile
 if [ -r "${DOTFILES_LOCAL_HOME}/sh/.profile" ]; then
