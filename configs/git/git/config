@@ -1,5 +1,4 @@
 [include]
-    path = ~/.config/dotfiles/local/git/local_config
     path = ~/.config/dotfiles/original/git/git/config
 
 [user]
@@ -113,3 +112,6 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+
+[include]
+    path = ~/.config/dotfiles/local/git/local_config
