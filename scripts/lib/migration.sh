@@ -1,10 +1,10 @@
 # shellcheck shell=sh
 
-VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
-MIGRATION_SCRIPTS_DIR="${DOTPATH}/scripts/lib/migrations"
+_DOTFILES_VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
+_DOTFILES_MIGRATION_SCRIPTS_DIR="${DOTPATH}/scripts/lib/migrations"
 
 get_current_version() {
-	local version_lock_file="${VERSION_LOCK_FILE}"
+	local version_lock_file="${_DOTFILES_VERSION_LOCK_FILE}"
 	if ! [ -f "${version_lock_file}" ]; then
 		log "info" "No version lock file found"
 		return 1
@@ -15,7 +15,7 @@ get_current_version() {
 
 get_latest_version() {
 	local latest_version
-	if ! latest_version="$(find "${MIGRATION_SCRIPTS_DIR}" -type f -name '*.sh' | wc -l)" || [ "${latest_version}" -eq 0 ]; then
+	if ! latest_version="$(find "${_DOTFILES_MIGRATION_SCRIPTS_DIR}" -type f -name '*.sh' | wc -l)" || [ "${latest_version}" -eq 0 ]; then
 		log "error" "Failed to find any migration scripts"
 		return 1
 	fi
@@ -47,7 +47,7 @@ write_version_lock() {
 
 	local version="$1"
 
-	echo "${version}" >"${VERSION_LOCK_FILE}"
+	echo "${version}" >"${_DOTFILES_VERSION_LOCK_FILE}"
 }
 
 migrate_dotfiles() {
@@ -60,7 +60,7 @@ migrate_dotfiles() {
 	log "info" "current version: ${current_version}"
 
 	for version in $(seq $((current_version + 1)) 99999); do
-		local migration_file="${MIGRATION_SCRIPTS_DIR}/${version}.sh"
+		local migration_file="${_DOTFILES_MIGRATION_SCRIPTS_DIR}/${version}.sh"
 		[ ! -f "${migration_file}" ] && break
 
 		log "info" "Migration script found: ${migration_file}"
