@@ -2,8 +2,7 @@
 
 export_and_mkdir() {
 	if [ $# -ne 2 ]; then
-		echo "export_and_mkdir requires exactly 2 arguments" >&2
-		exit 1
+		abort "export_and_mkdir requires exactly 2 arguments" >&2
 	fi
 
 	export "$1"="$2"
@@ -18,15 +17,14 @@ bootstrap() {
 	export DOTPATH
 	echo "${DOTPATH}" >"${HOME}/.dotpath"
 
+	. "${DOTPATH}/scripts/lib/log.sh"
+
 	export_and_mkdir XDG_CONFIG_HOME "${HOME}/.config"
 	export_and_mkdir XDG_DATA_HOME "${HOME}/.local/share"
 	export_and_mkdir DOTFILES_CONFIG_HOME "${DOTPATH}/configs"
 	export_and_mkdir DOTFILES_DATA_HOME "${XDG_DATA_HOME}/dotfiles"
 	export_and_mkdir DOTFILES_LOCAL_HOME "${XDG_CONFIG_HOME}/dotfiles/local"
 	export_and_mkdir DOTFILES_ORIGINAL_HOME "${XDG_CONFIG_HOME}/dotfiles/original"
-
-	. "${DOTPATH}/scripts/lib/log.sh"
-	. "${DOTPATH}/scripts/lib/migration.sh"
 }
 
 execute_script() {
