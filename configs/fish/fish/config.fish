@@ -42,9 +42,16 @@ function alias_if_exists
     end
 end
 
+function alias_source_if_exists
+    set file $argv[1]
+    if [ -r $file ]
+        source $file
+    end
+end
+
 source $DOTFILES_CONFIG_HOME/sh/.aliases
 
-functions -e alias_if_exists
+functions -e alias_if_exists alias_source_if_exists
 
 # colorscheme
 fish_config theme choose tokyonight_night

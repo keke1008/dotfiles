@@ -65,9 +65,18 @@ alias_if_exists() {
 	fi
 }
 
+alias_source_if_exists() {
+	local file="$1"
+
+	if [ -r "$file" ]; then
+		# shellcheck disable=SC1090
+		. "$file"
+	fi
+}
+
 . "${DOTFILES_CONFIG_HOME}/sh/.aliases"
 
-unset -f alias_if_exists
+unset -f alias_if_exists alias_source_if_exists
 
 if [ -r "${DOTFILES_LOCAL_HOME}/sh/.shrc" ]; then
 	. "${DOTFILES_LOCAL_HOME}/sh/.shrc"

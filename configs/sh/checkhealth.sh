@@ -2,3 +2,4 @@
 
 report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sh/.profile" "Local profile file"
 report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sh/.shrc" "Local rc file"
+report_file_readable "info" "${DOTFILES_LOCAL_HOME}/sh/.aliases" "Local alias file"

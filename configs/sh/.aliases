@@ -31,3 +31,5 @@ alias_if_exists cat='batcat'
 alias '...'='cd ../..'
 alias '....'='cd ../../..'
 alias '.....'='cd ../../../..'
+
+alias_source_if_exists "$DOTFILES_LOCAL_HOME/sh/.aliases"
