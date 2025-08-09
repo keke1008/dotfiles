@@ -21,6 +21,9 @@ defaults write 'com.apple.driver.AppleBluetoothMultitouch.trackpad' Clicking -in
 # Automatically show/hide the Dock
 defaults write 'com.apple.dock' autohide -int 1
 
+# Enable dark-mode
+defaults write 'Apple Global Domain' AppleInterfaceStyle -string Dark
+
 log "info" "Reloading settings..."
 /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 
