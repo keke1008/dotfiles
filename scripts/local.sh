@@ -15,7 +15,7 @@ expand_tilde() {
 		echo "${HOME}"
 		;;
 	"~/"*)
-		echo "${HOME}/${path#~/}"
+		echo "${HOME}/${path#"~/"}"
 		;;
 	*)
 		echo "$path"
