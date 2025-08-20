@@ -25,7 +25,7 @@ return {
                 markdown = { "prettierd", "prettier" },
                 css = { "prettierd", "prettier" },
                 -- LSP is preferred because ruby-lsp has the ability to select the formatter
-                ruby = { "rubocop", lsp_format = "first" },
+                ruby = { "rubocop", lsp_format = "prefer" },
                 python = { "isort", "black", stop_after_first = false },
                 lua = { "stylua" },
                 sh = { "shfmt" },
