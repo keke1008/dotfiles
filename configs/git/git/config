@@ -46,6 +46,11 @@
 
     cl = clone
 
+    cp = cherry-pick
+    cpc = cherry-pick --continue
+    cpa = cherry-pick --abort
+    cps = cherry-pick --skip
+
     d = diff
 
     f = fetch
