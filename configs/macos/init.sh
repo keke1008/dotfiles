@@ -21,6 +21,9 @@ defaults write 'com.apple.driver.AppleBluetoothMultitouch.trackpad' Clicking -in
 # Automatically show/hide the Dock
 defaults write 'com.apple.dock' autohide -int 1
 
+# Disable 'Click wallpaper to reveal desktop'
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -int 0
+
 # Fix workspace order
 defaults write 'com.apple.dock' mru-spaces -int 0
 
