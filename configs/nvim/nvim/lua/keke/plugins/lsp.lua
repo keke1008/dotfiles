@@ -68,6 +68,7 @@ return {
             vim.lsp.enable({
                 "clangd",
                 "denols",
+                "gopls",
                 "jsonls",
                 "lua_ls",
                 "nil_ls",
