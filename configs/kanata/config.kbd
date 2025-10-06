@@ -30,7 +30,7 @@
   tab   q     w     e     r     t     y     u     i     o     p     at    [     ret
   lctl  a     s     d     f     g     h     j     k     l     ;     :     ]
   lsft  z     x     c     v     b     n     m     ,     .     /     \     rsft
-  lctl  lmet  lalt        @wnd  @num  @edt        ralt  rmet  rctl
+  lctl  lmet  lalt        @mous @num  @edt        ralt  rmet  rctl
 )
 
 (deflayer template
@@ -61,18 +61,34 @@
   _     _     _           _     _     _           _     _     _
 )
 
-(defalias gnw (multi (release-key alt) M-pgdn))
-(defalias gpw (multi (release-key alt) M-pgup))
-(defalias mnw (multi (release-key alt) S-M-pgdn))
-(defalias mpw (multi (release-key alt) S-M-pgup))
-(defalias cmd (multi (release-key alt) A-f2))
-(defalias wmu (multi (release-key alt) met))
+(defalias 
+  mous (layer-while-held mouse-control)
 
-(defalias wnd (multi alt (layer-while-held window)))
-(deflayer window
+  mmlt (switch
+    ((input real w)) (movemouse-left 10 30) break
+    ((input real e)) (movemouse-left 10 1) break
+    () (movemouse-left 10 5) break
+  )
+  mmdw (switch
+    ((input real w)) (movemouse-down 10 30) break
+    ((input real e)) (movemouse-down 10 1) break
+    () (movemouse-down 10 5) break
+  )
+  mmup (switch
+    ((input real w)) (movemouse-up 10 30) break
+    ((input real e)) (movemouse-up 10 1) break
+    () (movemouse-up 10 5) break
+  )
+  mmrt (switch
+    ((input real w)) (movemouse-right 10 30) break
+    ((input real e)) (movemouse-right 10 1) break
+    () (movemouse-right 10 5) break
+  )
+)
+(deflayer mouse-control
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     @wmu  _     @cmd  _     _     _     _     _     @mpw  _     _     _
-  _     S-tab tab   _     _     _     _     @gpw  _     _     @gnw  _     _
-  _     _     _     _     _     _     @mnw  _     _     _     _     _     _
+  _     _     nop0  nop0  _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     @mmlt @mmdw @mmup @mmrt _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _           _     _     _           _     _     _
 )
