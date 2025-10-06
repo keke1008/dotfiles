@@ -78,6 +78,7 @@ return {
                 "ruby_lsp",
                 "taplo",
                 "terraformls",
+                "tsp_server",
                 "yamlls",
                 -- "rust_analyzer", -- rustaceanvim
                 -- "ts_ls", -- typescript.nvim
