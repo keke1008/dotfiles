@@ -2,18 +2,39 @@ return {
     {
         "stevearc/conform.nvim",
         init = function()
-            local function format(async)
-                return function(args)
-                    local bufnr = (args or {}).bufnr or vim.api.nvim_get_current_buf()
-                    local conform = require("conform")
-                    conform.format({ bufnr = bufnr, async = async })
-                end
-            end
-
-            vim.api.nvim_create_autocmd("BufWritePre", { pattern = "*", callback = format(false) })
-            vim.keymap.set({ "n", "x" }, "<leader>lf", format(true), { desc = "Format" })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                pattern = "*",
+                callback = function(args)
+                    require("conform").format({ bufnr = args.buf, async = false })
+                end,
+            })
         end,
         cmd = "ConformInfo",
+        keys = {
+            {
+                "<leader>lf",
+                function()
+                    local buf = vim.api.nvim_get_current_buf()
+                    require("conform").format({ bufnr = buf, async = true })
+                end,
+                desc = "Format Buffer",
+                mode = { "n", "v" },
+            },
+            {
+                "<Esc>",
+                function()
+                    local buf = vim.api.nvim_get_current_buf()
+                    require("conform").format({ bufnr = buf, async = true }, function()
+                        vim.api.nvim_buf_call(buf, function()
+                            if vim.api.nvim_get_option_value("modified", { buf = buf }) then
+                                vim.cmd("noautocmd write")
+                            end
+                        end)
+                    end)
+                end,
+                desc = "Format and Save Buffer",
+            },
+        },
         opts = {
             formatters_by_ft = {
                 bash = { "shfmt" },
@@ -38,6 +59,7 @@ return {
             default_format_opts = {
                 lsp_format = "fallback",
                 stop_after_first = true,
+                timeout_ms = 500,
             },
         },
     },
