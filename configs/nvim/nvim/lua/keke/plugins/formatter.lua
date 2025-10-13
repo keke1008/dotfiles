@@ -38,11 +38,11 @@ return {
         opts = {
             formatters_by_ft = {
                 bash = { "shfmt" },
-                css = { "prettierd", "prettier" },
+                css = { "biome-check", "prettierd", "prettier" },
                 fish = { "fish_indent" },
-                javascript = { "prettierd", "prettier" },
-                javascriptreact = { "prettierd", "prettier" },
-                json = { "prettierd", "prettier" },
+                javascript = { "biome-check", "prettierd", "prettier" },
+                javascriptreact = { "biome-check", "prettierd", "prettier" },
+                json = { "biome-check", "prettierd", "prettier" },
                 lua = { "stylua" },
                 markdown = { "prettierd", "prettier" },
                 nix = { "nixfmt" },
@@ -50,8 +50,8 @@ return {
                 ruby = { "rubocop", lsp_format = "prefer" }, -- Prefer lsp: supports formatter selection
                 sh = { "shfmt" },
                 tf = { "terraform_fmt" },
-                typescript = { "prettierd", "prettier" },
-                typescriptreact = { "prettierd", "prettier" },
+                typescript = { "biome-check", "prettierd", "prettier" },
+                typescriptreact = { "biome-check", "prettierd", "prettier" },
                 typespec = { "typespec" },
                 yaml = { "prettierd", "prettier" },
                 zsh = { "shfmt" },

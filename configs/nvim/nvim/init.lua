@@ -132,6 +132,7 @@ vim.filetype.add({
         [".shrc"] = "sh",
         [".bashrc"] = "bash",
         [".bash_profile"] = "bash",
+        ["Caddyfile"] = "caddy",
     },
 })
 

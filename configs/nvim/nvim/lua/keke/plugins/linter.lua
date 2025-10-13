@@ -11,11 +11,16 @@ return {
     config = function()
         --- @see https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#available-linters
         require("lint").linters_by_ft = {
+            javascript = { "biomejs" },
+            javascriptreact = { "biomejs" },
+            json = { "biomejs" },
             lua = { "luacheck", "selene" },
+            markdown = { "markdownlint" },
             python = { "mypy" },
             sh = { "shellcheck" },
-            markdown = { "markdownlint" },
-            tf = { "tflint" }
+            tf = { "tflint" },
+            typescript = { "biomejs" },
+            typescriptreact = { "biomejs" },
         }
     end,
 }
