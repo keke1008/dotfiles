@@ -5,6 +5,11 @@ main() {
 		return
 	fi
 
+	# shellcheck disable=SC1091
+	if (. /etc/os-release && [ "${ID}" = "nixos" ]); then
+		return
+	fi
+
 	mkdir -p "${XDG_CONFIG_HOME}/systemd/user"
 	declare_config_link "${XDG_CONFIG_HOME}/systemd/user/kanata.service" "kanata.service"
 
