@@ -1,3 +1,6 @@
+---@type table<integer, true>
+local buffers_disabled_format_on_save = {}
+
 return {
     {
         "stevearc/conform.nvim",
@@ -5,7 +8,10 @@ return {
             vim.api.nvim_create_autocmd("BufWritePre", {
                 pattern = "*",
                 callback = function(args)
-                    require("conform").format({ bufnr = args.buf, async = false })
+                    local bufnr = args.buf
+                    if not buffers_disabled_format_on_save[bufnr] then
+                        require("conform").format({ bufnr = args.buf, async = false })
+                    end
                 end,
             })
         end,
@@ -27,7 +33,9 @@ return {
                     require("conform").format({ bufnr = buf, async = true }, function()
                         vim.api.nvim_buf_call(buf, function()
                             if vim.api.nvim_get_option_value("modified", { buf = buf }) then
-                                vim.cmd("noautocmd write")
+                                buffers_disabled_format_on_save[buf] = true
+                                vim.cmd("write")
+                                buffers_disabled_format_on_save[buf] = nil
                             end
                         end)
                     end)
