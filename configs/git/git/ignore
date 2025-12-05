@@ -16,3 +16,6 @@
 
 # claude code
 **/.claude/settings.local.json
+
+# Personal notes for git-worktree context
+/.worktree-context
