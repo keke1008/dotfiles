@@ -54,7 +54,14 @@ return {
                 lua = { "stylua" },
                 markdown = { "prettierd", "prettier" },
                 nix = { "nixfmt" },
-                python = { "isort", "black", stop_after_first = false },
+                python = {
+                    "ruff_format",
+                    "ruff_fix",
+                    "ruff_organize_imports",
+                    "isort",
+                    "black",
+                    stop_after_first = false,
+                },
                 ruby = { "rubocop", lsp_format = "prefer" }, -- Prefer lsp: supports formatter selection
                 sh = { "shfmt" },
                 tf = { "terraform_fmt" },

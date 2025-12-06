@@ -16,7 +16,7 @@ return {
             json = { "biomejs" },
             lua = { "luacheck", "selene" },
             markdown = { "markdownlint" },
-            python = { "mypy" },
+            python = { "ruff", "mypy" },
             sh = { "shellcheck" },
             tf = { "tflint" },
             typescript = { "biomejs" },
