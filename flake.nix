@@ -19,11 +19,15 @@
               lua-language-server
               luajitPackages.luacheck
               nil
+              biome
               selene
               shellcheck
               shfmt
               stylua
               taplo
+              typescript-language-server
+              typescript # for typescript-language-server
+              vscode-json-languageserver
             ];
           };
           initialize = pkgs.mkShell {
