@@ -111,12 +111,12 @@ function formatTokenUsage(totalTokens) {
 
 	const percentage = Math.min(
 		100,
-		Math.round((totalTokens / (CONTEXT_WINDOW - AUTOCOMPACTION_BUFFER)) * 100),
+		Math.round(((totalTokens + AUTOCOMPACTION_BUFFER) / CONTEXT_WINDOW) * 100),
 	);
 
 	const percentText = formatTokenUsagePercentText(percentage);
-	const limitText = `${CONTEXT_WINDOW.toLocaleString()} - ${AUTOCOMPACTION_BUFFER.toLocaleString()}`;
-	const tokenText = `${totalTokens.toLocaleString()} / (${limitText})`;
+	const unUsableText = `${totalTokens.toLocaleString()} + ${AUTOCOMPACTION_BUFFER.toLocaleString()}`;
+	const tokenText = `(${unUsableText}) / ${CONTEXT_WINDOW.toLocaleString()}`;
 	return `${percentText} (${tokenText})`;
 }
 

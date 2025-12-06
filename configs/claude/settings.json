@@ -1,27 +1,27 @@
 {
-	"$schema": "https://json.schemastore.org/claude-code-settings.json",
-	"permissions": {
-		"allow": [
-			"Bash(cat:*)",
-			"Bash(find:*)",
-			"Bash(git add:*)",
-			"Bash(git commit:*)",
-			"Bash(mkdir:*)",
-			"Bash(pyright:*)",
-			"Bash(ruff check:*)",
-			"Bash(ruff format:*)",
-			"Bash(tree:*)",
-			"Bash(uv sync:*)",
-			"WebSearch",
-			"WebFetch"
-		],
-		"deny": [],
-		"ask": [],
-		"defaultMode": "plan"
-	},
-	"statusLine": {
-		"type": "command",
-		"command": "~/.claude/statusline.js"
-	},
-	"alwaysThinkingEnabled": false
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(mkdir:*)",
+      "Bash(pyright:*)",
+      "Bash(ruff check:*)",
+      "Bash(ruff format:*)",
+      "Bash(tree:*)",
+      "Bash(uv sync:*)",
+      "WebSearch",
+      "WebFetch"
+    ],
+    "deny": [],
+    "ask": [],
+    "defaultMode": "plan"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.js"
+  },
+  "alwaysThinkingEnabled": true
 }
