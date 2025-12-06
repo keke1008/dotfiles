@@ -107,23 +107,30 @@ function buildStatusLine(input, totalTokens) {
  */
 function formatTokenUsage(totalTokens) {
 	const CONTEXT_WINDOW = 200_000;
-	const COMPACTION_THRESHOLD_RATIO = 0.75;
-	const COMPACTION_THRESHOLD = CONTEXT_WINDOW * COMPACTION_THRESHOLD_RATIO;
+	const AUTOCOMPACTION_BUFFER = 45_000;
 
 	const percentage = Math.min(
 		100,
-		Math.round((totalTokens / COMPACTION_THRESHOLD) * 100),
+		Math.round((totalTokens / (CONTEXT_WINDOW - AUTOCOMPACTION_BUFFER)) * 100),
 	);
 
-	const limitText = `${CONTEXT_WINDOW.toLocaleString()} / ${COMPACTION_THRESHOLD_RATIO}`;
-	const text = `${percentage}% (${totalTokens.toLocaleString()} / ${limitText})`;
+	const percentText = formatTokenUsagePercentText(percentage);
+	const limitText = `${CONTEXT_WINDOW.toLocaleString()} - ${AUTOCOMPACTION_BUFFER.toLocaleString()}`;
+	const tokenText = `${totalTokens.toLocaleString()} / (${limitText})`;
+	return `${percentText} (${tokenText})`;
+}
 
+/**
+ * @param {number} percentage
+ * @returns {string}
+ */
+function formatTokenUsagePercentText(percentage) {
 	if (percentage >= 80) {
-		return colored("red", text);
+		return colored("red", `${percentage}%`);
 	} else if (percentage >= 60) {
-		return colored("yellow", text);
+		return colored("yellow", `${percentage}%`);
 	} else {
-		return text;
+		return `${percentage}%`;
 	}
 }
 
