@@ -3,7 +3,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects",
-            "nvim-treesitter/nvim-treesitter-context",
+            { "nvim-treesitter/nvim-treesitter-context", opts = { max_lines = 1 } },
             "andymass/vim-matchup",
             "RRethy/nvim-treesitter-endwise",
             "windwp/nvim-ts-autotag",
