@@ -40,11 +40,11 @@
   _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _           _     _     _           _     _     _
 )
- 
+
 (defalias num (tap-hold-press 0 200 spc (layer-while-held number)))
 (deflayer number
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     spc   _     lrld  _     _     _     _     _     _     _     _     _
+  _     _     spc   _     lrld  _     _     _     _     _     _     _     ¥     _
   _     1     2     3     4     5     6     7     8     9     0     -     ^
   _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _           _     _     _           _     _     _
@@ -55,39 +55,32 @@
 (defalias edt (layer-while-held edit))
 (deflayer edit
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _     esc   ret   tab   _     _     bspc  _     _     _     _     _ 
+  _     _     _     esc   ret   tab   _     _     bspc  _     _     _     _     _
   _     _     zh    del   _     home  end   lft   down  up    rght  _     _
   _     _     _     _     pgup  @dim  pgdn  _     _     _     _     _     _
   _     _     _           _     _     _           _     _     _
 )
 
-(defalias 
+(defalias
   mous (layer-while-held mouse-control)
 
-  mmlt (switch
-    ((input real w)) (movemouse-left 10 30) break
-    ((input real e)) (movemouse-left 10 1) break
-    () (movemouse-left 10 5) break
-  )
-  mmdw (switch
-    ((input real w)) (movemouse-down 10 30) break
-    ((input real e)) (movemouse-down 10 1) break
-    () (movemouse-down 10 5) break
-  )
-  mmup (switch
-    ((input real w)) (movemouse-up 10 30) break
-    ((input real e)) (movemouse-up 10 1) break
-    () (movemouse-up 10 5) break
-  )
-  mmrt (switch
-    ((input real w)) (movemouse-right 10 30) break
-    ((input real e)) (movemouse-right 10 1) break
-    () (movemouse-right 10 5) break
-  )
+  mmlt (movemouse-left  10 5)
+  mmdw (movemouse-down  10 5)
+  mmup (movemouse-up    10 5)
+  mmrt (movemouse-right 10 5)
+
+  mslt (mwheel-left  10 30)
+  msdw (mwheel-down  10 30)
+  msup (mwheel-up    10 30)
+  msrt (mwheel-right 10 30)
+
+  mms3 (movemouse-speed 800)
+  mms2 (movemouse-speed 400)
+  mms0 (movemouse-speed 10)
 )
 (deflayer mouse-control
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     nop0  nop0  _     _     _     _     _     _     _     _     _     _
+  _     @mms3 @mms2 @mms0 mlft  mrgt  _     @mslt @msdw @msup @msrt _     _     _
   _     _     _     _     _     _     @mmlt @mmdw @mmup @mmrt _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _           _     _     _           _     _     _
