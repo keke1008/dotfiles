@@ -26,4 +26,37 @@ function M.root_dir(marker)
     end
 end
 
+---@param marker string | string[] | fun(name: string, path: string): boolean
+---@return fun(bufnr: integer, on_dir: fun(dir: string))
+function M.root_dir_recursive(marker)
+    return function(bufnr, on_dir)
+        local path = vim.api.nvim_buf_get_name(bufnr)
+        local dir = vim.fs.dirname(path)
+
+        local find_dirs = vim.fs.find(marker, { path = dir, upward = true, limit = 10 })
+        local root_dir = find_dirs[#find_dirs]
+        if root_dir ~= nil then
+            on_dir(vim.fs.dirname(root_dir))
+        end
+    end
+end
+
+---@param root_dir_fns fun(bufnr: integer, on_dir: fun(dir: string))[]
+---@return fun(bufnr: integer, on_dir: fun(dir: string))
+function M.any_root_dir(root_dir_fns)
+    return function(bufnr, on_dir)
+        local done = false
+        for _, fn in ipairs(root_dir_fns) do
+            fn(bufnr, function(dir)
+                done = true
+                on_dir(dir)
+            end)
+
+            if done then
+                break
+            end
+        end
+    end
+end
+
 return M
