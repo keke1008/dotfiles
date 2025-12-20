@@ -22,7 +22,7 @@
   tab   q     w     e     r     t     y     u     i     o     p     at    [     ret
   lctl  a     s     d     f     g     h     j     k     l     ;     :     ]
   lsft  z     x     c     v     b     n     m     ,     .     /     \     rsft
-  caps  lmet  lalt        ncnv  spc   cnv         ralt  rmet  rctl
+  caps  lmet  lalt        ncnv  spc   cnv   kana  ralt  rmet  rctl
 )
 
 (deflayer  default
@@ -30,7 +30,7 @@
   tab   q     w     e     r     t     y     u     i     o     p     at    [     ret
   lctl  a     s     d     f     g     h     j     k     l     ;     :     ]
   lsft  z     x     c     v     b     n     m     ,     .     /     \     rsft
-  lctl  lmet  lalt        @mous @num  @edt        ralt  rmet  rctl
+  lctl  lmet  lalt        @mous @num  @edt  rctl  ralt  rmet  rctl
 )
 
 (deflayer template
@@ -38,7 +38,7 @@
   _     _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _           _     _     _           _     _     _
+  _     _     _           _     _     _     _     _     _     _
 )
 
 (defalias num (tap-hold-press 0 200 spc (layer-while-held number)))
@@ -47,7 +47,7 @@
   _     _     spc   _     lrld  _     _     _     _     _     _     _     ¥     _
   _     1     2     3     4     5     6     7     8     9     0     -     ^
   _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _           _     _     _           _     _     _
+  _     _     _           _     _     _     _     _     _     _
 )
 
 (defalias dim (multi f10 ret zh))
@@ -58,7 +58,7 @@
   _     _     _     esc   ret   tab   _     _     bspc  _     _     _     _     _
   _     _     zh    del   _     home  end   lft   down  up    rght  _     _
   _     _     _     _     pgup  @dim  pgdn  _     _     _     _     _     _
-  _     _     _           _     _     _           _     _     _
+  _     _     _           _     _     _     _     _     _     _
 )
 
 (defalias
@@ -83,5 +83,5 @@
   _     @mms3 @mms2 @mms0 mlft  mrgt  _     @mslt @msdw @msup @msrt _     _     _
   _     _     _     _     _     _     @mmlt @mmdw @mmup @mmrt _     _     _
   _     _     _     _     _     _     _     _     _     _     _     _     _
-  _     _     _           _     _     _           _     _     _
+  _     _     _           _     _     _     _     _     _     _
 )
