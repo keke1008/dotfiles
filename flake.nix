@@ -12,6 +12,8 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
+        nixosModules = ./nix/nixosModules;
+
         devShells = {
           default = pkgs.mkShell {
             packages = with pkgs; [
