@@ -4,6 +4,7 @@
     ./font.nix
     ./kanata.nix
     ./nix.nix
+    ./package.nix
     ./sway.nix
   ];
 }
