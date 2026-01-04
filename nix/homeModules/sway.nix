@@ -24,6 +24,7 @@
       uwsm # For executing `uwsm finalize` in sway config
       waybar
       wmenu
+      wofi
 
       # The `sway.desktop` file that comes with the sway package uses a command name (`sway`) in the Exec field.
       # Therefore, it cannot be executed in environments where the PATH variable is not set up correctly.
