@@ -10,15 +10,10 @@
       default = false;
       description = "Enable kanata";
     };
-    users = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      description = "List of users to enable kanata for";
-    };
   };
 
   config = lib.mkIf config.keke.kanata.enable {
-    users.users = lib.genAttrs config.keke.kanata.users (_: {
+    users.users = lib.genAttrs config.keke.trustedUserNames (_: {
       extraGroups = [
         "input"
         "uinput"
