@@ -45,5 +45,6 @@
     )
     // {
       nixosModules = ./nix/nixosModules;
+      homeModules = ./nix/homeModules;
     };
 }
