@@ -1,18 +1,19 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
 {
   options.keke.greetd = {
-    enable = pkgs.lib.mkOption {
-      type = pkgs.lib.types.bool;
+    enable = lib.mkOption {
+      type = lib.types.bool;
       default = false;
       description = "Enable greetd";
     };
   };
 
-  config = pkgs.lib.mkIf config.keke.greetd.enable {
+  config = lib.mkIf config.keke.greetd.enable {
     services.greetd = {
       enable = true;
       settings = {

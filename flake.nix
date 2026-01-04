@@ -6,10 +6,7 @@
 
   outputs =
     { nixpkgs, flake-utils, ... }:
-    {
-      nixosModules = ./nix/nixosModules;
-    }
-    // flake-utils.lib.eachDefaultSystem (
+    flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -45,5 +42,8 @@
           };
         };
       }
-    );
+    )
+    // {
+      nixosModules = ./nix/nixosModules;
+    };
 }
