@@ -48,6 +48,7 @@ return {
                 bash = { "shfmt" },
                 css = { "biome-check", "prettierd", "prettier" },
                 fish = { "fish_indent" },
+                html = { "biome-check", "prettierd", "prettier" },
                 javascript = { "biome-check", "prettierd", "prettier" },
                 javascriptreact = { "biome-check", "prettierd", "prettier" },
                 json = { "biome-check", "prettierd", "prettier" },

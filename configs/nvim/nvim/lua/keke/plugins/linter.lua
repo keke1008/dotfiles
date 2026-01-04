@@ -11,6 +11,7 @@ return {
     config = function()
         --- @see https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#available-linters
         require("lint").linters_by_ft = {
+            html = { "biomejs" },
             javascript = { "biomejs" },
             javascriptreact = { "biomejs" },
             json = { "biomejs" },
