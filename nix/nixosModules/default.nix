@@ -1,7 +1,8 @@
 {
   imports = [
-    ./nix.nix
     ./greetd.nix
     ./kanata.nix
+    ./locale.nix
+    ./nix.nix
   ];
 }
