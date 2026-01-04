@@ -6,14 +6,15 @@
 
   outputs =
     { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (
+    {
+      nixosModules = ./nix/nixosModules;
+    }
+    // flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        nixosModules = ./nix/nixosModules;
-
         devShells = {
           default = pkgs.mkShell {
             packages = with pkgs; [
