@@ -5,8 +5,8 @@
   ...
 }:
 {
-  options = {
-    keke.fcitx5.enable = lib.mkOption {
+  options.keke.fcitx5 = {
+    enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Enable fcitx5 input method framework";

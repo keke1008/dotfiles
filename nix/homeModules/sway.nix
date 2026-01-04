@@ -5,10 +5,12 @@
   ...
 }:
 {
-  options.keke.sway = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = "Enable sway window manager";
+  options.keke.sway = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable sway window manager";
+    };
   };
 
   config = lib.mkIf config.keke.sway.enable {

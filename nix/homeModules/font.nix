@@ -5,10 +5,12 @@
   ...
 }:
 {
-  options.keke.font = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = "Enable custom font configuration";
+  options.keke.font = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable custom font configuration";
+    };
   };
 
   config = lib.mkIf config.keke.font.enable {
@@ -17,7 +19,7 @@
       noto-fonts-cjk-sans
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
-      udev-gothic
+      udev-gothic-nf
     ];
 
     fonts.fontconfig = {
