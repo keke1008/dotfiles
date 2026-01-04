@@ -116,3 +116,5 @@ mode "RESIZE" {
 
 include /etc/sway/config.d/*
 include ~/.config/dotfiles/local/sway/config
+
+exec command -v "uwsm" >/dev/null && uwsm check is-active && uwsm finalize
