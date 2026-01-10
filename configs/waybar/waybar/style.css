@@ -2,20 +2,24 @@
 @define-color selected-bg rgba(192, 202, 245, 0.25);
 @define-color hovered-bg rgba(192, 202, 245, 0.15);
 @define-color info #7aa2f7;
-@define-color info-bg rgba(122, 162, 247, 0.5);
+@define-color info-bg rgba(122, 162, 247, 0.1);
 @define-color warning #e0af68;
-@define-color warning-bg rgba(224, 175, 104, 0.25);
+@define-color warning-bg rgba(224, 175, 104, 0.1);
 @define-color critical #f7768e;
-@define-color critical-bg rgba(247, 118, 142, 0.4);
+@define-color critical-bg rgba(247, 118, 142, 0.1);
 /* @define-color inactive #414868; */
 /* @define-color inactive-bg rgba(65, 72, 104, 0.7); */
 
 * {
-    color: @foreground;
+    color: inherit;
     border-radius: 0;
     box-shadow: none;
     font-family: monospace;
     font-size: 16px;
+}
+
+window {
+    color: @foreground;
 }
 
 window#waybar {
@@ -72,13 +76,17 @@ window#waybar.hidden {
 
 #mode,
 #scratchpad,
-#privacy-item {
+#privacy-item,
+#battery.charging {
+    color: @info;
     background-color: @info-bg;
     border-bottom-color: @info;
 }
 
 #cpu.warning,
-#memory.warning {
+#memory.warning,
+#battery.warning {
+    color: @warning;
     background: @warning-bg;
     border-bottom-color: @warning;
 }
@@ -86,7 +94,9 @@ window#waybar.hidden {
 #workspaces button.urgent,
 #cpu.critical,
 #memory.critical,
-#network.disconnected {
+#network.disconnected,
+#battery.critical {
+    color: @critical;
     background: @critical-bg;
     border-bottom-color: @critical;
 }
