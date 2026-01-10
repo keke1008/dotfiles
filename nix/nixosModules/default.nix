@@ -5,5 +5,6 @@
     ./kanata.nix
     ./locale.nix
     ./nix.nix
+    ./swaylock.nix
   ];
 }
