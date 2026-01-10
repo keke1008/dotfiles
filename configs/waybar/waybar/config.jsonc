@@ -135,7 +135,7 @@
                 "󰤨 "
             ],
             "linked": "󰍸 ",
-            "disconnected": "󰅛 "
+            "disconnected": "󰅛\u2006"
         },
         "format-wifi": "{icon}{signalStrength:02}%",
         "format-ethernet": "{icon}{ifname}",
