@@ -18,6 +18,7 @@
         "network",
         "cpu",
         "memory",
+        "backlight",
         "battery",
         "clock",
         "tray"
@@ -193,6 +194,12 @@
             " ",
             " ",
             " "
+        ]
+    },
+    "backlight": {
+        "format": "{icon}{percent}%",
+        "format-icons": [
+            "󰃞 "
         ]
     }
 }
