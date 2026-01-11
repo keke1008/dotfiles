@@ -2,7 +2,7 @@
 
 ![installation test](https://github.com/keke1008/dotfiles/actions/workflows/installation.yaml/badge.svg)
 
-![desktop image](https://github.com/user-attachments/assets/14016e61-ac6a-4bf5-ae44-f6df80853520)
+![desktop image](https://github.com/user-attachments/assets/f84328a0-183c-4cdb-bd47-ac541a555f4c)
 
 ## Installation
 

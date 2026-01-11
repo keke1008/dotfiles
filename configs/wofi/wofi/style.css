@@ -16,9 +16,6 @@ window {
 
 #input {
     background-color: transparent;
-    border-radius: 1;
-    border-bottom: 2px @accent-fg solid;
-    /* margin-bottom: 4px; */
     margin: -9999px;
 }
 
