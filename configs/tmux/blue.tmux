@@ -1,3 +1,7 @@
+# Based on tokyonight.nvim color palette
+# https://github.com/folke/tokyonight.nvim
+# Original Copyright (c) 2021 folke, Licensed under the Apache License, Version 2.0
+
 set -g @default     "default"
 set -g @red         "#f7768e"
 set -g @blue        "#7aa2f7"
