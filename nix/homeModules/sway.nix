@@ -15,12 +15,13 @@
 
   config = lib.mkIf config.keke.sway.enable {
     home.packages = with pkgs; [
-      dunst
       grim
       hyprpolkitagent
+      libnotify
       sway
       swayidle
       swaylock
+      swaynotificationcenter
       uwsm # For executing `uwsm finalize` in sway config
       waybar
       wmenu
