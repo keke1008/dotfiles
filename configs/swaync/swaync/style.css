@@ -27,7 +27,6 @@
 .notification {
 	background-color: @normal-bg-0;
 	border: 2px solid @normal-fg-1;
-	border-radius: 4px;
 }
 
 .notification.normal {
@@ -66,7 +65,8 @@
 
 .close-button {
 	margin: 3px;
-	padding: 1rem;
+	padding: 0.5rem;
+	border: none;
 }
 
 .control-center {
@@ -83,8 +83,7 @@
 }
 
 button {
-	background-color: @normal-bg-1;
-	border-radius: 4px;
+	border: 1px solid @normal-fg-1;
 	padding: 0.5rem;
 }
 

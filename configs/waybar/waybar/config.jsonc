@@ -205,7 +205,7 @@
     },
     "custom/notification": {
         "tooltip": true,
-        "format": "<span size='16pt'>{icon}</span>",
+        "format": "{icon}\u2005",
         "format-icons": {
             "notification": "󱅫",
             "none": "󰂜",
