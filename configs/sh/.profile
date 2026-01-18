@@ -18,9 +18,12 @@ if [ -r "${DOTFILES_ORIGINAL_HOME}/sh/.profile" ]; then
 	DOTFILES_ORIGINAL_LOADING=1 . "${DOTFILES_ORIGINAL_HOME}/sh/.profile"
 fi
 
-if GPG_TTY=$(tty); then
-	export GPG_TTY
+GPG_TTY=$(tty) && export GPG_TTY
+if grep enable-ssh-support ~/.gnupg/gpg-agent.conf >/dev/null 2>&1; then
+	gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+	SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket 2>/dev/null) && export SSH_AUTH_SOCK
 fi
+
 export XMODIFIERS=@im=fcitx
 # https://qiita.com/aratetsu_sp2/items/6bd89e5959ba54ede391
 export GTK_IM_MODULE=fcitx
