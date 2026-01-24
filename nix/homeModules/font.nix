@@ -19,7 +19,8 @@
       noto-fonts-cjk-sans
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
-      udev-gothic-nf
+      udev-gothic
+      nerd-fonts.symbols-only
     ];
 
     fonts.fontconfig = {
@@ -27,7 +28,10 @@
       defaultFonts = {
         serif = [ "Noto Serif" ];
         sansSerif = [ "Noto Sans" ];
-        monospace = [ "UDEV Gothic 35NFLG" ];
+        monospace = [
+          "UDEV Gothic35"
+          "SymbolsNerdFontMono"
+        ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
