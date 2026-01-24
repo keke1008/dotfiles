@@ -1,0 +1,74 @@
+@define-color normal-fg-0 #c0caf5;
+@define-color normal-fg-1 #93a4bd;
+@define-color normal-bg-0 rgba(10, 10, 20, 0.8);
+@define-color normal-bg-1 #25293b;
+@define-color normal-bg-2 #31364e;
+@define-color normal-bg-3 #414868;
+@define-color selected-bg rgba(192, 202, 245, 0.25);
+@define-color hovered-bg rgba(192, 202, 245, 0.15);
+@define-color info #7aa2f7;
+@define-color info-bg rgba(122, 162, 247, 0.1);
+@define-color warning #e0af68;
+@define-color warning-bg rgba(224, 175, 104, 0.1);
+@define-color critical #f7768e;
+@define-color critical-bg rgba(247, 118, 142, 0.1);
+
+* {
+  all: unset;
+  font-family: monospace;
+  font-size: 16px;
+  color: inherit;
+}
+
+.icon {
+  font-size: 42px;
+}
+
+.background {
+  color: @normal-fg-0;
+  background-color: transparent;
+}
+
+.menu-item {
+  background-color: @normal-bg-0;
+  border: 2px solid @info;
+  transition-duration: 100ms;
+}
+
+.menu-item.danger {
+  border-color: @critical;
+}
+
+.menu-item.selected {
+  border-width: 4px;
+}
+
+.menu-item.disabled {
+  color: @normal-bg-3;
+}
+
+.menu-item:hover, .menu-item:focus {
+  background-color: @normal-bg-1;
+}
+
+.menu-item:active {
+  background-color: @normal-bg-2;
+}
+
+.circular-progress {
+  margin: 4px;
+}
+
+.circular-progress.warning {
+  color: @warning;
+}
+
+.circular-progress.danger {
+  color: @critical;
+}
+
+.tooltip {
+  background-color: @normal-bg-0;
+  border: 1px solid @normal-fg-0;
+  padding: 4px;
+}
