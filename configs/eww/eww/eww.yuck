@@ -1,169 +1,139 @@
 (defvar selected-menu-item "")
-(defvar menu-item-width 80)
-(defvar menu-item-spacing 10)
-(defvar spacer-size 10)
-(defvar reset-selected-menu-item `eww update selected-menu-item=""\;`)
-
-(defwindow start-menu
-    :geometry (geometry :width "880px" :height "880px" :anchor "center center")
-    :stacking "fg"
-    :windowtype "dock"
-    :focusable true
-    (layout))
-
-(defwidget layout []
-    (menu-column
-        (menu-row
-            (selectable-button-menu-item
-                :name "Shutdown"
-                :icon ""
-                :class "danger"
-                :onclick `systemctl poweroff`)
-            (selectable-button-menu-item
-                :icon ""
-                :name "Restart"
-                :class "danger"
-                :onclick `systemctl reboot`)
-            (button-menu-item
-                :icon "󰤄"
-                :tooltip "Sleep"
-                :onclick `systemctl suspend`))
-        (spacer)
-        (bluetooth-device-row)
-        (spacer)
-        (menu-column
-            (button-menu-item
-                :icon "󱎘"
-                :tooltip "Close"
-                :onclick `eww close-all`))))
-
-
-(defwidget menu-item-box [?rows ?columns]
-    (box
-        :vexpand false
-        :hexpand false
-        :width {
-            menu-item-width * (rows ?: 1) + menu-item-spacing * ((rows ?: 1) - 1)
-        }
-        :height {
-            menu-item-width * (columns ?: 1) + 20 * ((columns ?: 1) - 1)
-        }
-        (children)))
-
-(defwidget button-menu-item [icon ?tooltip ?onclick ?class ?rows ?columns]
-    (tooltip
-        (box
-            :class "tooltip"
-            { tooltip ?: ''})
-        (menu-item-box
-            :rows rows
-            :columns columns
-            (button
-                :class { class + " menu-item" }
-                :onclick { reset-selected-menu-item + onclick }
-                (label
-                    :class "icon"
-                    :text icon)))))
-
-(defwidget selectable-button-menu-item [name icon ?onclick ?rows ?columns ?class]
-    (button-menu-item
-        :icon icon
-        :tooltip name
-        :rows rows
-        :columns columns
-        :class { class + (selected-menu-item == name ? " selected" : '') }
-        :onclick {
-            selected-menu-item == name
-                ? reset-selected-menu-item + onclick
-                : `eww update selected-menu-item=` + name + `;`
-        }))
+(defvar reset-selected-menu-item `eww update selected-menu-item=''\;`)
+(defvar close-start-menu `eww close-all\;`)
 
 (deflisten bluetooth-status
-    :initial '{ "powered": false }'
+    :initial '{ "enable": false }'
     `./scripts/bluetooth.sh status`)
 
 (deflisten bluetooth-device-status
     :initial "[]"
     `./scripts/bluetooth.sh device-status`)
 
-(defwidget bluetooth-menu-item []
-    (button-menu-item
-        :icon {
-            bluetooth-status["powered"] ? "󰂯" : "󰂲"
-        }
-        :tooltip {
-            "Bluetooth: " + bluetooth-status["powered"]
-        }
-        :class {
-            bluetooth-status["powered"] ? '' : "disabled"
-        }
+(deflisten wifi-status
+    :initial '{ "enable": false }'
+    `./scripts/wifi.sh status`)
+
+(defwindow start-menu
+    :geometry (geometry
+        :anchor "center center"
+        :width "500px")
+    :stacking "fg"
+    :windowtype "dock"
+    :focusable true
+    (layout))
+
+(defwidget layout []
+    (box
+        :class "layout"
+        :orientation "vertical"
+        :halign "fill"
+        :valign "start"
+        :space-evenly false
+        (power-section)
+        (connectivity-section)))
+
+(defwidget icon-button [icon ?onclick ?class]
+    (button
+        :width 80
+        :height 80
+        :class { (class ?: '') + " icon-button" }
+        :onclick { reset-selected-menu-item + onclick }
+        icon))
+
+(defwidget selectable-icon-button [icon ?onclick ?class]
+    (icon-button
+        :icon icon
+        :class { (class ?: '') + selected-menu-item == icon ? " danger" : ''}
         :onclick {
-            bluetooth-status["powered"] ? `bluetoothctl power off` : `bluetoothctl power on`
+            selected-menu-item == icon
+                ? onclick
+                : `eww update selected-menu-item=` + icon + ';'
         }))
 
-(defwidget bluetooth-device-menu-item [status]
-    (tooltip
-        (box
-            :orientation "vertical"
-            :class "tooltip"
-            { status["name"] }
-            { status["icon"] }
-            { "" + (status["battery"] ?: "-") + "%" })
-        (menu-item-box
-            (overlay
-                (button
-                    :class "menu-item"
-                    (label
-                        :class "icon"
-                        :text {
-                            status["icon"] == "audio-headset" ? "󰋎"
-                            : status["icon"] == "audio-headphones" ? "󰋋"
-                            : status["icon"] == "audio-input-microphone" ? "󰍬"
-                            : status["icon"] =~ "^audio-.+$" ? "󰝚"
-                            : status["icon"] == "input-keyboard" ? "󰌌"
-                            : status["icon"] == "input-mouse" ? "󰍽"
-                            : ""
-                        }))
-                (circular-progress
-                    :value { status["battery"] }
-                    :thickness 2
-                    :start-at 75
-                    :class {
-                      "circular-progress"
-                      + (status["battery"] < 10 ? " danger" : '')
-                      + (status["battery"] < 30 ? " warning" : '')
-                    })))))
+(defwidget horizontal-divider [?visible]
+    (box
+        :class "horizontal-divider"
+        :halign "fill"
+        :visible visible))
 
-(defwidget menu-row []
+(defwidget horizontal-spacer []
+    (box
+        :halign "fill"
+        :hexpand true))
+
+(defwidget power-section []
     (box
         :orientation "horizontal"
-        :halign "start"
+        :halign "fill"
         :valign "start"
-        :spacing menu-item-spacing
-        :space-evenly false
-        (children)))
+        :class "section"
+        (box
+            :halign "center"
+            :valign "start"
+            :space-evenly false
+            (selectable-icon-button
+                :icon ""
+                :onclick { close-start-menu + `systemctl poweroff` })
+            (selectable-icon-button
+                :icon ""
+                :onclick { close-start-menu + `systemctl reboot` })
+            (selectable-icon-button
+                :icon "󰤄"
+                :onclick { close-start-menu + `systemctl suspend` })
+            (icon-button
+                :icon "󰅖"
+                :onclick `eww close start-menu`))))
 
-(defwidget menu-column []
+(defwidget connectivity-section []
     (box
         :orientation "vertical"
-        :halign "start"
+        :halign "fill"
         :valign "start"
-        :spacing menu-item-spacing
         :space-evenly false
-        (children)))
+        :class "section"
+        (box
+            :orientation "horizontal"
+            :halign "center"
+            :valign "start"
+            (icon-button
+                :icon { bluetooth-status["enable"] ? "󰂯" : "󰂲" }
+                :class { bluetooth-status["enable"] ? '' : "disabled" }
+                :onclick `./scripts/bluetooth.sh toggle`)
+            (icon-button
+                :icon { wifi-status["enable"] ? "󰖩" : "󰖪" }
+                :class { wifi-status["enable"] ? '' : "disabled" }
+                :onclick `./scripts/wifi.sh toggle`))
+        (horizontal-divider
+            :visible { arraylength(bluetooth-device-status) >= 1})
+        (box
+            :orientation "vertical"
+            (for status in bluetooth-device-status
+                (bluetooth-device :status status)))))
 
-(defwidget bluetooth-device-row []
-    (box
-        :orientation "horizontal"
-        :halign "start"
-        :valign "start"
-        :spacing menu-item-spacing
-        :space-evenly false
-        (bluetooth-menu-item)
-        (for status in bluetooth-device-status
-            (bluetooth-device-menu-item :status status))))
-
-(defwidget spacer []
-    (box
-        :width spacer-size
-        :height spacer-size))
+(defwidget bluetooth-device [status]
+      (box
+            :orientation "horizontal"
+            :space-evenly false
+            :class "bluetooth-device"
+            (label
+                :class "bluetooth-device-icon"
+                :text {
+                    status["icon"] == "audio-headset" ? "󰋎"
+                    : status["icon"] == "audio-headphones" ? "󰋋"
+                    : status["icon"] == "audio-input-microphone" ? "󰍬"
+                    : status["icon"] =~ "^audio-" ? "󰝚"
+                    : status["icon"] == "input-keyboard" ? "󰌌"
+                    : status["icon"] == "input-mouse" ? "󰍽"
+                    : ""
+                })
+            (label
+                :text { status["name"] }
+                :truncate true
+                :class "bluetooth-device-name")
+            (horizontal-spacer)
+            (box
+                :halign "end"
+                (label
+                    :xalign 1
+                    :text { " " + status["battery"] + "%" }))))

@@ -16,59 +16,64 @@
 * {
   all: unset;
   font-family: monospace;
-  font-size: 16px;
+  font-size: inherit;
   color: inherit;
 }
 
-.icon {
-  font-size: 42px;
-}
-
 .background {
-  color: @normal-fg-0;
-  background-color: transparent;
-}
-
-.menu-item {
+  font-size: 16px;
   background-color: @normal-bg-0;
-  border: 2px solid @info;
-  transition-duration: 100ms;
 }
 
-.menu-item.danger {
-  border-color: @critical;
+.layout {
+  padding: 10px;
 }
 
-.menu-item.selected {
-  border-width: 4px;
-}
-
-.menu-item.disabled {
-  color: @normal-bg-3;
-}
-
-.menu-item:hover, .menu-item:focus {
+.section {
   background-color: @normal-bg-1;
-}
-
-.menu-item:active {
-  background-color: @normal-bg-2;
-}
-
-.circular-progress {
+  padding: 4px;
   margin: 4px;
 }
 
-.circular-progress.warning {
-  color: @warning;
+.icon-button {
+  font-size: 42px;
+  margin: 4px;
+  padding: 16px;
 }
 
-.circular-progress.danger {
+.icon-button:hover, .icon-button:focus {
+  background-color: @normal-bg-2;
+}
+
+.icon-button:active {
+  background-color: @normal-bg-3;
+}
+
+.icon-button:selected {
+  border: 2px solid @info;
+}
+
+.icon-button.disabled {
+  color: @normal-bg-3;
+}
+
+.icon-button.danger {
   color: @critical;
 }
 
-.tooltip {
-  background-color: @normal-bg-0;
-  border: 1px solid @normal-fg-0;
-  padding: 4px;
+.bluetooth-device {
+  padding: 0 8px;
+}
+
+.bluetooth-device-icon {
+  font-size: 24px;
+}
+
+.bluetooth-device-name {
+  margin: 16px;
+}
+
+.horizontal-divider {
+  border-bottom: @info 2px solid;
+  margin: 8px 0px;
 }
