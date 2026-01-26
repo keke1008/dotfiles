@@ -14,6 +14,14 @@
     :initial '{ "enable": false }'
     `./scripts/wifi.sh status`)
 
+(deflisten audio-players
+    :initial '[]'
+    `./scripts/audio.sh players`)
+
+(deflisten audio-player-details
+    :initial '{}'
+    `./scripts/audio.sh player-details`)
+
 (defwindow start-menu
     :geometry (geometry
         :anchor "center center"
@@ -31,12 +39,13 @@
         :valign "start"
         :space-evenly false
         (power-section)
-        (connectivity-section)))
+        (connectivity-section)
+        (audio-section)))
 
-(defwidget icon-button [icon ?onclick ?class]
+(defwidget icon-button [icon ?onclick ?class ?size]
     (button
-        :width 80
-        :height 80
+        :width { size ?: 80 }
+        :height { size ?: 80 }
         :class { (class ?: '') + " icon-button" }
         :onclick { reset-selected-menu-item + onclick }
         icon))
@@ -55,7 +64,7 @@
     (box
         :class "horizontal-divider"
         :halign "fill"
-        :visible visible))
+        :visible { visible == "" ? true : visible }))
 
 (defwidget horizontal-spacer []
     (box
@@ -69,9 +78,13 @@
         :valign "start"
         :class "section"
         (box
+            :orientation "horizontal"
             :halign "center"
             :valign "start"
             :space-evenly false
+            (icon-button
+                :icon "󰅖"
+                :onclick `eww close start-menu`)
             (selectable-icon-button
                 :icon ""
                 :onclick { close-start-menu + `systemctl poweroff` })
@@ -80,10 +93,7 @@
                 :onclick { close-start-menu + `systemctl reboot` })
             (selectable-icon-button
                 :icon "󰤄"
-                :onclick { close-start-menu + `systemctl suspend` })
-            (icon-button
-                :icon "󰅖"
-                :onclick `eww close start-menu`))))
+                :onclick { close-start-menu + `systemctl suspend` }))))
 
 (defwidget connectivity-section []
     (box
@@ -137,3 +147,55 @@
                 (label
                     :xalign 1
                     :text { " " + status["battery"] + "%" }))))
+
+(defwidget audio-section []
+    (box
+        :orientation "vertical"
+        :space-evenly false
+        :class "section"
+        (for player in audio-players
+             (audio-player :player player))))
+
+(defwidget audio-player [player]
+    (box
+        :orientation "vertical"
+        :space-evenly false
+        (horizontal-divider)
+        (label
+            :text { audio-player-details[player].title }
+            :class "audio-player-title"
+            :xalign 0
+            :truncate true)
+        (label
+            :text { audio-player-details[player].artist }
+            :class "audio-player-artist"
+            :xalign 0
+            :truncate true)
+        (box
+            :orientation "horizontal"
+            :space-evenly false
+            :valign "center"
+            (box
+                :hexpand true
+                :valign "center"
+                (progress
+                    :value { audio-player-details[player].position ?: 0 }))
+            (box
+                :orientation "horizontal"
+                :class "audio-player-button-group"
+                (icon-button
+                    :icon "󰒮"
+                    :size 16
+                    :class "audio-player-button"
+                    :onclick { `./scripts/audio.sh skip-previous ` + player })
+                (icon-button
+                    :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
+                    :size 16
+                    :class "audio-player-button"
+                    :onclick { `./scripts/audio.sh toggle ` + player })
+                (icon-button
+                    :icon "󰒭"
+                    :size 16
+                    :class "audio-player-button"
+                    :onclick { `./scripts/audio.sh skip-next ` + player })
+                ))))
