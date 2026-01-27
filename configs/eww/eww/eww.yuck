@@ -46,14 +46,14 @@
     (button
         :width { size ?: 80 }
         :height { size ?: 80 }
-        :class { (class ?: '') + " icon-button" }
+        :class "${class} icon-button"
         :onclick { reset-selected-menu-item + onclick }
         icon))
 
 (defwidget selectable-icon-button [icon ?onclick ?class]
     (icon-button
         :icon icon
-        :class { (class ?: '') + selected-menu-item == icon ? " danger" : ''}
+        :class "${class} ${selected-menu-item == icon ? "danger" : ''}"
         :onclick {
             selected-menu-item == icon
                 ? onclick
@@ -154,7 +154,17 @@
         :space-evenly false
         :class "section"
         (for player in audio-players
-             (audio-player :player player))))
+             (audio-player :player player))
+
+        ; HACK: Tell eww that `audio-player-details` is being used.
+        ;
+        ; When the value being iterated over in the `for` loop changes, the
+        ; focus on the elements within the `for` block is lost. Therefore,
+        ; `audio-player-details` is set up to reference them indirectly.
+        ;
+        ; However, since eww may misinterpret indirect references as not using
+        ; variables, we explicitly reference them.
+        (label :visible false :text audio-player-details)))
 
 (defwidget audio-player [player]
     (box
@@ -187,15 +197,15 @@
                     :icon "󰒮"
                     :size 16
                     :class "audio-player-button"
-                    :onclick { `./scripts/audio.sh skip-previous ` + player })
+                    :onclick "./scripts/audio.sh skip-previous ${player}")
                 (icon-button
                     :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
                     :size 16
                     :class "audio-player-button"
-                    :onclick { `./scripts/audio.sh toggle ` + player })
+                    :onclick "./scripts/audio.sh toggle ${player}")
                 (icon-button
                     :icon "󰒭"
                     :size 16
                     :class "audio-player-button"
-                    :onclick { `./scripts/audio.sh skip-next ` + player })
+                    :onclick "./scripts/audio.sh skip-next ${player}")
                 ))))

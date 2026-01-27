@@ -1,25 +1,28 @@
 #!/bin/sh -eu
 
 subscribe_players() {
-	playerctl metadata -F -f '{{playerName}}' 2>/dev/null |
+	playerctl metadata --all-players -F -f '{{playerName}}' || true 2>/dev/null |
 		while read -r _; do
 			echo
 		done
 }
 
 subscribe_player_details() {
-	playerctl metadata -F -f '{{position}}{{mpris:length}}{{playerName}}{{status}}{{artist}}{{title}}'
+	playerctl metadata --all-players -F -f '{{position}}{{mpris:length}}{{playerName}}{{status}}{{artist}}{{title}}' || true 2>/dev/null |
+		while read -r _; do
+			echo
+		done
 }
 
 audio_players() {
-	playerctl metadata --all-players -f '{{playerName}}' |
+	(playerctl metadata --all-players -f '{{playerName}}' 2>/dev/null || true) |
 		jq -Rc |
 		jq -sc
 }
 
 audio_player_details() {
 	format=$(printf '{{position}}\t{{mpris:length}}\t{{status}}\t{{playerName}}\t{{artist}}\t{{title}}')
-	playerctl metadata --all-players -f "${format}" 2>/dev/null |
+	(playerctl metadata --all-players -f "${format}" 2>/dev/null || true) |
 		jq -Rc '
 			split("\t")
 			| {
@@ -31,17 +34,19 @@ audio_player_details() {
 					title: .[5],
 				}
 			}' |
-		jq -sc 'add'
+		jq -sc 'add | . // {}'
 }
 
 main() {
 	case "$1" in
 	players)
+		audio_players
 		subscribe_players | while read -r _; do
 			audio_players
 		done
 		;;
 	player-details)
+		audio_player_details
 		subscribe_player_details | while read -r _; do
 			audio_player_details
 		done
