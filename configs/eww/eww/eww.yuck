@@ -168,44 +168,50 @@
 
 (defwidget audio-player [player]
     (box
-        :orientation "vertical"
+        :orientation "horizontal"
         :space-evenly false
-        (horizontal-divider)
-        (label
-            :text { audio-player-details[player].title }
-            :class "audio-player-title"
-            :xalign 0
-            :truncate true)
-        (label
-            :text { audio-player-details[player].artist }
-            :class "audio-player-artist"
-            :xalign 0
-            :truncate true)
         (box
-            :orientation "horizontal"
+            :orientation "vertical"
             :space-evenly false
-            :valign "center"
-            (box
-                :hexpand true
-                :valign "center"
-                (progress
-                    :value { audio-player-details[player].position ?: 0 }))
+            (horizontal-divider)
+            (label
+                :text { audio-player-details[player].title }
+                :class "audio-player-title"
+                :xalign 0
+                :truncate true)
+            (label
+                :text { audio-player-details[player].artist }
+                :class "audio-player-artist"
+                :xalign 0
+                :truncate true)
             (box
                 :orientation "horizontal"
-                :class "audio-player-button-group"
-                (icon-button
-                    :icon "󰒮"
-                    :size 16
-                    :class "audio-player-button"
-                    :onclick "./scripts/audio.sh skip-previous ${player}")
-                (icon-button
-                    :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
-                    :size 16
-                    :class "audio-player-button"
-                    :onclick "./scripts/audio.sh toggle ${player}")
-                (icon-button
-                    :icon "󰒭"
-                    :size 16
-                    :class "audio-player-button"
-                    :onclick "./scripts/audio.sh skip-next ${player}")
-                ))))
+                :space-evenly false
+                :valign "center"
+                (box
+                    :hexpand true
+                    :valign "center"
+                    (progress
+                        :value { audio-player-details[player].position ?: 0 }))
+                (label
+                    :valign "center"
+                    :class "audio-player-time"
+                    :text { audio-player-details[player].time })
+                (box
+                    :orientation "horizontal"
+                    (icon-button
+                        :icon "󰒮"
+                        :size 16
+                        :class "audio-player-button"
+                        :onclick "./scripts/audio.sh skip-previous ${player}")
+                    (icon-button
+                        :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
+                        :size 16
+                        :class "audio-player-button"
+                        :onclick "./scripts/audio.sh toggle ${player}")
+                    (icon-button
+                        :icon "󰒭"
+                        :size 16
+                        :class "audio-player-button"
+                        :onclick "./scripts/audio.sh skip-next ${player}")
+                    )))))

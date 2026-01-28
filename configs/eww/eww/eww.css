@@ -86,6 +86,20 @@ progress {
   background-color: @normal-fg-0;
 }
 
+scale trough {
+  background-color: @normal-bg-2;
+}
+
+scale highlight {
+  background-color: @normal-fg-0;
+}
+
+scale slider {
+  background-color: @info;
+  min-height: 5px;
+  min-width: 5px;
+}
+
 .audio-player-title {
   font-size: 14px;
 }
@@ -95,12 +109,27 @@ progress {
   color: @normal-fg-1;
 }
 
-.audio-player-button-group {
-  padding-left: 16px;
+.audio-player-time {
+  padding-left: 8px;
+  font-size: 12px;
+  color: @normal-fg-1;
 }
 
 .audio-player-button {
-  font-size: 16px;
+  font-size: 12px;
   padding: 8px;
   margin: 0px;
+}
+
+.audio-player-volume {
+  padding: 0px 8px;
+}
+
+.audio-player-volume-icon {
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.debug {
+  border: 2px solid red;
 }

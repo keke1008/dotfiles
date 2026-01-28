@@ -17,7 +17,7 @@ subscribe_player_details() {
 audio_players() {
 	(playerctl metadata --all-players -f '{{playerName}}' 2>/dev/null || true) |
 		jq -Rc |
-		jq -sc
+		jq -sc 'sort'
 }
 
 audio_player_details() {
@@ -26,12 +26,21 @@ audio_player_details() {
 		jq -Rc '
 			split("\t")
 			| {
-				(.[3]): {
-					position: try ((.[0] | tonumber) / (.[1] | tonumber) * 100) catch 0,
-					playing: .[2] == "Playing",
-					player: .[3],
-					artist: .[4],
-					title: .[5],
+				position: try (.[0] | tonumber) catch 0,
+				length: try (.[1] | tonumber) catch 0,
+				status: .[2],
+				player: .[3],
+				artist: .[4],
+				title: .[5],
+			}
+			| {
+				(.player): {
+					position: [try (.position / .length * 100) catch 0, 100] | min,
+					playing: .status == "Playing",
+					player: .player,
+					artist: .artist,
+					title: .title,
+					time: .position / 1000 / 1000 | strftime("%H:%M:%S"),
 				}
 			}' |
 		jq -sc 'add | . // {}'
