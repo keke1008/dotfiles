@@ -16,11 +16,11 @@
 
 (deflisten audio-players
     :initial '[]'
-    `./scripts/audio.sh players`)
+    `./scripts/audio-player.sh players`)
 
 (deflisten audio-player-details
     :initial '{}'
-    `./scripts/audio.sh player-details`)
+    `./scripts/audio-player.sh player-details`)
 
 (defwindow start-menu
     :geometry (geometry
@@ -203,15 +203,15 @@
                         :icon "󰒮"
                         :size 16
                         :class "audio-player-button"
-                        :onclick "./scripts/audio.sh skip-previous ${player}")
+                        :onclick "./scripts/audio-player.sh skip-previous ${player}")
                     (icon-button
                         :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
                         :size 16
                         :class "audio-player-button"
-                        :onclick "./scripts/audio.sh toggle ${player}")
+                        :onclick "./scripts/audio-player.sh toggle ${player}")
                     (icon-button
                         :icon "󰒭"
                         :size 16
                         :class "audio-player-button"
-                        :onclick "./scripts/audio.sh skip-next ${player}")
+                        :onclick "./scripts/audio-player.sh skip-next ${player}")
                     )))))
