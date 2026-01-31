@@ -1,5 +1,6 @@
 {
   imports = [
+    ./batsignal.nix
     ./eww.nix
     ./fcitx5.nix
     ./font.nix

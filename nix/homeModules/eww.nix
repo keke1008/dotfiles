@@ -27,13 +27,12 @@
     systemd.user.services.eww = {
       Unit = {
         Description = "eww; ElKowars wacky widgets ";
+        After = [ "graphical-session.target" ];
       };
       Install = {
         WantedBy = [ "graphical-session.target" ];
       };
       Service = {
-        Environment = "DISPLAY=:0";
-        Type = "simple";
         Restart = "on-failuer";
         ExecStart = "${pkgs.eww}/bin/eww daemon --no-daemonize";
       };

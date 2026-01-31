@@ -16,7 +16,6 @@
   config = lib.mkIf config.keke.sway.enable {
     home.packages = with pkgs; [
       grim
-      hyprpolkitagent
       libnotify
       sway
       swayidle
@@ -44,5 +43,33 @@
         '';
       })
     ];
+
+    systemd.user.services.swaync = {
+      Unit = {
+        Description = "Sway notification center";
+        After = [ "graphical-session.target" ];
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+      Service = {
+        Restart = "on-failuer";
+        ExecStart = "${pkgs.swaynotificationcenter}/bin/swaync";
+      };
+    };
+
+    systemd.user.services.hyprpolkitagent = {
+      Unit = {
+        Description = "Hyprland Polkit Agent";
+        After = [ "graphical-session.target" ];
+      };
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+      Service = {
+        Restart = "on-failuer";
+        ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
+      };
+    };
   };
 }
