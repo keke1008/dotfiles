@@ -14,19 +14,8 @@
   };
 
   config = lib.mkIf config.keke.kanata.enable {
-    systemd.user.services.kanata = {
-      Unit = {
-        Description = "Kanata keyboard remapper";
-      };
-      Install = {
-        WantedBy = [ "default.target" ];
-      };
-      Service = {
-        Environment = "DISPLAY=:0";
-        Type = "simple";
-        Restart = "no";
-        ExecStart = "${pkgs.kanata}/bin/kanata --cfg ${../../configs/kanata/config.kbd}";
-      };
-    };
+    home.packages = with pkgs; [
+      kanata
+    ];
   };
 }

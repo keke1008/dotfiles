@@ -1,3 +1,7 @@
+(defcfg
+  log-layer-changes no
+)
+
 (deflocalkeys-win
   ^     222
   at    192

@@ -15,6 +15,8 @@ enable_systemd_units() {
 	for unit_file in "${DOTPATH}/configs/${DOTFILES_INIT_CONFIG_NAME}/systemd-units/"*; do
 		local unit_filename
 		unit_filename="$(basename "${unit_file}")"
+
+		log "info" "Enabling systemd unit: ${unit_filename}"
 		if ! systemctl --user --quiet is-enabled "${unit_filename}"; then
 			systemctl --user enable --now "${unit_filename}"
 		fi

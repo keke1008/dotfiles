@@ -1,0 +1,10 @@
+[Unit]
+Description=Kanata keyboard remapper
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c 'exec kanata --no-wait'
+Restart=no
+
+[Install]
+WantedBy=default.target
