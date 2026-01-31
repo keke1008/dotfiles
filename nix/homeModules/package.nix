@@ -24,8 +24,10 @@
             eza
             fish
             fzf
+            gcc
             gh
             git
+            jq
             neovim
             ripgrep
             tmux

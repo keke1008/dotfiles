@@ -1,5 +1,6 @@
 {
   imports = [
+    ./eww.nix
     ./fcitx5.nix
     ./font.nix
     ./helper.nix
