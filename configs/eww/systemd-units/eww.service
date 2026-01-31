@@ -1,0 +1,11 @@
+[Unit]
+Description=Eww ElKowars wacky widgets
+
+[Service]
+Environment=DISPLAY=:0 WAYLAND_DISPLAY=wayland-1
+Type=simple
+ExecStart=/bin/sh -c 'exec eww daemon --no-daemonize'
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

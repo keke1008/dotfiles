@@ -9,7 +9,7 @@
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Enable eww";
+      description = "Enable Eww";
     };
   };
 
@@ -23,19 +23,5 @@
       util-linux # rfkill
       wireplumber # wpctl
     ];
-
-    systemd.user.services.eww = {
-      Unit = {
-        Description = "eww; ElKowars wacky widgets ";
-        After = [ "graphical-session.target" ];
-      };
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-      Service = {
-        Restart = "on-failuer";
-        ExecStart = "${pkgs.eww}/bin/eww daemon --no-daemonize";
-      };
-    };
   };
 }

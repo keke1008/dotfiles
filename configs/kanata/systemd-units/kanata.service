@@ -4,7 +4,7 @@ Description=Kanata keyboard remapper
 [Service]
 Type=simple
 ExecStart=/bin/sh -c 'exec kanata --no-wait'
-Restart=no
+Restart=on-failure
 
 [Install]
 WantedBy=default.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Battery monitorng daemon
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c 'exec batsignal -f 80 -w 20 -c 10'
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
