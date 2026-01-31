@@ -20,8 +20,47 @@
   color: inherit;
 }
 
+progressbar > trough {
+  background-color: @normal-bg-2;
+}
+
+progress {
+  background-color: @normal-fg-0;
+}
+
+scale value {
+  font-size: 12px;
+  color: @normal-fg-1;
+}
+
+scale trough {
+  background-color: @normal-bg-2;
+  border: 2px solid @normal-bg-1;
+}
+
+scale.horizontal trough {
+  margin: 0 4px;
+}
+
+scale trough:focus {
+  border: 2px solid @info;
+}
+
+scale trough highlight {
+  background-color: @normal-fg-0;
+}
+
+scale trough slider {
+  min-height: 5px;
+  min-width: 5px;
+}
+
+scale trough:focus slider {
+  background-color: @info;
+}
+
 .background {
-  font-size: 16px;
+  font-size: 14px;
   background-color: @normal-bg-0;
 }
 
@@ -35,10 +74,26 @@
   margin: 4px;
 }
 
-.icon-button {
+.icon {
   font-size: 42px;
   margin: 4px;
-  padding: 16px;
+  padding: 8px;
+}
+
+.icon.medium {
+  font-size: 18px;
+  padding: 4px;
+  margin: 4px;
+}
+
+.icon.small {
+  font-size: 12px;
+  padding: 6px;
+  margin: 2px;
+}
+
+.icon-button {
+  border: 1px solid transparent;
 }
 
 .icon-button:hover, .icon-button:focus {
@@ -49,8 +104,8 @@
   background-color: @normal-bg-3;
 }
 
-.icon-button:selected {
-  border: 2px solid @info;
+.icon-button:focus {
+  border: 1px solid @info;
 }
 
 .icon-button.disabled {
@@ -62,15 +117,7 @@
 }
 
 .bluetooth-device {
-  padding: 0 8px;
-}
-
-.bluetooth-device-icon {
-  font-size: 24px;
-}
-
-.bluetooth-device-name {
-  margin: 16px;
+  padding-right: 16px;
 }
 
 .horizontal-divider {
@@ -78,26 +125,12 @@
   margin: 8px 0px;
 }
 
-progressbar > trough {
-  background-color: @normal-bg-2;
+.audio-media-control {
+  padding-right: 8px;
 }
 
-progress {
-  background-color: @normal-fg-0;
-}
-
-scale trough {
-  background-color: @normal-bg-2;
-}
-
-scale highlight {
-  background-color: @normal-fg-0;
-}
-
-scale slider {
-  background-color: @info;
-  min-height: 5px;
-  min-width: 5px;
+.audio-player {
+  padding: 8px 8px 0;
 }
 
 .audio-player-title {
@@ -113,21 +146,6 @@ scale slider {
   padding-left: 8px;
   font-size: 12px;
   color: @normal-fg-1;
-}
-
-.audio-player-button {
-  font-size: 12px;
-  padding: 8px;
-  margin: 0px;
-}
-
-.audio-player-volume {
-  padding: 0px 8px;
-}
-
-.audio-player-volume-icon {
-  padding: 4px 0;
-  font-size: 12px;
 }
 
 .debug {

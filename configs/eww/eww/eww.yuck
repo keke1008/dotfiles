@@ -22,6 +22,14 @@
     :initial '{}'
     `./scripts/audio-player.sh player-details`)
 
+(deflisten audio-media-source-status
+    :initial '{ "volume": 0, "muted": false }'
+    `./scripts/audio-media.sh source-status`)
+
+(deflisten audio-media-sink-status
+    :initial '{ "volume": 0, "muted": false }'
+    `./scripts/audio-media.sh sink-status`)
+
 (defwindow start-menu
     :geometry (geometry
         :anchor "center center"
@@ -42,11 +50,9 @@
         (connectivity-section)
         (audio-section)))
 
-(defwidget icon-button [icon ?onclick ?class ?size]
+(defwidget icon-button [icon ?onclick ?class]
     (button
-        :width { size ?: 80 }
-        :height { size ?: 80 }
-        :class "${class} icon-button"
+        :class "${class} icon icon-button"
         :onclick { reset-selected-menu-item + onclick }
         icon))
 
@@ -127,7 +133,7 @@
             :space-evenly false
             :class "bluetooth-device"
             (label
-                :class "bluetooth-device-icon"
+                :class "icon medium"
                 :text {
                     status["icon"] == "audio-headset" ? "󰋎"
                     : status["icon"] == "audio-headphones" ? "󰋋"
@@ -139,8 +145,7 @@
                 })
             (label
                 :text { status["name"] }
-                :truncate true
-                :class "bluetooth-device-name")
+                :truncate true)
             (horizontal-spacer)
             (box
                 :halign "end"
@@ -153,8 +158,14 @@
         :orientation "vertical"
         :space-evenly false
         :class "section"
+        (audio-media)
+        (horizontal-divider
+            :visible { arraylength(audio-players) >= 1 })
         (for player in audio-players
-             (audio-player :player player))
+             (box
+                :orientation "vertical"
+                :space-evenly false
+                (audio-player :player player)))
 
         ; HACK: Tell eww that `audio-player-details` is being used.
         ;
@@ -166,52 +177,82 @@
         ; variables, we explicitly reference them.
         (label :visible false :text audio-player-details)))
 
-(defwidget audio-player [player]
+(defwidget audio-media []
     (box
         :orientation "horizontal"
-        :space-evenly false
         (box
-            :orientation "vertical"
+            :orientation "horizontal"
+            :class "audio-media-control"
             :space-evenly false
-            (horizontal-divider)
+            (icon-button
+                :icon { audio-media-sink-status.muted ? "󰝟" : "󰕾" }
+                :onclick `./scripts/audio-media.sh toggle-sink-mute`
+                :class "medium")
+            (scale
+                :hexpand true
+                :draw-value true
+                :value-pos "left"
+                :min 0
+                :max 41
+                :value { audio-media-sink-status.volume }
+                :onchange `./scripts/audio-media.sh set-sink-volume {}%`))
+        (box
+            :orientation "horizontal"
+            :class "audio-media-control"
+            :space-evenly false
+            (icon-button
+                :icon { audio-media-source-status.muted ? "󰍭" : "󰍬" }
+                :onclick `./scripts/audio-media.sh toggle-source-mute`
+                :class "medium")
+            (scale
+                :hexpand true
+                :draw-value true
+                :value-pos "left"
+                :min 0
+                :max 101
+                :value { audio-media-source-status.volume }
+                :onchange `./scripts/audio-media.sh set-source-volume {}%`))))
+
+(defwidget audio-player [player]
+    (box
+        :orientation "vertical"
+        :space-evenly false
+        :class "audio-player"
+        (label
+            :text { audio-player-details[player].title }
+            :class "audio-player-title"
+            :xalign 0
+            :truncate true)
+        (label
+            :text { audio-player-details[player].artist }
+            :class "audio-player-artist"
+            :xalign 0
+            :truncate true)
+        (box
+            :orientation "horizontal"
+            :space-evenly false
+            :valign "center"
+            (box
+                :hexpand true
+                :valign "center"
+                (progress
+                    :value { audio-player-details[player].position ?: 0 }))
             (label
-                :text { audio-player-details[player].title }
-                :class "audio-player-title"
-                :xalign 0
-                :truncate true)
-            (label
-                :text { audio-player-details[player].artist }
-                :class "audio-player-artist"
-                :xalign 0
-                :truncate true)
+                :valign "center"
+                :class "audio-player-time"
+                :text { audio-player-details[player].time })
             (box
                 :orientation "horizontal"
-                :space-evenly false
-                :valign "center"
-                (box
-                    :hexpand true
-                    :valign "center"
-                    (progress
-                        :value { audio-player-details[player].position ?: 0 }))
-                (label
-                    :valign "center"
-                    :class "audio-player-time"
-                    :text { audio-player-details[player].time })
-                (box
-                    :orientation "horizontal"
-                    (icon-button
-                        :icon "󰒮"
-                        :size 16
-                        :class "audio-player-button"
-                        :onclick "./scripts/audio-player.sh skip-previous ${player}")
-                    (icon-button
-                        :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
-                        :size 16
-                        :class "audio-player-button"
-                        :onclick "./scripts/audio-player.sh toggle ${player}")
-                    (icon-button
-                        :icon "󰒭"
-                        :size 16
-                        :class "audio-player-button"
-                        :onclick "./scripts/audio-player.sh skip-next ${player}")
-                    )))))
+                (icon-button
+                    :icon "󰒮"
+                    :class "small"
+                    :onclick "./scripts/audio-player.sh skip-previous ${player}")
+                (icon-button
+                    :icon { audio-player-details[player].playing ? "󰏤" : "󰐊" }
+                    :class "small"
+                    :onclick "./scripts/audio-player.sh toggle ${player}")
+                (icon-button
+                    :icon "󰒭"
+                    :class "small"
+                    :onclick "./scripts/audio-player.sh skip-next ${player}")
+                ))))
