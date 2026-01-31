@@ -1,6 +1,8 @@
 #!/bin/sh -eu
 
 main() {
+	declare_systemd_unit_dir_link
+
 	if ! command -v systemctl >/dev/null 2>&1; then
 		return
 	fi

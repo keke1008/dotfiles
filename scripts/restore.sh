@@ -26,6 +26,10 @@ declare_local_bin_dir_link() {
 	unlink_local_bin_dir "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
 }
 
+declare_systemd_unit_dir_link() {
+	unlink_systemd_unit_dir "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
+}
+
 main() {
 	if ! migrate_dotfiles; then
 		log "error" "Failed to run migration. Exiting installation"

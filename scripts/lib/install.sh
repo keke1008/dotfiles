@@ -245,3 +245,57 @@ unlink_local_bin_dir() {
 		unlink_local_bin "${name}" "${relative_src_dir}/$(basename "${src}")"
 	done
 }
+
+# Create symbolic links to the systemd unit files in the user systemd directory
+#
+# Arguments:
+#   name: The name of the configuration directory
+#   src_dir: The name of the source directory in the configuration directory
+#    	(relative path from the configuration directory)
+link_systemd_unit_dir() {
+	if [ $# -ne 1 ] && [ $# -ne 2 ]; then
+		abort "Usage: link_systemd_unit_dir <name> [src_dir]"
+	fi
+
+	local name="$1"
+	local relative_src_dir="${2:-systemd-units}"
+	local src_dir="${DOTPATH}/configs/${name}/${relative_src_dir}"
+
+	# Error if the source directory does not exist
+	if [ ! -d "${src_dir}" ]; then
+		log "error" "The source directory does not exist: ${src_dir}"
+		return
+	fi
+
+	# link
+	for src in "${src_dir}"/*; do
+		link_reproducible "${src}" "${HOME}/.config/systemd/user/$(basename "${src}")"
+	done
+}
+
+# Unlink the systemd unit files from the user systemd directory
+#
+# Arguments:
+#   name: The name of the configuration directory
+#   src_dir: The name of the source directory in the configuration directory
+#    	(relative path from the configuration directory)
+unlink_systemd_unit_dir() {
+	if [ $# -ne 1 ] && [ $# -ne 2 ]; then
+		abort "Usage: unlink_systemd_unit_dir <name> [src_dir]"
+	fi
+
+	local name="$1"
+	local relative_src_dir="${2:-systemd-units}"
+	local src_dir="${DOTPATH}/configs/${name}/${relative_src_dir}"
+
+	# Error if the source directory does not exist
+	if [ ! -d "${src_dir}" ]; then
+		log "error" "The source directory does not exist: ${src_dir}"
+		return
+	fi
+
+	# unlink
+	for src in "${src_dir}"/*; do
+		unlink_reproducible "${src}" "${HOME}/.config/systemd/user/$(basename "${src}")"
+	done
+}
