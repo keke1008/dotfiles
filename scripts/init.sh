@@ -3,12 +3,7 @@
 . "${DOTPATH}/scripts/lib/log.sh"
 . "${DOTPATH}/scripts/lib/config_directory.sh"
 
-enable_systemd_units() {
-	if ! command -v systemctl >/dev/null 2>&1; then
-		log "info" "systemctl not found, skipping enabling systemd unit: ${unit_name}"
-		return
-	fi
-
+enable_systemd_unit_dir() {
 	local unit_dir
 	unit_dir="$(config_dirname_to_path "${DOTFILES_INIT_CONFIG_NAME}")/systemd-units"
 	if [ ! -d "${unit_dir}" ]; then
@@ -17,14 +12,10 @@ enable_systemd_units() {
 	fi
 
 	local unit_file
-	for unit_file in "${DOTPATH}/configs/${DOTFILES_INIT_CONFIG_NAME}/systemd-units/"*; do
-		local unit_filename
-		unit_filename="$(basename "${unit_file}")"
-
-		if ! systemctl --user --quiet is-enabled "${unit_filename}"; then
-			log "info" "Enabling systemd unit: ${unit_filename}"
-			systemctl --user enable --now "${unit_filename}"
-		fi
+	for unit_file in "${unit_dir}"/*; do
+		local unit_name
+		unit_name="$(basename "${unit_file}")"
+		enable_systemd_unit "${unit_name}"
 	done
 }
 
