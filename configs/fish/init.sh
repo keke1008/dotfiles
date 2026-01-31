@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if ! command -v fish >/dev/null 2>&1; then
-	log "error" "Fish shell is not installed."
-	return 1
+	log "warn" "Fish shell is not installed."
+	return 0
 fi
 
 if fish -c "type -q fisher"; then

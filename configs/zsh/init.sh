@@ -6,8 +6,8 @@ if [ -d "${XDG_CONFIG_HOME}/.antidote" ]; then
 fi
 
 if ! command -v zsh >/dev/null 2>&1; then
-	log error "Zsh is not installed."
-	return 1
+	log warn "Zsh is not installed."
+	return 0
 fi
 
 if ! command -v git >/dev/null 2>&1; then

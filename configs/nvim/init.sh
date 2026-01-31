@@ -1,8 +1,8 @@
 #!/bin/sh -eu
 
 if ! command -v nvim >/dev/null 2>&1; then
-	log "error" "Neovim is not installed."
-	return 1
+	log "warn" "Neovim is not installed."
+	return 0
 fi
 
 if nvim --headless -c '=require("keke.lazy").exit_with_is_installed()'; then

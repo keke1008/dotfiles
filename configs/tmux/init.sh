@@ -6,8 +6,8 @@ if [ -d "${HOME}/.tmux/plugins/tpm" ]; then
 fi
 
 if ! command -v tmux >/dev/null 2>&1; then
-	log "error" "tmux is not installed."
-	return 1
+	log "warn" "tmux is not installed."
+	return 0
 fi
 
 if ! command -v git >/dev/null 2>&1; then
