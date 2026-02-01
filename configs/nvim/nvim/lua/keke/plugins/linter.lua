@@ -1,7 +1,7 @@
 return {
     "mfussenegger/nvim-lint",
     init = function()
-        vim.api.nvim_create_autocmd("BufWritePost", {
+        vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
             group = vim.api.nvim_create_augroup("keke_nvim_lint", {}),
             callback = function()
                 require("lint").try_lint(nil, { ignore_errors = true })
