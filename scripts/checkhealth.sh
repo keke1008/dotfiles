@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
-. "${DOTPATH}/scripts/lib/log.sh"
-. "${DOTPATH}/scripts/lib/config_directory.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
 
 report() {
 	if [ $# -ne 2 ] && [ $# -ne 3 ]; then

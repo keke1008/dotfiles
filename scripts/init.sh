@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
-. "${DOTPATH}/scripts/lib/log.sh"
-. "${DOTPATH}/scripts/lib/config_directory.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
 
 enable_systemd_unit_dir() {
 	local unit_dir

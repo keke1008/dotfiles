@@ -1,10 +1,10 @@
 #!/bin/sh -eu
 
-. "${DOTPATH}/scripts/lib/log.sh"
-. "${DOTPATH}/scripts/lib/link_reproducible.sh"
-. "${DOTPATH}/scripts/lib/config_directory.sh"
-. "${DOTPATH}/scripts/lib/install.sh"
-. "${DOTPATH}/scripts/lib/migration.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/link_reproducible.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/install.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/migration.sh"
 
 declare_config_link() {
 	unlink_and_restore "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"

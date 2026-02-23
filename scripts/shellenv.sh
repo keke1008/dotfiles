@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-. "${DOTPATH}/scripts/lib/log.sh"
+. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
 
 print_export_variable_command() {
 	if [ "$#" -ne 1 ]; then

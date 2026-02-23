@@ -1,7 +1,7 @@
 # shellcheck shell=sh
 
 _DOTFILES_VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
-_DOTFILES_MIGRATION_SCRIPTS_DIR="${DOTPATH}/scripts/lib/migrations"
+_DOTFILES_MIGRATION_SCRIPTS_DIR="${DOTFILES_SCRIPT_HOME}/lib/migrations"
 
 get_current_version() {
 	local version_lock_file="${_DOTFILES_VERSION_LOCK_FILE}"
