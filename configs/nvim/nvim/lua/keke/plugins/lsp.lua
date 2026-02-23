@@ -1,5 +1,6 @@
 ---@diagnostic disable: missing-fields
 local drawer = require("drawer")
+local lsp = require("keke.utils.lsp")
 
 local function lsp_default_configuration()
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -103,7 +104,20 @@ return {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-        config = true,
+        opts = {
+            on_attach = function(_, bufnr)
+                vim.keymap.set("n", "<leader>lD", "<CMD>TSToolsGoToSourceDefinition<CR>", { buffer = bufnr })
+            end,
+            root_dir = function(bufnr, on_dir)
+                local deno_root = vim.fs.root(bufnr, lsp.DENO_ROOT_MARKER)
+                if deno_root ~= nil then
+                    return
+                end
+
+                local marker = { "package.json", "tsconfig.json", "jsconfig.json", ".git" }
+                return lsp.root_dir(marker)(bufnr, on_dir)
+            end,
+        },
     },
     {
         "folke/trouble.nvim",
