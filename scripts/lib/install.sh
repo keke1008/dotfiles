@@ -30,7 +30,7 @@ stash_and_link() {
 
 	local name="$1"
 	local dst="$2"
-	local src="${DOTPATH}/configs/${name}/${3}"
+	local src="${DOTFILES_CONFIG_HOME}/${name}/${3}"
 	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
 	# Do nothing if the destination is already linked to the configuration file
@@ -69,7 +69,7 @@ unlink_and_restore() {
 
 	local name="$1"
 	local dst="$2"
-	local src="${DOTPATH}/configs/${name}/${3}"
+	local src="${DOTFILES_CONFIG_HOME}/${name}/${3}"
 	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${3}}"
 
 	# unlink
@@ -162,7 +162,7 @@ link_local_bin() {
 	fi
 
 	local name="$1"
-	local src="${DOTPATH}/configs/${name}/${2}"
+	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="${HOME}/.local/bin/$(basename "${src}")"
 
 	# Error if the source file is not executable
@@ -186,7 +186,7 @@ unlink_local_bin() {
 	fi
 
 	local name="$1"
-	local src="${DOTPATH}/configs/${name}/${2}"
+	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="${HOME}/.local/bin/$(basename "${src}")"
 
 	unlink_reproducible "${src}" "${dst}"
@@ -205,7 +205,7 @@ link_local_bin_dir() {
 
 	local name="$1"
 	local relative_src_dir="${2:-bin}"
-	local src_dir="${DOTPATH}/configs/${name}/${relative_src_dir}"
+	local src_dir="${DOTFILES_CONFIG_HOME}/${name}/${relative_src_dir}"
 
 	# Error if the source directory does not exist
 	if [ ! -d "${src_dir}" ]; then
@@ -232,7 +232,7 @@ unlink_local_bin_dir() {
 
 	local name="$1"
 	local relative_src_dir="${2:-bin}"
-	local src_dir="${DOTPATH}/configs/${name}/${relative_src_dir}"
+	local src_dir="${DOTFILES_CONFIG_HOME}/${name}/${relative_src_dir}"
 
 	# Error if the source directory does not exist
 	if [ ! -d "${src_dir}" ]; then
@@ -259,7 +259,7 @@ link_systemd_unit_dir() {
 
 	local name="$1"
 	local relative_src_dir="${2:-systemd-units}"
-	local src_dir="${DOTPATH}/configs/${name}/${relative_src_dir}"
+	local src_dir="${DOTFILES_CONFIG_HOME}/${name}/${relative_src_dir}"
 
 	# Error if the source directory does not exist
 	if [ ! -d "${src_dir}" ]; then
@@ -286,7 +286,7 @@ unlink_systemd_unit_dir() {
 
 	local name="$1"
 	local relative_src_dir="${2:-systemd-units}"
-	local src_dir="${DOTPATH}/configs/${name}/${relative_src_dir}"
+	local src_dir="${DOTFILES_CONFIG_HOME}/${name}/${relative_src_dir}"
 
 	# Error if the source directory does not exist
 	if [ ! -d "${src_dir}" ]; then
