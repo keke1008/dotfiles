@@ -10,8 +10,8 @@ main() {
 	local code_dirname
 	for code_dirname in "Code - OSS" "Code" "Cursor"; do
 		local code_dir="${code_base_dir}/${code_dirname}/User"
-		declare_config_link "keybindings.json" "${code_dir}/keybindings.json" "${code_dirname}-keybindings.json"
-		declare_config_link "settings.json" "${code_dir}/settings.json" "${code_dirname}-settings.json"
+		declare_config_link "${code_dirname}/keybindings.json" "${code_dir}/keybindings.json"
+		declare_config_link "${code_dirname}/settings.json" "${code_dir}/settings.json"
 	done
 }
 
