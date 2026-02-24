@@ -19,7 +19,7 @@ stash_and_link() {
 	local name="$1"
 	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="$3"
-	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${2}"
+	local stashed="${_DOTFILES_STASH_ROOT}/${name}/${2}"
 
 	# Do nothing if the destination is already linked to the configuration file
 	if paths_point_to_same "${dst}" "${src}"; then
@@ -33,7 +33,7 @@ stash_and_link() {
 	fi
 
 	# stash
-	if [ -e "${dst}" ]; then
+	if [ -n "${_DOTFILES_STASH_ROOT}" ] && [ -e "${dst}" ]; then
 		log "info" "Stashing ${dst} to ${stashed}"
 		mkdir -p "$(dirname "${stashed}")"
 		mv "${dst}" "${stashed}"
@@ -58,13 +58,13 @@ unlink_and_restore() {
 	local name="$1"
 	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="$3"
-	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${2}"
+	local stashed="${_DOTFILES_STASH_ROOT}/${name}/${2}"
 
 	# unlink
 	unlink_reproducible "${src}" "${dst}"
 
 	# restore
-	if [ -e "${stashed}" ]; then
+	if [ -n "${_DOTFILES_STASH_ROOT}" ] && [ -e "${stashed}" ]; then
 		log "info" "Restoring ${stashed} to ${dst}"
 		mv "${stashed}" "${dst}"
 	fi
