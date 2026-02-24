@@ -11,17 +11,15 @@
 #   src: The path to the configuration file in the configuration directory
 #  		(relative path from the configuration directory)
 #   dst: The path to place the configuration file (absolute path)
-#  	stashed: The path to the stashed file in the original home directory
-#  		(relative path from the original configuration directory)
 stash_and_link() {
-	if [ $# -ne 3 ] && [ $# -ne 4 ]; then
-		abort "Usage: stash_and_link <name> <src> <dst> [stashed]"
+	if [ $# -ne 3 ]; then
+		abort "Usage: stash_and_link <name> <src> <dst>"
 	fi
 
 	local name="$1"
 	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="$3"
-	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${2}}"
+	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${2}"
 
 	# Do nothing if the destination is already linked to the configuration file
 	if paths_point_to_same "${dst}" "${src}"; then
@@ -52,17 +50,15 @@ stash_and_link() {
 #   src: The path to the configuration file in the configuration directory
 #  		(relative path from the configuration directory)
 #   dst: The path to place the configuration file (absolute path)
-#  	stashed: The path to the stashed file in the original home directory
-#  		(relative path from the original configuration directory)
 unlink_and_restore() {
-	if [ $# -ne 3 ] && [ $# -ne 4 ]; then
-		abort "Usage: unlink_and_restore <name> <src> <dst> [stashed]"
+	if [ $# -ne 3 ]; then
+		abort "Usage: unlink_and_restore <name> <src> <dst>"
 	fi
 
 	local name="$1"
 	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="$3"
-	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${4:-${2}}"
+	local stashed="${DOTFILES_ORIGINAL_HOME}/${name}/${2}"
 
 	# unlink
 	unlink_reproducible "${src}" "${dst}"
