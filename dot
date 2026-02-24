@@ -31,19 +31,48 @@ bootstrap() {
 
 execute_script() {
 	if [ $# -eq 0 ]; then
-		echo "Usage: $0 <subcommand> [args...]"
+		echo "Usage: $0 [profile] <subcommand> [args...]"
+		abort "Subcommand is required."
+	fi
+
+	case "$1" in
+	local)
+		_DOTFILES_PROFILE="local"
+		shift
+		;;
+	global)
+		_DOTFILES_PROFILE="global"
+		shift
+		;;
+	*)
+		_DOTFILES_PROFILE="global"
+		;;
+	esac
+	log info "profile: ${_DOTFILES_PROFILE}"
+
+	if [ $# -eq 0 ]; then
+		echo "Usage: $0 [profile] <subcommand> [args...]"
 		abort "Subcommand is required."
 	fi
 
 	local subcommand="$1"
+	log info "subcommand: ${subcommand}"
 	shift
 
+	local _DOTFILES_STASH_ROOT=""
+	if [ "${_DOTFILES_PROFILE}" = "global" ]; then
+		_DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
+	fi
+
 	local subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
-	if [ -x "${subcommand_source}" ]; then
-		"${subcommand_source}" "$@"
-	else
+	if ! [ -x "${subcommand_source}" ]; then
 		abort "Unknown subcommand: ${subcommand}"
 	fi
+
+	# shellcheck disable=SC2086
+	env _DOTFILES_PROFILE="${_DOTFILES_PROFILE}" \
+		_DOTFILES_STASH_ROOT="${_DOTFILES_STASH_ROOT}" \
+		"${subcommand_source}" "$@"
 }
 
 main() {
