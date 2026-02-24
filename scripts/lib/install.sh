@@ -90,15 +90,18 @@ unlink_and_restore() {
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #       (relative path from the configuration directory)
+# 	dst: The path to place the configuration file in the XDG configuration directory
+# 		(relative path from the XDG configuration directory)
 stash_and_link_xdg_based_config() {
-	if [ $# -ne 1 ] && [ $# -ne 2 ]; then
-		abort "Usage: stash_and_link_xdg_config <name> [src]"
+	if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+		abort "Usage: stash_and_link_xdg_config <name> [src] [dst]"
 	fi
 
 	local name="$1"
 	local src="${2:-${name}}"
+	local dst="${XDG_CONFIG_HOME}/${3:-${src}}"
 
-	stash_and_link "${name}" "${src}" "${XDG_CONFIG_HOME}/${src}"
+	stash_and_link "${name}" "${src}" "${dst}"
 }
 
 # Restore the original file and uninstall the configuration file from the XDG configuration directory
@@ -107,15 +110,18 @@ stash_and_link_xdg_based_config() {
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #       (relative path from the configuration directory)
+#   dst: The path to place the configuration file in the XDG configuration directory
+# 		(relative path from the XDG configuration directory)
 unlink_and_restore_xdg_based_config() {
-	if [ $# -ne 1 ] && [ $# -ne 2 ]; then
-		abort "Usage: restore_and_unlink_xdg_config <name> [src]"
+	if [ $# -lt 1 ] || [ $# -gt 3 ]; then
+		abort "Usage: restore_and_unlink_xdg_config <name> [src] [dst]"
 	fi
 
 	local name="$1"
 	local src="${2:-${name}}"
+	local dst="${XDG_CONFIG_HOME}/${3:-${src}}"
 
-	unlink_and_restore "${name}" "${src}" "${XDG_CONFIG_HOME}/${src}"
+	unlink_and_restore "${name}" "${src}" "${dst}"
 }
 
 # Stash the original file and create a symbolic link to the configuration file in the home directory
@@ -124,15 +130,18 @@ unlink_and_restore_xdg_based_config() {
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #    	(relative path from the configuration directory)
+#   dst: The path to place the configuration file in the home directory
+#    	(relative path from the home directory)
 stash_and_link_home_config() {
-	if [ $# -ne 2 ]; then
-		abort "Usage: stash_and_link_home_config <name> <src>"
+	if [ $# -ne 2 ] && [ $# -ne 3 ]; then
+		abort "Usage: stash_and_link_home_config <name> <src> [dst]"
 	fi
 
 	local name="$1"
 	local src="$2"
+	local dst="${HOME}/${3:-${src}}"
 
-	stash_and_link "${name}" "${src}" "${HOME}/${src}"
+	stash_and_link "${name}" "${src}" "${dst}"
 }
 
 # Restore the original file and uninstall the configuration file from the home directory
@@ -141,15 +150,18 @@ stash_and_link_home_config() {
 #   name: The name of the configuration directory
 #   src: The path to the configuration file in the configuration directory
 #    	(relative path from the configuration directory)
+#   dst: The path to place the configuration file in the home directory
+#    	(relative path from the home directory)
 unlink_and_restore_home_config() {
-	if [ $# -ne 2 ]; then
-		abort "Usage: restore_and_unlink_home_config <name> <src>"
+	if [ $# -ne 2 ] && [ $# -ne 3 ]; then
+		abort "Usage: restore_and_unlink_home_config <name> <src> [dst]"
 	fi
 
 	local name="$1"
 	local src="$2"
+	local dst="${HOME}/${3:-${src}}"
 
-	unlink_and_restore "${name}" "${src}" "${HOME}/${src}"
+	unlink_and_restore "${name}" "${src}" "${dst}"
 }
 
 # Create a symbolic link to the executable file in the local bin directory
