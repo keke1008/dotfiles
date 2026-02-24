@@ -4,16 +4,6 @@
 #  ./log.sh
 #  ./link_reproducible.sh
 
-create_original_home() {
-	if [ $# -ne 1 ]; then
-		abort "Usage: create_original_home <name>"
-	fi
-
-	local name="$1"
-
-	mkdir -p "${DOTFILES_ORIGINAL_HOME}/${name}"
-}
-
 # Stash the original file and link the configuration file
 #
 # Arguments:

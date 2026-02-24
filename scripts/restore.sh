@@ -36,8 +36,6 @@ main() {
 		exit 1
 	fi
 
-	export DOTFILES_INSTALL_MODE="restore"
-
 	local config_dirnames
 	config_dirnames="$(enumerate_config_dirname "$@")"
 	if ! echo "$config_dirnames" | check_file_exists "install.sh"; then
@@ -45,13 +43,11 @@ main() {
 	fi
 
 	local config_dirname
-	# shellcheck disable=SC2167
 	for config_dirname in $config_dirnames; do
 		DOTFILES_RESTORE_CONFIG_NAME="${config_dirname}"
 
 		log "info" "Restoring configuration directory: ${config_dirname}"
 
-		# shellcheck disable=SC1091
 		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
 			log "error" "Failed to restore configuration directory: ${config_dirname}"
 		fi
