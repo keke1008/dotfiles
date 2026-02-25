@@ -59,9 +59,10 @@ execute_script() {
 	log trace "subcommand: ${subcommand}"
 	shift
 
-	local _DOTFILES_STASH_ROOT=""
 	if [ "${_DOTFILES_PROFILE}" = "global" ]; then
-		_DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
+		local _DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
+	else
+		local _DOTFILES_STASH_ROOT="/dev/null"
 	fi
 
 	local subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"

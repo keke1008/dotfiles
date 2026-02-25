@@ -19,7 +19,6 @@ stash_and_link() {
 	local name="$1"
 	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="$3"
-	local stashed="${_DOTFILES_STASH_ROOT}/${name}/${2}"
 
 	# Do nothing if the destination is already linked to the configuration file
 	if paths_point_to_same "${dst}" "${src}"; then
@@ -27,13 +26,14 @@ stash_and_link() {
 	fi
 
 	# Check if the stashed file already exists
+	local stashed="${_DOTFILES_STASH_ROOT}/${name}/${2}"
 	if [ -e "${stashed}" ]; then
 		log "error" "The stashed file already exists: ${stashed}"
 		return
 	fi
 
 	# stash
-	if [ -n "${_DOTFILES_STASH_ROOT}" ] && [ -e "${dst}" ]; then
+	if [ -e "${dst}" ]; then
 		log "info" "Stashing ${dst} to ${stashed}"
 		mkdir -p "$(dirname "${stashed}")"
 		mv "${dst}" "${stashed}"
@@ -58,13 +58,13 @@ unlink_and_restore() {
 	local name="$1"
 	local src="${DOTFILES_CONFIG_HOME}/${name}/${2}"
 	local dst="$3"
-	local stashed="${_DOTFILES_STASH_ROOT}/${name}/${2}"
 
 	# unlink
 	unlink_reproducible "${src}" "${dst}"
 
 	# restore
-	if [ -n "${_DOTFILES_STASH_ROOT}" ] && [ -e "${stashed}" ]; then
+	local stashed="${_DOTFILES_STASH_ROOT}/${name}/${2}"
+	if [ -e "${stashed}" ]; then
 		log "info" "Restoring ${stashed} to ${dst}"
 		mv "${stashed}" "${dst}"
 	fi
