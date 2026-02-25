@@ -1,8 +1,5 @@
 # shellcheck shell=sh
 
-_DOTFILES_VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
-_DOTFILES_MIGRATION_SCRIPTS_DIR="${_DOTFILES_SCRIPT_HOME}/lib/migrations"
-
 get_current_version() {
 	local version_lock_file="${_DOTFILES_VERSION_LOCK_FILE}"
 	if ! [ -f "${version_lock_file}" ]; then
@@ -51,6 +48,11 @@ write_version_lock() {
 }
 
 migrate_dotfiles() {
+	if ! [ -d "${_DOTFILES_MIGRATION_SCRIPTS_DIR}" ]; then
+		log "info" "No migration scripts directory found, skipping migrations"
+		return 0
+	fi
+
 	local current_version
 	if ! current_version=$(get_current_version); then
 		log "info" "version lock file not found, initializing with skipping migrations"

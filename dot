@@ -62,9 +62,13 @@ execute_script() {
 	case "${profile}" in
 	global)
 		local _DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
+		local _DOTFILES_VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
+		local _DOTFILES_MIGRATION_SCRIPTS_DIR="${_DOTFILES_SCRIPT_HOME}/lib/migrations"
 		;;
 	local)
 		local _DOTFILES_STASH_ROOT="/dev/null"
+		local _DOTFILES_VERSION_LOCK_FILE=""
+		local _DOTFILES_MIGRATION_SCRIPTS_DIR=""
 		;;
 	*)
 		abort "Invalid profile: ${profile}"
@@ -79,6 +83,8 @@ execute_script() {
 	# shellcheck disable=SC2086
 	env _DOTFILES_SCRIPT_HOME="${_DOTFILES_SCRIPT_HOME}" \
 		_DOTFILES_STASH_ROOT="${_DOTFILES_STASH_ROOT}" \
+		_DOTFILES_VERSION_LOCK_FILE="${_DOTFILES_VERSION_LOCK_FILE}" \
+		_DOTFILES_MIGRATION_SCRIPTS_DIR="${_DOTFILES_MIGRATION_SCRIPTS_DIR}" \
 		"${subcommand_source}" "$@"
 }
 
