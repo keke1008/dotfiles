@@ -87,7 +87,6 @@ fi
 
 mkdir -p "$HOME/.local/bin"
 prepend_path "$HOME/.local/bin"
-prepend_path "$DOTPATH/bin"
 
 for EDITOR in "nvim" "vim" "vi"; do
 	if command -v "$EDITOR" >/dev/null; then
