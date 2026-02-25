@@ -37,18 +37,18 @@ execute_script() {
 
 	case "$1" in
 	local)
-		_DOTFILES_PROFILE="local"
+		local profile="local"
 		shift
 		;;
 	global)
-		_DOTFILES_PROFILE="global"
+		local profile="global"
 		shift
 		;;
 	*)
-		_DOTFILES_PROFILE="global"
+		local profile="global"
 		;;
 	esac
-	log trace "profile: ${_DOTFILES_PROFILE}"
+	log trace "profile: ${profile}"
 
 	if [ $# -eq 0 ]; then
 		echo "Usage: $0 [profile] <subcommand> [args...]"
@@ -59,11 +59,17 @@ execute_script() {
 	log trace "subcommand: ${subcommand}"
 	shift
 
-	if [ "${_DOTFILES_PROFILE}" = "global" ]; then
+	case "${profile}" in
+	global)
 		local _DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
-	else
+		;;
+	local)
 		local _DOTFILES_STASH_ROOT="/dev/null"
-	fi
+		;;
+	*)
+		abort "Invalid profile: ${profile}"
+		;;
+	esac
 
 	local subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
 	if ! [ -x "${subcommand_source}" ]; then
@@ -71,8 +77,7 @@ execute_script() {
 	fi
 
 	# shellcheck disable=SC2086
-	env _DOTFILES_PROFILE="${_DOTFILES_PROFILE}" \
-		_DOTFILES_STASH_ROOT="${_DOTFILES_STASH_ROOT}" \
+	env _DOTFILES_STASH_ROOT="${_DOTFILES_STASH_ROOT}" \
 		"${subcommand_source}" "$@"
 }
 
