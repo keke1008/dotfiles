@@ -1,5 +1,6 @@
 # shellcheck shell=sh
 
+DOTFILES_LOG_LEVEL="${DOTFILES_LOG_LEVEL:-info}"
 _DOTFILES_EXIT_CODE=0
 
 set_exit_code() {
@@ -29,7 +30,7 @@ _print_with_color_id() {
 	local message="$2"
 
 	printf "\e[%sm" "${color_id}"
-	printf "${message}"
+	printf "%s" "${message}"
 	printf "\e[0m"
 }
 
@@ -58,6 +59,22 @@ _map_color_id() {
 	esac
 }
 
+_map_level() {
+	if [ $# -ne 1 ]; then
+		abort "Usage: _map_level level"
+	fi
+
+	local level="$1"
+
+	case ${level} in
+	trace) echo "1" ;;
+	info) echo "2" ;;
+	warn) echo "3" ;;
+	error) echo "4" ;;
+	*) abort "Invalid level: ${level}" ;;
+	esac
+}
+
 print_colored() {
 	if [ $# -ne 2 ]; then
 		abort "Usage: print_colored color message"
@@ -76,6 +93,10 @@ log() {
 
 	local level="$1"
 	local message="$2"
+
+	if [ "$(_map_level "${level}")" -lt "$(_map_level "${DOTFILES_LOG_LEVEL}")" ]; then
+		return
+	fi
 
 	print_colored "${level}" "[${level}]"
 	printf " %s\n" "${message}"

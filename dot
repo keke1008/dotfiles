@@ -48,7 +48,7 @@ execute_script() {
 		_DOTFILES_PROFILE="global"
 		;;
 	esac
-	log info "profile: ${_DOTFILES_PROFILE}"
+	log trace "profile: ${_DOTFILES_PROFILE}"
 
 	if [ $# -eq 0 ]; then
 		echo "Usage: $0 [profile] <subcommand> [args...]"
@@ -56,7 +56,7 @@ execute_script() {
 	fi
 
 	local subcommand="$1"
-	log info "subcommand: ${subcommand}"
+	log trace "subcommand: ${subcommand}"
 	shift
 
 	local _DOTFILES_STASH_ROOT=""
