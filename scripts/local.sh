@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
-. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${DOTFILES_SCRIPT_HOME}/lib/link_reproducible.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/link_reproducible.sh"
 
 expand_tilde() {
 	if [ $# -ne 1 ]; then

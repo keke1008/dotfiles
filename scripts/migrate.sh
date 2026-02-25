@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${DOTFILES_SCRIPT_HOME}/lib/migration.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/migration.sh"
 
 migrate_dotfiles

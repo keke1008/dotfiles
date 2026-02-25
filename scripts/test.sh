@@ -1,8 +1,8 @@
 #!/bin/sh -eu
 
-. "${DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
-. "${DOTFILES_SCRIPT_HOME}/lib/migration.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/migration.sh"
 
 main() {
 	if ! is_latest_version; then
