@@ -8,7 +8,7 @@ config_dirname_to_path() {
 		abort "Usage: config_dirname_to_path <config_dirname>"
 	fi
 
-	echo "${DOTFILES_CONFIG_HOME}/${1}"
+	echo "${_DOTFILES_CONFIG_HOME}/${1}"
 }
 
 map_config_dirname_to_file_path() {
@@ -27,7 +27,7 @@ map_config_dirname_to_file_path() {
 enumerate_config_dirname() {
 	local dir_paths
 	if [ $# -eq 0 ]; then
-		dir_paths="${DOTFILES_CONFIG_HOME}/*"
+		dir_paths="${_DOTFILES_CONFIG_HOME}/*"
 	else
 		dir_paths="$*"
 	fi
