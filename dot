@@ -23,7 +23,7 @@ bootstrap() {
 	export_and_mkdir XDG_CONFIG_HOME "${HOME}/.config"
 	export_and_mkdir XDG_DATA_HOME "${HOME}/.local/share"
 
-	export_and_mkdir DOTFILES_CONFIG_HOME "${DOTPATH}/configs"
+	export DOTFILES_CONFIG_HOME="${DOTPATH}/configs"
 	export_and_mkdir DOTFILES_DATA_HOME "${XDG_DATA_HOME}/dotfiles"
 	export_and_mkdir DOTFILES_LOCAL_HOME "${XDG_CONFIG_HOME}/dotfiles/local"
 	export_and_mkdir DOTFILES_ORIGINAL_HOME "${XDG_CONFIG_HOME}/dotfiles/original"
@@ -61,11 +61,17 @@ execute_script() {
 
 	case "${profile}" in
 	global)
+		local _DOTFILES_CONFIG_HOME="${DOTFILES_CONFIG_HOME}"
 		local _DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
 		local _DOTFILES_VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
 		local _DOTFILES_MIGRATION_SCRIPTS_DIR="${_DOTFILES_SCRIPT_HOME}/lib/migrations"
 		;;
 	local)
+		if ! [ -r "$HOME/.dotpath.local" ] || ! local_dotpath=$(cat "$HOME/.dotpath.local"); then
+			log error "Failed to read local dotpath from ${HOME}/.dotpath.local"
+			return 1
+		fi
+		local _DOTFILES_CONFIG_HOME="${local_dotpath}/configs"
 		local _DOTFILES_STASH_ROOT="/dev/null"
 		local _DOTFILES_VERSION_LOCK_FILE=""
 		local _DOTFILES_MIGRATION_SCRIPTS_DIR=""
@@ -75,7 +81,7 @@ execute_script() {
 		;;
 	esac
 
-	local subcommand_source="${DOTPATH}/scripts/${subcommand}.sh"
+	local subcommand_source="${_DOTFILES_SCRIPT_HOME}/${subcommand}.sh"
 	if ! [ -x "${subcommand_source}" ]; then
 		abort "Unknown subcommand: ${subcommand}"
 	fi
