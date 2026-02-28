@@ -75,6 +75,7 @@ return {
                 "nil_ls",
                 "notes_ls",
                 "pyright",
+                "qmlls",
                 "rubocop",
                 "ruby_lsp",
                 "taplo",
