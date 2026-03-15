@@ -7,17 +7,13 @@ set $term "if command -v wezterm; then wezterm; elif command -v alacritty; then 
 set $menu wofi --show drun
 
 output * {
-    bg ./wallpaper.png fill
+    bg #15161B solid_color
 }
 
 exec swayidle -w \
          timeout 300 'swaylock -f' \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f'
-
-bar {
-    swaybar_command waybar
-}
 
 gaps inner 10
 titlebar_border_thickness 2
@@ -37,8 +33,8 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+Shift+c reload
 bindsym $mod+Control+q exec systemctl suspend
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-bindsym $mod+m exec eww open start-menu --toggle --screen 0
+bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit Sway?' -B 'Exit' 'if command -v "uwsm" >/dev/null; then uwsm stop; else swaymsg exit; fi'
+bindsym $mod+m exec quickshell ipc call app toggleFocusDrawer
 
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -109,4 +105,4 @@ mode "RESIZE" {
 include /etc/sway/config.d/*
 include ~/.config/dotfiles/local/sway/config
 
-exec command -v "uwsm" >/dev/null && uwsm check is-active && uwsm finalize
+exec command -v "uwsm" >/dev/null && uwsm check is-active && uwsm finalize SWAYSOCK I3SOCK

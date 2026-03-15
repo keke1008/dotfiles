@@ -20,6 +20,7 @@
               luajitPackages.luacheck
               nil
               biome
+              kdePackages.qtdeclarative # for qmlls
               selene
               shellcheck
               shfmt
