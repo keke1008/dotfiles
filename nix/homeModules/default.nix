@@ -8,6 +8,7 @@
     ./kanata.nix
     ./nix.nix
     ./package.nix
+    ./quickshell.nix
     ./sway.nix
   ];
 }
