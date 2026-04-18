@@ -37,7 +37,7 @@
 
           nixos-development = with pkgs; [
             nil
-            nixfmt-rfc-style
+            nixfmt
           ];
 
           gui-development = with pkgs; [
