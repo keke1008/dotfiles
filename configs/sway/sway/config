@@ -4,7 +4,7 @@ set $down j
 set $up k
 set $right l
 set $term "for cmd in ghostty wezterm alacritty; do command -v $cmd && { $cmd && break; }; done"
-set $menu wofi --show drun
+set $menu rofi -show drun
 
 output * {
     bg ~/.config/sway/wallpaper.png fill

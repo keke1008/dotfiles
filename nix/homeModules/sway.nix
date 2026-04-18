@@ -32,7 +32,7 @@
       uwsm # For executing `uwsm finalize` in sway config
       waybar
       wmenu
-      wofi
+      rofi
     ];
   };
 }

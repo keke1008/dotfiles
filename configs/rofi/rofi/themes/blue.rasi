@@ -1,0 +1,79 @@
+// Based on tokyonight.nvim color palette
+// https://github.com/folke/tokyonight.nvim
+// Original Copyright (c) 2021 folke, Licensed under the Apache License, Version 2.0
+
+* {
+    color-normal-fg: #c0caf5;
+    color-normal-bg: rgba(10, 10, 22, 0.7);
+    color-selected-bg: rgba(40, 52, 87, 0.7);
+    color-accent-fg: #7aa2f7;
+
+    color-background0: #15161B;
+    color-background1: #1F2029;
+    color-background2: #3C3E4F;
+
+    color-foreground0: #c8d0e8;
+    color-foreground1: #a8afc3;
+
+    color-primary: #5b9cf6;
+
+    color-disabled: #6b7394;
+    color-info: #5b9cf6;
+    color-error: #E65C5C;
+    color-warning: #E6A15C;
+
+    color-border: #6b7394;
+
+    text-color: @color-foreground1;
+    background-color: transparent;
+}
+
+window {
+    background-color: @color-background0;
+    font: "monospace 12";
+    width: 800px;
+    height: 610px;
+    border-radius: 12px;
+}
+
+mainbox {
+    children: [ inputbar, listview ];
+    margin: 0 8px;
+}
+
+inputbar {
+    children: [ entry ];
+    border: 0 0 2px 0;
+    border-color: @color-border;
+}
+
+entry {
+    cursor: none;
+    font: "monospace 16";
+    padding: 16px;
+}
+
+listview {
+    scrollbar: false;
+    padding: 2px 0 0;
+}
+
+element {
+    margin: 2px;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+element selected {
+    background-color: @color-background2;
+}
+
+element-text {
+    color: @color-normal-fg;
+    vertical-align: 0.5;
+    padding: 4px;
+}
+
+element-icon {
+    size: 24px;
+}

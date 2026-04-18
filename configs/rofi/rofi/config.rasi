@@ -1,0 +1,6 @@
+@theme "blue"
+
+configuration {
+    show-icons: true;
+    icon-theme: "hicolor";
+}
