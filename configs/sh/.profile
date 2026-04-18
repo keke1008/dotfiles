@@ -1,3 +1,5 @@
+# shellcheck shell=sh
+
 # Avoid recursive loading
 if [ -n "${DOTFILES_ORIGINAL_LOADING:-}" ]; then
 	return 0
@@ -81,6 +83,16 @@ prepend_path_if_exists "${AQUA_ROOT_DIR}/bin"
 
 if [ -r "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
 	. "$HOME/.nix-profile/etc/profile.d/nix.sh"
+fi
+
+if [ -d "$HOME/.nix-profile/etc/profile.d" ]; then
+	for f in "$HOME/.nix-profile/etc/profile.d/"*.sh; do
+		if [ -r "$f" ]; then
+			# shellcheck disable=SC1090
+			. "$f"
+		fi
+	done
+	unset f
 fi
 
 mkdir -p "$HOME/.local/bin"
