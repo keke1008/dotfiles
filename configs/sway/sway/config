@@ -3,11 +3,11 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term "if command -v wezterm; then wezterm; elif command -v alacritty; then alacritty; fi"
+set $term "for cmd in ghostty wezterm alacritty; do command -v $cmd && { $cmd && break; }; done"
 set $menu wofi --show drun
 
 output * {
-    bg #15161B solid_color
+    bg ~/.config/sway/wallpaper.png fill
 }
 
 exec swayidle -w \

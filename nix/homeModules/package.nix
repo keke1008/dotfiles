@@ -42,7 +42,7 @@
 
           gui-development = with pkgs; [
             _1password-gui
-            alacritty
+            ghostty
             firefox
             vscode
             wl-clipboard

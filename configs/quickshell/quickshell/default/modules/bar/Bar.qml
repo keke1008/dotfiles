@@ -1,6 +1,8 @@
 import QtQuick
 import Quickshell
 
+import qs.configs
+
 PanelWindow {
     id: root
     property alias screen: root.screen
@@ -11,8 +13,8 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: Math.max(leftArea.implicitHeight, rightArea.implicitHeight)
-    color: "transparent"
+    implicitHeight: Math.max(leftArea.implicitHeight, rightArea.implicitHeight) + Spacing.sm
+    color: Color.background0
 
     Left {
         id: leftArea
