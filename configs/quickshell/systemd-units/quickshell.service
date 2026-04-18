@@ -1,9 +1,0 @@
-[Unit]
-Description=Quickshell desktop widget
-
-[Service]
-ExecStart=/bin/sh -c 'exec quickshell'
-Restart=on-failure
-
-[Install]
-WantedBy=graphical-session.target

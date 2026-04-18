@@ -20,9 +20,26 @@
       material-symbols
     ];
 
-    qt = {
-      enable = true;
-      platformTheme.name = "gtk3";
-    };
+    systemd.user.services.quickshell =
+      let
+        targets = [
+          "wayland-session@sway.desktop.target" # Managed by UWSM
+        ];
+      in
+      {
+        Unit = {
+          Description = "Quickshell";
+          After = targets;
+          PartOf = targets;
+        };
+
+        Service = {
+          ExecStart = lib.getExe pkgs.quickshell;
+        };
+
+        Install = {
+          WantedBy = targets;
+        };
+      };
   };
 }
