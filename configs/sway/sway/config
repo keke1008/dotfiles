@@ -7,7 +7,7 @@ set $term "for cmd in ghostty wezterm alacritty; do command -v $cmd && { $cmd &&
 set $menu rofi -show drun
 
 output * {
-    bg ~/.config/sway/wallpaper.png fill
+    bg ~/Downloads/wallpaper_voronoi_blue3.png fill #15161b
 }
 
 exec swayidle -w \
