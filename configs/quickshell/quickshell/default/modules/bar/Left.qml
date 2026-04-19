@@ -28,7 +28,8 @@ Row {
 
             TextPadding {
                 square: true
-                padding: 0
+                verticalPadding: 0
+                horizontalPadding: Spacing.sm
                 rightPadding: (index + 1) % 5 === 0 ? Spacing.md : 0
 
                 Typography {

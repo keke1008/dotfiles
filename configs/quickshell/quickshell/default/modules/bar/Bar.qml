@@ -1,7 +1,9 @@
 import QtQuick
 import Quickshell
 
+import qs.components
 import qs.configs
+import qs.states
 
 PanelWindow {
     id: root
@@ -13,19 +15,23 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: Math.max(leftArea.implicitHeight, rightArea.implicitHeight) + Spacing.sm
-    color: Color.background0
+    implicitHeight: content.height
+    color: ApplicationState.showDrawer ? Color.background0 : "transparent"
 
-    Left {
-        id: leftArea
+    Padding {
+        id: content
 
-        anchors.left: parent.left
-        monitorName: root.screen.name
-    }
+        width: parent.width
+        horizontalPadding: 0
+        padding: Spacing.sm
 
-    Right {
-        id: rightArea
+        Left {
+            anchors.left: parent.left
+            monitorName: root.screen.name
+        }
 
-        anchors.right: parent.right
+        Right {
+            anchors.right: parent.right
+        }
     }
 }
