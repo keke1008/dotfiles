@@ -5,7 +5,6 @@ return {
             "nvim-lua/plenary.nvim",
             "nvim-neotest/nvim-nio",
             "nvim-treesitter/nvim-treesitter",
-            "antoinemadec/FixCursorHold.nvim",
             "marilari88/neotest-vitest",
             "marilari88/neotest-jest",
             "nvim-neotest/neotest-python",
