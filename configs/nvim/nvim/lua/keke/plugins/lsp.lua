@@ -149,6 +149,7 @@ return {
     },
     {
         "nvimdev/lspsaga.nvim",
+        commit = "562d972", -- pinned: b821192 switched to on_jump (Neovim 0.12+), so float doesn't show on 0.11.5
         cmd = "Lspsaga",
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
