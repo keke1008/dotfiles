@@ -49,6 +49,7 @@ vim.keymap.set("n", "+", ",")
 vim.keymap.set("n", "[b", "<CMD>bp<CR>")
 vim.keymap.set("n", "]b", "<CMD>bn<CR>")
 vim.keymap.set("t", "<C-\\>", "<C-\\><C-n>")
+vim.keymap.set("i", "<C-e>", "<CR>")
 vim.keymap.set({ "n", "x" }, "j", function()
     if vim.v.count == 0 then
         return "gj"

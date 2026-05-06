@@ -3,12 +3,8 @@ local drawer = require("drawer")
 local lsp = require("keke.utils.lsp")
 
 local function lsp_default_configuration()
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-    local cmp_capabilities = cmp_nvim_lsp.default_capabilities()
-    local default_capabilities = vim.lsp.protocol.make_client_capabilities()
-    local capabilities = vim.tbl_deep_extend("force", default_capabilities, cmp_capabilities)
-
+    local blink = require("blink.cmp")
+    local capabilities = blink.get_lsp_capabilities()
     return {
         capabilities = capabilities,
     }
