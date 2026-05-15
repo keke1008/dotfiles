@@ -14,7 +14,7 @@ Singleton {
     property var networks: {
         return __device?.networks.values.map(net => ({
                     name: net.name,
-                    state: NetworkState.toString(net.state),
+                    state: ConnectionState.toString(net.state),
                     strength: net.signalStrength,
                     known: net.known
                 })) ?? [];

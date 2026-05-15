@@ -7,10 +7,14 @@ import Quickshell.Networking
 Singleton {
     id: root
 
+    property var __device: {
+        return Networking.devices.values.filter(dev => dev.type !== DeviceType.Wifi);
+    }
+
     property var networks: {
-        return Networking.devices.values.filter(dev => dev.type !== DeviceType.Wifi).map(dev => ({
+        return root.__device.map(dev => ({
                     name: dev.name,
-                    state: DeviceConnectionState.toString(dev.state)
+                    state: ConnectionState.toString(dev.state)
                 }));
     }
 
