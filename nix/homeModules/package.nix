@@ -41,7 +41,6 @@
           ];
 
           gui-development = with pkgs; [
-            _1password-gui
             ghostty
             firefox
             vscode
