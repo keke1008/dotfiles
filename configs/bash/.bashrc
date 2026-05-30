@@ -42,7 +42,10 @@ shopt -s checkwinsize
 stty werase undef
 bind '\C-w:unix-filename-rubout'
 
-# direnv
+if command -v "mise" >/dev/null; then
+	eval "$(mise activate bash)"
+fi
+
 if command -v "direnv" >/dev/null; then
 	eval "$(direnv hook bash)"
 fi

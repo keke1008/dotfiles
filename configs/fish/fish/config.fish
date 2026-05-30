@@ -56,6 +56,10 @@ functions -e alias_if_exists alias_source_if_exists
 # colorscheme
 fish_config theme choose tokyonight_night
 
+if type -q mise
+    mise activate fish | source
+end
+
 if type -q direnv
     eval (direnv hook fish)
 end

@@ -79,7 +79,10 @@ else
 	}
 fi
 
-# direnv
+if command -v "mise" >/dev/null; then
+	eval "$(mise activate zsh)"
+fi
+
 if command -v "direnv" >/dev/null; then
 	zsh-defer -c 'eval "$(direnv hook zsh)"'
 fi
