@@ -1,5 +1,5 @@
 theme = TokyoNight Night
 background = #101016
-background-opacity = 0.7
+background-opacity = 0.9
 
-config-file = ?$XDG_CONFIG_HOME/local/ghostty/config
+config-file = ?~/.config/dotfiles/local/ghostty/config
