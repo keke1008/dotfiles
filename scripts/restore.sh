@@ -33,7 +33,9 @@ main() {
 	fi
 
 	local config_dirnames
-	config_dirnames="$(enumerate_config_dirname "$@")"
+	if ! config_dirnames="$(enumerate_config_dirname "$@")"; then
+		abort "Failed to enumerate config dirnames"
+	fi
 	if ! echo "$config_dirnames" | check_file_exists "install.sh"; then
 		abort "Some configuration directories do not have valid install.sh"
 	fi

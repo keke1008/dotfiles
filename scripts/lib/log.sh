@@ -16,7 +16,7 @@ exit_with_stored_code() {
 }
 
 abort() {
-	printf "\e[31m[error] ABORTED.\e[0m %s\n" "$*"
+	printf "\e[31m[error] ABORTED.\e[0m %s\n" "$*" >&2
 	set_exit_code 1
 	exit_with_stored_code
 }

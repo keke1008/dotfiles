@@ -11,8 +11,8 @@ main() {
 	local config_dirnames
 	if [ $# -eq 1 ]; then
 		config_dirnames="$1"
-	else
-		config_dirnames="$(enumerate_config_dirname | filter_file_exists "init.sh")"
+	elif ! config_dirnames="$(enumerate_config_dirname | filter_file_exists "init.sh")"; then
+		abort "Failed to enumerate config dirnames"
 	fi
 
 	local config_dirname
