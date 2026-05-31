@@ -676,7 +676,7 @@
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "x": -1000 } }],
+                                "to": [{ "mouse_key": { "x": -2500 } }],
                                 "type": "basic"
                             },
                             {
@@ -694,7 +694,7 @@
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "y": 1000 } }],
+                                "to": [{ "mouse_key": { "y": 2500 } }],
                                 "type": "basic"
                             },
                             {
@@ -712,7 +712,7 @@
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "y": -1000 } }],
+                                "to": [{ "mouse_key": { "y": -2500 } }],
                                 "type": "basic"
                             },
                             {
@@ -730,7 +730,7 @@
                                         "optional": ["any"]
                                     }
                                 },
-                                "to": [{ "mouse_key": { "x": 1000 } }],
+                                "to": [{ "mouse_key": { "x": 2500 } }],
                                 "type": "basic"
                             },
                             {
