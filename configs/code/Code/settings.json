@@ -121,4 +121,6 @@
     "editor.stickyScroll.maxLineCount": 10,
     "editor.stickyScroll.defaultModel": "foldingProviderModel",
     "files.insertFinalNewline": true,
+    "extensions.autoCheckUpdates": false,
+    "extensions.autoUpdate": false
 }
