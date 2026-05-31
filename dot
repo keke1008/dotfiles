@@ -15,7 +15,11 @@ bootstrap() {
 		exit 1
 	fi
 	export DOTPATH
-	echo "${DOTPATH}" >"${HOME}/.dotpath"
+
+	if [ "$(cat "${HOME}/.dotpath" 2>/dev/null)" != "${DOTPATH}" ]; then
+		# To avoid errors when .dotpath is not writable (e.g., on a read-only mount)
+		echo "${DOTPATH}" >"${HOME}/.dotpath" 2>/dev/null || true
+	fi
 
 	_DOTFILES_SCRIPT_HOME="${DOTPATH}/scripts"
 	. "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
