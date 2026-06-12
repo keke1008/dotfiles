@@ -1,6 +1,6 @@
-# Original source: https://github.com/folke/tokyonight.nvim
-# Copyright 2021 folke
-# Licensed under the Apache License, Version 2.0
+# Based on tokyonight.nvim color palette
+# https://github.com/folke/tokyonight.nvim
+# Original Copyright (c) 2021 folke, Licensed under the Apache License, Version 2.0
 
 [colors]
 foreground = "#c0caf5"
@@ -19,31 +19,30 @@ brights = ["#414868", "#ff899d", "#9fe044", "#faba4a", "#8db0ff", "#c7a9ff", "#a
 
 [colors.tab_bar]
 inactive_tab_edge = "#16161e"
-background = "#1a1b26"
+background = "rgba(16, 16, 22, 0.9)"
 
 [colors.tab_bar.active_tab]
-fg_color = "#16161e"
-bg_color = "#7aa2f7"
+fg_color = "#7aa2f7"
+bg_color = "rgba(16, 16, 22, 0.9)"
 
 [colors.tab_bar.inactive_tab]
-fg_color = "#545c7e"
-bg_color = "#292e42"
+fg_color = "#7aa2f7"
+bg_color = "rgba(16, 16, 22, 0.9)"
 
 [colors.tab_bar.inactive_tab_hover]
 fg_color = "#7aa2f7"
-bg_color = "#292e42"
-# intensity = "Bold"
-
-[colors.tab_bar.new_tab_hover]
-fg_color = "#7aa2f7"
-bg_color = "#1a1b26"
-intensity = "Bold"
+bg_color = "rgba(16, 16, 22, 0.9)"
 
 [colors.tab_bar.new_tab]
 fg_color = "#7aa2f7"
-bg_color = "#1a1b26"
+bg_color = "rgba(16, 16, 22, 0.9)"
+
+[colors.tab_bar.new_tab_hover]
+fg_color = "#7aa2f7"
+bg_color = "rgba(16, 16, 22, 0.9)"
+intensity = "Bold"
 
 [metadata]
 aliases = []
 author = "folke"
-name = "tokyonight_night"
+name = "blue"
