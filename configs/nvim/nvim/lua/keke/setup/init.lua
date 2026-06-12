@@ -1,0 +1,8 @@
+require("keke.setup.appearance")
+require("keke.setup.clipboard")
+require("keke.setup.commands")
+require("keke.setup.filetypes")
+require("keke.setup.indent")
+require("keke.setup.keymap")
+require("keke.setup.options")
+require("keke.setup.vscode")
