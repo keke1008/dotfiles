@@ -32,9 +32,10 @@ function M.exit_with_bootstrap()
     end
 end
 
+---@return { loaded: boolean }
 function M.load()
     if not M.is_installed() then
-        return
+        return { loaded = false }
     end
 
     vim.opt.rtp:prepend(lazypath)
@@ -43,7 +44,7 @@ function M.load()
         require("lazy").setup({
             { "willothy/flatten.nvim", config = true },
         })
-        return
+        return { loaded = true }
     end
 
     require("lazy").setup("keke.plugins", {
@@ -78,6 +79,8 @@ function M.load()
             border = "rounded",
         },
     })
+
+    return { loaded = vim.go.loadplugins }
 end
 
 return M

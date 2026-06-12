@@ -9,4 +9,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 
 require("keke.setup")
 
-require("keke.lazy").load()
+if not require("keke.lazy").load().loaded then
+    require("keke.setup_noplugin")
+end
