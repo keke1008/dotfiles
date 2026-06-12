@@ -81,16 +81,10 @@ export AQUA_GLOBAL_CONFIG="${XDG_CONFIG_HOME}/aquaproj-aqua/aqua.yaml"
 export AQUA_ROOT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua"
 prepend_path_if_exists "${AQUA_ROOT_DIR}/bin"
 
-if [ -r "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then
-	. "$HOME/.nix-profile/etc/profile.d/nix.sh"
-fi
-
 if [ -d "$HOME/.nix-profile/etc/profile.d" ]; then
 	for f in "$HOME/.nix-profile/etc/profile.d/"*.sh; do
-		if [ -r "$f" ]; then
-			# shellcheck disable=SC1090
-			. "$f"
-		fi
+		# shellcheck disable=SC1090
+		[ -r "$f" ] && . "$f"
 	done
 	unset f
 fi
