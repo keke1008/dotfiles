@@ -4,8 +4,6 @@ vim.g.mapleader = " "
 
 vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
 vim.keymap.set("n", "+", ",")
-vim.keymap.set("n", "[b", "<CMD>bp<CR>")
-vim.keymap.set("n", "]b", "<CMD>bn<CR>")
 vim.keymap.set("i", "<C-e>", "<CR>")
 vim.keymap.set("s", "<BS>", "<BS>i")
 vim.keymap.set("t", "<C-\\>", "<C-\\><C-n>")
