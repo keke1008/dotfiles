@@ -1,5 +1,0 @@
-# null-ls.nvim
-!/nvim/.null-ls-root
-
-# packer.nvim
-/nvim/plugin/packer_compiled.lua
