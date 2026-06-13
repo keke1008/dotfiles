@@ -19,6 +19,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>lo", vim.lsp.buf.outgoing_calls, opts)
         vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
+        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, opts)
 
         vim.keymap.set("n", "<leader>ll", function()
             vim.lsp.codelens.run({ buffer = bufnr })
