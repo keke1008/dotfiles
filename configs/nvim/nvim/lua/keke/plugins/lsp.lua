@@ -2,52 +2,17 @@
 local drawer = require("drawer")
 local lsp = require("keke.utils.lsp")
 
-local function lsp_default_configuration()
-    local blink = require("blink.cmp")
-    local capabilities = blink.get_lsp_capabilities()
-    return {
-        capabilities = capabilities,
-    }
-end
-
----@param bufnr integer
-local function refresh_codelens(bufnr)
-    local client = vim.lsp.get_clients({ method = "textDocument/codeLens", bufnr = bufnr })
-    if #client > 0 then
-        vim.lsp.codelens.refresh({ bufnr = bufnr })
-    end
-end
-
 vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Configure LSP settings",
     callback = function(args)
         local bufnr = args.buf
-
         local opts = { buffer = bufnr, silent = true }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
         vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_prev<CR>", opts)
         vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_next<CR>", opts)
         vim.keymap.set("n", "<leader>ld", "<CMD>Lspsaga peek_definition<CR>", opts)
         vim.keymap.set("n", "<leader>la", "<CMD>Lspsaga code_action<CR>", opts)
-        vim.keymap.set("n", "<leader>ll", vim.lsp.codelens.run, opts)
         vim.keymap.set("n", "<leader>lr", "<CMD>Lspsaga rename<CR>", opts)
-        vim.keymap.set("n", "<leader>li", vim.lsp.buf.incoming_calls, opts)
-        vim.keymap.set("n", "<leader>lo", vim.lsp.buf.outgoing_calls, opts)
-
-        refresh_codelens(bufnr)
-        vim.api.nvim_create_autocmd("InsertLeave", {
-            group = vim.api.nvim_create_augroup("keke_lsp_codelens_buf_" .. bufnr, { clear = true }),
-            desc = "Refresh codelens",
-            buffer = bufnr,
-            callback = function()
-                refresh_codelens(bufnr)
-            end,
-        })
     end,
 })
 
@@ -61,7 +26,11 @@ return {
             { "folke/neoconf.nvim", config = true },
         },
         config = function()
-            vim.lsp.config("*", lsp_default_configuration())
+            local blink = require("blink.cmp")
+            vim.lsp.config("*", {
+                capabilities = blink.get_lsp_capabilities(),
+            })
+
             vim.lsp.enable({
                 "clangd",
                 "denols",
