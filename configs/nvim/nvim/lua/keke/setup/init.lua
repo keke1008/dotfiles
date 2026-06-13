@@ -1,4 +1,5 @@
 require("keke.setup.appearance")
+require("keke.setup.buffer")
 require("keke.setup.clipboard")
 require("keke.setup.commands")
 require("keke.setup.filetypes")
