@@ -47,6 +47,7 @@ function M.load()
         return { loaded = true }
     end
 
+    local loadplugins = vim.go.loadplugins
     require("lazy").setup("keke.plugins", {
         defaults = {
             lazy = true,
@@ -80,7 +81,7 @@ function M.load()
         },
     })
 
-    return { loaded = vim.go.loadplugins }
+    return { loaded = loadplugins }
 end
 
 return M
