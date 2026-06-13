@@ -11,6 +11,7 @@ local function set_relativenumber(value)
         local is_number_shown = vim.api.nvim_get_option_value("number", {})
         if is_number_shown then
             vim.api.nvim_set_option_value("relativenumber", value, {})
+            vim.cmd.redraw() -- For builtin ui
         end
     end
 end
