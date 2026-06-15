@@ -26,6 +26,8 @@ alt-f = 'fullscreen'
 alt-shift-q = 'close --quit-if-last-window'
 
 alt-e = 'layout tiles horizontal vertical'
+alt-w = 'layout h_accordion'
+alt-s = 'layout v_accordion'
 alt-shift-space = 'layout floating tiling'
 
 alt-1 = 'workspace 1'
