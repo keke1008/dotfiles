@@ -1,4 +1,7 @@
-local neoconf = require("neoconf")
+local ok, neoconf = pcall(require, "neoconf")
+if not ok then
+    return {}
+end
 
 return {
     -- Since `ruby_lsp` does not support `workspace/didChangeConfiguration`,

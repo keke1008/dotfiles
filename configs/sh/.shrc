@@ -33,8 +33,6 @@ is_login_shell() {
 # However, if `exec (shell)` is executed in the following line, `DOTFILES_ORIGINAL_LOADING` remains unset.
 # Therefore, if DOTFILES_ORIGINAL_LOADING is set, do not execute `exec (shell)`.
 if ! command_specified && [ -z "${DOTFILES_ORIGINAL_LOADING:-}" ] && [ -z "${DOTFILES_DISABLE_SUBSTITUTE_SHELL:-}" ]; then
-	command -v tmux >/dev/null && [ -z "$TMUX" ] && tmux new-session -A
-
 	export DOTFILES_DISABLE_SUBSTITUTE_SHELL=1
 	for shell in fish zsh bash; do
 		if ! command -v "$shell" >/dev/null; then

@@ -10,10 +10,10 @@ config.keys = {
 }
 
 config.window_padding = {
-    left = 0,
-    right = 0,
-    top = 8,
-    bottom = 0
+    left = 4,
+    right = 4,
+    top = 4,
+    bottom = 4
 }
 
 config.window_background_opacity = 0.9
