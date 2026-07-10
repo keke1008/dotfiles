@@ -16,6 +16,9 @@ rename_workspace = "prefix+ctrl+w"
 previous_workspace = "prefix+o"
 next_workspace = "prefix+i"
 
+previous_agent = "prefix+ctrl+o"
+next_agent = "prefix+tab" # equivalent to prefix+ctrl+i
+
 new_tab = "prefix+c"
 rename_tab = "prefix+ctrl+r"
 previous_tab = "prefix+p"
