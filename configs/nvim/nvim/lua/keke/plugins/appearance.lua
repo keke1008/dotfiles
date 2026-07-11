@@ -151,6 +151,7 @@ return {
                     highlights["LineNr"].fg = colors.dark3
                     highlights["LineNrAbove"].fg = colors.dark3
                     highlights["LineNrBelow"].fg = colors.dark3
+                    highlights["CursorLineNr"].fg = colors.blue
 
                     -- noice.nvim
                     highlights["NoiceCmdlineIcon"] = { fg = colors.blue }
