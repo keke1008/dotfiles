@@ -1,11 +1,4 @@
-vim.api.nvim_create_autocmd({ "FileType" }, {
-    pattern = { "go", "sh", "bash", "zsh", "asm" },
-    callback = function(args)
-        vim.api.nvim_set_option_value("expandtab", false, {
-            buf = args.buf,
-        })
-    end,
-})
+vim.g.mapleader = " "
 
 require("keke.setup")
 

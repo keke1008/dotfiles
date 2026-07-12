@@ -1,7 +1,5 @@
 local drawer = require("drawer")
 
-vim.g.mapleader = " "
-
 vim.keymap.set("n", "<Esc>", "<CMD>write<CR>")
 vim.keymap.set("n", "+", ",")
 vim.keymap.set("i", "<C-e>", "<CR>")
