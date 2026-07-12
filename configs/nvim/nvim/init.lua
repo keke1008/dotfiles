@@ -11,5 +11,4 @@ do
     local xdg_config_home = os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")
     local local_config_path = xdg_config_home .. "/dotfiles/local/nvim"
     vim.opt.runtimepath:append(local_config_path)
-    pcall(require, "keke_local")
 end
