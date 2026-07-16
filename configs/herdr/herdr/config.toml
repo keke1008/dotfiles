@@ -44,6 +44,9 @@ swap_pane_right = "prefix+ctrl+l"
 [ui]
 pane_gaps = false
 agent_panel_sort = "spaces"
+sidebar_width = 50
+sidebar_min_width = 20
+sidebar_max_width = 60
 
 [ui.toast]
 delivery = "herdr"
