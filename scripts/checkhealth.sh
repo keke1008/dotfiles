@@ -1,7 +1,7 @@
 #!/bin/sh -eu
 
 . "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/placement.sh"
 
 report() {
 	if [ $# -ne 2 ] && [ $# -ne 3 ]; then
@@ -102,12 +102,24 @@ run_checkhealth_single_config() {
 }
 
 main() {
-	local config_dirnames
-	config_dirnames=$(enumerate_config_dirname "$@" | filter_file_exists "checkhealth.sh")
+	local specified_placement_groups
+	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
+		abort 'invalid placement_groups'
+	fi
 
-	local config_dirname
-	for config_dirname in ${config_dirnames}; do
-		run_checkhealth_single_config "$(config_dirname_to_path "${config_dirname}")"
+	for group_name in ${specified_placement_groups}; do
+		local checkhealth_script_path
+		checkhealth_script_path="$(resolve_checkhealth_script_path "${group_name}")"
+		if ! [ -r "${checkhealth_script_path}" ]; then
+			continue
+		fi
+
+		# shellcheck disable=SC1090
+		if ! . "${checkhealth_script_path}"; then
+			log 'error' "Failed to execute checkhealth script: ${checkhealth_script_path}"
+			set_exit_code 1
+			continue
+		fi
 	done
 
 	exit_with_stored_code

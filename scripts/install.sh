@@ -1,53 +1,62 @@
 #!/bin/sh -eu
 
 . "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/link_reproducible.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
 . "${_DOTFILES_SCRIPT_HOME}/lib/migration.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/install.sh"
-
-declare_config_link() {
-	stash_and_link "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
-}
-
-declare_xdg_config_link() {
-	stash_and_link_xdg_based_config "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
-}
-
-declare_home_config_link() {
-	stash_and_link_home_config "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
-}
-
-declare_local_bin_link() {
-	link_local_bin "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
-}
-
-declare_local_bin_dir_link() {
-	link_local_bin_dir "${DOTFILES_INSTALL_CONFIG_NAME}" "$@"
-}
+. "${_DOTFILES_SCRIPT_HOME}/lib/placement.sh"
 
 main() {
 	if ! migrate_dotfiles; then
-		log "error" "Failed to run migration. Exiting installation"
-		exit 1
+		abort 'Failed to run migration. Exiting installation'
 	fi
 
-	local config_dirnames
-	if ! config_dirnames="$(enumerate_config_dirname "$@")"; then
-		abort "Failed to enumerate config dirnames"
-	fi
-	if ! echo "$config_dirnames" | check_file_exists "install.sh"; then
-		abort "Some configuration directories do not have valid install.sh"
+	local specified_placement_groups
+	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
+		abort 'invalid placement_groups'
 	fi
 
-	local config_dirname
-	for config_dirname in $config_dirnames; do
-		DOTFILES_INSTALL_CONFIG_NAME="${config_dirname}"
+	log 'info' "Evaluating placement_entries: ${specified_placement_groups}"
+	local handling_group_names declared_placement_entries_path locked_placement_entries_path
+	declared_placement_entries_path="$(mktemp)"
+	trap 'rm -f "${declared_placement_entries_path}"' EXIT
+	locked_placement_entries_path="$(mktemp)"
+	trap 'rm -f "${locked_placement_entries_path}"' EXIT
 
-		log "info" "Installing configuration directory: ${config_dirname}"
+	if ! handling_group_names="$(
+		evaluate_placement_entries \
+			"${declared_placement_entries_path}" \
+			"${locked_placement_entries_path}" \
+			"${specified_placement_groups}"
+	)"; then
+		abort 'Failed to evaluate placement_entries'
+	fi
 
-		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
-			log "error" "Failed to install configuration directory: ${config_dirname}"
+	sort -o "${declared_placement_entries_path}" "${declared_placement_entries_path}"
+	sort -o "${locked_placement_entries_path}" "${locked_placement_entries_path}"
+
+	# Only exists in $locked_placement_entries_path
+	comm -13 "${declared_placement_entries_path}" "${locked_placement_entries_path}" |
+		while IFS= read -r placement_entry; do
+			unapply_placement_entry "${placement_entry}"
+		done
+
+	# Exists in $declared_placement_entries_path and $locked_placement_entries
+	comm -12 "${declared_placement_entries_path}" "${locked_placement_entries_path}" |
+		while IFS= read -r placement_entry; do
+			apply_placement_entry "${placement_entry}"
+		done
+
+	# Only exists in $declared_placement_entries_path
+	comm -23 "${declared_placement_entries_path}" "${locked_placement_entries_path}" |
+		while IFS= read -r placement_entry; do
+			apply_placement_entry "${placement_entry}"
+		done
+
+	log 'info' 'Locking placement_entries'
+	for group_name in ${handling_group_names}; do
+		local declared_entries
+		declared_entries="$(list_declared_placement_entries "${group_name}")"
+		if ! lock_placement_entries "${group_name}" "${declared_entries}"; then
+			log 'error' "Failed to lock placement_entries: ${group_name}"
 		fi
 	done
 

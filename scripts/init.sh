@@ -1,35 +1,26 @@
 #!/bin/sh -eu
 
 . "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
+. "${_DOTFILES_SCRIPT_HOME}/lib/placement.sh"
 
 main() {
-	if [ $# -gt 1 ]; then
-		abort "Usage: $0 [config_dir_path]"
+	local specified_placement_groups
+	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
+		abort 'invalid placement_groups'
 	fi
 
-	local config_dirnames
-	if [ $# -eq 1 ]; then
-		config_dirnames="$1"
-	elif ! config_dirnames="$(enumerate_config_dirname | filter_file_exists "init.sh")"; then
-		abort "Failed to enumerate config dirnames"
-	fi
+	for group_name in ${specified_placement_groups}; do
+		log "info" "Running init script: ${group_name}"
 
-	local config_dirname
-	for config_dirname in ${config_dirnames}; do
-		log "info" "Running init script for: ${config_dirname}"
-
-		local init_script
-		init_script="$(config_dirname_to_path "${config_dirname}")/init.sh"
-		if [ ! -f "${init_script}" ]; then
-			log "error" "No init.sh found in ${config_dirname}"
-			set_exit_code 1
+		local init_script_path
+		init_script_path="$(resolve_initialize_script_path "${group_name}")"
+		if ! [ -r "${init_script_path}" ]; then
 			continue
 		fi
 
-		export DOTFILES_INIT_CONFIG_NAME="${config_dirname}"
 		# shellcheck disable=SC1090
-		if ! . "${init_script}"; then
+		if ! . "${init_script_path}"; then
+			log 'error' "Failed to execute initialize script: ${init_script_path}"
 			set_exit_code 1
 			continue
 		fi

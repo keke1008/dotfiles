@@ -98,8 +98,8 @@ log() {
 		return
 	fi
 
-	print_colored "${level}" "[${level}]"
-	printf " %s\n" "${message}"
+	print_colored "${level}" "[${level}]" >&2
+	printf " %s\n" "${message}" >&2
 
 	if [ "${level}" = "error" ] && [ "${_DOTFILES_EXIT_CODE}" -eq 0 ]; then
 		_DOTFILES_EXIT_CODE=1

@@ -1,30 +1,8 @@
 #!/bin/sh -eu
 
 . "${_DOTFILES_SCRIPT_HOME}/lib/log.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/link_reproducible.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/config_directory.sh"
-. "${_DOTFILES_SCRIPT_HOME}/lib/install.sh"
 . "${_DOTFILES_SCRIPT_HOME}/lib/migration.sh"
-
-declare_config_link() {
-	unlink_and_restore "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
-}
-
-declare_xdg_config_link() {
-	unlink_and_restore_xdg_based_config "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
-}
-
-declare_home_config_link() {
-	unlink_and_restore_home_config "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
-}
-
-declare_local_bin_link() {
-	unlink_local_bin "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
-}
-
-declare_local_bin_dir_link() {
-	unlink_local_bin_dir "${DOTFILES_RESTORE_CONFIG_NAME}" "$@"
-}
+. "${_DOTFILES_SCRIPT_HOME}/lib/placement.sh"
 
 main() {
 	if ! migrate_dotfiles; then
@@ -32,22 +10,34 @@ main() {
 		exit 1
 	fi
 
-	local config_dirnames
-	if ! config_dirnames="$(enumerate_config_dirname "$@")"; then
-		abort "Failed to enumerate config dirnames"
-	fi
-	if ! echo "$config_dirnames" | check_file_exists "install.sh"; then
-		abort "Some configuration directories do not have valid install.sh"
+	local specified_placement_groups
+	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
+		abort 'invalid placement_groups'
 	fi
 
-	local config_dirname
-	for config_dirname in $config_dirnames; do
-		DOTFILES_RESTORE_CONFIG_NAME="${config_dirname}"
+	local handling_group_names placement_entries_path
+	placement_entries_path="$(mktemp)"
+	trap 'rm -f "${placement_entries_path}"' EXIT
 
-		log "info" "Restoring configuration directory: ${config_dirname}"
+	if ! handling_group_names="$(
+		evaluate_placement_entries \
+			"${placement_entries_path}" \
+			"${placement_entries_path}" \
+			"${specified_placement_groups}"
+	)"; then
+		:
+	fi
 
-		if ! . "$(config_dirname_to_path "${config_dirname}")/install.sh"; then
-			log "error" "Failed to restore configuration directory: ${config_dirname}"
+	sort -u -o "${placement_entries_path}" "${placement_entries_path}"
+
+	while IFS= read -r placement_entry; do
+		unapply_placement_entry "${placement_entry}"
+	done <"${placement_entries_path}"
+
+	log 'info' 'Unlocking placement_entries'
+	for group_name in ${handling_group_names}; do
+		if ! unlock_placement_entries "${group_name}"; then
+			log 'error' "Failed to unlock placement_entries: ${group_name}"
 		fi
 	done
 

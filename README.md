@@ -21,7 +21,15 @@ cd ./dotfiles
 
 ## Testings
 
+### Unit testing
+
+```sh
+bats -r scripts/test/
+```
+
+### Integration testing
+
 ```sh
 docker build . -t dotfiles-test
-docker run -t --rm --user "$(id -u):$(id -g)" -v .:/dotfiles dotfiles-test
+docker run -t --rm --user "$(id -u):$(id -g)" -v .:/dotfiles:ro dotfiles-test
 ```

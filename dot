@@ -27,7 +27,6 @@ bootstrap() {
 	export_and_mkdir XDG_CONFIG_HOME "${HOME}/.config"
 	export_and_mkdir XDG_DATA_HOME "${HOME}/.local/share"
 
-	export_and_mkdir DOTFILES_DATA_HOME "${XDG_DATA_HOME}/dotfiles"
 	export DOTFILES_CONFIG_HOME="${DOTPATH}/configs"
 	export DOTFILES_LOCAL_HOME="${XDG_CONFIG_HOME}/dotfiles/local"
 	export DOTFILES_ORIGINAL_HOME="${XDG_CONFIG_HOME}/dotfiles/original"
@@ -66,6 +65,7 @@ execute_script() {
 	case "${profile}" in
 	global)
 		local _DOTFILES_CONFIG_HOME="${DOTFILES_CONFIG_HOME}"
+		local _DOTFILES_DATA_HOME="${XDG_DATA_HOME}/dotfiles/global"
 		local _DOTFILES_STASH_ROOT="${DOTFILES_ORIGINAL_HOME}"
 		local _DOTFILES_VERSION_LOCK_FILE="${XDG_DATA_HOME}/dotfiles/version.lock"
 		local _DOTFILES_MIGRATION_SCRIPTS_DIR="${_DOTFILES_SCRIPT_HOME}/lib/migrations"
@@ -76,6 +76,7 @@ execute_script() {
 			return 1
 		fi
 		local _DOTFILES_CONFIG_HOME="${local_dotpath}/configs"
+		local _DOTFILES_DATA_HOME="${XDG_DATA_HOME}/dotfiles/local"
 		local _DOTFILES_STASH_ROOT="/dev/null"
 		local _DOTFILES_VERSION_LOCK_FILE=""
 		local _DOTFILES_MIGRATION_SCRIPTS_DIR=""
@@ -92,6 +93,7 @@ execute_script() {
 
 	# shellcheck disable=SC2086
 	env _DOTFILES_CONFIG_HOME="${_DOTFILES_CONFIG_HOME}" \
+		_DOTFILES_DATA_HOME="${_DOTFILES_DATA_HOME}" \
 		_DOTFILES_SCRIPT_HOME="${_DOTFILES_SCRIPT_HOME}" \
 		_DOTFILES_STASH_ROOT="${_DOTFILES_STASH_ROOT}" \
 		_DOTFILES_VERSION_LOCK_FILE="${_DOTFILES_VERSION_LOCK_FILE}" \
