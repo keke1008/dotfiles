@@ -12,7 +12,7 @@ main() {
 
 	local specified_placement_groups
 	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
-		abort 'invalid placement_groups'
+		abort 'Invalid placement_groups'
 	fi
 
 	local handling_group_names placement_entries_path
@@ -25,13 +25,15 @@ main() {
 			"${placement_entries_path}" \
 			"${specified_placement_groups}"
 	)"; then
-		:
+		abort 'Failed to evaluate placement_entries'
 	fi
 
 	sort -u -o "${placement_entries_path}" "${placement_entries_path}"
 
 	while IFS= read -r placement_entry; do
-		unapply_placement_entry "${placement_entry}"
+		if ! unapply_placement_entry "${placement_entry}"; then
+			log 'error' "Failed to unapply placement_entry ${placement_entry}"
+		fi
 	done <"${placement_entries_path}"
 
 	log 'info' 'Unlocking placement_entries'

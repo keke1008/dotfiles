@@ -6,18 +6,18 @@
 main() {
 	local specified_placement_groups
 	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
-		abort 'invalid placement_groups'
+		abort 'Invalid placement_groups'
 	fi
 
+	local group_name
 	for group_name in ${specified_placement_groups}; do
-		log "info" "Running init script: ${group_name}"
-
 		local init_script_path
 		init_script_path="$(resolve_initialize_script_path "${group_name}")"
 		if ! [ -r "${init_script_path}" ]; then
 			continue
 		fi
 
+		log "info" "Running init script: ${group_name}"
 		# shellcheck disable=SC1090
 		if ! . "${init_script_path}"; then
 			log 'error' "Failed to execute initialize script: ${init_script_path}"

@@ -13,7 +13,9 @@ declare_config_link() {
     local group_name="${_DOTFILES_DECLARE_PLACEMENT_GROUP_NAME}"
     local src_path="${1}"
     local dst_path="${2}"
-    printf '%s\n' "$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    local entry
+    entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    printf '%s\n' "${entry}"
 }
 
 declare_home_config_link() {
@@ -24,7 +26,9 @@ declare_home_config_link() {
     local group_name="${_DOTFILES_DECLARE_PLACEMENT_GROUP_NAME}"
     local src_path="${1}"
     local dst_path="${HOME}/${2:-"${src_path}"}"
-    printf '%s\n' "$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    local entry
+    entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    printf '%s\n' "${entry}"
 }
 
 declare_xdg_config_link() {
@@ -35,7 +39,9 @@ declare_xdg_config_link() {
     local group_name="${_DOTFILES_DECLARE_PLACEMENT_GROUP_NAME}"
     local src_path="${1:-${group_name}}"
     local dst_path="${XDG_CONFIG_HOME}/${2:-"${src_path}"}"
-    printf '%s\n' "$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    local entry
+    entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    printf '%s\n' "${entry}"
 }
 
 declare_local_bin_link() {
@@ -47,7 +53,9 @@ declare_local_bin_link() {
     local src_path="${1}"
     local dst_path
     dst_path="${HOME}/.local/bin/$(basename "${src_path}")"
-    printf '%s\n' "$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    local entry
+    entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
+    printf '%s\n' "${entry}"
 }
 
 declare_local_bin_dir_link() {
@@ -64,9 +72,10 @@ declare_local_bin_dir_link() {
 
     if [ ! -d "${absolute_src_dir_path}" ]; then
         log 'error' "The source directory does not exist: ${absolute_src_dir_path}"
-        return
+        return 1
     fi
 
+    local src_path
     for src_path in "${absolute_src_dir_path}"/*; do
         if [ -e "${src_path}" ]; then
             declare_local_bin_link "${src_dir_path}/$(basename "${src_path}")"
@@ -79,6 +88,8 @@ list_declared_placement_entries() {
         abort 'Usage: list_declared_placement_entries <group_name>'
     fi
 
+    local group_name="${1}"
+
     local declaration_script_path
     declaration_script_path="$(resolve_placement_entries_declaration_script_path "${1}")"
 
@@ -87,11 +98,14 @@ list_declared_placement_entries() {
     fi
 
     export _DOTFILES_DECLARE_PLACEMENT_GROUP_NAME="${group_name}"
+    local declared_entries
     # shellcheck disable=SC1090
     if ! declared_entries="$(. "${declaration_script_path}")"; then
+        unset _DOTFILES_DECLARE_PLACEMENT_GROUP_NAME
         log 'error' "Failed to evaluate declaration script: ${declaration_script_path}"
         return 1
     fi
+    unset _DOTFILES_DECLARE_PLACEMENT_GROUP_NAME
 
     printf '%s' "${declared_entries}"
 }

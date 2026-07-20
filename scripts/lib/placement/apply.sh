@@ -7,7 +7,6 @@
 _placement_paths_point_to_same() {
     if [ "$#" -ne 2 ]; then
         abort 'Usage: _placement_paths_point_to_same <path1> <path2>'
-        return 1
     fi
 
     if [ ! -e "${1}" ]; then
@@ -37,7 +36,7 @@ apply_placement_entry() {
     fi
 
     if ! [ -e "${src_path}" ]; then
-        log 'error' "The source config file does not exists: ${src_path}"
+        log 'error' "The source config file does not exist: ${src_path}"
         return 1
     fi
 
@@ -73,7 +72,7 @@ unapply_placement_entry() {
     stash_path="$(resolve_absolute_stash_path "${placement_entry}")"
 
     if ! _placement_paths_point_to_same "${src_path}" "${dst_path}"; then
-        return # placement_entry have not applied yet, so do not nothing.
+        return # The placement_entry has not been applied yet, so do nothing.
     fi
 
     if ! rm "${dst_path}"; then

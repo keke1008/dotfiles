@@ -104,9 +104,10 @@ run_checkhealth_single_config() {
 main() {
 	local specified_placement_groups
 	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
-		abort 'invalid placement_groups'
+		abort 'Invalid placement_groups'
 	fi
 
+	local group_name
 	for group_name in ${specified_placement_groups}; do
 		local checkhealth_script_path
 		checkhealth_script_path="$(resolve_checkhealth_script_path "${group_name}")"

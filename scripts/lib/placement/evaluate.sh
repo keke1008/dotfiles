@@ -5,6 +5,7 @@
 #  ./declare.sh
 
 list_placement_groups() {
+    local path
     for path in "${_DOTFILES_CONFIG_HOME}"/* "${_DOTFILES_DATA_HOME}"/groups/*; do
         if [ -d "${path}" ]; then
             printf '%s\n' "$(basename "${path}")"
@@ -17,8 +18,9 @@ validate_specified_placement_groups() {
     valid_placement_groups="$(list_placement_groups)"
 
     local invalid_placement_groups=""
+    local group_name
     for group_name in "$@"; do
-        case "${valid_placement_groups}" in
+        case " ${valid_placement_groups} " in
         *" ${group_name} "*) ;;
         *)
             invalid_placement_groups="${invalid_placement_groups} ${group_name}"
@@ -42,7 +44,7 @@ guess_specified_placement_groups() {
         return 1
     fi
 
-    printf '%s' "$@"
+    printf '%s ' "$@"
 }
 
 evaluate_placement_entries() {
@@ -55,6 +57,7 @@ evaluate_placement_entries() {
     local target_group_names="${3}"
     local handling_group_names=""
 
+    local group_name
     for group_name in ${target_group_names}; do
         local declared_entries
         if ! declared_entries="$(list_declared_placement_entries "${group_name}")"; then

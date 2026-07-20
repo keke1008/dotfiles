@@ -19,7 +19,7 @@ cd ./dotfiles
 ./dot restore
 ```
 
-## Testings
+## Testing
 
 ### Unit testing
 

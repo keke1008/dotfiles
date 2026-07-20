@@ -11,15 +11,14 @@ main() {
 
 	local specified_placement_groups
 	if ! specified_placement_groups="$(guess_specified_placement_groups "$@")"; then
-		abort 'invalid placement_groups'
+		abort 'Invalid placement_groups'
 	fi
 
 	log 'info' "Evaluating placement_entries: ${specified_placement_groups}"
 	local handling_group_names declared_placement_entries_path locked_placement_entries_path
 	declared_placement_entries_path="$(mktemp)"
-	trap 'rm -f "${declared_placement_entries_path}"' EXIT
 	locked_placement_entries_path="$(mktemp)"
-	trap 'rm -f "${locked_placement_entries_path}"' EXIT
+	trap 'rm -f "${declared_placement_entries_path}" "${locked_placement_entries_path}"' EXIT
 
 	if ! handling_group_names="$(
 		evaluate_placement_entries \
@@ -36,22 +35,29 @@ main() {
 	# Only exists in $locked_placement_entries_path
 	comm -13 "${declared_placement_entries_path}" "${locked_placement_entries_path}" |
 		while IFS= read -r placement_entry; do
-			unapply_placement_entry "${placement_entry}"
+			if ! unapply_placement_entry "${placement_entry}"; then
+				log error "Failed to unapply placement_entry: ${placement_entry}"
+			fi
 		done
 
-	# Exists in $declared_placement_entries_path and $locked_placement_entries
+	# Exists in $declared_placement_entries_path and $locked_placement_entries_path
 	comm -12 "${declared_placement_entries_path}" "${locked_placement_entries_path}" |
 		while IFS= read -r placement_entry; do
-			apply_placement_entry "${placement_entry}"
+			if ! apply_placement_entry "${placement_entry}"; then
+				log error "Failed to apply placement_entry: ${placement_entry}"
+			fi
 		done
 
 	# Only exists in $declared_placement_entries_path
 	comm -23 "${declared_placement_entries_path}" "${locked_placement_entries_path}" |
 		while IFS= read -r placement_entry; do
-			apply_placement_entry "${placement_entry}"
+			if ! apply_placement_entry "${placement_entry}"; then
+				log error "Failed to apply placement_entry: ${placement_entry}"
+			fi
 		done
 
 	log 'info' 'Locking placement_entries'
+	local group_name
 	for group_name in ${handling_group_names}; do
 		local declared_entries
 		declared_entries="$(list_declared_placement_entries "${group_name}")"

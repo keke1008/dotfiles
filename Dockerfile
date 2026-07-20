@@ -14,4 +14,4 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 COPY --chown=${USERNAME}:${USERNAME} . ./dotfiles
 
-CMD [ "sh", "-c", "eval $(~/dotfiles/dot shellenv) && bats -r ~/dotfiles/configs"]
+CMD [ "sh", "-c", "eval $(~/dotfiles/dot shellenv) && bats -r ~/dotfiles/configs" ]

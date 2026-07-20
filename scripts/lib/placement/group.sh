@@ -24,7 +24,7 @@ resolve_absolute_dst_path() {
     local dst_path
     dst_path="$(placement_entry_get_dst_path "${1}")"
 
-    printf '%s' "${dst_path}" # dst_path must be absolute path
+    printf '%s' "${dst_path}" # dst_path must be an absolute path
 }
 
 resolve_absolute_stash_path() {

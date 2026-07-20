@@ -12,7 +12,8 @@ jobs:
   unit-test:
     name: Run unit tests
     runs-on: ubuntu-latest
-    contents: read
+    permissions:
+      contents: read
     timeout-minutes: 3
     steps:
       - name: Checkout
@@ -23,9 +24,6 @@ jobs:
       - name: Setup Bats
         id: setup-bats
         uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
-
-      - name: Run migration
-        run: yes | ./dot migrate
 
       - name: Run Unit Tests
         shell: bash
@@ -37,7 +35,8 @@ jobs:
   integration-test:
     name: Run integration tests
     runs-on: ubuntu-latest
-    contents: read
+    permissions:
+      contents: read
     timeout-minutes: 3
     steps:
       - name: Checkout
@@ -49,20 +48,18 @@ jobs:
         id: setup-bats
         uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
 
-      - name: Run migration
-        run: yes | ./dot migrate
-
       - name: Run Integration Tests
         shell: bash
         env:
           BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
           TERM: xterm
-        run: bats -r configs/
+        run: eval "$(./dot shellenv)" && bats -r configs/
 
   initialize-script:
     name: Run initialize scripts
     runs-on: ubuntu-latest
-    contents: read
+    permissions:
+      contents: read
     timeout-minutes: 3
     steps:
       - name: Checkout
@@ -73,9 +70,6 @@ jobs:
       - name: Setup Nix
         uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
 
-      - name: Run migration
-        run: yes | ./dot migrate
-
       - name: Run installation
         run: ./dot install
 
@@ -85,7 +79,8 @@ jobs:
   installation-and-restoration:
     name: Run installation and restoration
     runs-on: ubuntu-latest
-    contents: read
+    permissions:
+      contents: read
     timeout-minutes: 3
     strategy:
       matrix:
@@ -103,9 +98,6 @@ jobs:
 
       - name: Print realpath of /bin/sh
         run: realpath /bin/sh
-
-      - name: Run migration
-        run: yes | ./dot migrate
 
       - name: Run installation
         run: ./dot install
