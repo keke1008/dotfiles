@@ -39,7 +39,7 @@
           ];
         };
 
-        initialize-test = pkgs.mkShell {
+        initialize-script-requirements = pkgs.mkShell {
           packages = with pkgs; [
             curl
             fish

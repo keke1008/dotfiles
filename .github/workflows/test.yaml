@@ -1,0 +1,120 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    contents: read
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Setup Bats
+        id: setup-bats
+        uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
+
+      - name: Run migration
+        run: yes | ./dot migrate
+
+      - name: Run Unit Tests
+        shell: bash
+        env:
+          BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
+          TERM: xterm
+        run: bats -r scripts/test/
+
+  integration-test:
+    name: Run integration tests
+    runs-on: ubuntu-latest
+    contents: read
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Setup Bats
+        id: setup-bats
+        uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
+
+      - name: Run migration
+        run: yes | ./dot migrate
+
+      - name: Run Integration Tests
+        shell: bash
+        env:
+          BATS_LIB_PATH: ${{ steps.setup-bats.outputs.lib-path }}
+          TERM: xterm
+        run: bats -r configs/
+
+  initialize-script:
+    name: Run initialize scripts
+    runs-on: ubuntu-latest
+    contents: read
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Setup Nix
+        uses: cachix/install-nix-action@630ae543ea3a38a9a4166f03376c02c50f408342 # v31.11.0
+
+      - name: Run migration
+        run: yes | ./dot migrate
+
+      - name: Run installation
+        run: ./dot install
+
+      - name: Run initialize script
+        run: nix develop '#initialize-script-requirements' -c ./dot init
+
+  installation-and-restoration:
+    name: Run installation and restoration
+    runs-on: ubuntu-latest
+    contents: read
+    timeout-minutes: 3
+    strategy:
+      matrix:
+        container:
+          - ubuntu:latest
+          - debian:latest
+          - archlinux:latest
+          - alpine:latest
+    container: ${{ matrix.container }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Print realpath of /bin/sh
+        run: realpath /bin/sh
+
+      - name: Run migration
+        run: yes | ./dot migrate
+
+      - name: Run installation
+        run: ./dot install
+
+      - name: Run installation again
+        run: ./dot install
+
+      - name: Run restoration
+        run: ./dot restore
+
+      - name: Run restoration again
+        run: ./dot restore
