@@ -30,6 +30,6 @@ bats -r scripts/test/
 ### Integration testing
 
 ```sh
-docker build . -t dotfiles-test
-docker run -t --rm --user "$(id -u):$(id -g)" -v .:/dotfiles:ro dotfiles-test
+docker build . -t dotfiles-integration-test
+docker run -t --rm dotfiles-integration-test
 ```

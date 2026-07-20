@@ -1,10 +1,17 @@
 FROM archlinux:latest
 
 RUN pacman -Syu --noconfirm && \
-	pacman -S --noconfirm bats
+    pacman -S --noconfirm bats
 
 ARG USERNAME=user
-RUN useradd -m "${USERNAME}"
-USER "${USERNAME}"
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-CMD ["sh", "-c", "yes | /dotfiles/dot migrate && /dotfiles/dot test"]
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+
+USER $USERNAME
+WORKDIR /home/$USERNAME
+COPY --chown=${USERNAME}:${USERNAME} . ./dotfiles
+
+CMD [ "sh", "-c", "eval $(~/dotfiles/dot shellenv) && bats -r ~/dotfiles/configs"]

@@ -44,6 +44,10 @@ write_version_lock() {
 
 	local version="$1"
 
+	local version_lock_file_dir
+	version_lock_file_dir="$(dirname "${_DOTFILES_VERSION_LOCK_FILE}")"
+	mkdir -p "${version_lock_file_dir}"
+
 	echo "${version}" >"${_DOTFILES_VERSION_LOCK_FILE}"
 }
 
