@@ -69,3 +69,5 @@ hl("MatchParen", { fg = c.orange, bold = true })
 hl("Search", { fg = c.fg, bg = c.blue0 })
 hl("CurSearch", { fg = c.bg, bg = c.orange })
 hl("IncSearch", { link = "CurSearch" })
+
+hl("Directory", { fg = c.blue })
