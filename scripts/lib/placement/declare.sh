@@ -13,9 +13,11 @@ declare_config_link() {
     local group_name="${_DOTFILES_DECLARE_PLACEMENT_GROUP_NAME}"
     local src_path="${1}"
     local dst_path="${2}"
+
     local entry
     entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
     printf '%s\n' "${entry}"
+    log 'trace' "placement_entry declared: ${entry}"
 }
 
 declare_home_config_link() {
@@ -26,9 +28,11 @@ declare_home_config_link() {
     local group_name="${_DOTFILES_DECLARE_PLACEMENT_GROUP_NAME}"
     local src_path="${1}"
     local dst_path="${HOME}/${2:-"${src_path}"}"
+
     local entry
     entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
     printf '%s\n' "${entry}"
+    log 'trace' "placement_entry declared: ${entry}"
 }
 
 declare_xdg_config_link() {
@@ -39,9 +43,11 @@ declare_xdg_config_link() {
     local group_name="${_DOTFILES_DECLARE_PLACEMENT_GROUP_NAME}"
     local src_path="${1:-${group_name}}"
     local dst_path="${XDG_CONFIG_HOME}/${2:-"${src_path}"}"
+
     local entry
     entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
     printf '%s\n' "${entry}"
+    log 'trace' "placement_entry declared: ${entry}"
 }
 
 declare_local_bin_link() {
@@ -53,9 +59,11 @@ declare_local_bin_link() {
     local src_path="${1}"
     local dst_path
     dst_path="${HOME}/.local/bin/$(basename "${src_path}")"
+
     local entry
     entry="$(build_placement_entry "${group_name}" "${src_path}" "${dst_path}")"
     printf '%s\n' "${entry}"
+    log 'trace' "placement_entry declared: ${entry}"
 }
 
 declare_local_bin_dir_link() {
