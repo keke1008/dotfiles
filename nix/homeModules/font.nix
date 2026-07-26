@@ -17,7 +17,7 @@
     home.packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
       noto-fonts-color-emoji
       udev-gothic
       nerd-fonts.symbols-only
@@ -29,8 +29,8 @@
         serif = [ "Noto Serif" ];
         sansSerif = [ "Noto Sans" ];
         monospace = [
-          "UDEV Gothic35"
           "SymbolsNerdFontMono"
+          "UDEV Gothic35"
         ];
         emoji = [ "Noto Color Emoji" ];
       };

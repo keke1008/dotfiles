@@ -16,7 +16,6 @@
   config = lib.mkIf config.keke.quickshell.enable {
     home.packages = with pkgs; [
       quickshell
-      kdePackages.qtdeclarative
       material-symbols
     ];
 
