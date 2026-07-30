@@ -26,6 +26,10 @@ function fish_prompt
     set -l last_status $status
 
     set_color blue
+    printf " "(hostname)
+    printf " $__fish_prompt_divider"
+
+    set_color blue
     printf " "(prompt_pwd --dir-length=0)
     printf " $__fish_prompt_divider"
 
