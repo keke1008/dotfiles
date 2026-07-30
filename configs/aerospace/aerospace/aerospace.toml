@@ -4,6 +4,10 @@ start-at-login = true
 
 persistent-workspaces = []
 
+after-startup-command = [
+    'workspace 1' # Workaround: Force focus to workspace 1 on startup for a reliable initial state
+]
+
 on-focus-changed = [
   'move-mouse window-lazy-center'
 ]
