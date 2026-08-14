@@ -22,6 +22,7 @@
         addons = with pkgs; [
           fcitx5-mozc-ut
           fcitx5-gtk
+          (pkgs.callPackage ../packages/karukan { })
         ];
       };
     };
