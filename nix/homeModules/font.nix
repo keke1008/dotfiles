@@ -26,8 +26,14 @@
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Noto Serif" ];
-        sansSerif = [ "Noto Sans" ];
+        serif = [
+          "Noto Serif"
+          "Noto Serif CJK JP"
+        ];
+        sansSerif = [
+          "Noto Sans"
+          "Noto Sans CJK JP"
+        ];
         monospace = [
           "SymbolsNerdFontMono"
           "UDEV Gothic35"
