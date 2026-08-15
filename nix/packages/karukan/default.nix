@@ -17,7 +17,7 @@ llvmPackages.stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "togatoga";
     repo = "karukan";
-    rev = "main";
+    rev = "9d3ebb1f6d88a1390b3cf0fd70789e37e58a8bad";
     hash = "sha256-3zE5Gr7kNTrGtls+aLL9KuuIsGJqCLN02Tq+s3V6zwY=";
   };
 
