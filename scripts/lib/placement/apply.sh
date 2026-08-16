@@ -71,16 +71,14 @@ unapply_placement_entry() {
     dst_path="$(resolve_absolute_dst_path "${placement_entry}")"
     stash_path="$(resolve_absolute_stash_path "${placement_entry}")"
 
-    if ! _placement_paths_point_to_same "${src_path}" "${dst_path}"; then
-        return # The placement_entry has not been applied yet, so do nothing.
-    fi
+    if _placement_paths_point_to_same "${src_path}" "${dst_path}"; then
+        if ! rm "${dst_path}"; then
+            log 'error' "Failed to remove symlink ${dst_path}"
+            return 1
+        fi
 
-    if ! rm "${dst_path}"; then
-        log 'error' "Failed to remove symlink ${dst_path}"
-        return 1
+        log 'info' "Removed symlink: ${dst_path}"
     fi
-
-    log 'info' "Removed symlink: ${dst_path}"
 
     if [ -e "${stash_path}" ]; then
         log 'info' "Restoring ${stash_path} to ${dst_path}"
