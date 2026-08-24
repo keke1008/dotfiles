@@ -45,6 +45,7 @@ return {
                 "ruby_lsp",
                 "taplo",
                 "terraformls",
+                "tofu_ls",
                 "tsp_server",
                 "yamlls",
                 -- "rust_analyzer", -- rustaceanvim
