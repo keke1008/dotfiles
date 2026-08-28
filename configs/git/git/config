@@ -1,10 +1,10 @@
 [include]
-    path = ~/.config/dotfiles/original/git/git/config
+	path = ~/.config/dotfiles/original/git/git/config
 
 [user]
-    email = 49900846+keke1008@users.noreply.github.com
-    name = keke1008
-    signingkey = B9F35B3E127FCEC4
+	email = 49900846+keke1008@users.noreply.github.com
+	name = keke1008
+	signingkey = B9F35B3E127FCEC4
 
 [core]
 	quotepath = off
@@ -14,10 +14,10 @@
 	diffFilter = dotfiles-git-diff-tool dotfiles-marker-diff-filter
 
 [init]
-    defaultBranch = main
+	defaultBranch = main
 
 [commit]
-    gpgsign = true
+	gpgsign = true
 
 [pull]
 	rebase = false
@@ -27,86 +27,86 @@
 	dark = true
 
 [alias]
-    a = add
-    aa = add -A
-    ap = add -p
-    au = add -u
+	a = add
+	aa = add -A
+	ap = add -p
+	au = add -u
 
-    b = branch
-    bd = branch -d
-    bD = branch -D
+	b = branch
+	bd = branch -d
+	bD = branch -D
 
-    bl = blame
+	bl = blame
 
-    c = commit
-    ca = commit --amend
-    cm = commit -m
-    cam = commit --amend -m
-    cane = commit --amend --no-edit
+	c = commit
+	ca = commit --amend
+	cm = commit -m
+	cam = commit --amend -m
+	cane = commit --amend --no-edit
 
-    cl = clone
+	cl = clone
 
-    cp = cherry-pick
-    cpc = cherry-pick --continue
-    cpa = cherry-pick --abort
-    cps = cherry-pick --skip
+	cp = cherry-pick
+	cpc = cherry-pick --continue
+	cpa = cherry-pick --abort
+	cps = cherry-pick --skip
 
-    d = diff
+	d = diff
 
-    f = fetch
+	f = fetch
 
-    i = init
+	i = init
 
-    l = log
+	l = log
 
-    m = merge
-    ma = merge --abort
+	m = merge
+	ma = merge --abort
 
-    p = pull
-    pp = pull --prune
+	p = pull
+	pp = pull --prune
 
-    ps = push
-    psf = push --force-with-lease --force-if-includes
-    psuo = push -u origin @
+	ps = push
+	psf = push --force-with-lease --force-if-includes
+	psuo = push -u origin @
 
-    r = reset
-    rs = reset --soft
-    rh = reset --hard
+	r = reset
+	rs = reset --soft
+	rh = reset --hard
 
-    rr = restore
-    rrp = restore -p
-    rrs = restore --staged
+	rr = restore
+	rrp = restore -p
+	rrs = restore --staged
 
-    rb = rebase
-    rbi = rebase -i
-    rba = rebase --abort
-    rbc = rebase --continue
+	rb = rebase
+	rbi = rebase -i
+	rba = rebase --abort
+	rbc = rebase --continue
 
-    rv = revert
-    rva = revert --abort
-    rvc = revert --continue
-    rvm = revert --mainline
-    rvs = revert --skip
+	rv = revert
+	rva = revert --abort
+	rvc = revert --continue
+	rvm = revert --mainline
+	rvs = revert --skip
 
-    s = status
-    su = status -u
+	s = status
+	su = status -u
 
-    si = switch
-    sic = switch -c
-    sid = switch --detach
+	si = switch
+	sic = switch -c
+	sid = switch --detach
 
-    sh = stash
-    sha = stash apply
-    shd = stash drop
-    shl = stash list
-    shu = stash -u
-    shp = stash pop
+	sh = stash
+	sha = stash apply
+	shd = stash drop
+	shl = stash list
+	shu = stash -u
+	shp = stash pop
 
-    w = worktree
-    wa = worktree add
-    wl = worktree list
-    wr = worktree remove
-    wm = worktree move
+	w = worktree
+	wa = worktree add
+	wl = worktree list
+	wr = worktree remove
+	wm = worktree move
 
 [credential "https://github.com"]
 	helper = 
@@ -119,4 +119,4 @@
 	smudge = git-lfs smudge -- %f
 
 [include]
-    path = ~/.config/dotfiles/local/git/config
+	path = ~/.config/dotfiles/local/git/config
