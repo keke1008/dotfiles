@@ -37,6 +37,9 @@ function M.load()
     if not M.is_installed() then
         return { loaded = false }
     end
+    if vim.env.KEKE_NVIM_DISABLE_LAZY ~= nil then
+        return { loaded = false }
+    end
 
     vim.opt.rtp:prepend(lazypath)
     ---@see https://github.com/willothy/flatten.nvim/blob/c986f98bc1d1e2365dfb2e97dda58ca5d0ae24ae/README.md#installation1
