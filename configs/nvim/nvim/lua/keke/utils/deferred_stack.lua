@@ -16,8 +16,34 @@ function DeferredStack:push(f)
 end
 
 function DeferredStack:run()
+    local err = nil
+
     while #self.stack > 0 do
-        table.remove(self.stack)()
+        local fn = table.remove(self.stack)
+        local ok, result = pcall(fn)
+        if not ok then
+            err = result
+        end
+    end
+
+    if err ~= nil then
+        error(err)
+    end
+end
+
+---@generic T, U, V
+---@overload fun(self: DeferredStack, fun: fun())
+---@overload fun(self: DeferredStack, fun: fun(): T): T
+---@overload fun(self: DeferredStack, fun: fun(): T, U): T, U
+---@overload fun(self: DeferredStack, fun: fun(): T, U, V): T, U, V
+function DeferredStack:run_after(fun)
+    local ok, res1, res2, res3 = pcall(fun)
+    self:run()
+
+    if ok then
+        return res1, res2, res3
+    else
+        error(res1)
     end
 end
 

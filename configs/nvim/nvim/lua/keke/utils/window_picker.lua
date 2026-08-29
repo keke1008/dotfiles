@@ -62,24 +62,16 @@ end
 ---@return integer winid
 ---@overload fun(winids: integer[]): false, nil
 local function prompt_label_input(winids)
-    local cleanup_labels = DeferredStack.new()
-
-    local ok_show_label, err = pcall(function()
+    local deferred = DeferredStack.new()
+    local ok, ch = deferred:run_after(function()
         for i, winid in ipairs(winids) do
             local label = string.char(("a"):byte() + i - 1)
-            cleanup_labels:push(show_label(winid, label))
+            deferred:push(show_label(winid, label))
         end
         vim.cmd("redraw")
+        return pcall(vim.fn.getcharstr)
     end)
-    if not ok_show_label then
-        cleanup_labels:run()
-        vim.notify(tostring(err), vim.log.levels.ERROR)
-        return false, nil
-    end
-
-    local ok_getchar, ch = pcall(vim.fn.getcharstr)
-    cleanup_labels:run()
-    if not ok_getchar then
+    if not ok then
         return false, nil
     end
 
