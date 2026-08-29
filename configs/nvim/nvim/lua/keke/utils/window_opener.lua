@@ -15,7 +15,8 @@ local function with_preserve_netrw_width(with)
         return with()
     end
 
-    local netrw_width = vim.api.nvim_win_get_width(netrw_winid)
+    local netrw_winsize = vim.g.netrw_winsize or -40
+    local netrw_width = netrw_winsize > 0 and math.floor(vim.o.columns * netrw_winsize / 100) or -netrw_winsize
     local equalalways = vim.o.equalalways
     vim.o.equalalways = false
 
