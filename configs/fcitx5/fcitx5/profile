@@ -2,19 +2,19 @@
 # Group Name
 Name=Default
 # Layout
-Default Layout=us
+Default Layout=jp
 # Default Input Method
-DefaultIM=keyboard-jp
+DefaultIM=karukan
 
 [Groups/0/Items/0]
 # Name
-Name=karukan
+Name=keyboard-jp
 # Layout
 Layout=
 
 [Groups/0/Items/1]
 # Name
-Name=keyboard-jp
+Name=karukan
 # Layout
 Layout=
 
