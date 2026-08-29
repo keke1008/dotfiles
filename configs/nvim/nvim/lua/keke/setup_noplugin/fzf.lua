@@ -2,28 +2,8 @@ if vim.fn.executable("fzf") == 0 then
     return
 end
 
----@class DeferredStack
----@field private stack fun()[]
-local DeferredStack = {}
-
-function DeferredStack.new()
-    local self = {
-        stack = {},
-    }
-    return setmetatable(self, { __index = DeferredStack })
-end
-
----@param self DeferredStack
----@param f fun()
-function DeferredStack:push(f)
-    table.insert(self.stack, f)
-end
-
-function DeferredStack:run()
-    while #self.stack > 0 do
-        table.remove(self.stack)()
-    end
-end
+local DeferredStack = require("keke.utils.deferred_stack")
+local window_opener = require("keke.utils.window_opener")
 
 ---@class OpenFzfCreateWindowResult
 ---@field bufnr integer
@@ -223,7 +203,7 @@ vim.keymap.set("n", "<leader>ff", function()
             return ("%s > %s"):format(fzf_cmd, opts.output_path)
         end,
         on_selected = function(selections)
-            vim.cmd.edit(selections[1])
+            window_opener.open_file(selections[1])
         end,
 
         on_canceled = function() end,
@@ -276,11 +256,12 @@ vim.keymap.set("n", "<leader>fl", function()
         end,
         on_selected = function(selections)
             local selection = selections[1]
-            local file, row, col = selection:match("(.+):(%d+):(%d):.+$")
-
+            local file, row, col = selection:match("^(.+):(%d+):(%d+):.+$")
             if file ~= nil and row ~= nil and col ~= nil then
-                vim.cmd.edit(file)
-                vim.api.nvim_win_set_cursor(0, { tonumber(row), tonumber(col) - 1 })
+                local winid = window_opener.open_file(file)
+                if winid ~= nil then
+                    vim.api.nvim_win_set_cursor(winid, { tonumber(row), tonumber(col) - 1 })
+                end
             end
         end,
         on_canceled = function() end,
