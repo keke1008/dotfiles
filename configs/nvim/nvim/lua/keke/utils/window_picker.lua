@@ -1,3 +1,5 @@
+local DeferredStack = require("keke.utils.deferred_stack")
+
 local M = {}
 
 ---@param winid integer
@@ -60,26 +62,23 @@ end
 ---@return integer winid
 ---@overload fun(winids: integer[]): false, nil
 local function prompt_label_input(winids)
-    local deferred = {}
-    local function cleanup_labels()
-        vim.iter(deferred):each(pcall)
-    end
+    local cleanup_labels = DeferredStack.new()
 
     local ok_show_label, err = pcall(function()
         for i, winid in ipairs(winids) do
             local label = string.char(("a"):byte() + i - 1)
-            table.insert(deferred, show_label(winid, label))
+            cleanup_labels:push(show_label(winid, label))
         end
         vim.cmd("redraw")
     end)
     if not ok_show_label then
-        cleanup_labels()
+        cleanup_labels:run()
         vim.notify(tostring(err), vim.log.levels.ERROR)
         return false, nil
     end
 
     local ok_getchar, ch = pcall(vim.fn.getcharstr)
-    cleanup_labels()
+    cleanup_labels:run()
     if not ok_getchar then
         return false, nil
     end
