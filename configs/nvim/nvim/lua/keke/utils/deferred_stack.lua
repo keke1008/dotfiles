@@ -47,4 +47,22 @@ function DeferredStack:run_after(fun)
     end
 end
 
+---@generic T, U, V
+---@overload fun(fun: fun(defer: fun(deferred: fun())))
+---@overload fun(fun: fun(defer: fun(deferred: fun())): T): T
+---@overload fun(fun: fun(defer: fun(deferred: fun())): T, U): T, U
+---@overload fun(fun: fun(defer: fun(deferred: fun())): T, U, V): T, U, V
+function DeferredStack.scope(fun)
+    local deferred_stack = DeferredStack.new()
+
+    return deferred_stack:run_after(function()
+        ---@param deferred fun()
+        local defer = function(deferred)
+            deferred_stack:push(deferred)
+        end
+
+        fun(defer)
+    end)
+end
+
 return DeferredStack

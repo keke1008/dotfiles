@@ -1,3 +1,5 @@
+local DeferredStack = require("keke.utils.deferred_stack")
+
 ---@type string[]
 local LABEL_CHARS = (function()
     local chars = "asdfjkl;:" .. "wer" .. "uio" .. "cv" .. "nm"
@@ -59,6 +61,23 @@ local function list_candate_areas()
         :totable()
 end
 
+---@param areas keke.jump.CandidateArea[]
+---@return keke.jump.CandidateArea[]
+local function prioritize_candidate_areas(areas)
+    local current_winid = vim.api.nvim_get_current_win()
+    local current_win_areas = {}
+    local other_win_areas = {}
+    for _, area in ipairs(areas) do
+        if area.winid == current_winid then
+            table.insert(current_win_areas, area)
+        else
+            table.insert(other_win_areas, area)
+        end
+    end
+
+    return vim.iter({ current_win_areas, other_win_areas }):flatten():totable()
+end
+
 ---@param first_character string
 ---@param line string
 ---@return { col: integer, second_character: string }
@@ -73,7 +92,7 @@ local function search_candidates_from_line(first_character, line)
         end
 
         head = last_idx + 1
-        local second_character = ""
+        local second_character = " "
         if head <= #line then
             local second_character_last_idx = head + vim.str_utf_end(line, head)
             second_character = line:sub(head, second_character_last_idx)
@@ -171,7 +190,9 @@ end
 
 ---@param candidate keke.jump.Candidate
 local function delete_extmark_from_candidate(candidate)
-    vim.api.nvim_buf_del_extmark(candidate.bufid, candidate.namespace_id, candidate.label.extmark_id)
+    if vim.api.nvim_buf_is_valid(candidate.bufid) then
+        vim.api.nvim_buf_del_extmark(candidate.bufid, candidate.namespace_id, candidate.label.extmark_id)
+    end
 end
 
 ---@param candidates keke.jump.Candidate[]
@@ -237,44 +258,58 @@ local function show_backdrop(areas)
     end
 end
 
-local function test()
-    local areas = list_candate_areas()
-    vim.defer_fn(function()
-        cleanup_labels(areas)
-    end, 3000)
+---@return string | nil
+local function get_input()
+    local ok, ch = pcall(vim.fn.getcharstr, -1, { cursor = "keep" })
+    if not ok or ch == "\27" then --- "\27": ESC
+        return nil
+    end
 
-    show_backdrop(areas)
-
-    vim.defer_fn(function()
-        local candidates = search_candidates("あ", areas)
-        local labeled_candidates = label_candidates(candidates)
-
-        vim.defer_fn(function()
-            local removed_candidates = remove_unmatched_candidates("あ", labeled_candidates)
-
-            vim.defer_fn(function()
-                local dropped_candidates = drop_selectable_candidates(removed_candidates)
-                local next_candidates = label_candidates(dropped_candidates)
-
-                vim.defer_fn(function()
-                    local dropped_candidates2 = drop_selectable_candidates(next_candidates)
-                    local next_candidates2 = label_candidates(dropped_candidates2)
-
-                    vim.defer_fn(function()
-                        jump_to_candidate("s", next_candidates2)
-                    end, 500)
-                end, 500)
-            end, 500)
-        end, 500)
-    end, 500)
+    return ch
 end
 
---- あ
---- あa
---- あa
---- あb
---- あb
---- あか
---- あああああああああああああああああああああああああああああああああああああああ
---- あああああああああああああああああああああああああああああああああああああああ
-test()
+local function start()
+    DeferredStack.scope(function(defer)
+        local areas = prioritize_candidate_areas(list_candate_areas())
+        defer(function()
+            cleanup_labels(areas)
+        end)
+        show_backdrop(areas)
+        vim.cmd.redraw()
+
+        local first_character = get_input()
+        if first_character == nil then
+            return
+        end
+        local candidates = search_candidates(first_character, areas)
+        if #candidates == 0 then
+            return
+        end
+        candidates = label_candidates(candidates)
+        vim.cmd.redraw()
+
+        local second_character = get_input()
+        if second_character == nil then
+            return
+        end
+        candidates = remove_unmatched_candidates(second_character, candidates)
+        vim.cmd.redraw()
+
+        while #candidates > 0 do
+            local label_character = get_input()
+            if label_character == nil then
+                return
+            end
+            if label_character == " " then
+                candidates = drop_selectable_candidates(candidates)
+                candidates = label_candidates(candidates)
+                vim.cmd.redraw()
+            else
+                jump_to_candidate(label_character, candidates)
+                break
+            end
+        end
+    end)
+end
+
+vim.keymap.set({ "n", "v", "o" }, ",", start, { desc = "jump" })
