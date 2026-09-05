@@ -78,6 +78,7 @@ bind \cj -M default _popd_binding
 bind \cj -M insert _popd_binding
 bind \ck -M default _pushd_binding
 bind \ck -M insert _pushd_binding
+bind \cg -M insert _ghq_list_repos
 
 set fish_greeting
 
