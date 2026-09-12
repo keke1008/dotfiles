@@ -46,7 +46,7 @@ local FILETYPE_INDENT_TYPES = {
     },
     {
         indent = "tab",
-        filetypes = { "go", "sh", "bash", "zsh", "asm" },
+        filetypes = { "go", "sh", "bash", "zsh", "asm", "s" },
     },
 }
 
