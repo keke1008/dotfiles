@@ -33,6 +33,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 bindsym $mod+Shift+c reload
 bindsym $mod+Control+q exec systemctl suspend
+bindsym $mod+Control+l exec swaylock -f && sleep 1 && pkill -USR1 swayidle
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit Sway?' -B 'Exit' 'if command -v "uwsm" >/dev/null; then uwsm stop; else swaymsg exit; fi'
 bindsym $mod+m exec quickshell ipc call app toggleFocusDrawer
 
