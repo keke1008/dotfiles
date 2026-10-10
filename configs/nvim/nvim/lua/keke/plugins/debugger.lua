@@ -22,18 +22,6 @@ end
 
 return {
     {
-        "jay-babu/mason-nvim-dap.nvim",
-        dependencies = {
-            -- `mason.nvim` must be configured before `mason-nvim-dap.nvim`
-            "williamboman/mason.nvim",
-            "mfussenegger/nvim-dap",
-        },
-        event = { "BufReadPre", "BufNewFile" },
-        opts = {
-            handlers = {},
-        },
-    },
-    {
         "mfussenegger/nvim-dap",
         dependencies = {
             { "mxsdev/nvim-dap-vscode-js", opts = { adapters = { "pwa-node" } } },
