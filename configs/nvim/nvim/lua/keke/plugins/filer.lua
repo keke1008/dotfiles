@@ -11,7 +11,7 @@ return {
         cmd = { "NvimTree" },
         keys = {
             {
-                drawer.with_prefix_key("e"),
+                "<leader>se",
                 function()
                     drawer.open(drawer_name)
                 end,

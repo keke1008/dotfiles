@@ -2,18 +2,6 @@ local core = require("drawer.core")
 
 local state = core.DrawerState.new()
 
----@class drawer.Config
----@field prefix_key string
-
----@type drawer.Config | nil
-local config = nil
-
----@return drawer.Config
-local function get_config()
-    assert(config ~= nil, "Drawer not setup")
-    return config
-end
-
 ---@class drawer.DrawerSpec
 ---@field name drawer.DrawerName
 ---@field positions drawer.DrawerPosition[]
@@ -33,11 +21,6 @@ local function wrap_cmd_with_fn(cmd_or_fn)
 end
 
 return {
-    ---@param config_ drawer.Config
-    setup = function(config_)
-        config = config_
-    end,
-
     ---@param drawer drawer.DrawerSpec
     register = function(drawer)
         state:register({
@@ -70,14 +53,5 @@ return {
 
     close_all = function()
         state:close_all()
-    end,
-
-    prefix_key = function()
-        return get_config().prefix_key
-    end,
-
-    ---@param key string
-    with_prefix_key = function(key)
-        return get_config().prefix_key .. key
     end,
 }

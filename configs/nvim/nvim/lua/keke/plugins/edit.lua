@@ -109,7 +109,7 @@ return {
         end,
         keys = {
             {
-                drawer.with_prefix_key("u"),
+                "<leader>su",
                 function()
                     drawer.open("undotree")
                 end,
@@ -174,7 +174,7 @@ return {
         end,
         keys = {
             {
-                drawer.with_prefix_key("o"),
+                "<leader>so",
                 function()
                     drawer.open("overseer")
                 end,

@@ -100,7 +100,7 @@ return {
         cmd = "Trouble",
         keys = {
             {
-                drawer.with_prefix_key("t"),
+                "<leader>st",
                 function()
                     drawer.open("trouble")
                 end,

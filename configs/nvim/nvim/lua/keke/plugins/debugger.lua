@@ -220,7 +220,7 @@ return {
         end,
         keys = {
             {
-                drawer.with_prefix_key("d"),
+                "<leader>sd",
                 function()
                     drawer.open("dap")
                 end,
