@@ -217,5 +217,25 @@ return {
     },
     {
         "nvimtools/hydra.nvim",
+        keys = "<C-w><C-w>",
+        config = function()
+            local Hydra = require("hydra")
+            Hydra({
+                name = "window",
+                mode = "n",
+                body = "<C-w><C-w>",
+                hint = "Window",
+                heads = {
+                    { "+", "10<C-w>+" },
+                    { "-", "10<C-w>-" },
+                    { ">", "10<C-w>>" },
+                    { "<", "10<C-w><" },
+                    { "h", "<C-w>h" },
+                    { "j", "<C-w>j" },
+                    { "k", "<C-w>k" },
+                    { "l", "<C-w>l" },
+                },
+            })
+        end,
     },
 }
