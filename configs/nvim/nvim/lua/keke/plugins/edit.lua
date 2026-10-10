@@ -57,14 +57,6 @@ return {
         },
     },
     {
-        "numToStr/Comment.nvim",
-        cond = true,
-        keys = {
-            { "gc", mode = { "n", "x" } },
-        },
-        config = true,
-    },
-    {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
         config = true,
