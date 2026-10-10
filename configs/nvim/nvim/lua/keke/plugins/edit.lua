@@ -89,27 +89,6 @@ return {
         config = true,
     },
     {
-        "mbbill/undotree",
-        cmd = "Undotree",
-        init = function()
-            drawer.register({
-                name = "undotree",
-                positions = { "left" },
-                open = "UndotreeShow | UndotreeFocus",
-                close = "UndotreeHide",
-            })
-        end,
-        keys = {
-            {
-                "<leader>su",
-                function()
-                    drawer.open("undotree")
-                end,
-                desc = "open undotree",
-            },
-        },
-    },
-    {
         "akinsho/toggleterm.nvim",
         version = "*",
         cmd = "ToggleTerm",
