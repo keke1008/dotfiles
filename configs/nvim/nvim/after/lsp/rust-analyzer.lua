@@ -4,3 +4,5 @@ require("keke.utils.lsp").on_attach("rust-analyzer", function(bufnr, _)
     vim.keymap.set("n", "<leader>lD", "<CMD>RustLsp renderDiagnostic<CR>", opts)
     vim.keymap.set("n", "<leader>lE", "<CMD>RustLsp explainError<CR>", opts)
 end)
+
+return {}
