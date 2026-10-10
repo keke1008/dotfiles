@@ -1,3 +1,13 @@
+-- To prevent other autocmds (such as LSP calls) from being disabled, disable only BufWritePre format-on-save.
+---@type table<integer, true>
+local disable_bufwritepre_format = {}
+
+local function with_disable_bufwritepre_format(buf, f)
+    disable_bufwritepre_format[buf] = true
+    pcall(f)
+    disable_bufwritepre_format[buf] = nil
+end
+
 return {
     {
         "stevearc/conform.nvim",
@@ -5,7 +15,9 @@ return {
             vim.api.nvim_create_autocmd("BufWritePre", {
                 pattern = "*",
                 callback = function(args)
-                    require("conform").format({ bufnr = args.buf, async = false })
+                    if not disable_bufwritepre_format[args.buf] then
+                        require("conform").format({ bufnr = args.buf, async = false })
+                    end
                 end,
             })
         end,
@@ -27,10 +39,12 @@ return {
                     require("conform").format({ bufnr = buf, async = true }, function()
                         vim.api.nvim_buf_call(buf, function()
                             if vim.api.nvim_get_option_value("modified", { buf = buf }) then
-                                local ok, err = pcall(vim.cmd --[[@as function]], "noautocmd write")
-                                if not ok then
-                                    vim.notify("Failed to write the buffer: " .. err, vim.log.levels.ERROR)
-                                end
+                                with_disable_bufwritepre_format(buf, function()
+                                    local ok, err = pcall(vim.cmd.write)
+                                    if not ok then
+                                        vim.notify("Failed to write the buffer: " .. err, vim.log.levels.ERROR)
+                                    end
+                                end)
                             end
                         end)
                     end)
