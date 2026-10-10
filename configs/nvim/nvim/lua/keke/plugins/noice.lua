@@ -78,6 +78,7 @@ return {
                             any = {
                                 { warning = true },
                                 { event = "notify", kind = "info" },
+                                { event = "notify", find = "E32" },
                                 {
                                     event = "msg_show",
                                     any = {
